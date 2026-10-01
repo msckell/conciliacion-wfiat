@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from cierre.cache import DiskCache
+from cierre.config import Chain, Token
 from cierre.rpc import RpcClient
 
 SEL_TOTAL_SUPPLY = "0x18160ddd"
@@ -57,3 +59,89 @@ def name(rpc: RpcClient, address: str, block: int | str = "latest") -> str:
 
 def symbol(rpc: RpcClient, address: str, block: int | str = "latest") -> str:
     return _decode_string(_call(rpc, address, SEL_SYMBOL, block))
+
+
+def _two_reads(rpc: RpcClient, urls: list[str], address: str, block: int) -> dict[str, str]:
+    """totalSupply from up to two archive endpoints, moving on when one fails. Each answer
+    is cached per endpoint, so the comparison stays between two independent reads."""
+    reads: dict[str, str] = {}
+    for url in urls:
+        try:
+            out = rpc.call(
+                "eth_call",
+                [{"to": address, "data": SEL_TOTAL_SUPPLY}, hex(block)],
+                only_url=url,
+                cache=True,
+                cache_per_url=True,
+                historical=True,
+            )
+            reads[url] = str(int(out, 16))
+        except Exception as exc:  # recorded, never turned into a zero
+            reads[url] = f"error: {type(exc).__name__}: {str(exc)[:160]}"
+        if sum(not v.startswith("error") for v in reads.values()) == 2:
+            break
+    return reads
+
+
+def read_chain(
+    chain: Chain, tokens: dict[str, Token], days: list[str], cache: DiskCache, log: bool = False
+) -> dict:
+    """Cutoff blocks (both conventions) and raw totalSupply of every token at each one.
+
+    Two archive endpoints are read when available and must agree. A failed or disputed read
+    is recorded as an error, never as a zero. A token whose contract did not exist yet at
+    the cutoff block gets status not_created, with its creation block as evidence."""
+    from cierre.cutoffs import CONVENTIONS, cutoff_block
+
+    key = chain.key
+    rpc = RpcClient(chain, cache)
+    history = rpc.qualify_history(tokens["wARS"].address)
+    good = [ep.url for ep in rpc.endpoints if ep.history_ok]
+    blocks, rows = [], []
+    for day in days:
+        for conv in CONVENTIONS:
+            cb = cutoff_block(rpc, day, conv)
+            blocks.append(cb)
+            for sym, tok in tokens.items():
+                dep = tok.on(key)
+                row = {
+                    "token": sym,
+                    "chain": key,
+                    "cutoff": day,
+                    "convention": conv,
+                    "block": cb["block"],
+                }
+                if cb["block"] is None:
+                    row |= {
+                        "status": "network_not_live",
+                        "raw": "0",
+                        "block_1_timestamp": cb["block_1_timestamp"],
+                    }
+                elif dep is None or dep.creation_block is None:
+                    row |= {"status": "error", "error": "no creation block on record"}
+                elif dep.creation_block > cb["block"]:
+                    row |= {
+                        "status": "not_created",
+                        "raw": "0",
+                        "creation_block": dep.creation_block,
+                    }
+                else:
+                    reads = _two_reads(rpc, good, tok.address, cb["block"])
+                    values = {v for v in reads.values() if not v.startswith("error")}
+                    if len(values) == 1:
+                        row |= {"status": "ok", "raw": values.pop(), "reads": reads}
+                    else:
+                        row |= {
+                            "status": "error",
+                            "error": "reads missing or disagree",
+                            "reads": reads,
+                        }
+                rows.append(row)
+                if log:
+                    print(
+                        f"{key:10} {day} {conv} blk={cb['block']} {sym:5} "
+                        f"{row['status']:11} {row.get('raw', row.get('error'))}",
+                        flush=True,
+                    )
+    rpc.close()
+    return {"chain": key, "history": history, "cutoff_blocks": blocks, "rows": rows}

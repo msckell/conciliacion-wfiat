@@ -1,0 +1,118 @@
+# Contracts whose events classify mints and burns (see pipeline/cierre/classify.py).
+# Each entry: verified source on an explorer for that network, or the same runtime code
+# hash as a contract verified on another network. The close checks code_hash onchain
+# before using an entry, so an upgrade stops the classification instead of passing.
+# Generated 2026-10-01 from eth_getCode at the latest block.
+
+contracts:
+  bridge_deposit:
+    - chain: ethereum
+      address: "0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
+      code_hash: "0x9e04b0aa7b0261d69f1d64df7bac3209591d31f6cd989b2edeead748541a4fbf"
+      evidence: "verified source BridgeDeposit (src/BridgeDeposit.sol) at https://eth.blockscout.com/address/0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
+    - chain: base
+      address: "0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
+      code_hash: "0x9e04b0aa7b0261d69f1d64df7bac3209591d31f6cd989b2edeead748541a4fbf"
+      evidence: "same runtime code hash as BridgeDeposit (src/BridgeDeposit.sol), verified on Celo at https://celo.blockscout.com/address/0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
+    - chain: polygon
+      address: "0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
+      code_hash: "0x9e04b0aa7b0261d69f1d64df7bac3209591d31f6cd989b2edeead748541a4fbf"
+      evidence: "same runtime code hash as BridgeDeposit (src/BridgeDeposit.sol), verified on Celo at https://celo.blockscout.com/address/0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
+    - chain: gnosis
+      address: "0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
+      code_hash: "0x9e04b0aa7b0261d69f1d64df7bac3209591d31f6cd989b2edeead748541a4fbf"
+      evidence: "same runtime code hash as BridgeDeposit (src/BridgeDeposit.sol), verified on Celo at https://celo.blockscout.com/address/0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
+    - chain: bsc
+      address: "0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
+      code_hash: "0x9e04b0aa7b0261d69f1d64df7bac3209591d31f6cd989b2edeead748541a4fbf"
+      evidence: "same runtime code hash as BridgeDeposit (src/BridgeDeposit.sol), verified on Celo at https://celo.blockscout.com/address/0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
+    - chain: worldchain
+      address: "0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
+      code_hash: "0x9e04b0aa7b0261d69f1d64df7bac3209591d31f6cd989b2edeead748541a4fbf"
+      evidence: "same runtime code hash as BridgeDeposit (src/BridgeDeposit.sol), verified on Celo at https://celo.blockscout.com/address/0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
+    - chain: celo
+      address: "0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
+      code_hash: "0x9e04b0aa7b0261d69f1d64df7bac3209591d31f6cd989b2edeead748541a4fbf"
+      evidence: "verified source BridgeDeposit (src/BridgeDeposit.sol) at https://celo.blockscout.com/address/0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
+    - chain: hyperevm
+      address: "0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
+      code_hash: "0x9e04b0aa7b0261d69f1d64df7bac3209591d31f6cd989b2edeead748541a4fbf"
+      evidence: "same runtime code hash as BridgeDeposit (src/BridgeDeposit.sol), verified on Celo at https://celo.blockscout.com/address/0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
+    - chain: arc
+      address: "0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
+      code_hash: "0x9e04b0aa7b0261d69f1d64df7bac3209591d31f6cd989b2edeead748541a4fbf"
+      evidence: "same runtime code hash as BridgeDeposit (src/BridgeDeposit.sol), verified on Celo at https://celo.blockscout.com/address/0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
+  limited_minter_bridge:
+    - chain: ethereum
+      address: "0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
+      code_hash: "0x76a7617d45251a62a7b2e255bd575d3f4d5377f1cda6fa214d8aeee2d6c2fa77"
+      evidence: "same runtime code hash as LimitedMinterBridge (src/LimitedMinterBridge.sol), verified on Celo at https://celo.blockscout.com/address/0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
+    - chain: base
+      address: "0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
+      code_hash: "0x76a7617d45251a62a7b2e255bd575d3f4d5377f1cda6fa214d8aeee2d6c2fa77"
+      evidence: "same runtime code hash as LimitedMinterBridge (src/LimitedMinterBridge.sol), verified on Celo at https://celo.blockscout.com/address/0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
+    - chain: polygon
+      address: "0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
+      code_hash: "0x76a7617d45251a62a7b2e255bd575d3f4d5377f1cda6fa214d8aeee2d6c2fa77"
+      evidence: "same runtime code hash as LimitedMinterBridge (src/LimitedMinterBridge.sol), verified on Celo at https://celo.blockscout.com/address/0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
+    - chain: gnosis
+      address: "0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
+      code_hash: "0x76a7617d45251a62a7b2e255bd575d3f4d5377f1cda6fa214d8aeee2d6c2fa77"
+      evidence: "same runtime code hash as LimitedMinterBridge (src/LimitedMinterBridge.sol), verified on Celo at https://celo.blockscout.com/address/0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
+    - chain: bsc
+      address: "0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
+      code_hash: "0x76a7617d45251a62a7b2e255bd575d3f4d5377f1cda6fa214d8aeee2d6c2fa77"
+      evidence: "same runtime code hash as LimitedMinterBridge (src/LimitedMinterBridge.sol), verified on Celo at https://celo.blockscout.com/address/0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
+    - chain: worldchain
+      address: "0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
+      code_hash: "0x76a7617d45251a62a7b2e255bd575d3f4d5377f1cda6fa214d8aeee2d6c2fa77"
+      evidence: "same runtime code hash as LimitedMinterBridge (src/LimitedMinterBridge.sol), verified on Celo at https://celo.blockscout.com/address/0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
+    - chain: celo
+      address: "0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
+      code_hash: "0x76a7617d45251a62a7b2e255bd575d3f4d5377f1cda6fa214d8aeee2d6c2fa77"
+      evidence: "verified source LimitedMinterBridge (src/LimitedMinterBridge.sol) at https://celo.blockscout.com/address/0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
+    - chain: hyperevm
+      address: "0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
+      code_hash: "0x76a7617d45251a62a7b2e255bd575d3f4d5377f1cda6fa214d8aeee2d6c2fa77"
+      evidence: "same runtime code hash as LimitedMinterBridge (src/LimitedMinterBridge.sol), verified on Celo at https://celo.blockscout.com/address/0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
+    - chain: arc
+      address: "0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
+      code_hash: "0x76a7617d45251a62a7b2e255bd575d3f4d5377f1cda6fa214d8aeee2d6c2fa77"
+      evidence: "same runtime code hash as LimitedMinterBridge (src/LimitedMinterBridge.sol), verified on Celo at https://celo.blockscout.com/address/0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
+  limited_minter:
+    - chain: base
+      address: "0xf469ec9debf7f0adeba4d1db2ff5c70707beeb30"
+      code_hash: "0x7d9b3b0a2a9c011f2fe1c1e28b0df37698a7d3990f7d47b96ba0b381c6b9a837"
+      evidence: "same runtime code hash as LimitedMinter (src/LimitedMinter.sol), verified on World Chain at https://worldchain-mainnet.explorer.alchemy.com/address/0xde7ec97cfdee9f20f9d256f4a0a0d694479fa2e0. Found as the target of Base mints that emit Minted (2026-10-01)"
+    - chain: ethereum
+      address: "0xd168cfbbe260d48cd119497a9a2ee8482080c5e7"
+      code_hash: "0x7d9b3b0a2a9c011f2fe1c1e28b0df37698a7d3990f7d47b96ba0b381c6b9a837"
+      evidence: "verified source LimitedMinter (src/LimitedMinter.sol) at https://eth.blockscout.com/address/0xd168cfbbe260d48cd119497a9a2ee8482080c5e7"
+    - chain: polygon
+      address: "0xd168cfbbe260d48cd119497a9a2ee8482080c5e7"
+      code_hash: "0xe65c9b96d28d2c82f186b70baf285a5fdae77c2f335524410c65db4faf03d8ec"
+      evidence: "verified source LimitedMinter (src/LimitedMinter.sol) at https://polygon.blockscout.com/address/0xd168cfbbe260d48cd119497a9a2ee8482080c5e7"
+    - chain: gnosis
+      address: "0xd168cfbbe260d48cd119497a9a2ee8482080c5e7"
+      code_hash: "0xe65c9b96d28d2c82f186b70baf285a5fdae77c2f335524410c65db4faf03d8ec"
+      evidence: "same runtime code hash as LimitedMinter (src/LimitedMinter.sol), verified on Celo at https://celo.blockscout.com/address/0xd168cfbbe260d48cd119497a9a2ee8482080c5e7"
+    - chain: bsc
+      address: "0xd168cfbbe260d48cd119497a9a2ee8482080c5e7"
+      code_hash: "0xe65c9b96d28d2c82f186b70baf285a5fdae77c2f335524410c65db4faf03d8ec"
+      evidence: "same runtime code hash as LimitedMinter (src/LimitedMinter.sol), verified on Celo at https://celo.blockscout.com/address/0xd168cfbbe260d48cd119497a9a2ee8482080c5e7"
+    - chain: celo
+      address: "0xd168cfbbe260d48cd119497a9a2ee8482080c5e7"
+      code_hash: "0xe65c9b96d28d2c82f186b70baf285a5fdae77c2f335524410c65db4faf03d8ec"
+      evidence: "verified source LimitedMinter (src/LimitedMinter.sol) at https://celo.blockscout.com/address/0xd168cfbbe260d48cd119497a9a2ee8482080c5e7"
+    - chain: hyperevm
+      address: "0xd168cfbbe260d48cd119497a9a2ee8482080c5e7"
+      code_hash: "0xe65c9b96d28d2c82f186b70baf285a5fdae77c2f335524410c65db4faf03d8ec"
+      evidence: "same runtime code hash as LimitedMinter (src/LimitedMinter.sol), verified on Celo at https://celo.blockscout.com/address/0xd168cfbbe260d48cd119497a9a2ee8482080c5e7"
+    - chain: arc
+      address: "0xd168cfbbe260d48cd119497a9a2ee8482080c5e7"
+      code_hash: "0xe65c9b96d28d2c82f186b70baf285a5fdae77c2f335524410c65db4faf03d8ec"
+      evidence: "same runtime code hash as LimitedMinter (src/LimitedMinter.sol), verified on Celo at https://celo.blockscout.com/address/0xd168cfbbe260d48cd119497a9a2ee8482080c5e7"
+    - chain: worldchain
+      address: "0xde7ec97cfdee9f20f9d256f4a0a0d694479fa2e0"
+      code_hash: "0x7d9b3b0a2a9c011f2fe1c1e28b0df37698a7d3990f7d47b96ba0b381c6b9a837"
+      evidence: "verified source LimitedMinter (src/LimitedMinter.sol) at https://worldchain-mainnet.explorer.alchemy.com/address/0xde7ec97cfdee9f20f9d256f4a0a0d694479fa2e0"

@@ -99,85 +99,13 @@ CUTOFFS = ["2026-03-31", "2026-06-30", "2026-09-30"]
 def cmd_supply(args: argparse.Namespace) -> int:
     """Raw totalSupply per token, network, cutoff and time convention. No comparison here."""
     from cierre import supply
-    from cierre.cutoffs import CONVENTIONS, cutoff_block
 
     chains = {k: c for k, c in load_chains().items() if c.in_scope}
     tokens = load_tokens()
     cache = DiskCache()
 
     def run_chain(key: str) -> dict:
-        chain = chains[key]
-        rpc = RpcClient(chain, cache)
-        history = rpc.qualify_history(tokens["wARS"].address)
-        good = [ep.url for ep in rpc.endpoints if ep.history_ok]
-        blocks, rows = [], []
-        for day in args.cutoffs:
-            for conv in CONVENTIONS:
-                cb = cutoff_block(rpc, day, conv)
-                blocks.append(cb)
-                for sym, tok in tokens.items():
-                    dep = tok.on(key)
-                    row = {
-                        "token": sym,
-                        "chain": key,
-                        "cutoff": day,
-                        "convention": conv,
-                        "block": cb["block"],
-                    }
-                    if cb["block"] is None:
-                        row |= {
-                            "status": "network_not_live",
-                            "raw": "0",
-                            "block_1_timestamp": cb["block_1_timestamp"],
-                        }
-                    elif dep is None or dep.creation_block is None:
-                        row |= {"status": "error", "error": "no creation block on record"}
-                    elif dep.creation_block > cb["block"]:
-                        row |= {
-                            "status": "not_created",
-                            "raw": "0",
-                            "creation_block": dep.creation_block,
-                        }
-                    else:
-                        reads = {}
-                        for url in good[:2]:
-                            try:
-                                reads[url] = str(
-                                    int(
-                                        rpc.call(
-                                            "eth_call",
-                                            [
-                                                {
-                                                    "to": tok.address,
-                                                    "data": supply.SEL_TOTAL_SUPPLY,
-                                                },
-                                                hex(cb["block"]),
-                                            ],
-                                            only_url=url,
-                                            historical=True,
-                                        ),
-                                        16,
-                                    )
-                                )
-                            except Exception as exc:  # recorded, never turned into a zero
-                                reads[url] = f"error: {type(exc).__name__}: {str(exc)[:160]}"
-                        values = {v for v in reads.values() if not v.startswith("error")}
-                        if len(values) == 1:
-                            row |= {"status": "ok", "raw": values.pop(), "reads": reads}
-                        else:
-                            row |= {
-                                "status": "error",
-                                "error": "reads missing or disagree",
-                                "reads": reads,
-                            }
-                    rows.append(row)
-                    print(
-                        f"{key:10} {day} {conv} blk={cb['block']} {sym:5} "
-                        f"{row['status']:11} {row.get('raw', row.get('error'))}",
-                        flush=True,
-                    )
-        rpc.close()
-        return {"chain": key, "history": history, "cutoff_blocks": blocks, "rows": rows}
+        return supply.read_chain(chains[key], tokens, args.cutoffs, cache, log=True)
 
     with cf.ThreadPoolExecutor(max_workers=len(chains)) as ex:
         results = list(ex.map(run_chain, list(chains)))
@@ -325,6 +253,89 @@ def cmd_golden(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_coingecko(args: argparse.Namespace) -> int:
+    """Networks CoinGecko lists for each confirmed token, for the discovery cross check."""
+    import os
+    import time
+    from datetime import UTC, datetime
+
+    from cierre.discover import coingecko_platforms
+
+    out = {"retrieved_at": datetime.now(UTC).isoformat(timespec="seconds"), "tokens": {}}
+    for sym, tok in load_tokens().items():
+        if tok.coingecko_id:
+            out["tokens"][sym] = coingecko_platforms(
+                tok.coingecko_id, os.environ.get("COINGECKO_API_KEY")
+            )
+            print(sym, sorted(out["tokens"][sym]["platforms"]), flush=True)
+            time.sleep(3)
+    _dump(DATA_DIR / "sources" / "coingecko_platforms.json", out)
+    return 0
+
+
+def cmd_close(args: argparse.Namespace) -> int:
+    """Quarter close: engine (supply, movements, reconciliation), then the package."""
+    from cierre.close import run_close
+    from cierre.golden import OFFICIAL_RULE
+
+    out_dir = DATA_DIR / "closes" / args.cutoff
+    engine_path = out_dir / "engine.json"
+    if args.refresh or not engine_path.exists():
+        chains = {k: c for k, c in load_chains().items() if c.in_scope}
+        if args.chains:
+            chains = {k: chains[k] for k in args.chains}
+        results = run_close(
+            chains, load_tokens(), args.cutoff, OFFICIAL_RULE["convention"], DiskCache()
+        )
+        if args.chains and engine_path.exists():
+            old = json.loads(engine_path.read_text(encoding="utf-8"))
+            results = [r for r in old if r["chain"] not in chains] + results
+        _dump(engine_path, results)
+    return _package(args.cutoff, out_dir, engine_path)
+
+
+def _package(cutoff: str, out_dir, engine_path) -> int:
+    """Classification, bridge pairing and the package, from the engine output."""
+    import yaml
+
+    from cierre import CONFIG_DIR
+    from cierre.bridge import match
+    from cierre.close import classify_all
+    from cierre.golden import OFFICIAL_RULE, load_confirmed
+    from cierre.package import build, write_excel
+
+    engine = json.loads(engine_path.read_text(encoding="utf-8"))
+    chains = {k: c for k, c in load_chains().items() if c.in_scope}
+    tokens = load_tokens()
+    cache = DiskCache()
+    report = classify_all(engine, chains, tokens, cache)
+    bridge_summary = match(engine, chains, report.pop("known"), cache)
+    bridge_summary["contracts"] = report
+    methodology = yaml.safe_load((CONFIG_DIR / "methodology.yaml").read_text(encoding="utf-8"))[
+        "methodology"
+    ]
+    pkg = build(
+        engine,
+        chains,
+        tokens,
+        json.loads((DATA_DIR / "discovery.json").read_text(encoding="utf-8")),
+        json.loads((DATA_DIR / "sources" / "coingecko_platforms.json").read_text(encoding="utf-8")),
+        load_confirmed(),
+        bridge_summary,
+        methodology,
+        OFFICIAL_RULE["convention"],
+        all_chains=load_chains(),
+    )
+    _dump(out_dir / "package.json", pkg)
+    write_excel(pkg, chains, out_dir / f"paquete_cierre_{cutoff}.xlsx")
+    print(
+        f"package: all_reconciled={pkg['all_reconciled']} movements={len(pkg['movements'])} "
+        f"review={len(pkg['review'])} new_networks={pkg['new_networks']}",
+        flush=True,
+    )
+    return 0 if pkg["all_reconciled"] else 1
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="cierre")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -334,6 +345,11 @@ def main(argv: list[str] | None = None) -> int:
     p_supply = sub.add_parser("supply", help="raw totalSupply at each cutoff block")
     p_supply.add_argument("--cutoffs", nargs="+", default=CUTOFFS)
     sub.add_parser("golden", help="computed vs confirmed certified figures, every rule")
+    sub.add_parser("coingecko", help="networks CoinGecko lists for each token")
+    p_close = sub.add_parser("close", help="quarter close package for a cutoff")
+    p_close.add_argument("--cutoff", required=True)
+    p_close.add_argument("--chains", nargs="+", help="rerun the engine only for these")
+    p_close.add_argument("--refresh", action="store_true", help="rerun the engine")
     p_mov = sub.add_parser("movements", help="phase 0 movement history test")
     p_mov.add_argument("--token", default="wARS")
     p_mov.add_argument("--chains", nargs="+")
@@ -344,6 +360,8 @@ def main(argv: list[str] | None = None) -> int:
         "supply": cmd_supply,
         "movements": cmd_movements,
         "golden": cmd_golden,
+        "close": cmd_close,
+        "coingecko": cmd_coingecko,
     }
     return commands[args.command](args)
 

@@ -6,6 +6,7 @@ because a lagging or rate limited node can answer "0x" for a contract that exist
 
 from __future__ import annotations
 
+import time
 from dataclasses import asdict, dataclass
 
 import httpx
@@ -138,3 +139,69 @@ def _cross_check_creation(rpc: RpcClient, chain: Chain, p: Probe) -> None:
 
 def as_dict(p: Probe) -> dict:
     return asdict(p)
+
+
+# CoinGecko platform ids for the candidate networks. A platform not listed here is reported
+# as "not in the candidate list", never dropped.
+COINGECKO_PLATFORMS = {
+    "ethereum": "ethereum",
+    "base": "base",
+    "polygon-pos": "polygon",
+    "xdai": "gnosis",
+    "binance-smart-chain": "bsc",
+    "world-chain": "worldchain",
+    "celo": "celo",
+    "hyperevm": "hyperevm",
+    "arc": "arc",
+    "arbitrum-one": "arbitrum",
+    "optimistic-ethereum": "optimism",
+    "avalanche": "avalanche",
+    "unichain": "unichain",
+    "linea": "linea",
+    "scroll": "scroll",
+    "mantle": "mantle",
+    "sonic": "sonic",
+    "monad": "monad",
+    "plasma": "plasma",
+    "ink": "ink",
+    "lisk": "lisk",
+    "sei-v2": "sei",
+    "katana": "katana",
+    "rootstock": "rootstock",
+}
+
+
+def coingecko_platforms(coingecko_id: str, api_key: str | None = None) -> dict:
+    """Networks CoinGecko lists for a token, mapped to config keys where possible."""
+    headers = {"User-Agent": USER_AGENT}
+    if api_key:
+        headers["x-cg-demo-api-key"] = api_key
+    url = f"https://api.coingecko.com/api/v3/coins/{coingecko_id}"
+    params = {
+        "localization": "false",
+        "tickers": "false",
+        "market_data": "false",
+        "community_data": "false",
+        "developer_data": "false",
+    }
+    for attempt in range(4):
+        resp = httpx.get(url, params=params, headers=headers, timeout=30)
+        if resp.status_code == 429:
+            time.sleep(20 * (attempt + 1))
+            continue
+        resp.raise_for_status()
+        break
+    else:
+        raise RuntimeError(f"coingecko {coingecko_id}: rate limited")
+    detail = resp.json().get("detail_platforms") or {}
+    out = {"coingecko_id": coingecko_id, "platforms": {}, "not_in_candidate_list": {}}
+    for platform, info in detail.items():
+        address = (info or {}).get("contract_address") or ""
+        if not platform or not address:
+            continue
+        key = COINGECKO_PLATFORMS.get(platform)
+        if key is None:
+            out["not_in_candidate_list"][platform] = address.lower()
+        else:
+            out["platforms"][key] = address.lower()
+    return out
