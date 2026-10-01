@@ -534,7 +534,7 @@
         "detail": "Corte a las 23:59:59 hora de Buenos Aires. Cierre anterior: 30/06/2026.",
         "status": "ok",
         "at": "01/10/2026 18:55",
-        "duration": "0 segundos"
+        "duration": "menos de 1 segundo"
       },
       {
         "key": "engine",
@@ -558,7 +558,7 @@
         "detail": "Recalcula la cantidad de tokens de cada corte certificado con la misma regla.",
         "status": "ok",
         "at": "01/10/2026 18:57",
-        "duration": "0 segundos"
+        "duration": "menos de 1 segundo"
       },
       {
         "key": "exceptions",
@@ -582,7 +582,7 @@
         "detail": "El chequeo del link publicado se activa cuando el sitio esté en línea.",
         "status": "skipped",
         "at": "01/10/2026 19:05",
-        "duration": "0 segundos"
+        "duration": "menos de 1 segundo"
       },
       {
         "key": "notify",
@@ -590,7 +590,7 @@
         "detail": "Con el resumen, el link al Excel y 5 tareas para revisar.",
         "status": "dry_run",
         "at": "01/10/2026 19:05",
-        "duration": "0 segundos"
+        "duration": "menos de 1 segundo"
       }
     ]
   },

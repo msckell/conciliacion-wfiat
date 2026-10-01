@@ -108,6 +108,7 @@ def test_no_run_means_no_timeline():
 
 
 def test_duration():
+    assert _duration(0.2) == "menos de 1 segundo"
     assert _duration(1) == "1 segundo"
     assert _duration(42.4) == "42 segundos"
     assert _duration(61) == "1 minuto"

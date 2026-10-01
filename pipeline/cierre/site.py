@@ -61,6 +61,8 @@ def _plural(n: int, one: str, many: str) -> str:
 
 
 def _duration(seconds: float) -> str:
+    if seconds < 1:
+        return "menos de 1 segundo"
     s = round(seconds)
     if s < 60:
         return _plural(s, "segundo", "segundos")
