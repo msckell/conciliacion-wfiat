@@ -89,8 +89,8 @@ Success means the page opens instantly, with no login and no API key, and shows:
    - Pipeline: Python 3.12 with uv.
    - Site: Vite + React + TypeScript + Tailwind.
    - Hosting and automation: Vercel for the site, GitHub Actions for CI and schedules.
-   - LLM: Anthropic Python SDK, with the model taken from env `ANTHROPIC_MODEL` (default `claude-sonnet-5-5`, check the current Anthropic docs).
-   - Dependencies: keep them minimal (httpx, pyyaml, pypdf, openpyxl, anthropic, pytest, ruff).
+   - LLM: Claude Code in headless mode (`claude -p`, JSON output), called from Python, so it runs on Maxi's paid Claude subscription instead of API billing (Maxi's decision, 2026-10-01). Model from env `ANTHROPIC_MODEL` (default `claude-sonnet-5-5`). Locally it uses his `claude` login. In GitHub Actions it uses `CLAUDE_CODE_OAUTH_TOKEN`, created with `claude setup-token`. The token is tied to his personal subscription and counts against its usage limits.
+   - Dependencies: keep them minimal (httpx, pyyaml, pypdf, openpyxl, pytest, ruff).
    - Chain calls: raw JSON-RPC is enough (totalSupply selector `0x18160ddd`, ERC20 Transfer topic). Use web3.py only if it truly saves time.
 8. **Free data access only.** Use public RPCs or free tiers (Etherscan API V2, Alchemy, dRPC, Blockscout). No paid plans. Secrets live only in `.env` (gitignored) and in GitHub Actions secrets. Commit a `.env.example`.
 9. **Not official, not branded.**
@@ -401,7 +401,7 @@ Two views, designed for mobile first, clean and neutral, light theme, no Ripio b
 
 ## 9. Environment variables
 
-- Required: `ANTHROPIC_API_KEY` · `ANTHROPIC_MODEL` · `SLACK_WEBHOOK_URL`
+- Required: `ANTHROPIC_MODEL` · `SLACK_WEBHOOK_URL` · `CLAUDE_CODE_OAUTH_TOKEN` (CI only, from `claude setup-token`)
 - Optional:
   - `ETHERSCAN_API_KEY` (API V2, free, multichain)
   - `ALCHEMY_API_KEY` or `DRPC_API_KEY`
@@ -416,7 +416,7 @@ Two views, designed for mobile first, clean and neutral, light theme, no Ripio b
 1. Phase 0:
    - Confirm the table of certified figures.
    - Only if the public sources fail on old logs: create a free key (Etherscan or Alchemy).
-2. Phase 2: add `ANTHROPIC_API_KEY` to `.env`.
+2. Phase 4: run `claude setup-token` and save the token as the GitHub secret `CLAUDE_CODE_OAUTH_TOKEN`. Nothing needed in Phase 2: local runs use his `claude` login.
 3. Phase 3: link the repo to Vercel.
 4. Phase 4:
    - Create a free Slack workspace with a `#finanzas-cierre` channel and an Incoming Webhook.

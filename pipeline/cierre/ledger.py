@@ -8,10 +8,15 @@ Classification (primary issuance, bridge, unclassified) is added in Phase 1.
 from __future__ import annotations
 
 import concurrent.futures as cf
-from dataclasses import dataclass
+import json
+import os
+from dataclasses import dataclass, replace
 
+from cierre import REPO_ROOT
 from cierre.cache import DiskCache
-from cierre.explorer import ExplorerClient
+from cierre.config import Chain, Token
+from cierre.explorer import ExplorerClient, ExplorerError
+from cierre.rpc import _INVALID_RANGE_PATTERNS as _INVALID_RANGE
 from cierre.rpc import RangeTooLarge, RpcClient, RpcError
 
 TRANSFER_TOPIC = "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
@@ -91,6 +96,14 @@ class RpcLogFetcher:
             out = self.rpc.call("eth_getLogs", params, cache=True, only_url=pin)
         except RangeTooLarge:
             if lo == hi:
+                raise
+            mid = (lo + hi) // 2
+            return self._cell(flt, lo, mid, pin) + self._cell(flt, mid + 1, hi, pin)
+        except RpcError as exc:
+            # An endpoint answered "invalid block range". Seen on HyperEVM (2026-10-01):
+            # newer blocks fail at 1000 and pass at 500, so this is a size limit there.
+            # A real gap fails down to one block and raises.
+            if lo == hi or not any(_INVALID_RANGE.search(e) for e in exc.errors):
                 raise
             mid = (lo + hi) // 2
             return self._cell(flt, lo, mid, pin) + self._cell(flt, mid + 1, hi, pin)
@@ -185,6 +198,78 @@ def _dedupe(movements: list[Movement]) -> list[Movement]:
     return sorted(seen.values(), key=lambda m: (m.block, m.log_index))
 
 
+def _bscscan_movements(
+    rpc: RpcClient, chain: Chain, tokens: list[Token], lo: int, hi: int
+) -> list[Movement]:
+    listing = json.loads((REPO_ROOT / chain.logs_bscscan_list).read_text(encoding="utf-8"))
+    addrs = {t.address.lower() for t in tokens}
+    txs = [tx for t in tokens for tx in listing["tokens"][t.symbol]["transactions"]]
+    out: list[Movement] = []
+    for tx in txs:
+        if not lo <= tx["block"] <= hi:
+            continue
+        receipt = rpc.call("eth_getTransactionReceipt", [tx["tx_hash"]], require_result=True)
+        if int(receipt["status"], 16) != 1:
+            continue
+        for log in receipt["logs"]:
+            if log["address"].lower() not in addrs:
+                continue
+            if not log["topics"] or log["topics"][0].lower() != TRANSFER_TOPIC:
+                continue
+            m = parse_log(chain.key, log)
+            if m is not None:
+                out.append(m)
+    return sorted(set(out), key=lambda m: (m.block, m.log_index))
+
+
+def collect_sources_multi(
+    chain: Chain,
+    tokens: list[Token],
+    lo: int,
+    hi: int,
+    cache: DiskCache,
+    failed: dict[str, str],
+    progress=None,
+) -> dict[str, list[Movement]]:
+    """Every available log source for mints and burns of `tokens` in [lo, hi]. RPC sources
+    ask for every token in one scan. A source that fails is recorded in `failed` and left
+    out, it never counts as "no movements". An explorer source counts only if it answered
+    for every token."""
+    sources: dict[str, list[Movement]] = {}
+    if chain.logs_rpc_urls:
+        name = "rpc:" + ",".join(u.split("//")[1] for u in chain.logs_rpc_urls)
+        rpc = RpcClient(replace(chain, rpc_urls=chain.logs_rpc_urls), cache)
+        try:
+            sources[name] = mints_and_burns_rpc(
+                rpc,
+                [t.address for t in tokens],
+                lo,
+                hi,
+                chain.logs_grid,
+                progress,
+                all_transfers=chain.logs_all_transfers,
+                workers_per_endpoint=chain.logs_workers_per_endpoint,
+            )
+        except RpcError as exc:
+            failed[name] = str(exc)[:300]
+        rpc.close()
+    for api in chain.explorer_api:
+        if api.kind == "etherscan" and not os.environ.get("ETHERSCAN_API_KEY"):
+            continue
+        ex = ExplorerClient(chain, api, cache)
+        try:
+            sources[ex.label] = _dedupe(
+                [m for t in tokens for m in mints_and_burns_explorer(ex, t.address, lo, hi)]
+            )
+        except ExplorerError as exc:
+            failed[ex.label] = str(exc)[:300]
+    if chain.logs_bscscan_list:
+        rpc = RpcClient(chain, cache)
+        sources["bscscan list + RPC receipts"] = _bscscan_movements(rpc, chain, tokens, lo, hi)
+        rpc.close()
+    return sources
+
+
 def net(movements: list[Movement], address: str) -> int:
     a = address.lower()
     return sum(m.signed for m in movements if m.token_address == a)
@@ -193,6 +278,7 @@ def net(movements: list[Movement], address: str) -> int:
 __all__ = [
     "DiskCache",
     "Movement",
+    "collect_sources_multi",
     "mints_and_burns_explorer",
     "mints_and_burns_rpc",
     "net",

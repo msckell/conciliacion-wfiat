@@ -33,6 +33,10 @@ chains:
       - https://mainnet.base.org
       - https://base.drpc.org
       - https://1rpc.io/base
+    # base.drpc.org allows 10 blocks per eth_getLogs on the free plan, mainnet.base.org
+    # 2000 (2026-10-01). base.blockscout.com allows 10 calls per window and missed mints and
+    # burns in Q3 2026 (caught by the reconciliation), so it is only a second source.
+    logs_rpc: {urls: [https://mainnet.base.org], grid: 2000, all_transfers: true}
     explorer: https://basescan.org
     explorer_api:
       - {kind: blockscout, url: https://base.blockscout.com/api}

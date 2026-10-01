@@ -110,6 +110,7 @@ class RpcClient:
         historical: bool = False,
         only_url: str | None = None,
         require_result: bool = False,
+        cache_per_url: bool = False,
     ) -> Any:
         """Call `method` on the first endpoint that answers.
 
@@ -118,8 +119,14 @@ class RpcClient:
         only_url: pin one endpoint, for source comparison.
         require_result: a null result (for example a receipt a pruned node no longer has)
             moves on to the next endpoint instead of being returned.
+        cache_per_url: with only_url, keep a separate cache entry per endpoint, so a check
+            that compares two endpoints never reads one endpoint's answer for the other.
         """
         key = DiskCache.key(self.chain.chain_id, method, params)
+        if cache_per_url:
+            if only_url is None:
+                raise ValueError("cache_per_url needs only_url")
+            key = DiskCache.key(self.chain.chain_id, method, params, only_url)
         if cache and self.cache is not None:
             hit = self.cache.get(key)
             if hit is not None:

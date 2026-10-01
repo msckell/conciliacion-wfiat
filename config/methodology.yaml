@@ -1,0 +1,47 @@
+# Each methodology decision with its label: documented (with its source), inferred (its
+# only evidence is that it reproduces the certified figures) or hypothesis.
+# Spanish with voseo: Finance reads this in the Excel and on the page.
+
+methodology:
+  - decision: "Las direcciones de los tokens se confirman en cada red leyendo name(), symbol() y decimals() en el contrato."
+    label: documented
+    source: "CoinGecko (detail_platforms), Blockscout y lectura onchain. Ver config/tokens.yaml."
+  - decision: "Una emisión es un Transfer desde la dirección cero y una quema es un Transfer hacia la dirección cero."
+    label: documented
+    source: "Estándar ERC20 de OpenZeppelin y README de github.com/ripio/latam-stables."
+  - decision: "La conciliación incluye todo movimiento que cambia la cantidad de tokens, también los del puente."
+    label: documented
+    source: "Saldo de apertura + emisiones − quemas = saldo de cierre, exacto en unidades base, por red."
+  - decision: "Cada red se calcula por dos caminos independientes: totalSupply() en el bloque del corte y la suma de los movimientos. Si no coinciden, el cierre se detiene."
+    label: documented
+    source: "Diseño del motor. Una fuente de movimientos se usa solo si concilia exacto."
+  - decision: "El saldo de apertura es cero solo si el contrato se creó después del corte anterior. El bloque de creación queda como evidencia."
+    label: documented
+    source: "Bloque de creación por búsqueda en nodo archivo, cruzado con el explorador cuando hay uno."
+  - decision: "Los movimientos del puente se emparejan por la red de origen, el hash de origen y el número de depósito que trae cada emisión del puente."
+    label: documented
+    source: "Eventos BridgeDepositInitiated y BridgeMintFulfilled del contrato BridgeDeposit verificado (src/BridgeDeposit.sol)."
+  - decision: "Una emisión es primaria si su transacción tiene el evento Minted del contrato LimitedMinter y ningún evento del puente."
+    label: documented
+    source: "Contrato LimitedMinter verificado (src/LimitedMinter.sol). Direcciones en config/contracts.yaml."
+  - decision: "Una quema es rescate primario si quien quema sus propios tokens tiene permiso de emisión (MINTER_ROLE) en el LimitedMinter de esa red, leído en el bloque de la quema."
+    label: documented
+    source: "Lectura onchain de hasRole(MINTER_ROLE, cuenta) en el LimitedMinter verificado."
+  - decision: "Lo que no encaja en ninguna de estas reglas queda sin clasificar. No se adivina."
+    label: documented
+    source: "Regla del motor."
+  - decision: "La cantidad en circulación es la suma de totalSupply() en las redes revisadas, sin excluir billeteras."
+    label: inferred
+    source: "Reproduce las 9 cifras certificadas publicadas (data/golden/verification.json)."
+  - decision: "La comparación con las cifras certificadas se hace en tokens enteros."
+    label: inferred
+    source: "Regla única para las 9 certificaciones. Decisión de Máximo Sckell."
+  - decision: "El corte es a las 23:59:59 hora de Buenos Aires del último día del trimestre."
+    label: inferred
+    source: "En los cortes certificados, 23:59:59 de Buenos Aires y de UTC dan el mismo resultado."
+  - decision: "Las redes revisadas son una lista escrita de redes EVM candidatas, cruzada con CoinGecko y con las redes que nombran los certificados."
+    label: documented
+    source: "config/chains.yaml, data/discovery.json y data/sources/coingecko_platforms.json."
+  - decision: "wUYU no se incluye: existe en las mismas redes, pero lo creó una fábrica pública y no hay evidencia de que sea de Ripio."
+    label: hypothesis
+    source: "data/discovery.json"

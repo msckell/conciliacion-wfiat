@@ -16,6 +16,7 @@ from cierre.config import Chain, ExplorerApi
 from cierre.rpc import USER_AGENT
 
 PAGE_CAP = 1000
+MAX_RESET_WAIT = 660  # seconds
 
 
 class ExplorerError(Exception):
@@ -24,7 +25,7 @@ class ExplorerError(Exception):
 
 class ExplorerClient:
     def __init__(
-        self, chain: Chain, api: ExplorerApi, cache: DiskCache | None, min_interval: float = 0.35
+        self, chain: Chain, api: ExplorerApi, cache: DiskCache | None, min_interval: float = 1.0
     ) -> None:
         self.chain = chain
         self.api = api
@@ -43,7 +44,7 @@ class ExplorerClient:
     def _get(self, params: dict) -> list[dict]:
         if self.api.kind == "etherscan":
             params = {"chainid": self.chain.chain_id, **params, "apikey": self.key}
-        for attempt in range(4):
+        for attempt in range(7):
             wait = self._last + self.min_interval - time.monotonic()
             if wait > 0:
                 time.sleep(wait)
@@ -56,7 +57,12 @@ class ExplorerClient:
                 continue
             if resp.status_code == 429 or resp.status_code >= 500:
                 err = f"HTTP {resp.status_code}"
-                time.sleep(3 * (attempt + 1))
+                # Blockscout says when the next rate limit window opens, in milliseconds.
+                reset_ms = resp.headers.get("x-ratelimit-reset", "")
+                if resp.status_code == 429 and reset_ms.isdigit():
+                    time.sleep(min(int(reset_ms) / 1000 + 2, MAX_RESET_WAIT))
+                else:
+                    time.sleep(5 * (attempt + 1))
                 continue
             try:
                 data = resp.json()

@@ -1,0 +1,89 @@
+{
+  "retrieved_at": "2026-10-01T19:50:32+00:00",
+  "tokens": {
+    "wARS": {
+      "coingecko_id": "argentine-peso",
+      "platforms": {
+        "ethereum": "0x0dc4f92879b7670e5f4e4e6e3c801d229129d90d",
+        "celo": "0x0dc4f92879b7670e5f4e4e6e3c801d229129d90d",
+        "hyperevm": "0x0dc4f92879b7670e5f4e4e6e3c801d229129d90d",
+        "base": "0x0dc4f92879b7670e5f4e4e6e3c801d229129d90d",
+        "worldchain": "0x0dc4f92879b7670e5f4e4e6e3c801d229129d90d",
+        "bsc": "0x0dc4f92879b7670e5f4e4e6e3c801d229129d90d",
+        "polygon": "0x0dc4f92879b7670e5f4e4e6e3c801d229129d90d",
+        "gnosis": "0x0dc4f92879b7670e5f4e4e6e3c801d229129d90d"
+      },
+      "not_in_candidate_list": {}
+    },
+    "wBRL": {
+      "coingecko_id": "brazilian-real",
+      "platforms": {
+        "worldchain": "0xd76f5faf6888e24d9f04bf92a0c8b921fe4390e0",
+        "ethereum": "0xd76f5faf6888e24d9f04bf92a0c8b921fe4390e0",
+        "bsc": "0xd76f5faf6888e24d9f04bf92a0c8b921fe4390e0",
+        "polygon": "0xd76f5faf6888e24d9f04bf92a0c8b921fe4390e0",
+        "base": "0xd76f5faf6888e24d9f04bf92a0c8b921fe4390e0",
+        "celo": "0xd76f5faf6888e24d9f04bf92a0c8b921fe4390e0",
+        "hyperevm": "0xd76f5faf6888e24d9f04bf92a0c8b921fe4390e0",
+        "gnosis": "0xd76f5faf6888e24d9f04bf92a0c8b921fe4390e0"
+      },
+      "not_in_candidate_list": {}
+    },
+    "wMXN": {
+      "coingecko_id": "mexican-peso",
+      "platforms": {
+        "worldchain": "0x337e7456b420bd3481e7fa61fa9850343d610d34",
+        "polygon": "0x337e7456b420bd3481e7fa61fa9850343d610d34",
+        "celo": "0x337e7456b420bd3481e7fa61fa9850343d610d34",
+        "ethereum": "0x337e7456b420bd3481e7fa61fa9850343d610d34",
+        "hyperevm": "0x337e7456b420bd3481e7fa61fa9850343d610d34",
+        "base": "0x337e7456b420bd3481e7fa61fa9850343d610d34",
+        "bsc": "0x337e7456b420bd3481e7fa61fa9850343d610d34",
+        "gnosis": "0x337e7456b420bd3481e7fa61fa9850343d610d34"
+      },
+      "not_in_candidate_list": {}
+    },
+    "wCOP": {
+      "coingecko_id": "colombian-peso",
+      "platforms": {
+        "worldchain": "0x8a1d45e102e886510e891d2ec656a708991e2d76",
+        "celo": "0x8a1d45e102e886510e891d2ec656a708991e2d76",
+        "hyperevm": "0x8a1d45e102e886510e891d2ec656a708991e2d76",
+        "ethereum": "0x8a1d45e102e886510e891d2ec656a708991e2d76",
+        "base": "0x8a1d45e102e886510e891d2ec656a708991e2d76",
+        "polygon": "0x8a1d45e102e886510e891d2ec656a708991e2d76",
+        "bsc": "0x8a1d45e102e886510e891d2ec656a708991e2d76",
+        "gnosis": "0x8a1d45e102e886510e891d2ec656a708991e2d76"
+      },
+      "not_in_candidate_list": {}
+    },
+    "wCLP": {
+      "coingecko_id": "chilean-peso",
+      "platforms": {
+        "worldchain": "0x61d450a098b6a7f69fc4b98ce68198fe59768651",
+        "hyperevm": "0x61d450a098b6a7f69fc4b98ce68198fe59768651",
+        "celo": "0x61d450a098b6a7f69fc4b98ce68198fe59768651",
+        "base": "0x61d450a098b6a7f69fc4b98ce68198fe59768651",
+        "ethereum": "0x61d450a098b6a7f69fc4b98ce68198fe59768651",
+        "polygon": "0x61d450a098b6a7f69fc4b98ce68198fe59768651",
+        "bsc": "0x61d450a098b6a7f69fc4b98ce68198fe59768651",
+        "gnosis": "0x61d450a098b6a7f69fc4b98ce68198fe59768651"
+      },
+      "not_in_candidate_list": {}
+    },
+    "wPEN": {
+      "coingecko_id": "peruvian-sol",
+      "platforms": {
+        "worldchain": "0x4f34c8b3b5fb6d98da888f0fea543d4d9c9f2ebe",
+        "celo": "0x4f34c8b3b5fb6d98da888f0fea543d4d9c9f2ebe",
+        "hyperevm": "0x4f34c8b3b5fb6d98da888f0fea543d4d9c9f2ebe",
+        "base": "0x4f34c8b3b5fb6d98da888f0fea543d4d9c9f2ebe",
+        "ethereum": "0x4f34c8b3b5fb6d98da888f0fea543d4d9c9f2ebe",
+        "polygon": "0x4f34c8b3b5fb6d98da888f0fea543d4d9c9f2ebe",
+        "bsc": "0x4f34c8b3b5fb6d98da888f0fea543d4d9c9f2ebe",
+        "gnosis": "0x4f34c8b3b5fb6d98da888f0fea543d4d9c9f2ebe"
+      },
+      "not_in_candidate_list": {}
+    }
+  }
+}
