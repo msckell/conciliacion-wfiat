@@ -1,0 +1,40 @@
+[project]
+name = "cierre-wfiat"
+version = "0.1.0"
+description = "Independent demo: prepares the onchain side of the wFIAT quarterly close"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "httpx>=0.27",
+    "pyyaml>=6.0",
+    "pypdf>=5.0",
+    "openpyxl>=3.1",
+    "tzdata>=2026.4",
+]
+
+[project.scripts]
+cierre = "cierre.cli:main"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.6",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["pipeline/cierre"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

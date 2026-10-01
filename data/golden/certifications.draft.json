@@ -1,0 +1,411 @@
+[
+  {
+    "token": "wARS",
+    "cutoff": "2026-03-31",
+    "cutoff_in_figure_sentence": "2026-03-31",
+    "concept": "tokens issued as reported by the issuing entity (certified as outstanding)",
+    "figure_printed": "973,000,960.19",
+    "figure": "973000960.19",
+    "printed_decimals": 2,
+    "document_url": "https://action.ripio.com/hubfs/2026/wFIAT/ATTESTATION/20260331_wARS_Certification.pdf",
+    "page": 1,
+    "quote": "• To reconcile the number of wARS tokens issued as of 03.31.2026, total 973,000,960.19 as reported",
+    "networks_listed": [
+      "Ethereum",
+      "World Chain",
+      "Base",
+      "Polygon",
+      "Gnosis",
+      "Binance Smart Chain"
+    ],
+    "network_keys": [
+      "ethereum",
+      "worldchain",
+      "base",
+      "polygon",
+      "gnosis",
+      "bsc"
+    ],
+    "signed_date": "2026-04-22",
+    "collateral_as_stated": {
+      "currency": "ARS",
+      "printed": "1,036,276,284"
+    },
+    "notes": [],
+    "parse": {
+      "printed": "973,000,960.19",
+      "value": "973000960.19",
+      "decimals": 2,
+      "thousands_sep": ",",
+      "decimal_sep": ".",
+      "ambiguous": false
+    },
+    "unresolved": false
+  },
+  {
+    "token": "wBRL",
+    "cutoff": "2026-03-31",
+    "cutoff_in_figure_sentence": "2026-03-31",
+    "concept": "tokens issued as reported by the issuing entity (certified as outstanding)",
+    "figure_printed": "719,448",
+    "figure": "719448",
+    "printed_decimals": 0,
+    "document_url": "https://action.ripio.com/hubfs/2026/wFIAT/ATTESTATION/20260331__wBRL__Token-Certification.pdf",
+    "page": 1,
+    "quote": "• To reconcile the number of wBRL tokens issued as of 03.31.2026, totaling 719,448 as reported",
+    "networks_listed": [
+      "Ethereum",
+      "World Chain",
+      "Base",
+      "Gnosis",
+      "Polygon",
+      "BNB Smart Chain"
+    ],
+    "network_keys": [
+      "ethereum",
+      "worldchain",
+      "base",
+      "gnosis",
+      "polygon",
+      "bsc"
+    ],
+    "signed_date": "2026-05-18",
+    "collateral_as_stated": {
+      "currency": "R$",
+      "printed": "809,597.28"
+    },
+    "notes": [
+      "'719,448' alone is ambiguous. Read as thousands separator because the same document prints the collateral as '809,597.28'"
+    ],
+    "parse": {
+      "printed": "719,448",
+      "value": "719448",
+      "decimals": 0,
+      "thousands_sep": ",",
+      "decimal_sep": null,
+      "ambiguous": false
+    },
+    "unresolved": false
+  },
+  {
+    "token": "wCOP",
+    "cutoff": "2026-03-31",
+    "cutoff_in_figure_sentence": "2026-03-31",
+    "concept": "tokens issued as reported by the issuing entity (certified as outstanding)",
+    "figure_printed": "104,898,654",
+    "figure": "104898654",
+    "printed_decimals": 0,
+    "document_url": "https://action.ripio.com/hubfs/2026/wFIAT/ATTESTATION/20260331__wCOP__Token-Certification.pdf",
+    "page": 1,
+    "quote": "• To reconcile the number of wCOP tokens issued as of 03.31.2026, totaling 104,898,654 as reported",
+    "networks_listed": [
+      "Ethereum",
+      "World Chain",
+      "Base",
+      "Polygon",
+      "Gnosis",
+      "Binance Smart Chain"
+    ],
+    "network_keys": [
+      "ethereum",
+      "worldchain",
+      "base",
+      "polygon",
+      "gnosis",
+      "bsc"
+    ],
+    "signed_date": "2026-04-23",
+    "collateral_as_stated": {
+      "currency": "COP",
+      "printed": "107,966,549.02"
+    },
+    "notes": [],
+    "parse": {
+      "printed": "104,898,654",
+      "value": "104898654",
+      "decimals": 0,
+      "thousands_sep": ",",
+      "decimal_sep": null,
+      "ambiguous": false
+    },
+    "unresolved": false
+  },
+  {
+    "token": "wMXN",
+    "cutoff": "2026-03-31",
+    "cutoff_in_figure_sentence": "2026-03-31",
+    "concept": "tokens issued as reported by the issuing entity (certified as outstanding)",
+    "figure_printed": "518,689",
+    "figure": "518689",
+    "printed_decimals": 0,
+    "document_url": "https://action.ripio.com/hubfs/2026/wFIAT/ATTESTATION/20260331__wMXN__Token-Certification.pdf",
+    "page": 1,
+    "quote": "• To reconcile the number of wMXN tokens issued as of 03.31.2026, totaling 518,689 as reported",
+    "networks_listed": [
+      "Ethereum",
+      "World Chain",
+      "Base",
+      "Polygon",
+      "Gnosis",
+      "Binance Smart Chain"
+    ],
+    "network_keys": [
+      "ethereum",
+      "worldchain",
+      "base",
+      "polygon",
+      "gnosis",
+      "bsc"
+    ],
+    "signed_date": "2026-04-24",
+    "collateral_as_stated": {
+      "currency": "MXN",
+      "printed": "937,364.13"
+    },
+    "notes": [
+      "'518,689' alone is ambiguous. Read as thousands separator because the same document prints the collateral as '937,364.13'"
+    ],
+    "parse": {
+      "printed": "518,689",
+      "value": "518689",
+      "decimals": 0,
+      "thousands_sep": ",",
+      "decimal_sep": null,
+      "ambiguous": false
+    },
+    "unresolved": false
+  },
+  {
+    "token": "wARS",
+    "cutoff": "2026-06-30",
+    "cutoff_in_figure_sentence": "2026-06-30",
+    "concept": "tokens issued as reported by the issuing entity (certified as outstanding)",
+    "figure_printed": "7,619,996,077",
+    "figure": "7619996077",
+    "printed_decimals": 0,
+    "document_url": "https://action.ripio.com/hubfs/2026/wFIAT/ATTESTATION/Aug%202026/Token%20wARS%2006.30.2026%20Certification%20vf.pdf",
+    "page": 1,
+    "quote": "• To reconcile the number of wARS tokens issued as of 06.30.2026, total 7,619,996,077 as reported",
+    "networks_listed": [
+      "Ethereum",
+      "World Chain",
+      "Base",
+      "Polygon",
+      "Gnosis",
+      "Binance Smart Chain",
+      "HyperEVM",
+      "CeloScan"
+    ],
+    "network_keys": [
+      "ethereum",
+      "worldchain",
+      "base",
+      "polygon",
+      "gnosis",
+      "bsc",
+      "hyperevm",
+      "celo"
+    ],
+    "signed_date": "2026-07-28",
+    "collateral_as_stated": {
+      "currency": "ARS",
+      "printed": "7,909,436,643.14"
+    },
+    "notes": [],
+    "parse": {
+      "printed": "7,619,996,077",
+      "value": "7619996077",
+      "decimals": 0,
+      "thousands_sep": ",",
+      "decimal_sep": null,
+      "ambiguous": false
+    },
+    "unresolved": false
+  },
+  {
+    "token": "wBRL",
+    "cutoff": "2026-06-30",
+    "cutoff_in_figure_sentence": "2026-06-30",
+    "concept": "tokens issued as reported by the issuing entity (certified as outstanding)",
+    "figure_printed": "2.586.148",
+    "figure": "2586148",
+    "printed_decimals": 0,
+    "document_url": "https://action.ripio.com/hubfs/2026/wFIAT/ATTESTATION/Aug%202026/Token%20wBRL%2006.30.2026%20Certification%20vf.pdf",
+    "page": 1,
+    "quote": "• To reconcile the number of w BRL tokens issued as of 06.30.2026, totaling 2.586.148 as reported",
+    "networks_listed": [
+      "Ethereum",
+      "World Chain",
+      "Base",
+      "Gnosis",
+      "Polygon",
+      "BNB Smart Chain",
+      "CeloScan"
+    ],
+    "network_keys": [
+      "ethereum",
+      "worldchain",
+      "base",
+      "gnosis",
+      "polygon",
+      "bsc",
+      "celo"
+    ],
+    "signed_date": "2026-07-28",
+    "collateral_as_stated": {
+      "currency": "R$",
+      "printed": "2.594.240,11"
+    },
+    "notes": [
+      "printed with '.' as thousands separator: '2.586.148'"
+    ],
+    "parse": {
+      "printed": "2.586.148",
+      "value": "2586148",
+      "decimals": 0,
+      "thousands_sep": ".",
+      "decimal_sep": null,
+      "ambiguous": false
+    },
+    "unresolved": false
+  },
+  {
+    "token": "wMXN",
+    "cutoff": "2026-06-30",
+    "cutoff_in_figure_sentence": "2026-06-30",
+    "concept": "tokens issued as reported by the issuing entity (certified as outstanding)",
+    "figure_printed": "968,789",
+    "figure": "968789",
+    "printed_decimals": 0,
+    "document_url": "https://action.ripio.com/hubfs/2026/wFIAT/ATTESTATION/Aug%202026/Token%20wMXN%2006.30.2026%20Certification%20vf.pdf",
+    "page": 1,
+    "quote": "• To reconcile the number of w MXN tokens issued as of 06.30.2026, totaling 968,789 as reported",
+    "networks_listed": [
+      "Ethereum",
+      "World Chain",
+      "Base",
+      "Polygon",
+      "Gnosis",
+      "Binance Smart Chain",
+      "CeloScan"
+    ],
+    "network_keys": [
+      "ethereum",
+      "worldchain",
+      "base",
+      "polygon",
+      "gnosis",
+      "bsc",
+      "celo"
+    ],
+    "signed_date": "2026-07-28",
+    "collateral_as_stated": {
+      "currency": "MXN",
+      "printed": "2,086,193.01"
+    },
+    "notes": [
+      "'968,789' alone is ambiguous. Read as thousands separator because the same document prints the collateral as '2,086,193.01'"
+    ],
+    "parse": {
+      "printed": "968,789",
+      "value": "968789",
+      "decimals": 0,
+      "thousands_sep": ",",
+      "decimal_sep": null,
+      "ambiguous": false
+    },
+    "unresolved": false
+  },
+  {
+    "token": "wCOP",
+    "cutoff": "2026-06-30",
+    "cutoff_in_figure_sentence": "2026-06-30",
+    "concept": "tokens issued as reported by the issuing entity (certified as outstanding)",
+    "figure_printed": "196,398,754",
+    "figure": "196398754",
+    "printed_decimals": 0,
+    "document_url": "https://action.ripio.com/hubfs/2026/wFIAT/ATTESTATION/Aug%202026/Token%20wCOP%2006.30.2026%20Certification%20vf.pdf",
+    "page": 1,
+    "quote": "• To reconcile the number of wCOP tokens issued as of 06.30.2026, totaling 196,398,754 as reported",
+    "networks_listed": [
+      "Ethereum",
+      "World Chain",
+      "Base",
+      "Polygon",
+      "Gnosis",
+      "Binance Smart Chain",
+      "CeloScan"
+    ],
+    "network_keys": [
+      "ethereum",
+      "worldchain",
+      "base",
+      "polygon",
+      "gnosis",
+      "bsc",
+      "celo"
+    ],
+    "signed_date": "2026-07-28",
+    "collateral_as_stated": {
+      "currency": "COP",
+      "printed": "212,085,195.86"
+    },
+    "notes": [],
+    "parse": {
+      "printed": "196,398,754",
+      "value": "196398754",
+      "decimals": 0,
+      "thousands_sep": ",",
+      "decimal_sep": null,
+      "ambiguous": false
+    },
+    "unresolved": false
+  },
+  {
+    "token": "wCLP",
+    "cutoff": "2026-06-30",
+    "cutoff_in_figure_sentence": "2026-03-31",
+    "concept": "tokens issued as reported by the issuing entity (certified as outstanding)",
+    "figure_printed": "64,295,100",
+    "figure": "64295100",
+    "printed_decimals": 0,
+    "document_url": "https://action.ripio.com/hubfs/2026/wFIAT/ATTESTATION/Aug%202026/Token%20wCLP%2006.30.2026%20Certification%20vf.pdf",
+    "page": 1,
+    "quote": "• To reconcile the number of wCLP tokens issued as of 03.31.2026, total 64,295,100 as reported",
+    "networks_listed": [
+      "Ethereum",
+      "World Chain",
+      "Base",
+      "Polygon",
+      "Gnosis",
+      "Binance Smart Chain",
+      "CeloScan"
+    ],
+    "network_keys": [
+      "ethereum",
+      "worldchain",
+      "base",
+      "polygon",
+      "gnosis",
+      "bsc",
+      "celo"
+    ],
+    "signed_date": "2026-07-28",
+    "collateral_as_stated": {
+      "currency": "ARS",
+      "printed": "64,790,000"
+    },
+    "notes": [
+      "the figure sentence says 'issued as of 03.31.2026' while the title says 'As of 06.30.2026'"
+    ],
+    "parse": {
+      "printed": "64,295,100",
+      "value": "64295100",
+      "decimals": 0,
+      "thousands_sep": ",",
+      "decimal_sep": null,
+      "ambiguous": false
+    },
+    "unresolved": false
+  }
+]
