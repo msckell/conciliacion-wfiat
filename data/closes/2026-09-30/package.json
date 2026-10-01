@@ -3,7 +3,7 @@
   "previous_cutoff": "2026-06-30",
   "convention": "ART",
   "cutoff_instant": "2026-09-30 23:59:59 America/Argentina/Buenos_Aires",
-  "generated_at": "2026-10-01T21:07:02+00:00",
+  "generated_at": "2026-10-01T22:04:51+00:00",
   "all_reconciled": true,
   "engine_errors": [],
   "networks": [
@@ -551,8 +551,10 @@
       "closing": "11979541894266718552517100013",
       "difference": "0",
       "passed": true,
-      "source_used": "rpc:mainnet.gateway.tenderly.co",
-      "other_sources_complete": [],
+      "source_used": "blockscout:https://eth.blockscout.com/api",
+      "other_sources_complete": [
+        "rpc:mainnet.gateway.tenderly.co"
+      ],
       "sources_incomplete": [],
       "closing_reads": {
         "https://eth.drpc.org": "11979541894266718552517100013"
@@ -598,8 +600,10 @@
       "closing": "38523919735333389016100000",
       "difference": "0",
       "passed": true,
-      "source_used": "rpc:polygon.gateway.tenderly.co",
-      "other_sources_complete": [],
+      "source_used": "blockscout:https://polygon.blockscout.com/api",
+      "other_sources_complete": [
+        "rpc:polygon.gateway.tenderly.co"
+      ],
       "sources_incomplete": [],
       "closing_reads": {
         "https://polygon.drpc.org": "38523919735333389016100000"
@@ -625,8 +629,7 @@
       "sources_incomplete": [],
       "closing_reads": {
         "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 48526543 (0x80c19a5b5ccd26ce56b5e70d10e80987def585",
-        "https://rpc.gnosischain.com": "9360155000000000000000000",
-        "https://1rpc.io/gnosis": "error: RpcError: gnosis eth_call: all endpoints failed: https://1rpc.io/gnosis: ReadTimeout | https://1rpc.io/gnosis: ReadTimeout | https://1rpc.io/gnosis: HTTP 429"
+        "https://rpc.gnosischain.com": "9360155000000000000000000"
       }
     },
     {
@@ -666,8 +669,10 @@
       "closing": "390379882760387597974376622",
       "difference": "0",
       "passed": true,
-      "source_used": "rpc:worldchain-mainnet.gateway.tenderly.co",
-      "other_sources_complete": [],
+      "source_used": "blockscout:https://worldchain-mainnet.explorer.alchemy.com/api",
+      "other_sources_complete": [
+        "rpc:worldchain-mainnet.gateway.tenderly.co"
+      ],
       "sources_incomplete": [],
       "closing_reads": {
         "https://worldchain-mainnet.g.alchemy.com/public": "390379882760387597974376622",
@@ -689,8 +694,10 @@
       "closing": "262674529314460000000000000",
       "difference": "0",
       "passed": true,
-      "source_used": "rpc:celo.gateway.tenderly.co",
-      "other_sources_complete": [],
+      "source_used": "blockscout:https://celo.blockscout.com/api",
+      "other_sources_complete": [
+        "rpc:celo.gateway.tenderly.co"
+      ],
       "sources_incomplete": [],
       "closing_reads": {
         "https://forno.celo.org": "262674529314460000000000000"
@@ -756,8 +763,10 @@
       "closing": "4070577392513443946870893",
       "difference": "0",
       "passed": true,
-      "source_used": "rpc:mainnet.gateway.tenderly.co",
-      "other_sources_complete": [],
+      "source_used": "blockscout:https://eth.blockscout.com/api",
+      "other_sources_complete": [
+        "rpc:mainnet.gateway.tenderly.co"
+      ],
       "sources_incomplete": [],
       "closing_reads": {
         "https://eth.drpc.org": "4070577392513443946870893"
@@ -803,8 +812,10 @@
       "closing": "45465547879000000000000",
       "difference": "0",
       "passed": true,
-      "source_used": "rpc:polygon.gateway.tenderly.co",
-      "other_sources_complete": [],
+      "source_used": "blockscout:https://polygon.blockscout.com/api",
+      "other_sources_complete": [
+        "rpc:polygon.gateway.tenderly.co"
+      ],
       "sources_incomplete": [],
       "closing_reads": {
         "https://polygon.drpc.org": "45465547879000000000000"
@@ -830,8 +841,7 @@
       "sources_incomplete": [],
       "closing_reads": {
         "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 48526543 (0x80c19a5b5ccd26ce56b5e70d10e80987def585",
-        "https://rpc.gnosischain.com": "32999840000000000000000",
-        "https://1rpc.io/gnosis": "32999840000000000000000"
+        "https://rpc.gnosischain.com": "32999840000000000000000"
       }
     },
     {
@@ -871,8 +881,10 @@
       "closing": "481574740439523099909700",
       "difference": "0",
       "passed": true,
-      "source_used": "rpc:worldchain-mainnet.gateway.tenderly.co",
-      "other_sources_complete": [],
+      "source_used": "blockscout:https://worldchain-mainnet.explorer.alchemy.com/api",
+      "other_sources_complete": [
+        "rpc:worldchain-mainnet.gateway.tenderly.co"
+      ],
       "sources_incomplete": [],
       "closing_reads": {
         "https://worldchain-mainnet.g.alchemy.com/public": "481574740439523099909700",
@@ -894,8 +906,10 @@
       "closing": "3708687895892251128768916",
       "difference": "0",
       "passed": true,
-      "source_used": "rpc:celo.gateway.tenderly.co",
-      "other_sources_complete": [],
+      "source_used": "blockscout:https://celo.blockscout.com/api",
+      "other_sources_complete": [
+        "rpc:celo.gateway.tenderly.co"
+      ],
       "sources_incomplete": [],
       "closing_reads": {
         "https://forno.celo.org": "3708687895892251128768916"
@@ -961,8 +975,10 @@
       "closing": "2240383579000000000000000",
       "difference": "0",
       "passed": true,
-      "source_used": "rpc:mainnet.gateway.tenderly.co",
-      "other_sources_complete": [],
+      "source_used": "blockscout:https://eth.blockscout.com/api",
+      "other_sources_complete": [
+        "rpc:mainnet.gateway.tenderly.co"
+      ],
       "sources_incomplete": [],
       "closing_reads": {
         "https://eth.drpc.org": "2240383579000000000000000"
@@ -1008,8 +1024,10 @@
       "closing": "71519187820822000000000",
       "difference": "0",
       "passed": true,
-      "source_used": "rpc:polygon.gateway.tenderly.co",
-      "other_sources_complete": [],
+      "source_used": "blockscout:https://polygon.blockscout.com/api",
+      "other_sources_complete": [
+        "rpc:polygon.gateway.tenderly.co"
+      ],
       "sources_incomplete": [],
       "closing_reads": {
         "https://polygon.drpc.org": "71519187820822000000000"
@@ -1035,8 +1053,7 @@
       "sources_incomplete": [],
       "closing_reads": {
         "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 48526543 (0x80c19a5b5ccd26ce56b5e70d10e80987def585",
-        "https://rpc.gnosischain.com": "68001270000000000000000",
-        "https://1rpc.io/gnosis": "68001270000000000000000"
+        "https://rpc.gnosischain.com": "68001270000000000000000"
       }
     },
     {
@@ -1076,8 +1093,10 @@
       "closing": "916455157159966153196000",
       "difference": "0",
       "passed": true,
-      "source_used": "rpc:worldchain-mainnet.gateway.tenderly.co",
-      "other_sources_complete": [],
+      "source_used": "blockscout:https://worldchain-mainnet.explorer.alchemy.com/api",
+      "other_sources_complete": [
+        "rpc:worldchain-mainnet.gateway.tenderly.co"
+      ],
       "sources_incomplete": [],
       "closing_reads": {
         "https://worldchain-mainnet.g.alchemy.com/public": "916455157159966153196000",
@@ -1099,8 +1118,10 @@
       "closing": "13099460000000000000000",
       "difference": "0",
       "passed": true,
-      "source_used": "rpc:celo.gateway.tenderly.co",
-      "other_sources_complete": [],
+      "source_used": "blockscout:https://celo.blockscout.com/api",
+      "other_sources_complete": [
+        "rpc:celo.gateway.tenderly.co"
+      ],
       "sources_incomplete": [],
       "closing_reads": {
         "https://forno.celo.org": "13099460000000000000000"
@@ -1166,8 +1187,10 @@
       "closing": "295491533718836137247866100",
       "difference": "0",
       "passed": true,
-      "source_used": "rpc:mainnet.gateway.tenderly.co",
-      "other_sources_complete": [],
+      "source_used": "blockscout:https://eth.blockscout.com/api",
+      "other_sources_complete": [
+        "rpc:mainnet.gateway.tenderly.co"
+      ],
       "sources_incomplete": [],
       "closing_reads": {
         "https://eth.drpc.org": "295491533718836137247866100"
@@ -1213,8 +1236,10 @@
       "closing": "22458699001338684164750449",
       "difference": "0",
       "passed": true,
-      "source_used": "rpc:polygon.gateway.tenderly.co",
-      "other_sources_complete": [],
+      "source_used": "blockscout:https://polygon.blockscout.com/api",
+      "other_sources_complete": [
+        "rpc:polygon.gateway.tenderly.co"
+      ],
       "sources_incomplete": [],
       "closing_reads": {
         "https://polygon.drpc.org": "22458699001338684164750449"
@@ -1240,8 +1265,7 @@
       "sources_incomplete": [],
       "closing_reads": {
         "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 48526543 (0x80c19a5b5ccd26ce56b5e70d10e80987def585",
-        "https://rpc.gnosischain.com": "19320986000000000000000000",
-        "https://1rpc.io/gnosis": "19320986000000000000000000"
+        "https://rpc.gnosischain.com": "19320986000000000000000000"
       }
     },
     {
@@ -1281,8 +1305,10 @@
       "closing": "189693662819575642463156959",
       "difference": "0",
       "passed": true,
-      "source_used": "rpc:worldchain-mainnet.gateway.tenderly.co",
-      "other_sources_complete": [],
+      "source_used": "blockscout:https://worldchain-mainnet.explorer.alchemy.com/api",
+      "other_sources_complete": [
+        "rpc:worldchain-mainnet.gateway.tenderly.co"
+      ],
       "sources_incomplete": [],
       "closing_reads": {
         "https://worldchain-mainnet.g.alchemy.com/public": "189693662819575642463156959",
@@ -1304,8 +1330,10 @@
       "closing": "33999986000000000000000000",
       "difference": "0",
       "passed": true,
-      "source_used": "rpc:celo.gateway.tenderly.co",
-      "other_sources_complete": [],
+      "source_used": "blockscout:https://celo.blockscout.com/api",
+      "other_sources_complete": [
+        "rpc:celo.gateway.tenderly.co"
+      ],
       "sources_incomplete": [],
       "closing_reads": {
         "https://forno.celo.org": "33999986000000000000000000"
@@ -1371,8 +1399,10 @@
       "closing": "4431817704356965127000000",
       "difference": "0",
       "passed": true,
-      "source_used": "rpc:mainnet.gateway.tenderly.co",
-      "other_sources_complete": [],
+      "source_used": "blockscout:https://eth.blockscout.com/api",
+      "other_sources_complete": [
+        "rpc:mainnet.gateway.tenderly.co"
+      ],
       "sources_incomplete": [],
       "closing_reads": {
         "https://eth.drpc.org": "4431817704356965127000000"
@@ -1418,8 +1448,10 @@
       "closing": "4309790561451630284462190",
       "difference": "0",
       "passed": true,
-      "source_used": "rpc:polygon.gateway.tenderly.co",
-      "other_sources_complete": [],
+      "source_used": "blockscout:https://polygon.blockscout.com/api",
+      "other_sources_complete": [
+        "rpc:polygon.gateway.tenderly.co"
+      ],
       "sources_incomplete": [],
       "closing_reads": {
         "https://polygon.drpc.org": "4309790561451630284462190"
@@ -1445,8 +1477,7 @@
       "sources_incomplete": [],
       "closing_reads": {
         "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 48526543 (0x80c19a5b5ccd26ce56b5e70d10e80987def585",
-        "https://rpc.gnosischain.com": "4646014000000000000000000",
-        "https://1rpc.io/gnosis": "4646014000000000000000000"
+        "https://rpc.gnosischain.com": "4646014000000000000000000"
       }
     },
     {
@@ -1486,8 +1517,10 @@
       "closing": "43381237245783247035921383",
       "difference": "0",
       "passed": true,
-      "source_used": "rpc:worldchain-mainnet.gateway.tenderly.co",
-      "other_sources_complete": [],
+      "source_used": "blockscout:https://worldchain-mainnet.explorer.alchemy.com/api",
+      "other_sources_complete": [
+        "rpc:worldchain-mainnet.gateway.tenderly.co"
+      ],
       "sources_incomplete": [],
       "closing_reads": {
         "https://worldchain-mainnet.g.alchemy.com/public": "43381237245783247035921383",
@@ -1509,8 +1542,10 @@
       "closing": "1000087000000000000000000",
       "difference": "0",
       "passed": true,
-      "source_used": "rpc:celo.gateway.tenderly.co",
-      "other_sources_complete": [],
+      "source_used": "blockscout:https://celo.blockscout.com/api",
+      "other_sources_complete": [
+        "rpc:celo.gateway.tenderly.co"
+      ],
       "sources_incomplete": [],
       "closing_reads": {
         "https://forno.celo.org": "1000087000000000000000000"
@@ -1576,8 +1611,10 @@
       "closing": "6710969222000000000000",
       "difference": "0",
       "passed": true,
-      "source_used": "rpc:mainnet.gateway.tenderly.co",
-      "other_sources_complete": [],
+      "source_used": "blockscout:https://eth.blockscout.com/api",
+      "other_sources_complete": [
+        "rpc:mainnet.gateway.tenderly.co"
+      ],
       "sources_incomplete": [],
       "closing_reads": {
         "https://eth.drpc.org": "6710969222000000000000"
@@ -1623,8 +1660,10 @@
       "closing": "4172496860000000000000",
       "difference": "0",
       "passed": true,
-      "source_used": "rpc:polygon.gateway.tenderly.co",
-      "other_sources_complete": [],
+      "source_used": "blockscout:https://polygon.blockscout.com/api",
+      "other_sources_complete": [
+        "rpc:polygon.gateway.tenderly.co"
+      ],
       "sources_incomplete": [],
       "closing_reads": {
         "https://polygon.drpc.org": "4172496860000000000000"
@@ -1650,8 +1689,7 @@
       "sources_incomplete": [],
       "closing_reads": {
         "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 48526543 (0x80c19a5b5ccd26ce56b5e70d10e80987def585",
-        "https://rpc.gnosischain.com": "4500000000000000000000",
-        "https://1rpc.io/gnosis": "error: RpcError: gnosis eth_call: all endpoints failed: https://1rpc.io/gnosis: HTTP 403 non JSON body"
+        "https://rpc.gnosischain.com": "4500000000000000000000"
       }
     },
     {
@@ -1691,8 +1729,10 @@
       "closing": "108624243918000000000000",
       "difference": "0",
       "passed": true,
-      "source_used": "rpc:worldchain-mainnet.gateway.tenderly.co",
-      "other_sources_complete": [],
+      "source_used": "blockscout:https://worldchain-mainnet.explorer.alchemy.com/api",
+      "other_sources_complete": [
+        "rpc:worldchain-mainnet.gateway.tenderly.co"
+      ],
       "sources_incomplete": [],
       "closing_reads": {
         "https://worldchain-mainnet.g.alchemy.com/public": "108624243918000000000000",
@@ -1714,8 +1754,10 @@
       "closing": "599950000000000000000",
       "difference": "0",
       "passed": true,
-      "source_used": "rpc:celo.gateway.tenderly.co",
-      "other_sources_complete": [],
+      "source_used": "blockscout:https://celo.blockscout.com/api",
+      "other_sources_complete": [
+        "rpc:celo.gateway.tenderly.co"
+      ],
       "sources_incomplete": [],
       "closing_reads": {
         "https://forno.celo.org": "599950000000000000000"
@@ -7626,7 +7668,7 @@
         "dest_chain": "celo",
         "after": {
           "status": "not_found",
-          "searched_to": 78988055
+          "searched_to": 78991528
         }
       }
     },
@@ -12057,7 +12099,7 @@
         "dest_chain": "gnosis",
         "after": {
           "status": "not_found",
-          "searched_to": 48539318
+          "searched_to": 48540003
         }
       }
     },
@@ -17447,12 +17489,12 @@
         "checks": [
           "MINTER_ROLE de 0x2b839174fe62466067c22e2a4c8054071f9d8d68 en 0x0dc4f92879b7670e5f4e4e6e3c801d229129d90d al bloque 20356249: sí"
         ],
-        "summary": "La cuenta 0x2b839174fe62466067c22e2a4c8054071f9d8d68 ejecutó la transacción con execTransaction y recibió la emisión de wARS directo desde el token. Esa cuenta tenía MINTER_ROLE en el token 0x0dc4f92879b7670e5f4e4e6e3c801d229129d90d en ese bloque, así que es una emisión primaria hecha por un minter.",
+        "summary": "La transacción es un execTransaction de la cuenta 0x2b839174fe62466067c22e2a4c8054071f9d8d68, que se emitió wARS a sí misma y tenía MINTER_ROLE en el token 0x0dc4f92879b7670e5f4e4e6e3c801d229129d90d en ese bloque. En la misma transacción también se emitió wBRL a la misma cuenta, así que conviene que alguien lo tenga presente al revisar esa otra emisión.",
         "proposal": {
           "kind": "primary_by_minter",
           "account": "0x2b839174fe62466067c22e2a4c8054071f9d8d68",
           "contract": "0x0dc4f92879b7670e5f4e4e6e3c801d229129d90d",
-          "summary": "La cuenta 0x2b839174fe62466067c22e2a4c8054071f9d8d68 ejecutó la transacción con execTransaction y recibió la emisión de wARS directo desde el token. Esa cuenta tenía MINTER_ROLE en el token 0x0dc4f92879b7670e5f4e4e6e3c801d229129d90d en ese bloque, así que es una emisión primaria hecha por un minter."
+          "summary": "La transacción es un execTransaction de la cuenta 0x2b839174fe62466067c22e2a4c8054071f9d8d68, que se emitió wARS a sí misma y tenía MINTER_ROLE en el token 0x0dc4f92879b7670e5f4e4e6e3c801d229129d90d en ese bloque. En la misma transacción también se emitió wBRL a la misma cuenta, así que conviene que alguien lo tenga presente al revisar esa otra emisión."
         }
       }
     },
@@ -17477,12 +17519,12 @@
         "checks": [
           "MINTER_ROLE de 0x2b839174fe62466067c22e2a4c8054071f9d8d68 en 0xd76f5faf6888e24d9f04bf92a0c8b921fe4390e0 al bloque 20356249: sí"
         ],
-        "summary": "La emisión salió de una transacción execTransaction de la cuenta 0x2b839174fe62466067c22e2a4c8054071f9d8d68, que recibió los tokens de wBRL recién emitidos. Esa cuenta tenía MINTER_ROLE en el token 0xd76f5faf6888e24d9f04bf92a0c8b921fe4390e0 en ese bloque, por eso se trata como emisión primaria.",
+        "summary": "La emisión de wBRL salió de una ejecución de la billetera multifirma 0x2b839174fe62466067c22e2a4c8054071f9d8d68, que recibió los tokens. Esa cuenta tenía MINTER_ROLE en el token 0xd76f5faf6888e24d9f04bf92a0c8b921fe4390e0 en ese bloque, por eso se trata como emisión primaria.",
         "proposal": {
           "kind": "primary_by_minter",
           "account": "0x2b839174fe62466067c22e2a4c8054071f9d8d68",
           "contract": "0xd76f5faf6888e24d9f04bf92a0c8b921fe4390e0",
-          "summary": "La emisión salió de una transacción execTransaction de la cuenta 0x2b839174fe62466067c22e2a4c8054071f9d8d68, que recibió los tokens de wBRL recién emitidos. Esa cuenta tenía MINTER_ROLE en el token 0xd76f5faf6888e24d9f04bf92a0c8b921fe4390e0 en ese bloque, por eso se trata como emisión primaria."
+          "summary": "La emisión de wBRL salió de una ejecución de la billetera multifirma 0x2b839174fe62466067c22e2a4c8054071f9d8d68, que recibió los tokens. Esa cuenta tenía MINTER_ROLE en el token 0xd76f5faf6888e24d9f04bf92a0c8b921fe4390e0 en ese bloque, por eso se trata como emisión primaria."
         }
       }
     },
@@ -17729,12 +17771,12 @@
         "checks": [
           "MINTER_ROLE de 0x2b839174fe62466067c22e2a4c8054071f9d8d68 en 0xd76f5faf6888e24d9f04bf92a0c8b921fe4390e0 al bloque 20828490: sí"
         ],
-        "summary": "La emisión salió de una ejecución de la cuenta multisig 0x2b839174fe62466067c22e2a4c8054071f9d8d68, que tenía MINTER_ROLE en el token wBRL en ese bloque. La multisig emitió directo en el token hacia 0xe7e486057c2d962d1e5b46f292daf4d2fa2313c4, sin pasar por el puente ni por un LimitedMinter.",
+        "summary": "La emisión salió de una ejecución de la Safe 0x2b839174fe62466067c22e2a4c8054071f9d8d68 que mintió directo en el token wBRL hacia 0xe7e486057c2d962d1e5b46f292daf4d2fa2313c4. Esa Safe tenía MINTER_ROLE en el token en ese bloque. En la misma transacción también se emitió wARS a la misma cuenta, así que conviene que esa otra emisión se revise por separado.",
         "proposal": {
           "kind": "primary_by_minter",
           "account": "0x2b839174fe62466067c22e2a4c8054071f9d8d68",
           "contract": "0xd76f5faf6888e24d9f04bf92a0c8b921fe4390e0",
-          "summary": "La emisión salió de una ejecución de la cuenta multisig 0x2b839174fe62466067c22e2a4c8054071f9d8d68, que tenía MINTER_ROLE en el token wBRL en ese bloque. La multisig emitió directo en el token hacia 0xe7e486057c2d962d1e5b46f292daf4d2fa2313c4, sin pasar por el puente ni por un LimitedMinter."
+          "summary": "La emisión salió de una ejecución de la Safe 0x2b839174fe62466067c22e2a4c8054071f9d8d68 que mintió directo en el token wBRL hacia 0xe7e486057c2d962d1e5b46f292daf4d2fa2313c4. Esa Safe tenía MINTER_ROLE en el token en ese bloque. En la misma transacción también se emitió wARS a la misma cuenta, así que conviene que esa otra emisión se revise por separado."
         }
       }
     },
@@ -17759,12 +17801,12 @@
         "checks": [
           "MINTER_ROLE de 0x2b839174fe62466067c22e2a4c8054071f9d8d68 en 0x0dc4f92879b7670e5f4e4e6e3c801d229129d90d al bloque 20828490: sí"
         ],
-        "summary": "La emisión salió de una transacción ejecutada por el Safe 0x2b839174fe62466067c22e2a4c8054071f9d8d68 hacia la cuenta 0xe7e486057c2d962d1e5b46f292daf4d2fa2313c4. Ese Safe tenía MINTER_ROLE en el token wARS en ese bloque. En la misma transacción también se emitió wBRL a la misma cuenta.",
+        "summary": "La emisión se hizo mediante execTransaction sobre el Safe 0x2b839174fe62466067c22e2a4c8054071f9d8d68, que tenía MINTER_ROLE en el token wARS en ese bloque. En la misma transacción también se emitió wBRL a la misma cuenta receptora, y no hay eventos del puente ni de LimitedMinter.",
         "proposal": {
           "kind": "primary_by_minter",
           "account": "0x2b839174fe62466067c22e2a4c8054071f9d8d68",
           "contract": "0x0dc4f92879b7670e5f4e4e6e3c801d229129d90d",
-          "summary": "La emisión salió de una transacción ejecutada por el Safe 0x2b839174fe62466067c22e2a4c8054071f9d8d68 hacia la cuenta 0xe7e486057c2d962d1e5b46f292daf4d2fa2313c4. Ese Safe tenía MINTER_ROLE en el token wARS en ese bloque. En la misma transacción también se emitió wBRL a la misma cuenta."
+          "summary": "La emisión se hizo mediante execTransaction sobre el Safe 0x2b839174fe62466067c22e2a4c8054071f9d8d68, que tenía MINTER_ROLE en el token wARS en ese bloque. En la misma transacción también se emitió wBRL a la misma cuenta receptora, y no hay eventos del puente ni de LimitedMinter."
         }
       }
     },
@@ -17839,7 +17881,7 @@
         "dest_chain": "ethereum",
         "after": {
           "status": "not_found",
-          "searched_to": 26100049
+          "searched_to": 26100337
         }
       }
     },
@@ -23586,7 +23628,7 @@
       "amount": "985000000000000000000",
       "tx_hash": "0x973ffae966a4117988101c26b8bbdde3256619169a1988796b8eb713a8cf0dcc",
       "explorer_url": "https://basescan.org/tx/0x973ffae966a4117988101c26b8bbdde3256619169a1988796b8eb713a8cf0dcc",
-      "reason": "Salió por el puente el 29/07/2026 hacia Celo y no encontramos la emisión del otro lado (buscada hasta el bloque 78988055 de Celo)."
+      "reason": "Salió por el puente el 29/07/2026 hacia Celo y no encontramos la emisión del otro lado (buscada hasta el bloque 78991528 de Celo)."
     },
     {
       "chain": "worldchain",
@@ -23613,7 +23655,7 @@
       "amount": "485000000000000000000",
       "tx_hash": "0x854723b7fd5543cab04edbdf903dd4dd271567da6477449741d50c2070789615",
       "explorer_url": "https://polygonscan.com/tx/0x854723b7fd5543cab04edbdf903dd4dd271567da6477449741d50c2070789615",
-      "reason": "Salió por el puente el 02/09/2026 hacia Gnosis y no encontramos la emisión del otro lado (buscada hasta el bloque 48539318 de Gnosis)."
+      "reason": "Salió por el puente el 02/09/2026 hacia Gnosis y no encontramos la emisión del otro lado (buscada hasta el bloque 48540003 de Gnosis)."
     },
     {
       "chain": "hyperevm",
@@ -23622,7 +23664,7 @@
       "amount": "19965120000000000000000",
       "tx_hash": "0x3ff080dac8b08f89c84dbb2c4e076b2bfc69b66c2df2a7493788675023f526c6",
       "explorer_url": "https://hyperevmscan.io/tx/0x3ff080dac8b08f89c84dbb2c4e076b2bfc69b66c2df2a7493788675023f526c6",
-      "reason": "Salió por el puente el 14/09/2026 hacia Ethereum y no encontramos la emisión del otro lado (buscada hasta el bloque 26100049 de Ethereum)."
+      "reason": "Salió por el puente el 14/09/2026 hacia Ethereum y no encontramos la emisión del otro lado (buscada hasta el bloque 26100337 de Ethereum)."
     }
   ],
   "bridge": {
@@ -23631,36 +23673,6 @@
     "delay_seconds_median": 29,
     "contracts": {
       "contracts_checked": [
-        {
-          "chain": "hyperevm",
-          "role": "bridge_deposit",
-          "address": "0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
-        },
-        {
-          "chain": "hyperevm",
-          "role": "limited_minter_bridge",
-          "address": "0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
-        },
-        {
-          "chain": "hyperevm",
-          "role": "limited_minter",
-          "address": "0xd168cfbbe260d48cd119497a9a2ee8482080c5e7"
-        },
-        {
-          "chain": "bsc",
-          "role": "bridge_deposit",
-          "address": "0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
-        },
-        {
-          "chain": "bsc",
-          "role": "limited_minter_bridge",
-          "address": "0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
-        },
-        {
-          "chain": "bsc",
-          "role": "limited_minter",
-          "address": "0xd168cfbbe260d48cd119497a9a2ee8482080c5e7"
-        },
         {
           "chain": "worldchain",
           "role": "bridge_deposit",
@@ -23677,17 +23689,47 @@
           "address": "0xde7ec97cfdee9f20f9d256f4a0a0d694479fa2e0"
         },
         {
-          "chain": "ethereum",
+          "chain": "celo",
           "role": "bridge_deposit",
           "address": "0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
         },
         {
-          "chain": "ethereum",
+          "chain": "celo",
           "role": "limited_minter_bridge",
           "address": "0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
         },
         {
-          "chain": "ethereum",
+          "chain": "celo",
+          "role": "limited_minter",
+          "address": "0xd168cfbbe260d48cd119497a9a2ee8482080c5e7"
+        },
+        {
+          "chain": "arc",
+          "role": "bridge_deposit",
+          "address": "0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
+        },
+        {
+          "chain": "arc",
+          "role": "limited_minter_bridge",
+          "address": "0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
+        },
+        {
+          "chain": "arc",
+          "role": "limited_minter",
+          "address": "0xd168cfbbe260d48cd119497a9a2ee8482080c5e7"
+        },
+        {
+          "chain": "hyperevm",
+          "role": "bridge_deposit",
+          "address": "0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
+        },
+        {
+          "chain": "hyperevm",
+          "role": "limited_minter_bridge",
+          "address": "0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
+        },
+        {
+          "chain": "hyperevm",
           "role": "limited_minter",
           "address": "0xd168cfbbe260d48cd119497a9a2ee8482080c5e7"
         },
@@ -23703,21 +23745,6 @@
         },
         {
           "chain": "polygon",
-          "role": "limited_minter",
-          "address": "0xd168cfbbe260d48cd119497a9a2ee8482080c5e7"
-        },
-        {
-          "chain": "gnosis",
-          "role": "bridge_deposit",
-          "address": "0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
-        },
-        {
-          "chain": "gnosis",
-          "role": "limited_minter_bridge",
-          "address": "0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
-        },
-        {
-          "chain": "gnosis",
           "role": "limited_minter",
           "address": "0xd168cfbbe260d48cd119497a9a2ee8482080c5e7"
         },
@@ -23737,32 +23764,47 @@
           "address": "0xf469ec9debf7f0adeba4d1db2ff5c70707beeb30"
         },
         {
-          "chain": "celo",
+          "chain": "bsc",
           "role": "bridge_deposit",
           "address": "0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
         },
         {
-          "chain": "celo",
+          "chain": "bsc",
           "role": "limited_minter_bridge",
           "address": "0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
         },
         {
-          "chain": "celo",
+          "chain": "bsc",
           "role": "limited_minter",
           "address": "0xd168cfbbe260d48cd119497a9a2ee8482080c5e7"
         },
         {
-          "chain": "arc",
+          "chain": "ethereum",
           "role": "bridge_deposit",
           "address": "0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
         },
         {
-          "chain": "arc",
+          "chain": "ethereum",
           "role": "limited_minter_bridge",
           "address": "0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
         },
         {
-          "chain": "arc",
+          "chain": "ethereum",
+          "role": "limited_minter",
+          "address": "0xd168cfbbe260d48cd119497a9a2ee8482080c5e7"
+        },
+        {
+          "chain": "gnosis",
+          "role": "bridge_deposit",
+          "address": "0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
+        },
+        {
+          "chain": "gnosis",
+          "role": "limited_minter_bridge",
+          "address": "0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
+        },
+        {
+          "chain": "gnosis",
           "role": "limited_minter",
           "address": "0xd168cfbbe260d48cd119497a9a2ee8482080c5e7"
         }

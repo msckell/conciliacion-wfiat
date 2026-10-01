@@ -1,0 +1,88 @@
+import type { ReactNode } from 'react'
+
+export function Section({
+  id,
+  title,
+  lead,
+  children,
+}: {
+  id?: string
+  title: string
+  lead?: ReactNode
+  children: ReactNode
+}) {
+  return (
+    <section id={id} className="mt-12 scroll-mt-20">
+      <h2 className="text-xl font-semibold tracking-tight text-ink sm:text-2xl">{title}</h2>
+      {lead && <p className="mt-2 max-w-prose text-ink-2">{lead}</p>}
+      <div className="mt-5">{children}</div>
+    </section>
+  )
+}
+
+export function Card({ children, className = '' }: { children: ReactNode; className?: string }) {
+  return (
+    <div className={`rounded-xl border border-line bg-card p-4 sm:p-5 ${className}`}>{children}</div>
+  )
+}
+
+export function Ext({ href, children }: { href: string; children: ReactNode }) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noreferrer"
+      className="text-accent underline decoration-accent/30 underline-offset-2 hover:decoration-accent"
+    >
+      {children}
+    </a>
+  )
+}
+
+const TONES = {
+  ok: 'bg-ok-soft text-ok',
+  warn: 'bg-warn-soft text-warn',
+  neutral: 'bg-paper text-ink-2 border border-line',
+  accent: 'bg-accent-soft text-accent',
+}
+
+export function Pill({ tone, children }: { tone: keyof typeof TONES; children: ReactNode }) {
+  return (
+    <span
+      className={`inline-flex items-center gap-1 whitespace-nowrap rounded-full px-2 py-0.5 text-xs font-medium ${TONES[tone]}`}
+    >
+      {children}
+    </span>
+  )
+}
+
+export function Check({ className = 'h-4 w-4' }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 20 20" fill="none" className={className} aria-hidden>
+      <path
+        d="M5 10.5l3.2 3.2L15 7"
+        stroke="currentColor"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
+export function Dot({ className = 'h-4 w-4' }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 20 20" className={className} aria-hidden>
+      <circle cx="10" cy="10" r="4" fill="currentColor" />
+    </svg>
+  )
+}
+
+export function Alert({ className = 'h-4 w-4' }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 20 20" fill="none" className={className} aria-hidden>
+      <path d="M10 6v5" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+      <circle cx="10" cy="14.2" r="1.3" fill="currentColor" />
+    </svg>
+  )
+}
