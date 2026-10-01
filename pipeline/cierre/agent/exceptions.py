@@ -19,6 +19,11 @@ from cierre.agent.tools import TOOL_SPECS, Tools
 
 SYSTEM = (Path(__file__).parent / "prompts" / "exceptions_system.md").read_text(encoding="utf-8")
 MAX_STEPS = 8
+# Template used when the agent's last summary still fails the verifier.
+NO_SUMMARY = (
+    "El resumen del agente no pasó el verificador en el último paso, así que no se publica. "
+    "Revisá el movimiento con el link de la transacción."
+)
 RESULT_CHARS = 3500
 
 SCHEMA = {
@@ -195,7 +200,7 @@ def investigate(m: dict, reason: str, tools: Tools, ask: Ask, log) -> dict:
                 )
                 continue
             if problems:
-                args = args | {"summary": ""}
+                args = args | {"summary": NO_SUMMARY}
             accepted, checks = (
                 verify(args, m, tools)
                 if args.get("kind") != "needs_person"

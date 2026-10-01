@@ -1,0 +1,1235 @@
+{
+  "close": {
+    "cutoff": "30/09/2026",
+    "previous_cutoff": "30/06/2026",
+    "cutoff_instant": "30/09/2026 23:59:59, hora de Buenos Aires",
+    "generated_at": "01/10/2026 19:04",
+    "tokens": [
+      {
+        "symbol": "wARS",
+        "name": "Argentine Peso",
+        "closing": "14.931.194.588,93",
+        "opening": "7.619.996.077,04",
+        "change": "+7.311.198.511,89",
+        "networks_with_balance": 9,
+        "by_network": [
+          {
+            "chain": "ethereum",
+            "name": "Ethereum",
+            "amount": "11.979.541.894,27",
+            "share_pct": 80.2
+          },
+          {
+            "chain": "base",
+            "name": "Base",
+            "amount": "1.638.446.091,74",
+            "share_pct": 11.0
+          },
+          {
+            "chain": "hyperevm",
+            "name": "HyperEVM",
+            "amount": "409.279.807,62",
+            "share_pct": 2.7
+          },
+          {
+            "chain": "worldchain",
+            "name": "World Chain",
+            "amount": "390.379.882,76",
+            "share_pct": 2.6
+          },
+          {
+            "chain": "celo",
+            "name": "Celo",
+            "amount": "262.674.529,31",
+            "share_pct": 1.8
+          },
+          {
+            "chain": "arc",
+            "name": "Arc",
+            "amount": "117.924.064,4",
+            "share_pct": 0.8
+          },
+          {
+            "chain": "bsc",
+            "name": "BNB Smart Chain",
+            "amount": "85.064.244,09",
+            "share_pct": 0.6
+          },
+          {
+            "chain": "polygon",
+            "name": "Polygon",
+            "amount": "38.523.919,74",
+            "share_pct": 0.3
+          },
+          {
+            "chain": "gnosis",
+            "name": "Gnosis",
+            "amount": "9.360.155",
+            "share_pct": 0.1
+          }
+        ]
+      },
+      {
+        "symbol": "wBRL",
+        "name": "Brazilian Real",
+        "closing": "13.807.477,38",
+        "opening": "2.586.147,5",
+        "change": "+11.221.329,88",
+        "networks_with_balance": 9,
+        "by_network": [
+          {
+            "chain": "ethereum",
+            "name": "Ethereum",
+            "amount": "4.070.577,39",
+            "share_pct": 29.5
+          },
+          {
+            "chain": "celo",
+            "name": "Celo",
+            "amount": "3.708.687,9",
+            "share_pct": 26.9
+          },
+          {
+            "chain": "hyperevm",
+            "name": "HyperEVM",
+            "amount": "2.499.220,3",
+            "share_pct": 18.1
+          },
+          {
+            "chain": "base",
+            "name": "Base",
+            "amount": "2.402.463,76",
+            "share_pct": 17.4
+          },
+          {
+            "chain": "worldchain",
+            "name": "World Chain",
+            "amount": "481.574,74",
+            "share_pct": 3.5
+          },
+          {
+            "chain": "arc",
+            "name": "Arc",
+            "amount": "329.380,86",
+            "share_pct": 2.4
+          },
+          {
+            "chain": "bsc",
+            "name": "BNB Smart Chain",
+            "amount": "237.107,04",
+            "share_pct": 1.7
+          },
+          {
+            "chain": "polygon",
+            "name": "Polygon",
+            "amount": "45.465,55",
+            "share_pct": 0.3
+          },
+          {
+            "chain": "gnosis",
+            "name": "Gnosis",
+            "amount": "32.999,84",
+            "share_pct": 0.2
+          }
+        ]
+      },
+      {
+        "symbol": "wMXN",
+        "name": "Mexican Peso",
+        "closing": "5.638.788,69",
+        "opening": "968.788,69",
+        "change": "+4.670.000",
+        "networks_with_balance": 7,
+        "by_network": [
+          {
+            "chain": "base",
+            "name": "Base",
+            "amount": "2.242.268,26",
+            "share_pct": 39.8
+          },
+          {
+            "chain": "ethereum",
+            "name": "Ethereum",
+            "amount": "2.240.383,58",
+            "share_pct": 39.7
+          },
+          {
+            "chain": "worldchain",
+            "name": "World Chain",
+            "amount": "916.455,16",
+            "share_pct": 16.3
+          },
+          {
+            "chain": "bsc",
+            "name": "BNB Smart Chain",
+            "amount": "87.061,78",
+            "share_pct": 1.5
+          },
+          {
+            "chain": "polygon",
+            "name": "Polygon",
+            "amount": "71.519,19",
+            "share_pct": 1.3
+          },
+          {
+            "chain": "gnosis",
+            "name": "Gnosis",
+            "amount": "68.001,27",
+            "share_pct": 1.2
+          },
+          {
+            "chain": "celo",
+            "name": "Celo",
+            "amount": "13.099,46",
+            "share_pct": 0.2
+          }
+        ]
+      },
+      {
+        "symbol": "wCOP",
+        "name": "Colombian Peso",
+        "closing": "911.258.753,8",
+        "opening": "196.398.753,8",
+        "change": "+714.860.000",
+        "networks_with_balance": 7,
+        "by_network": [
+          {
+            "chain": "base",
+            "name": "Base",
+            "amount": "324.321.491,22",
+            "share_pct": 35.6
+          },
+          {
+            "chain": "ethereum",
+            "name": "Ethereum",
+            "amount": "295.491.533,72",
+            "share_pct": 32.4
+          },
+          {
+            "chain": "worldchain",
+            "name": "World Chain",
+            "amount": "189.693.662,82",
+            "share_pct": 20.8
+          },
+          {
+            "chain": "celo",
+            "name": "Celo",
+            "amount": "33.999.986",
+            "share_pct": 3.7
+          },
+          {
+            "chain": "bsc",
+            "name": "BNB Smart Chain",
+            "amount": "25.972.395,04",
+            "share_pct": 2.9
+          },
+          {
+            "chain": "polygon",
+            "name": "Polygon",
+            "amount": "22.458.699",
+            "share_pct": 2.5
+          },
+          {
+            "chain": "gnosis",
+            "name": "Gnosis",
+            "amount": "19.320.986",
+            "share_pct": 2.1
+          }
+        ]
+      },
+      {
+        "symbol": "wCLP",
+        "name": "Chilean Peso",
+        "closing": "66.565.100",
+        "opening": "64.295.100",
+        "change": "+2.270.000",
+        "networks_with_balance": 7,
+        "by_network": [
+          {
+            "chain": "worldchain",
+            "name": "World Chain",
+            "amount": "43.381.237,25",
+            "share_pct": 65.2
+          },
+          {
+            "chain": "gnosis",
+            "name": "Gnosis",
+            "amount": "4.646.014",
+            "share_pct": 7.0
+          },
+          {
+            "chain": "ethereum",
+            "name": "Ethereum",
+            "amount": "4.431.817,7",
+            "share_pct": 6.7
+          },
+          {
+            "chain": "bsc",
+            "name": "BNB Smart Chain",
+            "amount": "4.402.756,84",
+            "share_pct": 6.6
+          },
+          {
+            "chain": "base",
+            "name": "Base",
+            "amount": "4.393.396,65",
+            "share_pct": 6.6
+          },
+          {
+            "chain": "polygon",
+            "name": "Polygon",
+            "amount": "4.309.790,56",
+            "share_pct": 6.5
+          },
+          {
+            "chain": "celo",
+            "name": "Celo",
+            "amount": "1.000.087",
+            "share_pct": 1.5
+          }
+        ]
+      },
+      {
+        "symbol": "wPEN",
+        "name": "Peruvian Sol",
+        "closing": "132.950",
+        "opening": "122.950",
+        "change": "+10.000",
+        "networks_with_balance": 7,
+        "by_network": [
+          {
+            "chain": "worldchain",
+            "name": "World Chain",
+            "amount": "108.624,24",
+            "share_pct": 81.7
+          },
+          {
+            "chain": "ethereum",
+            "name": "Ethereum",
+            "amount": "6.710,97",
+            "share_pct": 5.0
+          },
+          {
+            "chain": "gnosis",
+            "name": "Gnosis",
+            "amount": "4.500",
+            "share_pct": 3.4
+          },
+          {
+            "chain": "polygon",
+            "name": "Polygon",
+            "amount": "4.172,5",
+            "share_pct": 3.1
+          },
+          {
+            "chain": "base",
+            "name": "Base",
+            "amount": "4.171,17",
+            "share_pct": 3.1
+          },
+          {
+            "chain": "bsc",
+            "name": "BNB Smart Chain",
+            "amount": "4.171,17",
+            "share_pct": 3.1
+          },
+          {
+            "chain": "celo",
+            "name": "Celo",
+            "amount": "599,95",
+            "share_pct": 0.5
+          }
+        ]
+      }
+    ],
+    "networks": [
+      {
+        "name": "Ethereum",
+        "cutoff_block": 26094636,
+        "cutoff_block_url": "https://etherscan.io/block/26094636",
+        "is_new": false
+      },
+      {
+        "name": "Base",
+        "cutoff_block": 52017126,
+        "cutoff_block_url": "https://basescan.org/block/52017126",
+        "is_new": false
+      },
+      {
+        "name": "Polygon",
+        "cutoff_block": 94745639,
+        "cutoff_block_url": "https://polygonscan.com/block/94745639",
+        "is_new": false
+      },
+      {
+        "name": "Gnosis",
+        "cutoff_block": 48526543,
+        "cutoff_block_url": "https://gnosisscan.io/block/48526543",
+        "is_new": false
+      },
+      {
+        "name": "BNB Smart Chain",
+        "cutoff_block": 125024742,
+        "cutoff_block_url": "https://bscscan.com/block/125024742",
+        "is_new": false
+      },
+      {
+        "name": "World Chain",
+        "cutoff_block": 35743980,
+        "cutoff_block_url": "https://worldscan.org/block/35743980",
+        "is_new": false
+      },
+      {
+        "name": "Celo",
+        "cutoff_block": 78922841,
+        "cutoff_block_url": "https://celoscan.io/block/78922841",
+        "is_new": false
+      },
+      {
+        "name": "HyperEVM",
+        "cutoff_block": 47343194,
+        "cutoff_block_url": "https://hyperevmscan.io/block/47343194",
+        "is_new": false
+      },
+      {
+        "name": "Arc",
+        "cutoff_block": 23641972,
+        "cutoff_block_url": "https://explorer.arc.io/block/23641972",
+        "is_new": true
+      }
+    ],
+    "new_networks": [
+      {
+        "name": "Arc",
+        "first_creation_block": 19659303,
+        "first_creation_block_url": "https://explorer.arc.io/block/19659303",
+        "tokens": [
+          {
+            "symbol": "wARS",
+            "creation_block": 19659303,
+            "creation_block_url": "https://explorer.arc.io/block/19659303"
+          },
+          {
+            "symbol": "wMXN",
+            "creation_block": 19662934,
+            "creation_block_url": "https://explorer.arc.io/block/19662934"
+          },
+          {
+            "symbol": "wBRL",
+            "creation_block": 19663774,
+            "creation_block_url": "https://explorer.arc.io/block/19663774"
+          },
+          {
+            "symbol": "wCOP",
+            "creation_block": 19665237,
+            "creation_block_url": "https://explorer.arc.io/block/19665237"
+          },
+          {
+            "symbol": "wCLP",
+            "creation_block": 19665736,
+            "creation_block_url": "https://explorer.arc.io/block/19665736"
+          },
+          {
+            "symbol": "wPEN",
+            "creation_block": 19665967,
+            "creation_block_url": "https://explorer.arc.io/block/19665967"
+          }
+        ]
+      }
+    ],
+    "networks_checked": [
+      "Ethereum",
+      "Base",
+      "Polygon",
+      "Gnosis",
+      "BNB Smart Chain",
+      "World Chain",
+      "Celo",
+      "HyperEVM",
+      "Arc",
+      "Arbitrum One",
+      "OP Mainnet",
+      "Avalanche C-Chain",
+      "Unichain",
+      "Linea",
+      "Scroll",
+      "Mantle",
+      "Sonic",
+      "Monad",
+      "Plasma",
+      "Ink",
+      "Lisk",
+      "Sei",
+      "Katana",
+      "Rootstock"
+    ],
+    "reconciled": 54,
+    "reconciliations": 54,
+    "all_reconciled": true,
+    "movements": 628,
+    "transactions": 626,
+    "bridge_pairs": 255,
+    "convention_note": "La convención horaria no cambia este cierre.",
+    "excel_file": "paquete_cierre_2026-09-30.xlsx",
+    "memo": [
+      {
+        "symbol": "wARS",
+        "headline": "wARS: 14.931.194.588,93 al 30/09/2026 (+7.311.198.511,89 vs 30/06/2026)",
+        "status": "Conciliado en 9 redes, diferencia cero.",
+        "review": "4 movimientos para revisar.",
+        "explanation": "En el trimestre la circulación de wARS subió 7.311.198.511,89. El grueso vino de la emisión primaria, con 9.769.200.030 tokens nuevos, y en menor medida pesaron los rescates, con 2.458.000.010 tokens quemados. El puente movió tokens entre redes, y Arc, que es una red nueva desde el cierre anterior, terminó el trimestre con saldo de wARS. Además, quedan movimientos para que una persona los revise.",
+        "explanation_source": "llm"
+      },
+      {
+        "symbol": "wBRL",
+        "headline": "wBRL: 13.807.477,38 al 30/09/2026 (+11.221.329,88 vs 30/06/2026)",
+        "status": "Conciliado en 9 redes, diferencia cero.",
+        "review": "1 movimientos para revisar.",
+        "explanation": "La circulación de wBRL creció 11.221.329,88 en el trimestre, y casi todo vino de la emisión primaria de 11.396.295. Los rescates y los movimientos del puente entre redes pesaron poco en comparación. Arc se sumó como red nueva, el contrato de wBRL existe ahí y al cierre tiene saldo. Quedan 1 movimientos para que los revise una persona.",
+        "explanation_source": "llm"
+      },
+      {
+        "symbol": "wMXN",
+        "headline": "wMXN: 5.638.788,69 al 30/09/2026 (+4.670.000 vs 30/06/2026)",
+        "status": "Conciliado en 9 redes, diferencia cero.",
+        "review": "Nada para revisar.",
+        "explanation": "La circulación de wMXN creció 4.670.000 en el trimestre, y todo vino de la emisión primaria de 4.670.000. El puente entre redes movió 90.418,98 que salieron de un lado y entraron en otro, así que no sumó ni restó circulación, y lo quemado corresponde solo a esos movimientos, sin rescates. Arc es una red nueva desde el cierre anterior, y el contrato de wMXN ya existe ahí, pero al cierre no tiene saldo.",
+        "explanation_source": "llm"
+      },
+      {
+        "symbol": "wCOP",
+        "headline": "wCOP: 911.258.753,8 al 30/09/2026 (+714.860.000 vs 30/06/2026)",
+        "status": "Conciliado en 9 redes, diferencia cero.",
+        "review": "Nada para revisar.",
+        "explanation": "La circulación de wCOP creció 714.860.000 en el trimestre. El cambio vino de la emisión primaria de 774.860.000, menos los rescates de 60.000.000. Los movimientos por el puente solo pasaron tokens de una red a otra, y Arc, la red nueva, no tiene saldo al cierre.",
+        "explanation_source": "llm"
+      },
+      {
+        "symbol": "wCLP",
+        "headline": "wCLP: 66.565.100 al 30/09/2026 (+2.270.000 vs 30/06/2026)",
+        "status": "Conciliado en 9 redes, diferencia cero.",
+        "review": "Nada para revisar.",
+        "explanation": "Al cierre del trimestre había 66.565.100 wCLP en circulación, es decir 2.270.000 más que al cierre anterior. Todo ese aumento vino de la emisión primaria, de 2.270.000 tokens nuevos que emitió el emisor. Los rescates no sumaron nada aparte del puente, que solo movió tokens entre redes sin cambiar el total. Arc se sumó como red nueva, pero al cierre todavía no tiene saldo.",
+        "explanation_source": "llm"
+      },
+      {
+        "symbol": "wPEN",
+        "headline": "wPEN: 132.950 al 30/09/2026 (+10.000 vs 30/06/2026)",
+        "status": "Conciliado en 9 redes, diferencia cero.",
+        "review": "Nada para revisar.",
+        "explanation": "La circulación de wPEN en el trimestre subió 10.000 y cerró en 132.950. Todo el aumento vino de la emisión primaria, que fue de 10.000. Los movimientos del puente entre redes entraron y salieron por el mismo monto, así que no cambiaron la circulación total. Arc se sumó como red nueva, pero al cierre todavía no tiene saldo.",
+        "explanation_source": "llm"
+      }
+    ]
+  },
+  "timeline": {
+    "id": "20261001T215537Z-close",
+    "started_at": "01/10/2026 18:55",
+    "duration": "10 minutos",
+    "status": "ok",
+    "steps": [
+      {
+        "key": "detect",
+        "title": "Detectó el cierre del 30/09/2026",
+        "detail": "Corte a las 23:59:59 hora de Buenos Aires. Cierre anterior: 30/06/2026.",
+        "status": "ok",
+        "at": "01/10/2026 18:55",
+        "duration": "0 segundos"
+      },
+      {
+        "key": "engine",
+        "title": "Leyó 9 redes",
+        "detail": "Buscó el bloque del corte en cada red y leyó la cantidad de tokens y cada emisión y quema del trimestre.",
+        "status": "ok",
+        "at": "01/10/2026 18:55",
+        "duration": "2 minutos"
+      },
+      {
+        "key": "package",
+        "title": "Concilió 54 de 54 combinaciones de moneda y red, con diferencia cero",
+        "detail": "Clasificó 628 emisiones y quemas y emparejó 255 pases del puente entre redes. Red nueva: Arc. Encontró 9 movimientos para revisar.",
+        "status": "ok",
+        "at": "01/10/2026 18:57",
+        "duration": "34 segundos"
+      },
+      {
+        "key": "verify",
+        "title": "Comprobó el método contra 9 certificaciones publicadas: coincide en 9",
+        "detail": "Recalcula la cantidad de tokens de cada corte certificado con la misma regla.",
+        "status": "ok",
+        "at": "01/10/2026 18:57",
+        "duration": "0 segundos"
+      },
+      {
+        "key": "exceptions",
+        "title": "Investigó 9 movimientos: resolvió 4 con evidencia y dejó 5 tareas para una persona",
+        "detail": "Leyó cada transacción, consultó permisos y buscó la otra punta del puente. El código comprobó cada propuesta antes de aceptarla.",
+        "status": "ok",
+        "at": "01/10/2026 18:57",
+        "duration": "7 minutos"
+      },
+      {
+        "key": "memo",
+        "title": "Escribió el resumen de las 6 monedas",
+        "detail": "El verificador aceptó 6 de 6 textos al primer intento. Las cifras las pone el código, no la IA.",
+        "status": "ok",
+        "at": "01/10/2026 19:04",
+        "duration": "51 segundos"
+      },
+      {
+        "key": "publish",
+        "title": "Publicación del Excel: pendiente",
+        "detail": "El chequeo del link publicado se activa cuando el sitio esté en línea.",
+        "status": "skipped",
+        "at": "01/10/2026 19:05",
+        "duration": "0 segundos"
+      },
+      {
+        "key": "notify",
+        "title": "Avisó a Finanzas por Slack (modo de prueba)",
+        "detail": "Con el resumen, el link al Excel y 5 tareas para revisar.",
+        "status": "dry_run",
+        "at": "01/10/2026 19:05",
+        "duration": "0 segundos"
+      }
+    ]
+  },
+  "agent_vs_manual": {
+    "transactions": 626,
+    "networks": 9,
+    "tokens": 6,
+    "duration": "10 minutos"
+  },
+  "verification": {
+    "matched": 9,
+    "total": 9,
+    "rule": "Suma de totalSupply() en todas las redes revisadas, sin ajustes, al corte de las 23:59:59 hora de Buenos Aires, comparada en tokens enteros.",
+    "rows": [
+      {
+        "token": "wARS",
+        "cutoff": "31/03/2026",
+        "certified": "973.000.960,19",
+        "raw_sum": "973.000.960,2",
+        "adjustments": "Ninguno",
+        "computed": "973.000.960",
+        "difference": "0",
+        "match": true,
+        "networks": [
+          "Base",
+          "BNB Smart Chain",
+          "Ethereum",
+          "Gnosis",
+          "Polygon",
+          "World Chain"
+        ],
+        "document_url": "https://action.ripio.com/hubfs/2026/wFIAT/ATTESTATION/20260331_wARS_Certification.pdf",
+        "signed": "22/04/2026"
+      },
+      {
+        "token": "wBRL",
+        "cutoff": "31/03/2026",
+        "certified": "719.448",
+        "raw_sum": "719.447,5",
+        "adjustments": "Ninguno",
+        "computed": "719.448",
+        "difference": "0",
+        "match": true,
+        "networks": [
+          "Base",
+          "BNB Smart Chain",
+          "Ethereum",
+          "Gnosis",
+          "Polygon",
+          "World Chain"
+        ],
+        "document_url": "https://action.ripio.com/hubfs/2026/wFIAT/ATTESTATION/20260331__wBRL__Token-Certification.pdf",
+        "signed": "18/05/2026"
+      },
+      {
+        "token": "wCOP",
+        "cutoff": "31/03/2026",
+        "certified": "104.898.654",
+        "raw_sum": "104.898.653,8",
+        "adjustments": "Ninguno",
+        "computed": "104.898.654",
+        "difference": "0",
+        "match": true,
+        "networks": [
+          "Base",
+          "BNB Smart Chain",
+          "Ethereum",
+          "Gnosis",
+          "Polygon",
+          "World Chain"
+        ],
+        "document_url": "https://action.ripio.com/hubfs/2026/wFIAT/ATTESTATION/20260331__wCOP__Token-Certification.pdf",
+        "signed": "23/04/2026"
+      },
+      {
+        "token": "wMXN",
+        "cutoff": "31/03/2026",
+        "certified": "518.689",
+        "raw_sum": "518.688,69",
+        "adjustments": "Ninguno",
+        "computed": "518.689",
+        "difference": "0",
+        "match": true,
+        "networks": [
+          "Base",
+          "BNB Smart Chain",
+          "Ethereum",
+          "Gnosis",
+          "Polygon",
+          "World Chain"
+        ],
+        "document_url": "https://action.ripio.com/hubfs/2026/wFIAT/ATTESTATION/20260331__wMXN__Token-Certification.pdf",
+        "signed": "24/04/2026"
+      },
+      {
+        "token": "wARS",
+        "cutoff": "30/06/2026",
+        "certified": "7.619.996.077",
+        "raw_sum": "7.619.996.077,04",
+        "adjustments": "Ninguno",
+        "computed": "7.619.996.077",
+        "difference": "0",
+        "match": true,
+        "networks": [
+          "Base",
+          "BNB Smart Chain",
+          "Celo",
+          "Ethereum",
+          "Gnosis",
+          "HyperEVM",
+          "Polygon",
+          "World Chain"
+        ],
+        "document_url": "https://action.ripio.com/hubfs/2026/wFIAT/ATTESTATION/Aug%202026/Token%20wARS%2006.30.2026%20Certification%20vf.pdf",
+        "signed": "28/07/2026"
+      },
+      {
+        "token": "wBRL",
+        "cutoff": "30/06/2026",
+        "certified": "2.586.148",
+        "raw_sum": "2.586.147,5",
+        "adjustments": "Ninguno",
+        "computed": "2.586.148",
+        "difference": "0",
+        "match": true,
+        "networks": [
+          "Base",
+          "BNB Smart Chain",
+          "Celo",
+          "Ethereum",
+          "Gnosis",
+          "Polygon",
+          "World Chain"
+        ],
+        "document_url": "https://action.ripio.com/hubfs/2026/wFIAT/ATTESTATION/Aug%202026/Token%20wBRL%2006.30.2026%20Certification%20vf.pdf",
+        "signed": "28/07/2026"
+      },
+      {
+        "token": "wMXN",
+        "cutoff": "30/06/2026",
+        "certified": "968.789",
+        "raw_sum": "968.788,69",
+        "adjustments": "Ninguno",
+        "computed": "968.789",
+        "difference": "0",
+        "match": true,
+        "networks": [
+          "Base",
+          "BNB Smart Chain",
+          "Celo",
+          "Ethereum",
+          "Gnosis",
+          "Polygon",
+          "World Chain"
+        ],
+        "document_url": "https://action.ripio.com/hubfs/2026/wFIAT/ATTESTATION/Aug%202026/Token%20wMXN%2006.30.2026%20Certification%20vf.pdf",
+        "signed": "28/07/2026"
+      },
+      {
+        "token": "wCOP",
+        "cutoff": "30/06/2026",
+        "certified": "196.398.754",
+        "raw_sum": "196.398.753,8",
+        "adjustments": "Ninguno",
+        "computed": "196.398.754",
+        "difference": "0",
+        "match": true,
+        "networks": [
+          "Base",
+          "BNB Smart Chain",
+          "Celo",
+          "Ethereum",
+          "Gnosis",
+          "Polygon",
+          "World Chain"
+        ],
+        "document_url": "https://action.ripio.com/hubfs/2026/wFIAT/ATTESTATION/Aug%202026/Token%20wCOP%2006.30.2026%20Certification%20vf.pdf",
+        "signed": "28/07/2026"
+      },
+      {
+        "token": "wCLP",
+        "cutoff": "30/06/2026",
+        "certified": "64.295.100",
+        "raw_sum": "64.295.100",
+        "adjustments": "Ninguno",
+        "computed": "64.295.100",
+        "difference": "0",
+        "match": true,
+        "networks": [
+          "Base",
+          "BNB Smart Chain",
+          "Celo",
+          "Ethereum",
+          "Gnosis",
+          "Polygon",
+          "World Chain"
+        ],
+        "document_url": "https://action.ripio.com/hubfs/2026/wFIAT/ATTESTATION/Aug%202026/Token%20wCLP%2006.30.2026%20Certification%20vf.pdf",
+        "signed": "28/07/2026"
+      }
+    ]
+  },
+  "methodology": [
+    {
+      "decision": "Las direcciones de los tokens se confirman en cada red leyendo name(), symbol() y decimals() en el contrato.",
+      "label": "Documentado",
+      "label_key": "documented",
+      "source": "CoinGecko (detail_platforms), Blockscout y lectura onchain. Ver config/tokens.yaml."
+    },
+    {
+      "decision": "Una emisión es un Transfer desde la dirección cero y una quema es un Transfer hacia la dirección cero.",
+      "label": "Documentado",
+      "label_key": "documented",
+      "source": "Estándar ERC20 de OpenZeppelin y README de github.com/ripio/latam-stables."
+    },
+    {
+      "decision": "La conciliación incluye todo movimiento que cambia la cantidad de tokens, también los del puente.",
+      "label": "Documentado",
+      "label_key": "documented",
+      "source": "Saldo de apertura + emisiones − quemas = saldo de cierre, exacto en unidades base, por red."
+    },
+    {
+      "decision": "Cada red se calcula por dos caminos independientes: totalSupply() en el bloque del corte y la suma de los movimientos. Si no coinciden, el cierre se detiene.",
+      "label": "Documentado",
+      "label_key": "documented",
+      "source": "Diseño del motor. Una fuente de movimientos se usa solo si concilia exacto."
+    },
+    {
+      "decision": "El saldo de apertura es cero solo si el contrato se creó después del corte anterior. El bloque de creación queda como evidencia.",
+      "label": "Documentado",
+      "label_key": "documented",
+      "source": "Bloque de creación por búsqueda en nodo archivo, cruzado con el explorador cuando hay uno."
+    },
+    {
+      "decision": "Los movimientos del puente se emparejan por la red de origen, el hash de origen y el número de depósito que trae cada emisión del puente.",
+      "label": "Documentado",
+      "label_key": "documented",
+      "source": "Eventos BridgeDepositInitiated y BridgeMintFulfilled del contrato BridgeDeposit verificado (src/BridgeDeposit.sol)."
+    },
+    {
+      "decision": "Una emisión es primaria si su transacción tiene el evento Minted del contrato LimitedMinter y ningún evento del puente.",
+      "label": "Documentado",
+      "label_key": "documented",
+      "source": "Contrato LimitedMinter verificado (src/LimitedMinter.sol). Direcciones en config/contracts.yaml."
+    },
+    {
+      "decision": "Una quema es rescate primario si quien quema sus propios tokens tiene permiso de emisión (MINTER_ROLE) en el LimitedMinter de esa red, leído en el bloque de la quema.",
+      "label": "Documentado",
+      "label_key": "documented",
+      "source": "Lectura onchain de hasRole(MINTER_ROLE, cuenta) en el LimitedMinter verificado."
+    },
+    {
+      "decision": "Lo que no encaja en ninguna de estas reglas queda sin clasificar. No se adivina.",
+      "label": "Documentado",
+      "label_key": "documented",
+      "source": "Regla del motor."
+    },
+    {
+      "decision": "La cantidad en circulación es la suma de totalSupply() en las redes revisadas, sin excluir billeteras.",
+      "label": "Inferido",
+      "label_key": "inferred",
+      "source": "Reproduce las 9 cifras certificadas publicadas (data/golden/verification.json)."
+    },
+    {
+      "decision": "La comparación con las cifras certificadas se hace en tokens enteros.",
+      "label": "Inferido",
+      "label_key": "inferred",
+      "source": "Regla única para las 9 certificaciones. Decisión de Máximo Sckell."
+    },
+    {
+      "decision": "El corte es a las 23:59:59 hora de Buenos Aires del último día del trimestre.",
+      "label": "Inferido",
+      "label_key": "inferred",
+      "source": "En los cortes certificados, 23:59:59 de Buenos Aires y de UTC dan el mismo resultado."
+    },
+    {
+      "decision": "Las redes revisadas son una lista escrita de redes EVM candidatas, cruzada con CoinGecko y con las redes que nombran los certificados.",
+      "label": "Documentado",
+      "label_key": "documented",
+      "source": "config/chains.yaml, data/discovery.json y data/sources/coingecko_platforms.json."
+    },
+    {
+      "decision": "wUYU no se incluye: existe en las mismas redes, pero lo creó una fábrica pública y no hay evidencia de que sea de Ripio.",
+      "label": "Hipótesis",
+      "label_key": "hypothesis",
+      "source": "data/discovery.json"
+    }
+  ],
+  "exceptions": {
+    "investigated": 9,
+    "resolved": 4,
+    "tasks": 5,
+    "items": [
+      {
+        "outcome": "task",
+        "chain": "Base",
+        "token": "wARS",
+        "movement": "quema de 985 wARS",
+        "reason": "Salió por el puente el 29/07/2026 hacia Celo y no encontramos la emisión del otro lado (buscada hasta el bloque 78991109 de Celo).",
+        "summary": "La quema salió por depositForBridge en la transacción 0x973ffae966a4117988101c26b8bbdde3256619169a1988796b8eb713a8cf0dcc en Base hacia Celo, pero no encontré la emisión en Celo ni por el puente ni por emisiones directas a 0x6c3acdc8c93d13087e3348732a1894e5f3c164b3, dentro del trimestre ni después del corte. Tampoco vi emisiones hacia esa cuenta en Base que sugieran una devolución. Una persona debería revisar con el operador del puente si el depósito sigue pendiente de cumplirse en Celo o si se devolvió los tokens por otra vía, como una transferencia en Base.",
+        "checks": [
+          "el agente pidió una persona"
+        ],
+        "explorer_url": "https://basescan.org/tx/0x973ffae966a4117988101c26b8bbdde3256619169a1988796b8eb713a8cf0dcc",
+        "steps": [
+          "Leyó la transacción y sus eventos",
+          "Buscó la emisión del puente en la red de destino",
+          "Buscó emisiones hacia la cuenta",
+          "Buscó emisiones hacia la cuenta",
+          "Propuso una clasificación"
+        ]
+      },
+      {
+        "outcome": "task",
+        "chain": "World Chain",
+        "token": "wARS",
+        "movement": "quema de 37,11 wARS",
+        "reason": "Sin clasificar: no tiene evento del puente y quien quema no tiene permiso de emisión.",
+        "summary": "La quema la hizo el contrato 0x62af8720d73bdf6801c16826b568ccc9f1d2d835, un ERC1967Proxy que no tiene MINTER_ROLE en el token y no figura entre los contratos conocidos. Antes recibió los tokens de la Safe 0x34b92f4813f80f2fe8bc739eabb7263e4f6cc9cc, que tampoco tiene MINTER_ROLE, dentro de una operación handleOps de la transacción 0xbfcca975bfc33291227162dc80cf5fec141c209604f5dcf205efca99708569eb, y no aparece ningún evento del puente. Una persona debería identificar qué implementación tiene ese proxy y quién es dueño de la Safe para saber si es un rescate off-chain, un puente no estándar u otra cosa.",
+        "checks": [
+          "el agente pidió una persona"
+        ],
+        "explorer_url": "https://worldscan.org/tx/0xbfcca975bfc33291227162dc80cf5fec141c209604f5dcf205efca99708569eb",
+        "steps": [
+          "Leyó la transacción y sus eventos",
+          "Consultó permisos de emisión",
+          "Miró el contrato",
+          "Miró el contrato",
+          "Consultó permisos de emisión",
+          "Propuso una clasificación",
+          "Propuso una clasificación"
+        ]
+      },
+      {
+        "outcome": "task",
+        "chain": "World Chain",
+        "token": "wARS",
+        "movement": "quema de 1 wARS",
+        "reason": "Sin clasificar: no tiene evento del puente y quien quema no tiene permiso de emisión.",
+        "summary": "El modelo no respondió a esta consulta, así que el agente no pudo analizar el movimiento. Revisalo a mano con el link de la transacción.",
+        "checks": [],
+        "explorer_url": "https://worldscan.org/tx/0xad0126a996caf877ab6265d9494c12c22824e59463f68bfc6a1e9078d2579249",
+        "steps": [
+          "Leyó la transacción y sus eventos"
+        ]
+      },
+      {
+        "outcome": "task",
+        "chain": "Polygon",
+        "token": "wARS",
+        "movement": "quema de 485 wARS",
+        "reason": "Salió por el puente el 02/09/2026 hacia Gnosis y no encontramos la emisión del otro lado (buscada hasta el bloque 48539919 de Gnosis).",
+        "summary": "La quema de la transacción 0x854723b7fd5543cab04edbdf903dd4dd271567da6477449741d50c2070789615 fue un depositForBridge de la cuenta 0xea44c33cef2f663beabb59110990cb58b6b8447e hacia Gnosis y no aparece ninguna emisión del puente en esa red, ni en el trimestre ni después del corte. Tampoco hay emisiones de wARS a esa cuenta en Polygon ni en Gnosis, y las herramientas no me permiten buscar un reembolso hecho con una transferencia. Debería revisar una persona si el operador del puente tiene el depósito pendiente de cumplir o si el emisor devolvió los tokens en Polygon.",
+        "checks": [
+          "el agente pidió una persona"
+        ],
+        "explorer_url": "https://polygonscan.com/tx/0x854723b7fd5543cab04edbdf903dd4dd271567da6477449741d50c2070789615",
+        "steps": [
+          "Leyó la transacción y sus eventos",
+          "Buscó la emisión del puente en la red de destino",
+          "Buscó emisiones hacia la cuenta",
+          "Buscó emisiones hacia la cuenta",
+          "Propuso una clasificación"
+        ]
+      },
+      {
+        "outcome": "resolved",
+        "chain": "Arc",
+        "token": "wARS",
+        "movement": "emisión de 100.000 wARS",
+        "reason": "Sin clasificar: no tiene evento del puente ni de LimitedMinter.",
+        "summary": "La transacción es un execTransaction de la cuenta 0x2b839174fe62466067c22e2a4c8054071f9d8d68, que se emitió wARS a sí misma y tenía MINTER_ROLE en el token 0x0dc4f92879b7670e5f4e4e6e3c801d229129d90d en ese bloque. En la misma transacción también se emitió wBRL a la misma cuenta, así que conviene que alguien lo tenga presente al revisar esa otra emisión.",
+        "checks": [
+          "MINTER_ROLE de 0x2b839174fe62466067c22e2a4c8054071f9d8d68 en 0x0dc4f92879b7670e5f4e4e6e3c801d229129d90d al bloque 20356249: sí"
+        ],
+        "explorer_url": "https://explorer.arc.io/tx/0x38b894554ff500774abbef275499a906fc426d4618506a82436f0d4f902c4947",
+        "steps": [
+          "Leyó la transacción y sus eventos",
+          "Consultó permisos de emisión",
+          "Propuso una clasificación"
+        ]
+      },
+      {
+        "outcome": "resolved",
+        "chain": "Arc",
+        "token": "wBRL",
+        "movement": "emisión de 5.000 wBRL",
+        "reason": "Sin clasificar: no tiene evento del puente ni de LimitedMinter.",
+        "summary": "La emisión de wBRL salió de una ejecución de la billetera multifirma 0x2b839174fe62466067c22e2a4c8054071f9d8d68, que recibió los tokens. Esa cuenta tenía MINTER_ROLE en el token 0xd76f5faf6888e24d9f04bf92a0c8b921fe4390e0 en ese bloque, por eso se trata como emisión primaria.",
+        "checks": [
+          "MINTER_ROLE de 0x2b839174fe62466067c22e2a4c8054071f9d8d68 en 0xd76f5faf6888e24d9f04bf92a0c8b921fe4390e0 al bloque 20356249: sí"
+        ],
+        "explorer_url": "https://explorer.arc.io/tx/0x38b894554ff500774abbef275499a906fc426d4618506a82436f0d4f902c4947",
+        "steps": [
+          "Leyó la transacción y sus eventos",
+          "Consultó permisos de emisión",
+          "Propuso una clasificación"
+        ]
+      },
+      {
+        "outcome": "resolved",
+        "chain": "Arc",
+        "token": "wBRL",
+        "movement": "emisión de 130.000 wBRL",
+        "reason": "Sin clasificar: no tiene evento del puente ni de LimitedMinter.",
+        "summary": "La emisión salió de una ejecución de la Safe 0x2b839174fe62466067c22e2a4c8054071f9d8d68 que mintió directo en el token wBRL hacia 0xe7e486057c2d962d1e5b46f292daf4d2fa2313c4. Esa Safe tenía MINTER_ROLE en el token en ese bloque. En la misma transacción también se emitió wARS a la misma cuenta, así que conviene que esa otra emisión se revise por separado.",
+        "checks": [
+          "MINTER_ROLE de 0x2b839174fe62466067c22e2a4c8054071f9d8d68 en 0xd76f5faf6888e24d9f04bf92a0c8b921fe4390e0 al bloque 20828490: sí"
+        ],
+        "explorer_url": "https://explorer.arc.io/tx/0x5ac54053e491087a116e2f513bbebfeb5de076f3a625cc781a9158dd44438aac",
+        "steps": [
+          "Leyó la transacción y sus eventos",
+          "Consultó permisos de emisión",
+          "Propuso una clasificación"
+        ]
+      },
+      {
+        "outcome": "resolved",
+        "chain": "Arc",
+        "token": "wARS",
+        "movement": "emisión de 40.000.000 wARS",
+        "reason": "Sin clasificar: no tiene evento del puente ni de LimitedMinter.",
+        "summary": "La emisión se hizo mediante execTransaction sobre el Safe 0x2b839174fe62466067c22e2a4c8054071f9d8d68, que tenía MINTER_ROLE en el token wARS en ese bloque. En la misma transacción también se emitió wBRL a la misma cuenta receptora, y no hay eventos del puente ni de LimitedMinter.",
+        "checks": [
+          "MINTER_ROLE de 0x2b839174fe62466067c22e2a4c8054071f9d8d68 en 0x0dc4f92879b7670e5f4e4e6e3c801d229129d90d al bloque 20828490: sí"
+        ],
+        "explorer_url": "https://explorer.arc.io/tx/0x5ac54053e491087a116e2f513bbebfeb5de076f3a625cc781a9158dd44438aac",
+        "steps": [
+          "Leyó la transacción y sus eventos",
+          "Consultó permisos de emisión",
+          "Propuso una clasificación"
+        ]
+      },
+      {
+        "outcome": "task",
+        "chain": "HyperEVM",
+        "token": "wBRL",
+        "movement": "quema de 19.965,12 wBRL",
+        "reason": "Salió por el puente el 14/09/2026 hacia Ethereum y no encontramos la emisión del otro lado (buscada hasta el bloque 26100303 de Ethereum).",
+        "summary": "El resumen del agente no pasó el verificador en el último paso, así que no se publica. Revisá el movimiento con el link de la transacción.",
+        "checks": [
+          "el agente pidió una persona"
+        ],
+        "explorer_url": "https://hyperevmscan.io/tx/0x3ff080dac8b08f89c84dbb2c4e076b2bfc69b66c2df2a7493788675023f526c6",
+        "steps": [
+          "Leyó la transacción y sus eventos",
+          "Buscó la emisión del puente en la red de destino",
+          "Buscó emisiones hacia la cuenta",
+          "Buscó emisiones hacia la cuenta",
+          "Leyó la transacción y sus eventos",
+          "Leyó la transacción y sus eventos",
+          "Buscó emisiones hacia la cuenta",
+          "Propuso una clasificación"
+        ]
+      }
+    ]
+  },
+  "verifier": {
+    "model": "claude-sonnet-5-5",
+    "attempts": [
+      {
+        "token": "wARS",
+        "attempt": 1,
+        "accepted": true,
+        "problems": [],
+        "duration": "9 segundos"
+      },
+      {
+        "token": "wBRL",
+        "attempt": 1,
+        "accepted": true,
+        "problems": [],
+        "duration": "9 segundos"
+      },
+      {
+        "token": "wMXN",
+        "attempt": 1,
+        "accepted": true,
+        "problems": [],
+        "duration": "10 segundos"
+      },
+      {
+        "token": "wCOP",
+        "attempt": 1,
+        "accepted": true,
+        "problems": [],
+        "duration": "7 segundos"
+      },
+      {
+        "token": "wCLP",
+        "attempt": 1,
+        "accepted": true,
+        "problems": [],
+        "duration": "9 segundos"
+      },
+      {
+        "token": "wPEN",
+        "attempt": 1,
+        "accepted": true,
+        "problems": [],
+        "duration": "7 segundos"
+      }
+    ],
+    "cases": [
+      {
+        "text": "Cerró el trimestre en 14.931.194.589 tokens.",
+        "code": "raw_figure",
+        "problem": "Cifra escrita a mano"
+      },
+      {
+        "text": "La circulación casi se duplicó, con siete mil millones más.",
+        "code": "raw_figure",
+        "problem": "Cifra escrita en palabras"
+      },
+      {
+        "text": "Cerró en {wBRL.outstanding.2026-09-30} tokens.",
+        "code": "wrong_token",
+        "problem": "Dato de otra moneda"
+      },
+      {
+        "text": "Al cierre anterior había {wARS.outstanding.2026-03-31}.",
+        "code": "wrong_period",
+        "problem": "Dato de otro período"
+      },
+      {
+        "text": "Las emisiones netas fueron {wARS.net_mints.2026Q3}.",
+        "code": "unknown_fact",
+        "problem": "Dato inventado"
+      },
+      {
+        "text": "Se revisaron todas las redes verificadas.",
+        "code": "banned_claim",
+        "problem": "Dice \"todas las redes\""
+      },
+      {
+        "text": "El token tiene respaldo completo y cobertura total.",
+        "code": "banned_claim",
+        "problem": "Afirma respaldo o cobertura"
+      },
+      {
+        "text": "El saldo concilia en cada red.",
+        "code": "banned_claim",
+        "problem": "Da una conclusión que no salió de las plantillas"
+      },
+      {
+        "text": "Creció por emisión primaria; el puente casi no cambió.",
+        "code": "style",
+        "problem": "Usa punto y coma"
+      },
+      {
+        "text": "Creció por emisión primaria — el puente casi no cambió.",
+        "code": "style",
+        "problem": "Usa guion largo"
+      }
+    ]
+  },
+  "extraction_eval": {
+    "documents": 9,
+    "all_fields_ok": 9,
+    "per_field_ok": {
+      "token": 9,
+      "cutoff": 9,
+      "tokens_outstanding": 9,
+      "collateral": 9,
+      "signed_date": 9,
+      "networks": 9
+    }
+  },
+  "slack": {
+    "dry_run": true,
+    "payload": {
+      "text": "Cierre wFIAT al 30/09/2026 listo para revisión",
+      "blocks": [
+        {
+          "type": "header",
+          "text": {
+            "type": "plain_text",
+            "text": "Cierre wFIAT al 30/09/2026"
+          }
+        },
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "El agente armó el paquete onchain del cierre. Está listo para que lo revisés."
+          }
+        },
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "• *wARS: 14.931.194.588,93 al 30/09/2026 (+7.311.198.511,89 vs 30/06/2026)*. Conciliado en 9 redes, diferencia cero.\n• *wBRL: 13.807.477,38 al 30/09/2026 (+11.221.329,88 vs 30/06/2026)*. Conciliado en 9 redes, diferencia cero.\n• *wMXN: 5.638.788,69 al 30/09/2026 (+4.670.000 vs 30/06/2026)*. Conciliado en 9 redes, diferencia cero.\n• *wCOP: 911.258.753,8 al 30/09/2026 (+714.860.000 vs 30/06/2026)*. Conciliado en 9 redes, diferencia cero.\n• *wCLP: 66.565.100 al 30/09/2026 (+2.270.000 vs 30/06/2026)*. Conciliado en 9 redes, diferencia cero.\n• *wPEN: 132.950 al 30/09/2026 (+10.000 vs 30/06/2026)*. Conciliado en 9 redes, diferencia cero."
+          }
+        },
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": ":warning: Red nueva desde el último cierre: *Arc* (contratos creados desde el bloque 19659303)."
+          }
+        },
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "*Qué te toca revisar* (5)\nEl agente investigó 9 movimientos, resolvió 4 con evidencia y te deja estos:\n• Base, quema de 985 wARS: Salió por el puente el 29/07/2026 hacia Celo y no encontramos la emisión del otro lado (buscada hasta el bloque 78991109 de Celo). <https://basescan.org/tx/0x973ffae966a4117988101c26b8bbdde3256619169a1988796b8eb713a8cf0dcc|ver transacción>\n• World Chain, quema de 37,11 wARS: Sin clasificar: no tiene evento del puente y quien quema no tiene permiso de emisión. <https://worldscan.org/tx/0xbfcca975bfc33291227162dc80cf5fec141c209604f5dcf205efca99708569eb|ver transacción>\n• World Chain, quema de 1 wARS: Sin clasificar: no tiene evento del puente y quien quema no tiene permiso de emisión. <https://worldscan.org/tx/0xad0126a996caf877ab6265d9494c12c22824e59463f68bfc6a1e9078d2579249|ver transacción>\n• Polygon, quema de 485 wARS: Salió por el puente el 02/09/2026 hacia Gnosis y no encontramos la emisión del otro lado (buscada hasta el bloque 48539919 de Gnosis). <https://polygonscan.com/tx/0x854723b7fd5543cab04edbdf903dd4dd271567da6477449741d50c2070789615|ver transacción>\n• HyperEVM, quema de 19.965,12 wBRL: Salió por el puente el 14/09/2026 hacia Ethereum y no encontramos la emisión del otro lado (buscada hasta el bloque 26100303 de Ethereum). <https://hyperevmscan.io/tx/0x3ff080dac8b08f89c84dbb2c4e076b2bfc69b66c2df2a7493788675023f526c6|ver transacción>"
+          }
+        },
+        {
+          "type": "section",
+          "text": {
+            "type": "mrkdwn",
+            "text": "*Verificación:* el método coincide con la cantidad certificada por el contador en 9 de las 9 certificaciones publicadas. Redes revisadas: 24."
+          }
+        },
+        {
+          "type": "actions",
+          "elements": [
+            {
+              "type": "button",
+              "text": {
+                "type": "plain_text",
+                "text": "Descargar el Excel"
+              },
+              "url": "https://LINK-AL-EXCEL-SE-COMPLETA-AL-PUBLICAR",
+              "style": "primary"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "runs": [
+    {
+      "kind": "close",
+      "started_at": "01/10/2026 18:55",
+      "duration": "10 minutos",
+      "status": "ok"
+    }
+  ],
+  "monitor": null
+}

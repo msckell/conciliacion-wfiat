@@ -4,6 +4,7 @@ the templates did not produce, and accept clean text."""
 import pytest
 
 from cierre.agent.verifier import check, render
+from cierre.agent.verifier_cases import REJECT_CASES
 
 FACTS = {
     "wARS.outstanding.2026-09-30": "14.931.194.589",
@@ -18,21 +19,7 @@ def codes(text: str, token: str = "wARS") -> set[str]:
     return {p.code for p in check(text, token, FACTS, PERIODS)}
 
 
-@pytest.mark.parametrize(
-    "text, expected",
-    [
-        ("Cerró el trimestre en 14.931.194.589 tokens.", "raw_figure"),
-        ("La circulación casi se duplicó, con siete mil millones más.", "raw_figure"),
-        ("Cerró en {wBRL.outstanding.2026-09-30} tokens.", "wrong_token"),
-        ("Al cierre anterior había {wARS.outstanding.2026-03-31}.", "wrong_period"),
-        ("Las emisiones netas fueron {wARS.net_mints.2026Q3}.", "unknown_fact"),
-        ("Se revisaron todas las redes verificadas.", "banned_claim"),
-        ("El token tiene respaldo completo y cobertura total.", "banned_claim"),
-        ("El saldo concilia en cada red.", "banned_claim"),
-        ("Creció por emisión primaria; el puente casi no cambió.", "style"),
-        ("Creció por emisión primaria — el puente casi no cambió.", "style"),
-    ],
-)
+@pytest.mark.parametrize("text, expected", [(t, c) for t, c, _ in REJECT_CASES])
 def test_rejects(text, expected):
     assert expected in codes(text)
 

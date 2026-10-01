@@ -365,7 +365,13 @@ def cmd_close(args: argparse.Namespace) -> int:
 
 
 def _package(cutoff: str, out_dir, engine_path) -> int:
-    """Classification, bridge pairing and the package, from the engine output."""
+    pkg = build_package(cutoff, out_dir, engine_path)
+    return 0 if pkg["all_reconciled"] else 1
+
+
+def build_package(cutoff: str, out_dir, engine_path, use_overrides: bool = True) -> dict:
+    """Classification, bridge pairing and the package, from the engine output. Without
+    overrides, the movements the exception agent proved go back to review."""
     import yaml
 
     from cierre import CONFIG_DIR
@@ -398,7 +404,7 @@ def _package(cutoff: str, out_dir, engine_path) -> int:
         OFFICIAL_RULE["convention"],
         all_chains=load_chains(),
         overrides=overrides(json.loads(exc_path.read_text(encoding="utf-8")))
-        if exc_path.exists()
+        if use_overrides and exc_path.exists()
         else None,
     )
     _dump(out_dir / "package.json", pkg)
@@ -408,7 +414,148 @@ def _package(cutoff: str, out_dir, engine_path) -> int:
         f"review={len(pkg['review'])} new_networks={pkg['new_networks']}",
         flush=True,
     )
-    return 0 if pkg["all_reconciled"] else 1
+    return pkg
+
+
+def cmd_run_close(args: argparse.Namespace) -> int:
+    """The whole close, in the order of decision 12, with every step in data/runs.jsonl:
+    detect, engine, package, verify, exception agent, memo, publish check, notify."""
+    import os
+
+    import httpx
+
+    from cierre.agent.exceptions import run as run_exceptions
+    from cierre.agent.llm import ask_claude, model_name
+    from cierre.agent.memo import build_memo
+    from cierre.agent.tools import Tools
+    from cierre.close import previous_quarter_end, run_close
+    from cierre.golden import OFFICIAL_RULE, compare, load_confirmed
+    from cierre.runlog import Run
+    from cierre.slack import alert_message, close_message, send
+
+    cutoff = args.cutoff
+    out_dir = DATA_DIR / "closes" / cutoff
+    engine_path = out_dir / "engine.json"
+    excel_name = f"paquete_cierre_{cutoff}.xlsx"
+    site_url = (args.site_url or os.environ.get("SITE_URL") or "").rstrip("/")
+    excel_url = f"{site_url}/data/{excel_name}" if site_url else None
+    all_chains = load_chains()
+    chains = {k: c for k, c in all_chains.items() if c.in_scope}
+    tokens = load_tokens()
+    run = Run("close", cutoff=cutoff, model=model_name())
+    current = "detect"
+    try:
+        with run.step("detect") as s:
+            s["counts"] = {
+                "cutoff": cutoff,
+                "previous_cutoff": previous_quarter_end(cutoff),
+                "convention": OFFICIAL_RULE["convention"],
+            }
+        current = "engine"
+        with run.step("engine") as s:
+            results = run_close(chains, tokens, cutoff, OFFICIAL_RULE["convention"], DiskCache())
+            _dump(engine_path, results)
+            errors = [r["chain"] for r in results if "error" in r]
+            s["counts"] = {"networks_read": len(results), "networks_failed": len(errors)}
+            if errors:
+                raise RuntimeError(f"engine failed on {', '.join(errors)}")
+        current = "package"
+        with run.step("package") as s:
+            pkg = build_package(cutoff, out_dir, engine_path, use_overrides=False)
+            rows = pkg["by_network"]
+            s["counts"] = {
+                "networks_checked": len(pkg["networks_checked"]),
+                "networks_with_contracts": len(pkg["networks"]),
+                "movements": len(pkg["movements"]),
+                "transactions": len({(m["chain"], m["tx_hash"]) for m in pkg["movements"]}),
+                "reconciled": sum(r["passed"] for r in rows),
+                "reconciliations": len(rows),
+                "bridge_pairs": pkg["bridge"]["pairs_matched"],
+                "review": len(pkg["review"]),
+                "new_networks": pkg["new_networks"],
+                "tokens": len(pkg["tokens"]),
+            }
+            if not pkg["all_reconciled"]:
+                raise RuntimeError("a network does not reconcile")
+        current = "verify"
+        with run.step("verify") as s:
+            supply_rows = [
+                r
+                for chain in json.loads(
+                    (DATA_DIR / "phase0" / "supply_raw.json").read_text("utf-8")
+                )
+                for r in chain["rows"]
+            ]
+            rows = compare(load_confirmed(), supply_rows, **OFFICIAL_RULE)
+            s["counts"] = {"matched": sum(r["match"] for r in rows), "total": len(rows)}
+        current = "exceptions"
+        with run.step("exceptions") as s:
+            tools = Tools(chains, pkg, DiskCache())
+            try:
+                exc = run_exceptions(pkg, tools, ask_claude, out_dir)
+            finally:
+                tools.close()
+            _dump(out_dir / "exceptions.json", exc)
+            pkg = build_package(cutoff, out_dir, engine_path)
+            s["counts"] = {
+                "investigated": exc["investigated"],
+                "resolved": exc["resolved"],
+                "tasks": exc["tasks"],
+            }
+        current = "memo"
+        with run.step("memo") as s:
+            memo = build_memo(pkg, ask_claude, out_dir)
+            _dump(out_dir / "memo.json", memo)
+            expl = [t["explanation"] for t in memo["tokens"].values()]
+            s["counts"] = {
+                "tokens": len(expl),
+                "accepted_first_try": sum(
+                    e["attempts"] == 1 and e["source"] == "llm" for e in expl
+                ),
+                "attempts": sum(e["attempts"] for e in expl),
+                "fallbacks": len(memo["fallbacks"]),
+            }
+        current = "publish"
+        with run.step("publish") as s:
+            if excel_url is None:
+                s["status"] = "skipped"
+                s["counts"] = {"reason": "no SITE_URL yet"}
+            else:
+                resp = httpx.head(excel_url, timeout=30, follow_redirects=True)
+                s["counts"] = {"url": excel_url, "http_status": resp.status_code}
+                if resp.status_code != 200:
+                    raise RuntimeError(f"Excel not reachable: HTTP {resp.status_code}")
+        current = "notify"
+        with run.step("notify") as s:
+            payload = close_message(
+                pkg,
+                memo,
+                exc,
+                {"matched": run.record["steps"][3]["counts"]["matched"], "total": len(rows)},
+                excel_url or "https://LINK-AL-EXCEL-SE-COMPLETA-AL-PUBLICAR",
+                {k: c.name for k, c in all_chains.items()},
+            )
+            result = send(payload, out_dir / "slack_payload.json")
+            s["status"] = "dry_run" if result.startswith("dry run") else "ok"
+            s["counts"] = {"tasks_listed": exc["tasks"]}
+    except Exception as exc_:
+        run.finish("failed")
+        send(alert_message(current, str(exc_)), out_dir / "slack_alert_payload.json")
+        print(f"close run failed at {current}: {exc_}", flush=True)
+        return 1
+    record = run.finish("ok")
+    print(f"close run ok in {record['duration_s']} s", flush=True)
+    return cmd_site(args)
+
+
+def cmd_site(args: argparse.Namespace) -> int:
+    """Light JSON for the page, from the close files, the golden checks and the run log."""
+    from cierre.site import build_site
+
+    cutoff = getattr(args, "cutoff", None) or "2026-09-30"
+    _dump(DATA_DIR / "site" / "site.json", build_site(cutoff))
+    print(f"site data: {DATA_DIR / 'site' / 'site.json'}")
+    return 0
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -433,6 +580,11 @@ def main(argv: list[str] | None = None) -> int:
     p_close.add_argument("--cutoff", required=True)
     p_close.add_argument("--chains", nargs="+", help="rerun the engine only for these")
     p_close.add_argument("--refresh", action="store_true", help="rerun the engine")
+    p_run = sub.add_parser("run-close", help="the whole close, logged step by step")
+    p_run.add_argument("--cutoff", required=True)
+    p_run.add_argument("--site-url", help="published site, to check the Excel link")
+    p_site = sub.add_parser("site", help="light JSON for the page")
+    p_site.add_argument("--cutoff", default="2026-09-30")
     p_mov = sub.add_parser("movements", help="phase 0 movement history test")
     p_mov.add_argument("--token", default="wARS")
     p_mov.add_argument("--chains", nargs="+")
@@ -449,6 +601,8 @@ def main(argv: list[str] | None = None) -> int:
         "extract-eval": cmd_extract_eval,
         "exceptions": cmd_exceptions,
         "slack": cmd_slack,
+        "run-close": cmd_run_close,
+        "site": cmd_site,
     }
     return commands[args.command](args)
 
