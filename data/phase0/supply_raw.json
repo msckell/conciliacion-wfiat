@@ -1,0 +1,4592 @@
+[
+  {
+    "chain": "ethereum",
+    "history": {
+      "https://ethereum-rpc.publicnode.com": "no archive state: https://ethereum-rpc.publicnode.com: -32602 Archive requests require a personal token. Get one at: https://www.allnodes.",
+      "https://eth.drpc.org": "serves historical state",
+      "https://1rpc.io/eth": "no archive state: https://1rpc.io/eth: -32000 historical state d67e4d450343046425ae4271474353857ab860dbc0a1dde64b41b5cd3a532bf3 is not ava"
+    },
+    "cutoff_blocks": [
+      {
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "instant_utc": "2026-04-01T02:59:59+00:00",
+        "unix": 1775012399,
+        "block": 24781923,
+        "block_timestamp": 1775012399,
+        "block_hash": "0xb4d619af7e4565c296a6b49f5219ebbcec367377047abe078a6311c663d6914f",
+        "next_block_timestamp": 1775012411
+      },
+      {
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "instant_utc": "2026-03-31T23:59:59+00:00",
+        "unix": 1775001599,
+        "block": 24781026,
+        "block_timestamp": 1775001599,
+        "block_hash": "0xa66185ac20df0d3bb59ad13ef3b0bd3a4eca5b5058504794a554cb74abf529bd",
+        "next_block_timestamp": 1775001611
+      },
+      {
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "instant_utc": "2026-07-01T02:59:59+00:00",
+        "unix": 1782874799,
+        "block": 25434835,
+        "block_timestamp": 1782874799,
+        "block_hash": "0x0b3787666036eeef9f93632af00b013ccb6ed368582db7bfc526c040cda4fc9d",
+        "next_block_timestamp": 1782874811
+      },
+      {
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "instant_utc": "2026-06-30T23:59:59+00:00",
+        "unix": 1782863999,
+        "block": 25433938,
+        "block_timestamp": 1782863999,
+        "block_hash": "0x82ba65044cd2af79c7e3e21dd4a87a26d257e6f9abcf585eed201f2d177f35a0",
+        "next_block_timestamp": 1782864011
+      },
+      {
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "instant_utc": "2026-10-01T02:59:59+00:00",
+        "unix": 1790823599,
+        "block": 26094636,
+        "block_timestamp": 1790823599,
+        "block_hash": "0x41f138d2777092e9811af696a2284ccc08ead51c2bf6721eac9451a9102d711e",
+        "next_block_timestamp": 1790823611
+      },
+      {
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "instant_utc": "2026-09-30T23:59:59+00:00",
+        "unix": 1790812799,
+        "block": 26093737,
+        "block_timestamp": 1790812799,
+        "block_hash": "0xcd26204e996dceb606ccf0bc6f5bf8ea6747a471df8be73b5855f01624d5d743",
+        "next_block_timestamp": 1790812811
+      }
+    ],
+    "rows": [
+      {
+        "token": "wARS",
+        "chain": "ethereum",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 24781923,
+        "status": "ok",
+        "raw": "594325476599000000000000000",
+        "reads": {
+          "https://eth.drpc.org": "594325476599000000000000000"
+        }
+      },
+      {
+        "token": "wBRL",
+        "chain": "ethereum",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 24781923,
+        "status": "ok",
+        "raw": "168867580000000000000000",
+        "reads": {
+          "https://eth.drpc.org": "168867580000000000000000"
+        }
+      },
+      {
+        "token": "wMXN",
+        "chain": "ethereum",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 24781923,
+        "status": "ok",
+        "raw": "18156000000000000000000",
+        "reads": {
+          "https://eth.drpc.org": "18156000000000000000000"
+        }
+      },
+      {
+        "token": "wCOP",
+        "chain": "ethereum",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 24781923,
+        "status": "ok",
+        "raw": "3656000000000000000000000",
+        "reads": {
+          "https://eth.drpc.org": "3656000000000000000000000"
+        }
+      },
+      {
+        "token": "wCLP",
+        "chain": "ethereum",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 24781923,
+        "status": "ok",
+        "raw": "1700000000000000000000",
+        "reads": {
+          "https://eth.drpc.org": "1700000000000000000000"
+        }
+      },
+      {
+        "token": "wPEN",
+        "chain": "ethereum",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 24781923,
+        "status": "ok",
+        "raw": "1000000000000000000000",
+        "reads": {
+          "https://eth.drpc.org": "1000000000000000000000"
+        }
+      },
+      {
+        "token": "wARS",
+        "chain": "ethereum",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 24781026,
+        "status": "ok",
+        "raw": "594325476599000000000000000",
+        "reads": {
+          "https://eth.drpc.org": "594325476599000000000000000"
+        }
+      },
+      {
+        "token": "wBRL",
+        "chain": "ethereum",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 24781026,
+        "status": "ok",
+        "raw": "168867580000000000000000",
+        "reads": {
+          "https://eth.drpc.org": "168867580000000000000000"
+        }
+      },
+      {
+        "token": "wMXN",
+        "chain": "ethereum",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 24781026,
+        "status": "ok",
+        "raw": "18156000000000000000000",
+        "reads": {
+          "https://eth.drpc.org": "18156000000000000000000"
+        }
+      },
+      {
+        "token": "wCOP",
+        "chain": "ethereum",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 24781026,
+        "status": "ok",
+        "raw": "3656000000000000000000000",
+        "reads": {
+          "https://eth.drpc.org": "3656000000000000000000000"
+        }
+      },
+      {
+        "token": "wCLP",
+        "chain": "ethereum",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 24781026,
+        "status": "ok",
+        "raw": "1700000000000000000000",
+        "reads": {
+          "https://eth.drpc.org": "1700000000000000000000"
+        }
+      },
+      {
+        "token": "wPEN",
+        "chain": "ethereum",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 24781026,
+        "status": "ok",
+        "raw": "1000000000000000000000",
+        "reads": {
+          "https://eth.drpc.org": "1000000000000000000000"
+        }
+      },
+      {
+        "token": "wARS",
+        "chain": "ethereum",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 25434835,
+        "status": "ok",
+        "raw": "6590055991599000000000000000",
+        "reads": {
+          "https://eth.drpc.org": "6590055991599000000000000000"
+        }
+      },
+      {
+        "token": "wBRL",
+        "chain": "ethereum",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 25434835,
+        "status": "ok",
+        "raw": "1749387282676799000000000",
+        "reads": {
+          "https://eth.drpc.org": "1749387282676799000000000"
+        }
+      },
+      {
+        "token": "wMXN",
+        "chain": "ethereum",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 25434835,
+        "status": "ok",
+        "raw": "80383579000000000000000",
+        "reads": {
+          "https://eth.drpc.org": "80383579000000000000000"
+        }
+      },
+      {
+        "token": "wCOP",
+        "chain": "ethereum",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 25434835,
+        "status": "ok",
+        "raw": "24705884630000000000000000",
+        "reads": {
+          "https://eth.drpc.org": "24705884630000000000000000"
+        }
+      },
+      {
+        "token": "wCLP",
+        "chain": "ethereum",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 25434835,
+        "status": "ok",
+        "raw": "3469242766300000000000000",
+        "reads": {
+          "https://eth.drpc.org": "3469242766300000000000000"
+        }
+      },
+      {
+        "token": "wPEN",
+        "chain": "ethereum",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 25434835,
+        "status": "ok",
+        "raw": "3005419222000000000000",
+        "reads": {
+          "https://eth.drpc.org": "3005419222000000000000"
+        }
+      },
+      {
+        "token": "wARS",
+        "chain": "ethereum",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 25433938,
+        "status": "ok",
+        "raw": "6590055991599000000000000000",
+        "reads": {
+          "https://eth.drpc.org": "6590055991599000000000000000"
+        }
+      },
+      {
+        "token": "wBRL",
+        "chain": "ethereum",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 25433938,
+        "status": "ok",
+        "raw": "1749387282676799000000000",
+        "reads": {
+          "https://eth.drpc.org": "1749387282676799000000000"
+        }
+      },
+      {
+        "token": "wMXN",
+        "chain": "ethereum",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 25433938,
+        "status": "ok",
+        "raw": "80383579000000000000000",
+        "reads": {
+          "https://eth.drpc.org": "80383579000000000000000"
+        }
+      },
+      {
+        "token": "wCOP",
+        "chain": "ethereum",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 25433938,
+        "status": "ok",
+        "raw": "24705884630000000000000000",
+        "reads": {
+          "https://eth.drpc.org": "24705884630000000000000000"
+        }
+      },
+      {
+        "token": "wCLP",
+        "chain": "ethereum",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 25433938,
+        "status": "ok",
+        "raw": "3469242766300000000000000",
+        "reads": {
+          "https://eth.drpc.org": "3469242766300000000000000"
+        }
+      },
+      {
+        "token": "wPEN",
+        "chain": "ethereum",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 25433938,
+        "status": "ok",
+        "raw": "3005419222000000000000",
+        "reads": {
+          "https://eth.drpc.org": "3005419222000000000000"
+        }
+      },
+      {
+        "token": "wARS",
+        "chain": "ethereum",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 26094636,
+        "status": "ok",
+        "raw": "11979541894266718552517100013",
+        "reads": {
+          "https://eth.drpc.org": "11979541894266718552517100013"
+        }
+      },
+      {
+        "token": "wBRL",
+        "chain": "ethereum",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 26094636,
+        "status": "ok",
+        "raw": "4070577392513443946870893",
+        "reads": {
+          "https://eth.drpc.org": "4070577392513443946870893"
+        }
+      },
+      {
+        "token": "wMXN",
+        "chain": "ethereum",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 26094636,
+        "status": "ok",
+        "raw": "2240383579000000000000000",
+        "reads": {
+          "https://eth.drpc.org": "2240383579000000000000000"
+        }
+      },
+      {
+        "token": "wCOP",
+        "chain": "ethereum",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 26094636,
+        "status": "ok",
+        "raw": "295491533718836137247866100",
+        "reads": {
+          "https://eth.drpc.org": "295491533718836137247866100"
+        }
+      },
+      {
+        "token": "wCLP",
+        "chain": "ethereum",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 26094636,
+        "status": "ok",
+        "raw": "4431817704356965127000000",
+        "reads": {
+          "https://eth.drpc.org": "4431817704356965127000000"
+        }
+      },
+      {
+        "token": "wPEN",
+        "chain": "ethereum",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 26094636,
+        "status": "ok",
+        "raw": "6710969222000000000000",
+        "reads": {
+          "https://eth.drpc.org": "6710969222000000000000"
+        }
+      },
+      {
+        "token": "wARS",
+        "chain": "ethereum",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 26093737,
+        "status": "ok",
+        "raw": "11979541894266718552517100013",
+        "reads": {
+          "https://eth.drpc.org": "11979541894266718552517100013"
+        }
+      },
+      {
+        "token": "wBRL",
+        "chain": "ethereum",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 26093737,
+        "status": "ok",
+        "raw": "4070577392513443946870893",
+        "reads": {
+          "https://eth.drpc.org": "4070577392513443946870893"
+        }
+      },
+      {
+        "token": "wMXN",
+        "chain": "ethereum",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 26093737,
+        "status": "ok",
+        "raw": "2240383579000000000000000",
+        "reads": {
+          "https://eth.drpc.org": "2240383579000000000000000"
+        }
+      },
+      {
+        "token": "wCOP",
+        "chain": "ethereum",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 26093737,
+        "status": "ok",
+        "raw": "295491533718836137247866100",
+        "reads": {
+          "https://eth.drpc.org": "295491533718836137247866100"
+        }
+      },
+      {
+        "token": "wCLP",
+        "chain": "ethereum",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 26093737,
+        "status": "ok",
+        "raw": "4431817704356965127000000",
+        "reads": {
+          "https://eth.drpc.org": "4431817704356965127000000"
+        }
+      },
+      {
+        "token": "wPEN",
+        "chain": "ethereum",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 26093737,
+        "status": "ok",
+        "raw": "6710969222000000000000",
+        "reads": {
+          "https://eth.drpc.org": "6710969222000000000000"
+        }
+      }
+    ]
+  },
+  {
+    "chain": "base",
+    "history": {
+      "https://base-rpc.publicnode.com": "no archive state: https://base-rpc.publicnode.com: -32602 Archive requests require a personal token. Get one at: https://www.allnodes.com/",
+      "https://mainnet.base.org": "serves historical state",
+      "https://base.drpc.org": "serves historical state",
+      "https://1rpc.io/base": "no archive state: https://1rpc.io/base: -32603 state at block #2 is pruned"
+    },
+    "cutoff_blocks": [
+      {
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "instant_utc": "2026-04-01T02:59:59+00:00",
+        "unix": 1775012399,
+        "block": 44111526,
+        "block_timestamp": 1775012399,
+        "block_hash": "0x912afa66e436d49b9f36878454d6c164722c9fa3ec5ebf7c440fa95e1f18d641",
+        "next_block_timestamp": 1775012401
+      },
+      {
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "instant_utc": "2026-03-31T23:59:59+00:00",
+        "unix": 1775001599,
+        "block": 44106126,
+        "block_timestamp": 1775001599,
+        "block_hash": "0xbfa4bd56694f5a18e0b610c34a8fcc89e4444a91122542e5d5bb739f711f6c9f",
+        "next_block_timestamp": 1775001601
+      },
+      {
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "instant_utc": "2026-07-01T02:59:59+00:00",
+        "unix": 1782874799,
+        "block": 48042726,
+        "block_timestamp": 1782874799,
+        "block_hash": "0x83a811fd68189ee883fa5438fad4d234ad31b82ddd98a1a6ca0e00a033e2e0b3",
+        "next_block_timestamp": 1782874801
+      },
+      {
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "instant_utc": "2026-06-30T23:59:59+00:00",
+        "unix": 1782863999,
+        "block": 48037326,
+        "block_timestamp": 1782863999,
+        "block_hash": "0x6716d05b5deffa7e81b5d619e9d41beb9300adea8ec14de9386a247b3b0e062b",
+        "next_block_timestamp": 1782864001
+      },
+      {
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "instant_utc": "2026-10-01T02:59:59+00:00",
+        "unix": 1790823599,
+        "block": 52017126,
+        "block_timestamp": 1790823599,
+        "block_hash": "0x6f96cf3330ed842791f82dc0fd2c3e5cb3f8040a1e1cb96487d115df13d14621",
+        "next_block_timestamp": 1790823601
+      },
+      {
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "instant_utc": "2026-09-30T23:59:59+00:00",
+        "unix": 1790812799,
+        "block": 52011726,
+        "block_timestamp": 1790812799,
+        "block_hash": "0xc6daf95895eb36f8855a8f2da96dde89f43090e9c2fcd8adf05eea87469ff598",
+        "next_block_timestamp": 1790812801
+      }
+    ],
+    "rows": [
+      {
+        "token": "wARS",
+        "chain": "base",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 44111526,
+        "status": "ok",
+        "raw": "102871938000000000030000000",
+        "reads": {
+          "https://mainnet.base.org": "102871938000000000030000000",
+          "https://base.drpc.org": "102871938000000000030000000"
+        }
+      },
+      {
+        "token": "wBRL",
+        "chain": "base",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 44111526,
+        "status": "ok",
+        "raw": "169508231700705626090300",
+        "reads": {
+          "https://mainnet.base.org": "169508231700705626090300",
+          "https://base.drpc.org": "169508231700705626090300"
+        }
+      },
+      {
+        "token": "wMXN",
+        "chain": "base",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 44111526,
+        "status": "ok",
+        "raw": "18156000000000000000000",
+        "reads": {
+          "https://mainnet.base.org": "18156000000000000000000",
+          "https://base.drpc.org": "18156000000000000000000"
+        }
+      },
+      {
+        "token": "wCOP",
+        "chain": "base",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 44111526,
+        "status": "ok",
+        "raw": "3656000000000000000000000",
+        "reads": {
+          "https://mainnet.base.org": "3656000000000000000000000",
+          "https://base.drpc.org": "3656000000000000000000000"
+        }
+      },
+      {
+        "token": "wCLP",
+        "chain": "base",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 44111526,
+        "status": "ok",
+        "raw": "1987000000000000000000",
+        "reads": {
+          "https://mainnet.base.org": "1987000000000000000000",
+          "https://base.drpc.org": "1987000000000000000000"
+        }
+      },
+      {
+        "token": "wPEN",
+        "chain": "base",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 44111526,
+        "status": "ok",
+        "raw": "1000000000000000000000",
+        "reads": {
+          "https://mainnet.base.org": "1000000000000000000000",
+          "https://base.drpc.org": "1000000000000000000000"
+        }
+      },
+      {
+        "token": "wARS",
+        "chain": "base",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 44106126,
+        "status": "ok",
+        "raw": "102871938000000000030000000",
+        "reads": {
+          "https://mainnet.base.org": "102871938000000000030000000",
+          "https://base.drpc.org": "error: RpcError: base eth_call: all endpoints failed: https://base.drpc.org: HTTP 429 | https://base.drpc.org: HTTP 429 | https://base.drpc.org: HTTP 429"
+        }
+      },
+      {
+        "token": "wBRL",
+        "chain": "base",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 44106126,
+        "status": "ok",
+        "raw": "169508231700705626090300",
+        "reads": {
+          "https://mainnet.base.org": "169508231700705626090300",
+          "https://base.drpc.org": "error: RpcError: base eth_call: all endpoints failed: https://base.drpc.org: HTTP 429 | https://base.drpc.org: HTTP 429 | https://base.drpc.org: HTTP 429"
+        }
+      },
+      {
+        "token": "wMXN",
+        "chain": "base",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 44106126,
+        "status": "ok",
+        "raw": "18156000000000000000000",
+        "reads": {
+          "https://mainnet.base.org": "18156000000000000000000",
+          "https://base.drpc.org": "error: RpcError: base eth_call: all endpoints failed: https://base.drpc.org: HTTP 429 | https://base.drpc.org: HTTP 429 | https://base.drpc.org: HTTP 429"
+        }
+      },
+      {
+        "token": "wCOP",
+        "chain": "base",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 44106126,
+        "status": "ok",
+        "raw": "3656000000000000000000000",
+        "reads": {
+          "https://mainnet.base.org": "3656000000000000000000000",
+          "https://base.drpc.org": "error: RpcError: base eth_call: all endpoints failed: https://base.drpc.org: HTTP 429 | https://base.drpc.org: HTTP 429 | https://base.drpc.org: HTTP 429"
+        }
+      },
+      {
+        "token": "wCLP",
+        "chain": "base",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 44106126,
+        "status": "ok",
+        "raw": "1987000000000000000000",
+        "reads": {
+          "https://mainnet.base.org": "1987000000000000000000",
+          "https://base.drpc.org": "1987000000000000000000"
+        }
+      },
+      {
+        "token": "wPEN",
+        "chain": "base",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 44106126,
+        "status": "ok",
+        "raw": "1000000000000000000000",
+        "reads": {
+          "https://mainnet.base.org": "1000000000000000000000",
+          "https://base.drpc.org": "1000000000000000000000"
+        }
+      },
+      {
+        "token": "wARS",
+        "chain": "base",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 48042726,
+        "status": "ok",
+        "raw": "406820308875711552999000000",
+        "reads": {
+          "https://mainnet.base.org": "406820308875711552999000000",
+          "https://base.drpc.org": "406820308875711552999000000"
+        }
+      },
+      {
+        "token": "wBRL",
+        "chain": "base",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 48042726,
+        "status": "ok",
+        "raw": "286194139587705626090300",
+        "reads": {
+          "https://mainnet.base.org": "286194139587705626090300",
+          "https://base.drpc.org": "286194139587705626090300"
+        }
+      },
+      {
+        "token": "wMXN",
+        "chain": "base",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 48042726,
+        "status": "ok",
+        "raw": "102267447711279346804000",
+        "reads": {
+          "https://mainnet.base.org": "102267447711279346804000",
+          "https://base.drpc.org": "102267447711279346804000"
+        }
+      },
+      {
+        "token": "wCOP",
+        "chain": "base",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 48042726,
+        "status": "ok",
+        "raw": "14630275671159480000000000",
+        "reads": {
+          "https://mainnet.base.org": "14630275671159480000000000",
+          "https://base.drpc.org": "14630275671159480000000000"
+        }
+      },
+      {
+        "token": "wCLP",
+        "chain": "base",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 48042726,
+        "status": "ok",
+        "raw": "3447405278170000000000000",
+        "reads": {
+          "https://mainnet.base.org": "3447405278170000000000000",
+          "https://base.drpc.org": "3447405278170000000000000"
+        }
+      },
+      {
+        "token": "wPEN",
+        "chain": "base",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 48042726,
+        "status": "ok",
+        "raw": "4500000000000000000000",
+        "reads": {
+          "https://mainnet.base.org": "4500000000000000000000",
+          "https://base.drpc.org": "4500000000000000000000"
+        }
+      },
+      {
+        "token": "wARS",
+        "chain": "base",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 48037326,
+        "status": "ok",
+        "raw": "406820308875711552999000000",
+        "reads": {
+          "https://mainnet.base.org": "406820308875711552999000000",
+          "https://base.drpc.org": "406820308875711552999000000"
+        }
+      },
+      {
+        "token": "wBRL",
+        "chain": "base",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 48037326,
+        "status": "ok",
+        "raw": "286194139587705626090300",
+        "reads": {
+          "https://mainnet.base.org": "286194139587705626090300",
+          "https://base.drpc.org": "286194139587705626090300"
+        }
+      },
+      {
+        "token": "wMXN",
+        "chain": "base",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 48037326,
+        "status": "ok",
+        "raw": "102267447711279346804000",
+        "reads": {
+          "https://mainnet.base.org": "102267447711279346804000",
+          "https://base.drpc.org": "102267447711279346804000"
+        }
+      },
+      {
+        "token": "wCOP",
+        "chain": "base",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 48037326,
+        "status": "ok",
+        "raw": "14630275671159480000000000",
+        "reads": {
+          "https://mainnet.base.org": "14630275671159480000000000",
+          "https://base.drpc.org": "14630275671159480000000000"
+        }
+      },
+      {
+        "token": "wCLP",
+        "chain": "base",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 48037326,
+        "status": "ok",
+        "raw": "3447405278170000000000000",
+        "reads": {
+          "https://mainnet.base.org": "3447405278170000000000000",
+          "https://base.drpc.org": "3447405278170000000000000"
+        }
+      },
+      {
+        "token": "wPEN",
+        "chain": "base",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 48037326,
+        "status": "ok",
+        "raw": "4500000000000000000000",
+        "reads": {
+          "https://mainnet.base.org": "4500000000000000000000",
+          "https://base.drpc.org": "4500000000000000000000"
+        }
+      },
+      {
+        "token": "wARS",
+        "chain": "base",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 52017126,
+        "status": "ok",
+        "raw": "1638446091742940132955015243",
+        "reads": {
+          "https://mainnet.base.org": "1638446091742940132955015243",
+          "https://base.drpc.org": "1638446091742940132955015243"
+        }
+      },
+      {
+        "token": "wBRL",
+        "chain": "base",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 52017126,
+        "status": "ok",
+        "raw": "2402463758403505658617551",
+        "reads": {
+          "https://mainnet.base.org": "2402463758403505658617551",
+          "https://base.drpc.org": "2402463758403505658617551"
+        }
+      },
+      {
+        "token": "wMXN",
+        "chain": "base",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 52017126,
+        "status": "ok",
+        "raw": "2242268257711279346804000",
+        "reads": {
+          "https://mainnet.base.org": "2242268257711279346804000",
+          "https://base.drpc.org": "2242268257711279346804000"
+        }
+      },
+      {
+        "token": "wCOP",
+        "chain": "base",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 52017126,
+        "status": "ok",
+        "raw": "324321491220252876925696896",
+        "reads": {
+          "https://mainnet.base.org": "324321491220252876925696896",
+          "https://base.drpc.org": "324321491220252876925696896"
+        }
+      },
+      {
+        "token": "wCLP",
+        "chain": "base",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 52017126,
+        "status": "ok",
+        "raw": "4393396649040774545378416",
+        "reads": {
+          "https://mainnet.base.org": "4393396649040774545378416",
+          "https://base.drpc.org": "4393396649040774545378416"
+        }
+      },
+      {
+        "token": "wPEN",
+        "chain": "base",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 52017126,
+        "status": "ok",
+        "raw": "4171170000000000000000",
+        "reads": {
+          "https://mainnet.base.org": "4171170000000000000000",
+          "https://base.drpc.org": "4171170000000000000000"
+        }
+      },
+      {
+        "token": "wARS",
+        "chain": "base",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 52011726,
+        "status": "ok",
+        "raw": "1638446091742940132955015243",
+        "reads": {
+          "https://mainnet.base.org": "error: RpcError: base eth_call: all endpoints failed: https://mainnet.base.org: HTTP 429 | https://mainnet.base.org: HTTP 429 | https://mainnet.base.org: HTTP 429",
+          "https://base.drpc.org": "1638446091742940132955015243"
+        }
+      },
+      {
+        "token": "wBRL",
+        "chain": "base",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 52011726,
+        "status": "ok",
+        "raw": "2402463758403505658617551",
+        "reads": {
+          "https://mainnet.base.org": "2402463758403505658617551",
+          "https://base.drpc.org": "2402463758403505658617551"
+        }
+      },
+      {
+        "token": "wMXN",
+        "chain": "base",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 52011726,
+        "status": "ok",
+        "raw": "2242268257711279346804000",
+        "reads": {
+          "https://mainnet.base.org": "2242268257711279346804000",
+          "https://base.drpc.org": "2242268257711279346804000"
+        }
+      },
+      {
+        "token": "wCOP",
+        "chain": "base",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 52011726,
+        "status": "ok",
+        "raw": "324321491220252876925696896",
+        "reads": {
+          "https://mainnet.base.org": "324321491220252876925696896",
+          "https://base.drpc.org": "324321491220252876925696896"
+        }
+      },
+      {
+        "token": "wCLP",
+        "chain": "base",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 52011726,
+        "status": "ok",
+        "raw": "4393396649040774545378416",
+        "reads": {
+          "https://mainnet.base.org": "4393396649040774545378416",
+          "https://base.drpc.org": "4393396649040774545378416"
+        }
+      },
+      {
+        "token": "wPEN",
+        "chain": "base",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 52011726,
+        "status": "ok",
+        "raw": "4171170000000000000000",
+        "reads": {
+          "https://mainnet.base.org": "4171170000000000000000",
+          "https://base.drpc.org": "4171170000000000000000"
+        }
+      }
+    ]
+  },
+  {
+    "chain": "polygon",
+    "history": {
+      "https://polygon-bor-rpc.publicnode.com": "no archive state: https://polygon-bor-rpc.publicnode.com: -32000 historical state 654f28d19b44239d1012f27038f1f71b3d4465dc415a382fb2b7009c",
+      "https://polygon.drpc.org": "serves historical state",
+      "https://1rpc.io/matic": "no archive state: https://1rpc.io/matic: -32000 historical state 654f28d19b44239d1012f27038f1f71b3d4465dc415a382fb2b7009cba1527c8 is not a"
+    },
+    "cutoff_blocks": [
+      {
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "instant_utc": "2026-04-01T02:59:59+00:00",
+        "unix": 1775012399,
+        "block": 84946181,
+        "block_timestamp": 1775012399,
+        "block_hash": "0x839bae06a530973b1282c477af55a02df498be0076fd175dce61927af5a7670c",
+        "next_block_timestamp": 1775012401
+      },
+      {
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "instant_utc": "2026-03-31T23:59:59+00:00",
+        "unix": 1775001599,
+        "block": 84940781,
+        "block_timestamp": 1775001599,
+        "block_hash": "0x2e6cf6af37d6022e6d5f3eb59f3a1ce93862f05fb07c42df5fa56ac93afdb60b",
+        "next_block_timestamp": 1775001601
+      },
+      {
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "instant_utc": "2026-07-01T02:59:59+00:00",
+        "unix": 1782874799,
+        "block": 89446536,
+        "block_timestamp": 1782874799,
+        "block_hash": "0xf24372887cc54ef1cba12ea407aa35b6a999a940339ad7db24cf5eb95d953527",
+        "next_block_timestamp": 1782874801
+      },
+      {
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "instant_utc": "2026-06-30T23:59:59+00:00",
+        "unix": 1782863999,
+        "block": 89439336,
+        "block_timestamp": 1782863999,
+        "block_hash": "0xeb122f2a2321b0e2fa6226788c47572bf958e5cd5805f7bf7133603dc50db835",
+        "next_block_timestamp": 1782864001
+      },
+      {
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "instant_utc": "2026-10-01T02:59:59+00:00",
+        "unix": 1790823599,
+        "block": 94745639,
+        "block_timestamp": 1790823599,
+        "block_hash": "0xdec8d2b05e7ce9414f6a295292e4bbeeb3de6e48ca4d94f61e59018ce192426e",
+        "next_block_timestamp": 1790823600
+      },
+      {
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "instant_utc": "2026-09-30T23:59:59+00:00",
+        "unix": 1790812799,
+        "block": 94738439,
+        "block_timestamp": 1790812799,
+        "block_hash": "0x8094b637b5e510e864279d6822ff7d68e895a5ce756d8a1116d70cd15a70e6a3",
+        "next_block_timestamp": 1790812800
+      }
+    ],
+    "rows": [
+      {
+        "token": "wARS",
+        "chain": "polygon",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 84946181,
+        "status": "ok",
+        "raw": "19935000000000000000000",
+        "reads": {
+          "https://polygon.drpc.org": "19935000000000000000000"
+        }
+      },
+      {
+        "token": "wBRL",
+        "chain": "polygon",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 84946181,
+        "status": "ok",
+        "raw": "2001990000000000000000",
+        "reads": {
+          "https://polygon.drpc.org": "2001990000000000000000"
+        }
+      },
+      {
+        "token": "wMXN",
+        "chain": "polygon",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 84946181,
+        "status": "ok",
+        "raw": "11000730000000000000000",
+        "reads": {
+          "https://polygon.drpc.org": "11000730000000000000000"
+        }
+      },
+      {
+        "token": "wCOP",
+        "chain": "polygon",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 84946181,
+        "status": "ok",
+        "raw": "22524300000000000000000",
+        "reads": {
+          "https://polygon.drpc.org": "22524300000000000000000"
+        }
+      },
+      {
+        "token": "wCLP",
+        "chain": "polygon",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 84946181,
+        "status": "ok",
+        "raw": "1356640000000000000000",
+        "reads": {
+          "https://polygon.drpc.org": "1356640000000000000000"
+        }
+      },
+      {
+        "token": "wPEN",
+        "chain": "polygon",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 84946181,
+        "status": "ok",
+        "raw": "1001326860000000000000",
+        "reads": {
+          "https://polygon.drpc.org": "1001326860000000000000"
+        }
+      },
+      {
+        "token": "wARS",
+        "chain": "polygon",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 84940781,
+        "status": "ok",
+        "raw": "19935000000000000000000",
+        "reads": {
+          "https://polygon.drpc.org": "19935000000000000000000"
+        }
+      },
+      {
+        "token": "wBRL",
+        "chain": "polygon",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 84940781,
+        "status": "ok",
+        "raw": "2001990000000000000000",
+        "reads": {
+          "https://polygon.drpc.org": "2001990000000000000000"
+        }
+      },
+      {
+        "token": "wMXN",
+        "chain": "polygon",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 84940781,
+        "status": "ok",
+        "raw": "11000730000000000000000",
+        "reads": {
+          "https://polygon.drpc.org": "11000730000000000000000"
+        }
+      },
+      {
+        "token": "wCOP",
+        "chain": "polygon",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 84940781,
+        "status": "ok",
+        "raw": "22524300000000000000000",
+        "reads": {
+          "https://polygon.drpc.org": "22524300000000000000000"
+        }
+      },
+      {
+        "token": "wCLP",
+        "chain": "polygon",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 84940781,
+        "status": "ok",
+        "raw": "1356640000000000000000",
+        "reads": {
+          "https://polygon.drpc.org": "1356640000000000000000"
+        }
+      },
+      {
+        "token": "wPEN",
+        "chain": "polygon",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 84940781,
+        "status": "ok",
+        "raw": "1001326860000000000000",
+        "reads": {
+          "https://polygon.drpc.org": "1001326860000000000000"
+        }
+      },
+      {
+        "token": "wARS",
+        "chain": "polygon",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 89446536,
+        "status": "ok",
+        "raw": "19619418230000000000000000",
+        "reads": {
+          "https://polygon.drpc.org": "19619418230000000000000000"
+        }
+      },
+      {
+        "token": "wBRL",
+        "chain": "polygon",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 89446536,
+        "status": "ok",
+        "raw": "45434547879000000000000",
+        "reads": {
+          "https://polygon.drpc.org": "45434547879000000000000"
+        }
+      },
+      {
+        "token": "wMXN",
+        "chain": "polygon",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 89446536,
+        "status": "ok",
+        "raw": "89121086020000000000000",
+        "reads": {
+          "https://polygon.drpc.org": "89121086020000000000000"
+        }
+      },
+      {
+        "token": "wCOP",
+        "chain": "polygon",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 89446536,
+        "status": "ok",
+        "raw": "13942325154403369007900000",
+        "reads": {
+          "https://polygon.drpc.org": "13942325154403369007900000"
+        }
+      },
+      {
+        "token": "wCLP",
+        "chain": "polygon",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 89446536,
+        "status": "ok",
+        "raw": "3796368701444752534707219",
+        "reads": {
+          "https://polygon.drpc.org": "3796368701444752534707219"
+        }
+      },
+      {
+        "token": "wPEN",
+        "chain": "polygon",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 89446536,
+        "status": "ok",
+        "raw": "4501326860000000000000",
+        "reads": {
+          "https://polygon.drpc.org": "4501326860000000000000"
+        }
+      },
+      {
+        "token": "wARS",
+        "chain": "polygon",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 89439336,
+        "status": "ok",
+        "raw": "19619418230000000000000000",
+        "reads": {
+          "https://polygon.drpc.org": "19619418230000000000000000"
+        }
+      },
+      {
+        "token": "wBRL",
+        "chain": "polygon",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 89439336,
+        "status": "ok",
+        "raw": "45434547879000000000000",
+        "reads": {
+          "https://polygon.drpc.org": "45434547879000000000000"
+        }
+      },
+      {
+        "token": "wMXN",
+        "chain": "polygon",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 89439336,
+        "status": "ok",
+        "raw": "89121086020000000000000",
+        "reads": {
+          "https://polygon.drpc.org": "89121086020000000000000"
+        }
+      },
+      {
+        "token": "wCOP",
+        "chain": "polygon",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 89439336,
+        "status": "ok",
+        "raw": "13942325154403369007900000",
+        "reads": {
+          "https://polygon.drpc.org": "13942325154403369007900000"
+        }
+      },
+      {
+        "token": "wCLP",
+        "chain": "polygon",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 89439336,
+        "status": "ok",
+        "raw": "3796368701444752534707219",
+        "reads": {
+          "https://polygon.drpc.org": "3796368701444752534707219"
+        }
+      },
+      {
+        "token": "wPEN",
+        "chain": "polygon",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 89439336,
+        "status": "ok",
+        "raw": "4501326860000000000000",
+        "reads": {
+          "https://polygon.drpc.org": "4501326860000000000000"
+        }
+      },
+      {
+        "token": "wARS",
+        "chain": "polygon",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 94745639,
+        "status": "ok",
+        "raw": "38523919735333389016100000",
+        "reads": {
+          "https://polygon.drpc.org": "38523919735333389016100000"
+        }
+      },
+      {
+        "token": "wBRL",
+        "chain": "polygon",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 94745639,
+        "status": "ok",
+        "raw": "45465547879000000000000",
+        "reads": {
+          "https://polygon.drpc.org": "45465547879000000000000"
+        }
+      },
+      {
+        "token": "wMXN",
+        "chain": "polygon",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 94745639,
+        "status": "ok",
+        "raw": "71519187820822000000000",
+        "reads": {
+          "https://polygon.drpc.org": "71519187820822000000000"
+        }
+      },
+      {
+        "token": "wCOP",
+        "chain": "polygon",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 94745639,
+        "status": "ok",
+        "raw": "22458699001338684164750449",
+        "reads": {
+          "https://polygon.drpc.org": "22458699001338684164750449"
+        }
+      },
+      {
+        "token": "wCLP",
+        "chain": "polygon",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 94745639,
+        "status": "ok",
+        "raw": "4309790561451630284462190",
+        "reads": {
+          "https://polygon.drpc.org": "4309790561451630284462190"
+        }
+      },
+      {
+        "token": "wPEN",
+        "chain": "polygon",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 94745639,
+        "status": "ok",
+        "raw": "4172496860000000000000",
+        "reads": {
+          "https://polygon.drpc.org": "4172496860000000000000"
+        }
+      },
+      {
+        "token": "wARS",
+        "chain": "polygon",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 94738439,
+        "status": "ok",
+        "raw": "38523919735333389016100000",
+        "reads": {
+          "https://polygon.drpc.org": "38523919735333389016100000"
+        }
+      },
+      {
+        "token": "wBRL",
+        "chain": "polygon",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 94738439,
+        "status": "ok",
+        "raw": "45465547879000000000000",
+        "reads": {
+          "https://polygon.drpc.org": "45465547879000000000000"
+        }
+      },
+      {
+        "token": "wMXN",
+        "chain": "polygon",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 94738439,
+        "status": "ok",
+        "raw": "71519187820822000000000",
+        "reads": {
+          "https://polygon.drpc.org": "71519187820822000000000"
+        }
+      },
+      {
+        "token": "wCOP",
+        "chain": "polygon",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 94738439,
+        "status": "ok",
+        "raw": "22458699001338684164750449",
+        "reads": {
+          "https://polygon.drpc.org": "22458699001338684164750449"
+        }
+      },
+      {
+        "token": "wCLP",
+        "chain": "polygon",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 94738439,
+        "status": "ok",
+        "raw": "4309790561451630284462190",
+        "reads": {
+          "https://polygon.drpc.org": "4309790561451630284462190"
+        }
+      },
+      {
+        "token": "wPEN",
+        "chain": "polygon",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 94738439,
+        "status": "ok",
+        "raw": "4172496860000000000000",
+        "reads": {
+          "https://polygon.drpc.org": "4172496860000000000000"
+        }
+      }
+    ]
+  },
+  {
+    "chain": "gnosis",
+    "history": {
+      "https://gnosis-rpc.publicnode.com": "serves historical state",
+      "https://rpc.gnosischain.com": "serves historical state",
+      "https://gnosis.drpc.org": "no archive state: https://gnosis.drpc.org: 27 Unknown state. First available state is 1",
+      "https://1rpc.io/gnosis": "unreachable: https://1rpc.io/gnosis: HTTP 403 non JSON body"
+    },
+    "cutoff_blocks": [
+      {
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "instant_utc": "2026-04-01T02:59:59+00:00",
+        "unix": 1775012399,
+        "block": 45443267,
+        "block_timestamp": 1775012395,
+        "block_hash": "0x6faecf43571dd726f1ea48722136c815b0a7b14464138fce3b70269eb544ab28",
+        "next_block_timestamp": 1775012400
+      },
+      {
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "instant_utc": "2026-03-31T23:59:59+00:00",
+        "unix": 1775001599,
+        "block": 45441137,
+        "block_timestamp": 1775001595,
+        "block_hash": "0x9dbcd1fc71ec96edd62975de43e0bc6ada9e1b4c1f1cfebab3502a395ed2457e",
+        "next_block_timestamp": 1775001600
+      },
+      {
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "instant_utc": "2026-07-01T02:59:59+00:00",
+        "unix": 1782874799,
+        "block": 46972230,
+        "block_timestamp": 1782874795,
+        "block_hash": "0x88f08456fc53c13e713335d1a269f702fb016f44ccd03d2c178a719bb94bf8c9",
+        "next_block_timestamp": 1782874800
+      },
+      {
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "instant_utc": "2026-06-30T23:59:59+00:00",
+        "unix": 1782863999,
+        "block": 46970109,
+        "block_timestamp": 1782863995,
+        "block_hash": "0xf506e31aaef15c91f8392e4ad929b0f7788f4a904d8405763c75171bf8aa3455",
+        "next_block_timestamp": 1782864000
+      },
+      {
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "instant_utc": "2026-10-01T02:59:59+00:00",
+        "unix": 1790823599,
+        "block": 48526543,
+        "block_timestamp": 1790823595,
+        "block_hash": "0x80c19a5b5ccd26ce56b5e70d10e80987def58568cb00c737b7234a99295a86b1",
+        "next_block_timestamp": 1790823600
+      },
+      {
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "instant_utc": "2026-09-30T23:59:59+00:00",
+        "unix": 1790812799,
+        "block": 48524423,
+        "block_timestamp": 1790812795,
+        "block_hash": "0x188a0aec82344fb9f8cb8a35f6ff8e65657a0f7aadbcf3a94c63d27444609e74",
+        "next_block_timestamp": 1790812800
+      }
+    ],
+    "rows": [
+      {
+        "token": "wARS",
+        "chain": "gnosis",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 45443267,
+        "status": "ok",
+        "raw": "20170000000000000000000",
+        "reads": {
+          "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 45443267 (0x6faecf43571dd726f1ea48722136c815b0a7b1",
+          "https://rpc.gnosischain.com": "20170000000000000000000"
+        }
+      },
+      {
+        "token": "wBRL",
+        "chain": "gnosis",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 45443267,
+        "status": "ok",
+        "raw": "1999920000000000000000",
+        "reads": {
+          "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 45443267 (0x6faecf43571dd726f1ea48722136c815b0a7b1",
+          "https://rpc.gnosischain.com": "1999920000000000000000"
+        }
+      },
+      {
+        "token": "wMXN",
+        "chain": "gnosis",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 45443267,
+        "status": "ok",
+        "raw": "11000730000000000000000",
+        "reads": {
+          "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 45443267 (0x6faecf43571dd726f1ea48722136c815b0a7b1",
+          "https://rpc.gnosischain.com": "11000730000000000000000"
+        }
+      },
+      {
+        "token": "wCOP",
+        "chain": "gnosis",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 45443267,
+        "status": "ok",
+        "raw": "21043000000000000000000",
+        "reads": {
+          "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 45443267 (0x6faecf43571dd726f1ea48722136c815b0a7b1",
+          "https://rpc.gnosischain.com": "21043000000000000000000"
+        }
+      },
+      {
+        "token": "wCLP",
+        "chain": "gnosis",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 45443267,
+        "status": "ok",
+        "raw": "1000000000000000000000",
+        "reads": {
+          "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 45443267 (0x6faecf43571dd726f1ea48722136c815b0a7b1",
+          "https://rpc.gnosischain.com": "1000000000000000000000"
+        }
+      },
+      {
+        "token": "wPEN",
+        "chain": "gnosis",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 45443267,
+        "status": "ok",
+        "raw": "1000000000000000000000",
+        "reads": {
+          "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 45443267 (0x6faecf43571dd726f1ea48722136c815b0a7b1",
+          "https://rpc.gnosischain.com": "1000000000000000000000"
+        }
+      },
+      {
+        "token": "wARS",
+        "chain": "gnosis",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 45441137,
+        "status": "ok",
+        "raw": "20170000000000000000000",
+        "reads": {
+          "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 45441137 (0x9dbcd1fc71ec96edd62975de43e0bc6ada9e1b",
+          "https://rpc.gnosischain.com": "20170000000000000000000"
+        }
+      },
+      {
+        "token": "wBRL",
+        "chain": "gnosis",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 45441137,
+        "status": "ok",
+        "raw": "1999920000000000000000",
+        "reads": {
+          "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 45441137 (0x9dbcd1fc71ec96edd62975de43e0bc6ada9e1b",
+          "https://rpc.gnosischain.com": "1999920000000000000000"
+        }
+      },
+      {
+        "token": "wMXN",
+        "chain": "gnosis",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 45441137,
+        "status": "ok",
+        "raw": "11000730000000000000000",
+        "reads": {
+          "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 45441137 (0x9dbcd1fc71ec96edd62975de43e0bc6ada9e1b",
+          "https://rpc.gnosischain.com": "11000730000000000000000"
+        }
+      },
+      {
+        "token": "wCOP",
+        "chain": "gnosis",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 45441137,
+        "status": "ok",
+        "raw": "21043000000000000000000",
+        "reads": {
+          "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 45441137 (0x9dbcd1fc71ec96edd62975de43e0bc6ada9e1b",
+          "https://rpc.gnosischain.com": "21043000000000000000000"
+        }
+      },
+      {
+        "token": "wCLP",
+        "chain": "gnosis",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 45441137,
+        "status": "ok",
+        "raw": "1000000000000000000000",
+        "reads": {
+          "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 45441137 (0x9dbcd1fc71ec96edd62975de43e0bc6ada9e1b",
+          "https://rpc.gnosischain.com": "1000000000000000000000"
+        }
+      },
+      {
+        "token": "wPEN",
+        "chain": "gnosis",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 45441137,
+        "status": "ok",
+        "raw": "1000000000000000000000",
+        "reads": {
+          "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 45441137 (0x9dbcd1fc71ec96edd62975de43e0bc6ada9e1b",
+          "https://rpc.gnosischain.com": "1000000000000000000000"
+        }
+      },
+      {
+        "token": "wARS",
+        "chain": "gnosis",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 46972230,
+        "status": "ok",
+        "raw": "9360155000000000000000000",
+        "reads": {
+          "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 46972230 (0x88f08456fc53c13e713335d1a269f702fb016f",
+          "https://rpc.gnosischain.com": "9360155000000000000000000"
+        }
+      },
+      {
+        "token": "wBRL",
+        "chain": "gnosis",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 46972230,
+        "status": "ok",
+        "raw": "32999840000000000000000",
+        "reads": {
+          "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 46972230 (0x88f08456fc53c13e713335d1a269f702fb016f",
+          "https://rpc.gnosischain.com": "32999840000000000000000"
+        }
+      },
+      {
+        "token": "wMXN",
+        "chain": "gnosis",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 46972230,
+        "status": "ok",
+        "raw": "81000730000000000000000",
+        "reads": {
+          "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 46972230 (0x88f08456fc53c13e713335d1a269f702fb016f",
+          "https://rpc.gnosischain.com": "81000730000000000000000"
+        }
+      },
+      {
+        "token": "wCOP",
+        "chain": "gnosis",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 46972230,
+        "status": "ok",
+        "raw": "19320986000000000000000000",
+        "reads": {
+          "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 46972230 (0x88f08456fc53c13e713335d1a269f702fb016f",
+          "https://rpc.gnosischain.com": "19320986000000000000000000"
+        }
+      },
+      {
+        "token": "wCLP",
+        "chain": "gnosis",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 46972230,
+        "status": "ok",
+        "raw": "4651000000000000000000000",
+        "reads": {
+          "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 46972230 (0x88f08456fc53c13e713335d1a269f702fb016f",
+          "https://rpc.gnosischain.com": "4651000000000000000000000"
+        }
+      },
+      {
+        "token": "wPEN",
+        "chain": "gnosis",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 46972230,
+        "status": "ok",
+        "raw": "4500000000000000000000",
+        "reads": {
+          "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 46972230 (0x88f08456fc53c13e713335d1a269f702fb016f",
+          "https://rpc.gnosischain.com": "4500000000000000000000"
+        }
+      },
+      {
+        "token": "wARS",
+        "chain": "gnosis",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 46970109,
+        "status": "ok",
+        "raw": "9360155000000000000000000",
+        "reads": {
+          "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 46970109 (0xf506e31aaef15c91f8392e4ad929b0f7788f4a",
+          "https://rpc.gnosischain.com": "9360155000000000000000000"
+        }
+      },
+      {
+        "token": "wBRL",
+        "chain": "gnosis",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 46970109,
+        "status": "ok",
+        "raw": "32999840000000000000000",
+        "reads": {
+          "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 46970109 (0xf506e31aaef15c91f8392e4ad929b0f7788f4a",
+          "https://rpc.gnosischain.com": "32999840000000000000000"
+        }
+      },
+      {
+        "token": "wMXN",
+        "chain": "gnosis",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 46970109,
+        "status": "ok",
+        "raw": "81000730000000000000000",
+        "reads": {
+          "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 46970109 (0xf506e31aaef15c91f8392e4ad929b0f7788f4a",
+          "https://rpc.gnosischain.com": "81000730000000000000000"
+        }
+      },
+      {
+        "token": "wCOP",
+        "chain": "gnosis",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 46970109,
+        "status": "ok",
+        "raw": "19320986000000000000000000",
+        "reads": {
+          "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 46970109 (0xf506e31aaef15c91f8392e4ad929b0f7788f4a",
+          "https://rpc.gnosischain.com": "19320986000000000000000000"
+        }
+      },
+      {
+        "token": "wCLP",
+        "chain": "gnosis",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 46970109,
+        "status": "ok",
+        "raw": "4651000000000000000000000",
+        "reads": {
+          "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 46970109 (0xf506e31aaef15c91f8392e4ad929b0f7788f4a",
+          "https://rpc.gnosischain.com": "4651000000000000000000000"
+        }
+      },
+      {
+        "token": "wPEN",
+        "chain": "gnosis",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 46970109,
+        "status": "ok",
+        "raw": "4500000000000000000000",
+        "reads": {
+          "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 46970109 (0xf506e31aaef15c91f8392e4ad929b0f7788f4a",
+          "https://rpc.gnosischain.com": "4500000000000000000000"
+        }
+      },
+      {
+        "token": "wARS",
+        "chain": "gnosis",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 48526543,
+        "status": "ok",
+        "raw": "9360155000000000000000000",
+        "reads": {
+          "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 48526543 (0x80c19a5b5ccd26ce56b5e70d10e80987def585",
+          "https://rpc.gnosischain.com": "9360155000000000000000000"
+        }
+      },
+      {
+        "token": "wBRL",
+        "chain": "gnosis",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 48526543,
+        "status": "ok",
+        "raw": "32999840000000000000000",
+        "reads": {
+          "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 48526543 (0x80c19a5b5ccd26ce56b5e70d10e80987def585",
+          "https://rpc.gnosischain.com": "32999840000000000000000"
+        }
+      },
+      {
+        "token": "wMXN",
+        "chain": "gnosis",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 48526543,
+        "status": "ok",
+        "raw": "68001270000000000000000",
+        "reads": {
+          "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 48526543 (0x80c19a5b5ccd26ce56b5e70d10e80987def585",
+          "https://rpc.gnosischain.com": "68001270000000000000000"
+        }
+      },
+      {
+        "token": "wCOP",
+        "chain": "gnosis",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 48526543,
+        "status": "ok",
+        "raw": "19320986000000000000000000",
+        "reads": {
+          "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 48526543 (0x80c19a5b5ccd26ce56b5e70d10e80987def585",
+          "https://rpc.gnosischain.com": "19320986000000000000000000"
+        }
+      },
+      {
+        "token": "wCLP",
+        "chain": "gnosis",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 48526543,
+        "status": "ok",
+        "raw": "4646014000000000000000000",
+        "reads": {
+          "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 48526543 (0x80c19a5b5ccd26ce56b5e70d10e80987def585",
+          "https://rpc.gnosischain.com": "4646014000000000000000000"
+        }
+      },
+      {
+        "token": "wPEN",
+        "chain": "gnosis",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 48526543,
+        "status": "ok",
+        "raw": "4500000000000000000000",
+        "reads": {
+          "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 48526543 (0x80c19a5b5ccd26ce56b5e70d10e80987def585",
+          "https://rpc.gnosischain.com": "4500000000000000000000"
+        }
+      },
+      {
+        "token": "wARS",
+        "chain": "gnosis",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 48524423,
+        "status": "ok",
+        "raw": "9360155000000000000000000",
+        "reads": {
+          "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 48524423 (0x188a0aec82344fb9f8cb8a35f6ff8e65657a0f",
+          "https://rpc.gnosischain.com": "9360155000000000000000000"
+        }
+      },
+      {
+        "token": "wBRL",
+        "chain": "gnosis",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 48524423,
+        "status": "ok",
+        "raw": "32999840000000000000000",
+        "reads": {
+          "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 48524423 (0x188a0aec82344fb9f8cb8a35f6ff8e65657a0f",
+          "https://rpc.gnosischain.com": "32999840000000000000000"
+        }
+      },
+      {
+        "token": "wMXN",
+        "chain": "gnosis",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 48524423,
+        "status": "ok",
+        "raw": "68001270000000000000000",
+        "reads": {
+          "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 48524423 (0x188a0aec82344fb9f8cb8a35f6ff8e65657a0f",
+          "https://rpc.gnosischain.com": "68001270000000000000000"
+        }
+      },
+      {
+        "token": "wCOP",
+        "chain": "gnosis",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 48524423,
+        "status": "ok",
+        "raw": "19320986000000000000000000",
+        "reads": {
+          "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 48524423 (0x188a0aec82344fb9f8cb8a35f6ff8e65657a0f",
+          "https://rpc.gnosischain.com": "19320986000000000000000000"
+        }
+      },
+      {
+        "token": "wCLP",
+        "chain": "gnosis",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 48524423,
+        "status": "ok",
+        "raw": "4646014000000000000000000",
+        "reads": {
+          "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 48524423 (0x188a0aec82344fb9f8cb8a35f6ff8e65657a0f",
+          "https://rpc.gnosischain.com": "4646014000000000000000000"
+        }
+      },
+      {
+        "token": "wPEN",
+        "chain": "gnosis",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 48524423,
+        "status": "ok",
+        "raw": "4500000000000000000000",
+        "reads": {
+          "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 48524423 (0x188a0aec82344fb9f8cb8a35f6ff8e65657a0f",
+          "https://rpc.gnosischain.com": "4500000000000000000000"
+        }
+      }
+    ]
+  },
+  {
+    "chain": "bsc",
+    "history": {
+      "https://bsc-dataseed.bnbchain.org": "no archive state: https://bsc-dataseed.bnbchain.org: -32000 missing trie node",
+      "https://bsc-dataseed1.defibit.io": "no archive state: https://bsc-dataseed1.defibit.io: -32000 missing trie node",
+      "https://bsc-rpc.publicnode.com": "no archive state: https://bsc-rpc.publicnode.com: -32602 Archive requests require a personal token. Get one at: https://www.allnodes.com/p",
+      "https://bsc-mainnet.public.blastapi.io": "serves historical state"
+    },
+    "cutoff_blocks": [
+      {
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "instant_utc": "2026-04-01T02:59:59+00:00",
+        "unix": 1775012399,
+        "block": 89918100,
+        "block_timestamp": 1775012399,
+        "block_hash": "0x7577f7a95b24b66d3cde7f0c5270676993dc3c4459413d012da4f78c1f1d3d2c",
+        "next_block_timestamp": 1775012400
+      },
+      {
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "instant_utc": "2026-03-31T23:59:59+00:00",
+        "unix": 1775001599,
+        "block": 89894103,
+        "block_timestamp": 1775001599,
+        "block_hash": "0x780489d16293c8deb56e3b08ca98cbe142f0e84e85cf21dcfbc236d5fe1fcf1b",
+        "next_block_timestamp": 1775001600
+      },
+      {
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "instant_utc": "2026-07-01T02:59:59+00:00",
+        "unix": 1782874799,
+        "block": 107369127,
+        "block_timestamp": 1782874799,
+        "block_hash": "0x518e531e8a35589d9e4f3d8e8199d75cfe4ad836f5cc32cbc6677ac17112413d",
+        "next_block_timestamp": 1782874800
+      },
+      {
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "instant_utc": "2026-06-30T23:59:59+00:00",
+        "unix": 1782863999,
+        "block": 107345136,
+        "block_timestamp": 1782863999,
+        "block_hash": "0xfc637fce41a206ac762e3f4052e82753e75e54a85aeda746348b67bea5da29b6",
+        "next_block_timestamp": 1782864000
+      },
+      {
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "instant_utc": "2026-10-01T02:59:59+00:00",
+        "unix": 1790823599,
+        "block": 125024742,
+        "block_timestamp": 1790823599,
+        "block_hash": "0xb40b768ae1f138485f022095d2af0774636eae29fbbaa56eee22d04c667faff7",
+        "next_block_timestamp": 1790823600
+      },
+      {
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "instant_utc": "2026-09-30T23:59:59+00:00",
+        "unix": 1790812799,
+        "block": 125000754,
+        "block_timestamp": 1790812799,
+        "block_hash": "0x4642801f5cc8c6d2c61cd9d51c4d568e8900751b0c72f5ed101e4695f279c16e",
+        "next_block_timestamp": 1790812800
+      }
+    ],
+    "rows": [
+      {
+        "token": "wARS",
+        "chain": "bsc",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 89918100,
+        "status": "ok",
+        "raw": "19525000000000000000000",
+        "reads": {
+          "https://bsc-mainnet.public.blastapi.io": "19525000000000000000000"
+        }
+      },
+      {
+        "token": "wBRL",
+        "chain": "bsc",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 89918100,
+        "status": "ok",
+        "raw": "2999920000000000000000",
+        "reads": {
+          "https://bsc-mainnet.public.blastapi.io": "2999920000000000000000"
+        }
+      },
+      {
+        "token": "wMXN",
+        "chain": "bsc",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 89918100,
+        "status": "ok",
+        "raw": "11000730000000000000000",
+        "reads": {
+          "https://bsc-mainnet.public.blastapi.io": "11000730000000000000000"
+        }
+      },
+      {
+        "token": "wCOP",
+        "chain": "bsc",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 89918100,
+        "status": "ok",
+        "raw": "21043000000000000000000",
+        "reads": {
+          "https://bsc-mainnet.public.blastapi.io": "21043000000000000000000"
+        }
+      },
+      {
+        "token": "wCLP",
+        "chain": "bsc",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 89918100,
+        "status": "ok",
+        "raw": "1000000000000000000000",
+        "reads": {
+          "https://bsc-mainnet.public.blastapi.io": "1000000000000000000000"
+        }
+      },
+      {
+        "token": "wPEN",
+        "chain": "bsc",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 89918100,
+        "status": "ok",
+        "raw": "1000000000000000000000",
+        "reads": {
+          "https://bsc-mainnet.public.blastapi.io": "1000000000000000000000"
+        }
+      },
+      {
+        "token": "wARS",
+        "chain": "bsc",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 89894103,
+        "status": "ok",
+        "raw": "19525000000000000000000",
+        "reads": {
+          "https://bsc-mainnet.public.blastapi.io": "19525000000000000000000"
+        }
+      },
+      {
+        "token": "wBRL",
+        "chain": "bsc",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 89894103,
+        "status": "ok",
+        "raw": "2999920000000000000000",
+        "reads": {
+          "https://bsc-mainnet.public.blastapi.io": "2999920000000000000000"
+        }
+      },
+      {
+        "token": "wMXN",
+        "chain": "bsc",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 89894103,
+        "status": "ok",
+        "raw": "11000730000000000000000",
+        "reads": {
+          "https://bsc-mainnet.public.blastapi.io": "11000730000000000000000"
+        }
+      },
+      {
+        "token": "wCOP",
+        "chain": "bsc",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 89894103,
+        "status": "ok",
+        "raw": "21043000000000000000000",
+        "reads": {
+          "https://bsc-mainnet.public.blastapi.io": "21043000000000000000000"
+        }
+      },
+      {
+        "token": "wCLP",
+        "chain": "bsc",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 89894103,
+        "status": "ok",
+        "raw": "1000000000000000000000",
+        "reads": {
+          "https://bsc-mainnet.public.blastapi.io": "1000000000000000000000"
+        }
+      },
+      {
+        "token": "wPEN",
+        "chain": "bsc",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 89894103,
+        "status": "ok",
+        "raw": "1000000000000000000000",
+        "reads": {
+          "https://bsc-mainnet.public.blastapi.io": "1000000000000000000000"
+        }
+      },
+      {
+        "token": "wARS",
+        "chain": "bsc",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 107369127,
+        "status": "ok",
+        "raw": "68360480000000000000000000",
+        "reads": {
+          "https://bsc-mainnet.public.blastapi.io": "68360480000000000000000000"
+        }
+      },
+      {
+        "token": "wBRL",
+        "chain": "bsc",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 107369127,
+        "status": "ok",
+        "raw": "55431961289472274000000",
+        "reads": {
+          "https://bsc-mainnet.public.blastapi.io": "55431961289472274000000"
+        }
+      },
+      {
+        "token": "wMXN",
+        "chain": "bsc",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 107369127,
+        "status": "ok",
+        "raw": "101000730000000000000000",
+        "reads": {
+          "https://bsc-mainnet.public.blastapi.io": "101000730000000000000000"
+        }
+      },
+      {
+        "token": "wCOP",
+        "chain": "bsc",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 107369127,
+        "status": "ok",
+        "raw": "21485597311346520000000000",
+        "reads": {
+          "https://bsc-mainnet.public.blastapi.io": "21485597311346520000000000"
+        }
+      },
+      {
+        "token": "wCLP",
+        "chain": "bsc",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 107369127,
+        "status": "ok",
+        "raw": "3695196668000000000000000",
+        "reads": {
+          "https://bsc-mainnet.public.blastapi.io": "3695196668000000000000000"
+        }
+      },
+      {
+        "token": "wPEN",
+        "chain": "bsc",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 107369127,
+        "status": "ok",
+        "raw": "4500000000000000000000",
+        "reads": {
+          "https://bsc-mainnet.public.blastapi.io": "4500000000000000000000"
+        }
+      },
+      {
+        "token": "wARS",
+        "chain": "bsc",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 107345136,
+        "status": "ok",
+        "raw": "68360480000000000000000000",
+        "reads": {
+          "https://bsc-mainnet.public.blastapi.io": "68360480000000000000000000"
+        }
+      },
+      {
+        "token": "wBRL",
+        "chain": "bsc",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 107345136,
+        "status": "ok",
+        "raw": "55431961289472274000000",
+        "reads": {
+          "https://bsc-mainnet.public.blastapi.io": "55431961289472274000000"
+        }
+      },
+      {
+        "token": "wMXN",
+        "chain": "bsc",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 107345136,
+        "status": "ok",
+        "raw": "101000730000000000000000",
+        "reads": {
+          "https://bsc-mainnet.public.blastapi.io": "101000730000000000000000"
+        }
+      },
+      {
+        "token": "wCOP",
+        "chain": "bsc",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 107345136,
+        "status": "ok",
+        "raw": "21485597311346520000000000",
+        "reads": {
+          "https://bsc-mainnet.public.blastapi.io": "21485597311346520000000000"
+        }
+      },
+      {
+        "token": "wCLP",
+        "chain": "bsc",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 107345136,
+        "status": "ok",
+        "raw": "3695196668000000000000000",
+        "reads": {
+          "https://bsc-mainnet.public.blastapi.io": "3695196668000000000000000"
+        }
+      },
+      {
+        "token": "wPEN",
+        "chain": "bsc",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 107345136,
+        "status": "ok",
+        "raw": "4500000000000000000000",
+        "reads": {
+          "https://bsc-mainnet.public.blastapi.io": "4500000000000000000000"
+        }
+      },
+      {
+        "token": "wARS",
+        "chain": "bsc",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 125024742,
+        "status": "ok",
+        "raw": "85064244090776000000000000",
+        "reads": {
+          "https://bsc-mainnet.public.blastapi.io": "85064244090776000000000000"
+        }
+      },
+      {
+        "token": "wBRL",
+        "chain": "bsc",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 125024742,
+        "status": "ok",
+        "raw": "237107041289472274000000",
+        "reads": {
+          "https://bsc-mainnet.public.blastapi.io": "237107041289472274000000"
+        }
+      },
+      {
+        "token": "wMXN",
+        "chain": "bsc",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 125024742,
+        "status": "ok",
+        "raw": "87061781397932500000000",
+        "reads": {
+          "https://bsc-mainnet.public.blastapi.io": "87061781397932500000000"
+        }
+      },
+      {
+        "token": "wCOP",
+        "chain": "bsc",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 125024742,
+        "status": "ok",
+        "raw": "25972395036895177727892094",
+        "reads": {
+          "https://bsc-mainnet.public.blastapi.io": "25972395036895177727892094"
+        }
+      },
+      {
+        "token": "wCLP",
+        "chain": "bsc",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 125024742,
+        "status": "ok",
+        "raw": "4402756839367383007238011",
+        "reads": {
+          "https://bsc-mainnet.public.blastapi.io": "4402756839367383007238011"
+        }
+      },
+      {
+        "token": "wPEN",
+        "chain": "bsc",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 125024742,
+        "status": "ok",
+        "raw": "4171170000000000000000",
+        "reads": {
+          "https://bsc-mainnet.public.blastapi.io": "4171170000000000000000"
+        }
+      },
+      {
+        "token": "wARS",
+        "chain": "bsc",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 125000754,
+        "status": "ok",
+        "raw": "85064244090776000000000000",
+        "reads": {
+          "https://bsc-mainnet.public.blastapi.io": "85064244090776000000000000"
+        }
+      },
+      {
+        "token": "wBRL",
+        "chain": "bsc",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 125000754,
+        "status": "ok",
+        "raw": "237107041289472274000000",
+        "reads": {
+          "https://bsc-mainnet.public.blastapi.io": "237107041289472274000000"
+        }
+      },
+      {
+        "token": "wMXN",
+        "chain": "bsc",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 125000754,
+        "status": "ok",
+        "raw": "87061781397932500000000",
+        "reads": {
+          "https://bsc-mainnet.public.blastapi.io": "87061781397932500000000"
+        }
+      },
+      {
+        "token": "wCOP",
+        "chain": "bsc",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 125000754,
+        "status": "ok",
+        "raw": "25972395036895177727892094",
+        "reads": {
+          "https://bsc-mainnet.public.blastapi.io": "25972395036895177727892094"
+        }
+      },
+      {
+        "token": "wCLP",
+        "chain": "bsc",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 125000754,
+        "status": "ok",
+        "raw": "4402756839367383007238011",
+        "reads": {
+          "https://bsc-mainnet.public.blastapi.io": "4402756839367383007238011"
+        }
+      },
+      {
+        "token": "wPEN",
+        "chain": "bsc",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 125000754,
+        "status": "ok",
+        "raw": "4171170000000000000000",
+        "reads": {
+          "https://bsc-mainnet.public.blastapi.io": "4171170000000000000000"
+        }
+      }
+    ]
+  },
+  {
+    "chain": "worldchain",
+    "history": {
+      "https://worldchain-mainnet.g.alchemy.com/public": "serves historical state",
+      "https://worldchain.drpc.org": "serves historical state",
+      "https://480.rpc.thirdweb.com": "serves historical state"
+    },
+    "cutoff_blocks": [
+      {
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "instant_utc": "2026-04-01T02:59:59+00:00",
+        "unix": 1775012399,
+        "block": 27838380,
+        "block_timestamp": 1775012399,
+        "block_hash": "0x12cd8bf7ce2e932c69b01244490a1a172ba0c8660c8083bf105f1c9c31c88f21",
+        "next_block_timestamp": 1775012401
+      },
+      {
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "instant_utc": "2026-03-31T23:59:59+00:00",
+        "unix": 1775001599,
+        "block": 27832980,
+        "block_timestamp": 1775001599,
+        "block_hash": "0x70d552bdc58c70e79d649cf5d767312c36fc12f75270315d9d5c10ef2a41688b",
+        "next_block_timestamp": 1775001601
+      },
+      {
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "instant_utc": "2026-07-01T02:59:59+00:00",
+        "unix": 1782874799,
+        "block": 31769580,
+        "block_timestamp": 1782874799,
+        "block_hash": "0x085a0bf053d0af4f054c5934f745e27d75bf6c1e7ce510faa701342db74be3de",
+        "next_block_timestamp": 1782874801
+      },
+      {
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "instant_utc": "2026-06-30T23:59:59+00:00",
+        "unix": 1782863999,
+        "block": 31764180,
+        "block_timestamp": 1782863999,
+        "block_hash": "0x7219e71d3ca24388a6ac30535a2472028b388433b54647dc0fbd1748118fa40c",
+        "next_block_timestamp": 1782864001
+      },
+      {
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "instant_utc": "2026-10-01T02:59:59+00:00",
+        "unix": 1790823599,
+        "block": 35743980,
+        "block_timestamp": 1790823599,
+        "block_hash": "0xe8a7507ca1bb308f3a5cbca1958ed4756cb4d64b69ad1a6780803f9b47fa3794",
+        "next_block_timestamp": 1790823601
+      },
+      {
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "instant_utc": "2026-09-30T23:59:59+00:00",
+        "unix": 1790812799,
+        "block": 35738580,
+        "block_timestamp": 1790812799,
+        "block_hash": "0x34e187d362760e5f28ea9b248dd5a35bc7ae4af6297f2b9d96508c8951199824",
+        "next_block_timestamp": 1790812801
+      }
+    ],
+    "rows": [
+      {
+        "token": "wARS",
+        "chain": "worldchain",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 27838380,
+        "status": "ok",
+        "raw": "275743915601642120690032840",
+        "reads": {
+          "https://worldchain-mainnet.g.alchemy.com/public": "275743915601642120690032840",
+          "https://worldchain.drpc.org": "275743915601642120690032840"
+        }
+      },
+      {
+        "token": "wBRL",
+        "chain": "worldchain",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 27838380,
+        "status": "ok",
+        "raw": "374069858299294373909700",
+        "reads": {
+          "https://worldchain-mainnet.g.alchemy.com/public": "374069858299294373909700",
+          "https://worldchain.drpc.org": "374069858299294373909700"
+        }
+      },
+      {
+        "token": "wMXN",
+        "chain": "worldchain",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 27838380,
+        "status": "ok",
+        "raw": "449374503090000000000000",
+        "reads": {
+          "https://worldchain-mainnet.g.alchemy.com/public": "449374503090000000000000",
+          "https://worldchain.drpc.org": "449374503090000000000000"
+        }
+      },
+      {
+        "token": "wCOP",
+        "chain": "worldchain",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 27838380,
+        "status": "ok",
+        "raw": "97522043496898518529362498",
+        "reads": {
+          "https://worldchain-mainnet.g.alchemy.com/public": "97522043496898518529362498",
+          "https://worldchain.drpc.org": "97522043496898518529362498"
+        }
+      },
+      {
+        "token": "wCLP",
+        "chain": "worldchain",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 27838380,
+        "status": "ok",
+        "raw": "27537956360000000000000000",
+        "reads": {
+          "https://worldchain-mainnet.g.alchemy.com/public": "27537956360000000000000000",
+          "https://worldchain.drpc.org": "27537956360000000000000000"
+        }
+      },
+      {
+        "token": "wPEN",
+        "chain": "worldchain",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 27838380,
+        "status": "ok",
+        "raw": "100348673140000000000000",
+        "reads": {
+          "https://worldchain-mainnet.g.alchemy.com/public": "100348673140000000000000",
+          "https://worldchain.drpc.org": "100348673140000000000000"
+        }
+      },
+      {
+        "token": "wARS",
+        "chain": "worldchain",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 27832980,
+        "status": "ok",
+        "raw": "275743915601642120690032840",
+        "reads": {
+          "https://worldchain-mainnet.g.alchemy.com/public": "275743915601642120690032840",
+          "https://worldchain.drpc.org": "275743915601642120690032840"
+        }
+      },
+      {
+        "token": "wBRL",
+        "chain": "worldchain",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 27832980,
+        "status": "ok",
+        "raw": "374069858299294373909700",
+        "reads": {
+          "https://worldchain-mainnet.g.alchemy.com/public": "374069858299294373909700",
+          "https://worldchain.drpc.org": "374069858299294373909700"
+        }
+      },
+      {
+        "token": "wMXN",
+        "chain": "worldchain",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 27832980,
+        "status": "ok",
+        "raw": "449374503090000000000000",
+        "reads": {
+          "https://worldchain-mainnet.g.alchemy.com/public": "449374503090000000000000",
+          "https://worldchain.drpc.org": "449374503090000000000000"
+        }
+      },
+      {
+        "token": "wCOP",
+        "chain": "worldchain",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 27832980,
+        "status": "ok",
+        "raw": "97522043496898518529362498",
+        "reads": {
+          "https://worldchain-mainnet.g.alchemy.com/public": "97522043496898518529362498",
+          "https://worldchain.drpc.org": "97522043496898518529362498"
+        }
+      },
+      {
+        "token": "wCLP",
+        "chain": "worldchain",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 27832980,
+        "status": "ok",
+        "raw": "27537956360000000000000000",
+        "reads": {
+          "https://worldchain-mainnet.g.alchemy.com/public": "27537956360000000000000000",
+          "https://worldchain.drpc.org": "27537956360000000000000000"
+        }
+      },
+      {
+        "token": "wPEN",
+        "chain": "worldchain",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 27832980,
+        "status": "ok",
+        "raw": "100348673140000000000000",
+        "reads": {
+          "https://worldchain-mainnet.g.alchemy.com/public": "100348673140000000000000",
+          "https://worldchain.drpc.org": "100348673140000000000000"
+        }
+      },
+      {
+        "token": "wARS",
+        "chain": "worldchain",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 31769580,
+        "status": "ok",
+        "raw": "396179613333876846796342420",
+        "reads": {
+          "https://worldchain-mainnet.g.alchemy.com/public": "396179613333876846796342420",
+          "https://worldchain.drpc.org": "396179613333876846796342420"
+        }
+      },
+      {
+        "token": "wBRL",
+        "chain": "worldchain",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 31769580,
+        "status": "ok",
+        "raw": "416599728567023099909700",
+        "reads": {
+          "https://worldchain-mainnet.g.alchemy.com/public": "416599728567023099909700",
+          "https://worldchain.drpc.org": "416599728567023099909700"
+        }
+      },
+      {
+        "token": "wMXN",
+        "chain": "worldchain",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 31769580,
+        "status": "ok",
+        "raw": "514915120358720653196000",
+        "reads": {
+          "https://worldchain-mainnet.g.alchemy.com/public": "514915120358720653196000",
+          "https://worldchain.drpc.org": "514915120358720653196000"
+        }
+      },
+      {
+        "token": "wCOP",
+        "chain": "worldchain",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 31769580,
+        "status": "ok",
+        "raw": "102313585029989149521462498",
+        "reads": {
+          "https://worldchain-mainnet.g.alchemy.com/public": "102313585029989149521462498",
+          "https://worldchain.drpc.org": "102313585029989149521462498"
+        }
+      },
+      {
+        "token": "wCLP",
+        "chain": "worldchain",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 31769580,
+        "status": "ok",
+        "raw": "45235786586085247465292781",
+        "reads": {
+          "https://worldchain-mainnet.g.alchemy.com/public": "45235786586085247465292781",
+          "https://worldchain.drpc.org": "45235786586085247465292781"
+        }
+      },
+      {
+        "token": "wPEN",
+        "chain": "worldchain",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 31769580,
+        "status": "ok",
+        "raw": "101843253918000000000000",
+        "reads": {
+          "https://worldchain-mainnet.g.alchemy.com/public": "101843253918000000000000",
+          "https://worldchain.drpc.org": "101843253918000000000000"
+        }
+      },
+      {
+        "token": "wARS",
+        "chain": "worldchain",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 31764180,
+        "status": "ok",
+        "raw": "396179613333876846796342420",
+        "reads": {
+          "https://worldchain-mainnet.g.alchemy.com/public": "396179613333876846796342420",
+          "https://worldchain.drpc.org": "396179613333876846796342420"
+        }
+      },
+      {
+        "token": "wBRL",
+        "chain": "worldchain",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 31764180,
+        "status": "ok",
+        "raw": "416599728567023099909700",
+        "reads": {
+          "https://worldchain-mainnet.g.alchemy.com/public": "416599728567023099909700",
+          "https://worldchain.drpc.org": "416599728567023099909700"
+        }
+      },
+      {
+        "token": "wMXN",
+        "chain": "worldchain",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 31764180,
+        "status": "ok",
+        "raw": "514915120358720653196000",
+        "reads": {
+          "https://worldchain-mainnet.g.alchemy.com/public": "514915120358720653196000",
+          "https://worldchain.drpc.org": "514915120358720653196000"
+        }
+      },
+      {
+        "token": "wCOP",
+        "chain": "worldchain",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 31764180,
+        "status": "ok",
+        "raw": "102313585029989149521462498",
+        "reads": {
+          "https://worldchain-mainnet.g.alchemy.com/public": "102313585029989149521462498",
+          "https://worldchain.drpc.org": "102313585029989149521462498"
+        }
+      },
+      {
+        "token": "wCLP",
+        "chain": "worldchain",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 31764180,
+        "status": "ok",
+        "raw": "45235786586085247465292781",
+        "reads": {
+          "https://worldchain-mainnet.g.alchemy.com/public": "45235786586085247465292781",
+          "https://worldchain.drpc.org": "45235786586085247465292781"
+        }
+      },
+      {
+        "token": "wPEN",
+        "chain": "worldchain",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 31764180,
+        "status": "ok",
+        "raw": "101843253918000000000000",
+        "reads": {
+          "https://worldchain-mainnet.g.alchemy.com/public": "101843253918000000000000",
+          "https://worldchain.drpc.org": "101843253918000000000000"
+        }
+      },
+      {
+        "token": "wARS",
+        "chain": "worldchain",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 35743980,
+        "status": "ok",
+        "raw": "390379882760387597974376622",
+        "reads": {
+          "https://worldchain-mainnet.g.alchemy.com/public": "390379882760387597974376622",
+          "https://worldchain.drpc.org": "390379882760387597974376622"
+        }
+      },
+      {
+        "token": "wBRL",
+        "chain": "worldchain",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 35743980,
+        "status": "ok",
+        "raw": "481574740439523099909700",
+        "reads": {
+          "https://worldchain-mainnet.g.alchemy.com/public": "481574740439523099909700",
+          "https://worldchain.drpc.org": "481574740439523099909700"
+        }
+      },
+      {
+        "token": "wMXN",
+        "chain": "worldchain",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 35743980,
+        "status": "ok",
+        "raw": "916455157159966153196000",
+        "reads": {
+          "https://worldchain-mainnet.g.alchemy.com/public": "916455157159966153196000",
+          "https://worldchain.drpc.org": "916455157159966153196000"
+        }
+      },
+      {
+        "token": "wCOP",
+        "chain": "worldchain",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 35743980,
+        "status": "ok",
+        "raw": "189693662819575642463156959",
+        "reads": {
+          "https://worldchain-mainnet.g.alchemy.com/public": "189693662819575642463156959",
+          "https://worldchain.drpc.org": "189693662819575642463156959"
+        }
+      },
+      {
+        "token": "wCLP",
+        "chain": "worldchain",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 35743980,
+        "status": "ok",
+        "raw": "43381237245783247035921383",
+        "reads": {
+          "https://worldchain-mainnet.g.alchemy.com/public": "43381237245783247035921383",
+          "https://worldchain.drpc.org": "43381237245783247035921383"
+        }
+      },
+      {
+        "token": "wPEN",
+        "chain": "worldchain",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 35743980,
+        "status": "ok",
+        "raw": "108624243918000000000000",
+        "reads": {
+          "https://worldchain-mainnet.g.alchemy.com/public": "108624243918000000000000",
+          "https://worldchain.drpc.org": "108624243918000000000000"
+        }
+      },
+      {
+        "token": "wARS",
+        "chain": "worldchain",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 35738580,
+        "status": "ok",
+        "raw": "390379882760387597974376622",
+        "reads": {
+          "https://worldchain-mainnet.g.alchemy.com/public": "390379882760387597974376622",
+          "https://worldchain.drpc.org": "390379882760387597974376622"
+        }
+      },
+      {
+        "token": "wBRL",
+        "chain": "worldchain",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 35738580,
+        "status": "ok",
+        "raw": "481574740439523099909700",
+        "reads": {
+          "https://worldchain-mainnet.g.alchemy.com/public": "481574740439523099909700",
+          "https://worldchain.drpc.org": "481574740439523099909700"
+        }
+      },
+      {
+        "token": "wMXN",
+        "chain": "worldchain",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 35738580,
+        "status": "ok",
+        "raw": "916455157159966153196000",
+        "reads": {
+          "https://worldchain-mainnet.g.alchemy.com/public": "916455157159966153196000",
+          "https://worldchain.drpc.org": "916455157159966153196000"
+        }
+      },
+      {
+        "token": "wCOP",
+        "chain": "worldchain",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 35738580,
+        "status": "ok",
+        "raw": "189693662819575642463156959",
+        "reads": {
+          "https://worldchain-mainnet.g.alchemy.com/public": "189693662819575642463156959",
+          "https://worldchain.drpc.org": "189693662819575642463156959"
+        }
+      },
+      {
+        "token": "wCLP",
+        "chain": "worldchain",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 35738580,
+        "status": "ok",
+        "raw": "43381237245783247035921383",
+        "reads": {
+          "https://worldchain-mainnet.g.alchemy.com/public": "43381237245783247035921383",
+          "https://worldchain.drpc.org": "43381237245783247035921383"
+        }
+      },
+      {
+        "token": "wPEN",
+        "chain": "worldchain",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 35738580,
+        "status": "ok",
+        "raw": "108624243918000000000000",
+        "reads": {
+          "https://worldchain-mainnet.g.alchemy.com/public": "108624243918000000000000",
+          "https://worldchain.drpc.org": "108624243918000000000000"
+        }
+      }
+    ]
+  },
+  {
+    "chain": "celo",
+    "history": {
+      "https://forno.celo.org": "serves historical state",
+      "https://celo-json-rpc.stakely.io": "unreachable: https://celo-json-rpc.stakely.io: -32603 no state found for block 0x0000000000000000000000000000000000000000000000000000",
+      "https://celo.drpc.org": "serves historical state",
+      "https://1rpc.io/celo": "unreachable: https://1rpc.io/celo: -32603 no state found for block 0x0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "cutoff_blocks": [
+      {
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "instant_utc": "2026-04-01T02:59:59+00:00",
+        "unix": 1775012399,
+        "block": 63111641,
+        "block_timestamp": 1775012399,
+        "block_hash": "0x1e9de044248dd4750d67f32ae04dcd6690be9090c5f868654bba68845d2e0b9e",
+        "next_block_timestamp": 1775012400
+      },
+      {
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "instant_utc": "2026-03-31T23:59:59+00:00",
+        "unix": 1775001599,
+        "block": 63100841,
+        "block_timestamp": 1775001599,
+        "block_hash": "0xd2325e9e5fa2305fb02b88e3d8aa138ab81cb5d7e04b371b801c487f41b34c56",
+        "next_block_timestamp": 1775001600
+      },
+      {
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "instant_utc": "2026-07-01T02:59:59+00:00",
+        "unix": 1782874799,
+        "block": 70974041,
+        "block_timestamp": 1782874799,
+        "block_hash": "0xc2d812cf8fa2c07bdc8a711b029831996e8ea841a440bbffb0a23821912b7f5c",
+        "next_block_timestamp": 1782874800
+      },
+      {
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "instant_utc": "2026-06-30T23:59:59+00:00",
+        "unix": 1782863999,
+        "block": 70963241,
+        "block_timestamp": 1782863999,
+        "block_hash": "0xb5cd03156812861eb28a76ee330abd05a60d136c3499ededc6bd0f4ffc9dafd9",
+        "next_block_timestamp": 1782864000
+      },
+      {
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "instant_utc": "2026-10-01T02:59:59+00:00",
+        "unix": 1790823599,
+        "block": 78922841,
+        "block_timestamp": 1790823599,
+        "block_hash": "0x344bec8453b2ab962329b32b297851631c38054fb73f1a6ac5f3a5ffd010d4d0",
+        "next_block_timestamp": 1790823600
+      },
+      {
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "instant_utc": "2026-09-30T23:59:59+00:00",
+        "unix": 1790812799,
+        "block": 78912041,
+        "block_timestamp": 1790812799,
+        "block_hash": "0x3655198d39f355a42fed507fa98126028acc1f88c088c3648c67ba2f675ea03b",
+        "next_block_timestamp": 1790812800
+      }
+    ],
+    "rows": [
+      {
+        "token": "wARS",
+        "chain": "celo",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 63111641,
+        "status": "not_created",
+        "raw": "0",
+        "creation_block": 68435445
+      },
+      {
+        "token": "wBRL",
+        "chain": "celo",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 63111641,
+        "status": "not_created",
+        "raw": "0",
+        "creation_block": 68435974
+      },
+      {
+        "token": "wMXN",
+        "chain": "celo",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 63111641,
+        "status": "not_created",
+        "raw": "0",
+        "creation_block": 68435758
+      },
+      {
+        "token": "wCOP",
+        "chain": "celo",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 63111641,
+        "status": "not_created",
+        "raw": "0",
+        "creation_block": 68436556
+      },
+      {
+        "token": "wCLP",
+        "chain": "celo",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 63111641,
+        "status": "not_created",
+        "raw": "0",
+        "creation_block": 68436918
+      },
+      {
+        "token": "wPEN",
+        "chain": "celo",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 63111641,
+        "status": "not_created",
+        "raw": "0",
+        "creation_block": 68437044
+      },
+      {
+        "token": "wARS",
+        "chain": "celo",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 63100841,
+        "status": "not_created",
+        "raw": "0",
+        "creation_block": 68435445
+      },
+      {
+        "token": "wBRL",
+        "chain": "celo",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 63100841,
+        "status": "not_created",
+        "raw": "0",
+        "creation_block": 68435974
+      },
+      {
+        "token": "wMXN",
+        "chain": "celo",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 63100841,
+        "status": "not_created",
+        "raw": "0",
+        "creation_block": 68435758
+      },
+      {
+        "token": "wCOP",
+        "chain": "celo",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 63100841,
+        "status": "not_created",
+        "raw": "0",
+        "creation_block": 68436556
+      },
+      {
+        "token": "wCLP",
+        "chain": "celo",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 63100841,
+        "status": "not_created",
+        "raw": "0",
+        "creation_block": 68436918
+      },
+      {
+        "token": "wPEN",
+        "chain": "celo",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 63100841,
+        "status": "not_created",
+        "raw": "0",
+        "creation_block": 68437044
+      },
+      {
+        "token": "wARS",
+        "chain": "celo",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 70974041,
+        "status": "ok",
+        "raw": "100000000000000000000",
+        "reads": {
+          "https://forno.celo.org": "100000000000000000000",
+          "https://celo.drpc.org": "error: RpcError: celo eth_call: all endpoints failed: https://celo.drpc.org: -32601 the method eth_call does not exist/is not available"
+        }
+      },
+      {
+        "token": "wBRL",
+        "chain": "celo",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 70974041,
+        "status": "ok",
+        "raw": "100000000000000000000",
+        "reads": {
+          "https://forno.celo.org": "100000000000000000000",
+          "https://celo.drpc.org": "error: RpcError: celo eth_call: all endpoints failed: https://celo.drpc.org: -32601 the method eth_call does not exist/is not available"
+        }
+      },
+      {
+        "token": "wMXN",
+        "chain": "celo",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 70974041,
+        "status": "ok",
+        "raw": "100000000000000000000",
+        "reads": {
+          "https://forno.celo.org": "100000000000000000000",
+          "https://celo.drpc.org": "error: RpcError: celo eth_call: all endpoints failed: https://celo.drpc.org: -32601 the method eth_call does not exist/is not available"
+        }
+      },
+      {
+        "token": "wCOP",
+        "chain": "celo",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 70974041,
+        "status": "ok",
+        "raw": "100000000000000000000",
+        "reads": {
+          "https://forno.celo.org": "100000000000000000000",
+          "https://celo.drpc.org": "error: RpcError: celo eth_call: all endpoints failed: https://celo.drpc.org: -32601 the method eth_call does not exist/is not available"
+        }
+      },
+      {
+        "token": "wCLP",
+        "chain": "celo",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 70974041,
+        "status": "ok",
+        "raw": "100000000000000000000",
+        "reads": {
+          "https://forno.celo.org": "100000000000000000000",
+          "https://celo.drpc.org": "error: RpcError: celo eth_call: all endpoints failed: https://celo.drpc.org: -32601 the method eth_call does not exist/is not available"
+        }
+      },
+      {
+        "token": "wPEN",
+        "chain": "celo",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 70974041,
+        "status": "ok",
+        "raw": "100000000000000000000",
+        "reads": {
+          "https://forno.celo.org": "100000000000000000000",
+          "https://celo.drpc.org": "error: RpcError: celo eth_call: all endpoints failed: https://celo.drpc.org: -32601 the method eth_call does not exist/is not available"
+        }
+      },
+      {
+        "token": "wARS",
+        "chain": "celo",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 70963241,
+        "status": "ok",
+        "raw": "100000000000000000000",
+        "reads": {
+          "https://forno.celo.org": "100000000000000000000",
+          "https://celo.drpc.org": "error: RpcError: celo eth_call: all endpoints failed: https://celo.drpc.org: -32601 the method eth_call does not exist/is not available"
+        }
+      },
+      {
+        "token": "wBRL",
+        "chain": "celo",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 70963241,
+        "status": "ok",
+        "raw": "100000000000000000000",
+        "reads": {
+          "https://forno.celo.org": "100000000000000000000",
+          "https://celo.drpc.org": "error: RpcError: celo eth_call: all endpoints failed: https://celo.drpc.org: -32601 the method eth_call does not exist/is not available"
+        }
+      },
+      {
+        "token": "wMXN",
+        "chain": "celo",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 70963241,
+        "status": "ok",
+        "raw": "100000000000000000000",
+        "reads": {
+          "https://forno.celo.org": "100000000000000000000",
+          "https://celo.drpc.org": "100000000000000000000"
+        }
+      },
+      {
+        "token": "wCOP",
+        "chain": "celo",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 70963241,
+        "status": "ok",
+        "raw": "100000000000000000000",
+        "reads": {
+          "https://forno.celo.org": "100000000000000000000",
+          "https://celo.drpc.org": "100000000000000000000"
+        }
+      },
+      {
+        "token": "wCLP",
+        "chain": "celo",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 70963241,
+        "status": "ok",
+        "raw": "100000000000000000000",
+        "reads": {
+          "https://forno.celo.org": "100000000000000000000",
+          "https://celo.drpc.org": "100000000000000000000"
+        }
+      },
+      {
+        "token": "wPEN",
+        "chain": "celo",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 70963241,
+        "status": "ok",
+        "raw": "100000000000000000000",
+        "reads": {
+          "https://forno.celo.org": "100000000000000000000",
+          "https://celo.drpc.org": "100000000000000000000"
+        }
+      },
+      {
+        "token": "wARS",
+        "chain": "celo",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 78922841,
+        "status": "ok",
+        "raw": "262674529314460000000000000",
+        "reads": {
+          "https://forno.celo.org": "262674529314460000000000000",
+          "https://celo.drpc.org": "262674529314460000000000000"
+        }
+      },
+      {
+        "token": "wBRL",
+        "chain": "celo",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 78922841,
+        "status": "ok",
+        "raw": "3708687895892251128768916",
+        "reads": {
+          "https://forno.celo.org": "3708687895892251128768916",
+          "https://celo.drpc.org": "3708687895892251128768916"
+        }
+      },
+      {
+        "token": "wMXN",
+        "chain": "celo",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 78922841,
+        "status": "ok",
+        "raw": "13099460000000000000000",
+        "reads": {
+          "https://forno.celo.org": "13099460000000000000000",
+          "https://celo.drpc.org": "13099460000000000000000"
+        }
+      },
+      {
+        "token": "wCOP",
+        "chain": "celo",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 78922841,
+        "status": "ok",
+        "raw": "33999986000000000000000000",
+        "reads": {
+          "https://forno.celo.org": "33999986000000000000000000",
+          "https://celo.drpc.org": "33999986000000000000000000"
+        }
+      },
+      {
+        "token": "wCLP",
+        "chain": "celo",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 78922841,
+        "status": "ok",
+        "raw": "1000087000000000000000000",
+        "reads": {
+          "https://forno.celo.org": "1000087000000000000000000",
+          "https://celo.drpc.org": "1000087000000000000000000"
+        }
+      },
+      {
+        "token": "wPEN",
+        "chain": "celo",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 78922841,
+        "status": "ok",
+        "raw": "599950000000000000000",
+        "reads": {
+          "https://forno.celo.org": "599950000000000000000",
+          "https://celo.drpc.org": "599950000000000000000"
+        }
+      },
+      {
+        "token": "wARS",
+        "chain": "celo",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 78912041,
+        "status": "ok",
+        "raw": "262674529314460000000000000",
+        "reads": {
+          "https://forno.celo.org": "262674529314460000000000000",
+          "https://celo.drpc.org": "262674529314460000000000000"
+        }
+      },
+      {
+        "token": "wBRL",
+        "chain": "celo",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 78912041,
+        "status": "ok",
+        "raw": "3708687895892251128768916",
+        "reads": {
+          "https://forno.celo.org": "3708687895892251128768916",
+          "https://celo.drpc.org": "3708687895892251128768916"
+        }
+      },
+      {
+        "token": "wMXN",
+        "chain": "celo",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 78912041,
+        "status": "ok",
+        "raw": "13099460000000000000000",
+        "reads": {
+          "https://forno.celo.org": "13099460000000000000000",
+          "https://celo.drpc.org": "13099460000000000000000"
+        }
+      },
+      {
+        "token": "wCOP",
+        "chain": "celo",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 78912041,
+        "status": "ok",
+        "raw": "33999986000000000000000000",
+        "reads": {
+          "https://forno.celo.org": "33999986000000000000000000",
+          "https://celo.drpc.org": "33999986000000000000000000"
+        }
+      },
+      {
+        "token": "wCLP",
+        "chain": "celo",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 78912041,
+        "status": "ok",
+        "raw": "1000087000000000000000000",
+        "reads": {
+          "https://forno.celo.org": "1000087000000000000000000",
+          "https://celo.drpc.org": "1000087000000000000000000"
+        }
+      },
+      {
+        "token": "wPEN",
+        "chain": "celo",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 78912041,
+        "status": "ok",
+        "raw": "599950000000000000000",
+        "reads": {
+          "https://forno.celo.org": "599950000000000000000",
+          "https://celo.drpc.org": "error: RpcError: celo eth_call: all endpoints failed: https://celo.drpc.org: -32601 the method eth_call does not exist/is not available"
+        }
+      }
+    ]
+  },
+  {
+    "chain": "hyperevm",
+    "history": {
+      "https://rpc.hyperliquid.xyz/evm": "excluded in config (no_history)",
+      "https://hyperliquid.drpc.org": "serves historical state",
+      "https://rpc.hypurrscan.io": "excluded in config (no_history)",
+      "https://hyperliquid-json-rpc.stakely.io": "excluded in config (no_history)"
+    },
+    "cutoff_blocks": [
+      {
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "instant_utc": "2026-04-01T02:59:59+00:00",
+        "unix": 1775012399,
+        "block": 31270475,
+        "block_timestamp": 1775012399,
+        "block_hash": "0xef64ec5c3a926876e6be4a83a28af632ff502773705cdc310522f7cf2fc076c6",
+        "next_block_timestamp": 1775012400
+      },
+      {
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "instant_utc": "2026-03-31T23:59:59+00:00",
+        "unix": 1775001599,
+        "block": 31259495,
+        "block_timestamp": 1775001599,
+        "block_hash": "0x70e11ec8d92e35ad13d4b74d7510aadcd645ccf1f1e945d622300ec2691a2c67",
+        "next_block_timestamp": 1775001600
+      },
+      {
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "instant_utc": "2026-07-01T02:59:59+00:00",
+        "unix": 1782874799,
+        "block": 39262879,
+        "block_timestamp": 1782874799,
+        "block_hash": "0x53ff03a761a970872a864234fc52d74703c68a5ab11eb9036fa228146670e8a7",
+        "next_block_timestamp": 1782874800
+      },
+      {
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "instant_utc": "2026-06-30T23:59:59+00:00",
+        "unix": 1782863999,
+        "block": 39251899,
+        "block_timestamp": 1782863999,
+        "block_hash": "0x5ad3b9cb92b5db7e9a12837972f234bd82916421afa27d60e11e7bf3d3203e8c",
+        "next_block_timestamp": 1782864000
+      },
+      {
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "instant_utc": "2026-10-01T02:59:59+00:00",
+        "unix": 1790823599,
+        "block": 47343194,
+        "block_timestamp": 1790823599,
+        "block_hash": "0xc760c28eb6b422894a8fd66aa76e16c07075641b52a63759107f57bca19c8069",
+        "next_block_timestamp": 1790823600
+      },
+      {
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "instant_utc": "2026-09-30T23:59:59+00:00",
+        "unix": 1790812799,
+        "block": 47332214,
+        "block_timestamp": 1790812799,
+        "block_hash": "0x7f007d6c7be27b00e3ecb5d29454de39ba7292067008dfe61f7e5d8cb501e077",
+        "next_block_timestamp": 1790812800
+      }
+    ],
+    "rows": [
+      {
+        "token": "wARS",
+        "chain": "hyperevm",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 31270475,
+        "status": "not_created",
+        "raw": "0",
+        "creation_block": 35699695
+      },
+      {
+        "token": "wBRL",
+        "chain": "hyperevm",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 31270475,
+        "status": "not_created",
+        "raw": "0",
+        "creation_block": 35701321
+      },
+      {
+        "token": "wMXN",
+        "chain": "hyperevm",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 31270475,
+        "status": "not_created",
+        "raw": "0",
+        "creation_block": 35701061
+      },
+      {
+        "token": "wCOP",
+        "chain": "hyperevm",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 31270475,
+        "status": "not_created",
+        "raw": "0",
+        "creation_block": 35703976
+      },
+      {
+        "token": "wCLP",
+        "chain": "hyperevm",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 31270475,
+        "status": "not_created",
+        "raw": "0",
+        "creation_block": 35704902
+      },
+      {
+        "token": "wPEN",
+        "chain": "hyperevm",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": 31270475,
+        "status": "not_created",
+        "raw": "0",
+        "creation_block": 35705024
+      },
+      {
+        "token": "wARS",
+        "chain": "hyperevm",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 31259495,
+        "status": "not_created",
+        "raw": "0",
+        "creation_block": 35699695
+      },
+      {
+        "token": "wBRL",
+        "chain": "hyperevm",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 31259495,
+        "status": "not_created",
+        "raw": "0",
+        "creation_block": 35701321
+      },
+      {
+        "token": "wMXN",
+        "chain": "hyperevm",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 31259495,
+        "status": "not_created",
+        "raw": "0",
+        "creation_block": 35701061
+      },
+      {
+        "token": "wCOP",
+        "chain": "hyperevm",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 31259495,
+        "status": "not_created",
+        "raw": "0",
+        "creation_block": 35703976
+      },
+      {
+        "token": "wCLP",
+        "chain": "hyperevm",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 31259495,
+        "status": "not_created",
+        "raw": "0",
+        "creation_block": 35704902
+      },
+      {
+        "token": "wPEN",
+        "chain": "hyperevm",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": 31259495,
+        "status": "not_created",
+        "raw": "0",
+        "creation_block": 35705024
+      },
+      {
+        "token": "wARS",
+        "chain": "hyperevm",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 39262879,
+        "status": "ok",
+        "raw": "129600010000000000000000000",
+        "reads": {
+          "https://hyperliquid.drpc.org": "129600010000000000000000000"
+        }
+      },
+      {
+        "token": "wBRL",
+        "chain": "hyperevm",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 39262879,
+        "status": "ok",
+        "raw": "0",
+        "reads": {
+          "https://hyperliquid.drpc.org": "0"
+        }
+      },
+      {
+        "token": "wMXN",
+        "chain": "hyperevm",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 39262879,
+        "status": "ok",
+        "raw": "0",
+        "reads": {
+          "https://hyperliquid.drpc.org": "0"
+        }
+      },
+      {
+        "token": "wCOP",
+        "chain": "hyperevm",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 39262879,
+        "status": "ok",
+        "raw": "0",
+        "reads": {
+          "https://hyperliquid.drpc.org": "0"
+        }
+      },
+      {
+        "token": "wCLP",
+        "chain": "hyperevm",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 39262879,
+        "status": "ok",
+        "raw": "0",
+        "reads": {
+          "https://hyperliquid.drpc.org": "0"
+        }
+      },
+      {
+        "token": "wPEN",
+        "chain": "hyperevm",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 39262879,
+        "status": "ok",
+        "raw": "0",
+        "reads": {
+          "https://hyperliquid.drpc.org": "0"
+        }
+      },
+      {
+        "token": "wARS",
+        "chain": "hyperevm",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 39251899,
+        "status": "ok",
+        "raw": "129600010000000000000000000",
+        "reads": {
+          "https://hyperliquid.drpc.org": "129600010000000000000000000"
+        }
+      },
+      {
+        "token": "wBRL",
+        "chain": "hyperevm",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 39251899,
+        "status": "ok",
+        "raw": "0",
+        "reads": {
+          "https://hyperliquid.drpc.org": "0"
+        }
+      },
+      {
+        "token": "wMXN",
+        "chain": "hyperevm",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 39251899,
+        "status": "ok",
+        "raw": "0",
+        "reads": {
+          "https://hyperliquid.drpc.org": "0"
+        }
+      },
+      {
+        "token": "wCOP",
+        "chain": "hyperevm",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 39251899,
+        "status": "ok",
+        "raw": "0",
+        "reads": {
+          "https://hyperliquid.drpc.org": "0"
+        }
+      },
+      {
+        "token": "wCLP",
+        "chain": "hyperevm",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 39251899,
+        "status": "ok",
+        "raw": "0",
+        "reads": {
+          "https://hyperliquid.drpc.org": "0"
+        }
+      },
+      {
+        "token": "wPEN",
+        "chain": "hyperevm",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 39251899,
+        "status": "ok",
+        "raw": "0",
+        "reads": {
+          "https://hyperliquid.drpc.org": "0"
+        }
+      },
+      {
+        "token": "wARS",
+        "chain": "hyperevm",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 47343194,
+        "status": "ok",
+        "raw": "409279807617718859506384744",
+        "reads": {
+          "https://hyperliquid.drpc.org": "409279807617718859506384744"
+        }
+      },
+      {
+        "token": "wBRL",
+        "chain": "hyperevm",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 47343194,
+        "status": "ok",
+        "raw": "2499220298586097094440148",
+        "reads": {
+          "https://hyperliquid.drpc.org": "2499220298586097094440148"
+        }
+      },
+      {
+        "token": "wMXN",
+        "chain": "hyperevm",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 47343194,
+        "status": "ok",
+        "raw": "0",
+        "reads": {
+          "https://hyperliquid.drpc.org": "0"
+        }
+      },
+      {
+        "token": "wCOP",
+        "chain": "hyperevm",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 47343194,
+        "status": "ok",
+        "raw": "0",
+        "reads": {
+          "https://hyperliquid.drpc.org": "0"
+        }
+      },
+      {
+        "token": "wCLP",
+        "chain": "hyperevm",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 47343194,
+        "status": "ok",
+        "raw": "0",
+        "reads": {
+          "https://hyperliquid.drpc.org": "0"
+        }
+      },
+      {
+        "token": "wPEN",
+        "chain": "hyperevm",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 47343194,
+        "status": "ok",
+        "raw": "0",
+        "reads": {
+          "https://hyperliquid.drpc.org": "0"
+        }
+      },
+      {
+        "token": "wARS",
+        "chain": "hyperevm",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 47332214,
+        "status": "ok",
+        "raw": "409279807617718859506384744",
+        "reads": {
+          "https://hyperliquid.drpc.org": "409279807617718859506384744"
+        }
+      },
+      {
+        "token": "wBRL",
+        "chain": "hyperevm",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 47332214,
+        "status": "ok",
+        "raw": "2499220298586097094440148",
+        "reads": {
+          "https://hyperliquid.drpc.org": "2499220298586097094440148"
+        }
+      },
+      {
+        "token": "wMXN",
+        "chain": "hyperevm",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 47332214,
+        "status": "ok",
+        "raw": "0",
+        "reads": {
+          "https://hyperliquid.drpc.org": "0"
+        }
+      },
+      {
+        "token": "wCOP",
+        "chain": "hyperevm",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 47332214,
+        "status": "ok",
+        "raw": "0",
+        "reads": {
+          "https://hyperliquid.drpc.org": "0"
+        }
+      },
+      {
+        "token": "wCLP",
+        "chain": "hyperevm",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 47332214,
+        "status": "ok",
+        "raw": "0",
+        "reads": {
+          "https://hyperliquid.drpc.org": "0"
+        }
+      },
+      {
+        "token": "wPEN",
+        "chain": "hyperevm",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 47332214,
+        "status": "ok",
+        "raw": "0",
+        "reads": {
+          "https://hyperliquid.drpc.org": "0"
+        }
+      }
+    ]
+  },
+  {
+    "chain": "arc",
+    "history": {
+      "https://rpc.mainnet.arc.io": "serves historical state",
+      "https://rpc.drpc.mainnet.arc.io": "serves historical state",
+      "https://rpc.blockdaemon.mainnet.arc.io": "no archive state: https://rpc.blockdaemon.mainnet.arc.io: -32603 state at block #2 is pruned",
+      "https://rpc.quicknode.mainnet.arc.io": "serves historical state"
+    },
+    "cutoff_blocks": [
+      {
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "instant_utc": "2026-04-01T02:59:59+00:00",
+        "unix": 1775012399,
+        "block": null,
+        "network_not_live": true,
+        "genesis_timestamp": 1778544000,
+        "block_1_timestamp": 1778853531
+      },
+      {
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "instant_utc": "2026-03-31T23:59:59+00:00",
+        "unix": 1775001599,
+        "block": null,
+        "network_not_live": true,
+        "genesis_timestamp": 1778544000,
+        "block_1_timestamp": 1778853531
+      },
+      {
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "instant_utc": "2026-07-01T02:59:59+00:00",
+        "unix": 1782874799,
+        "block": 7965224,
+        "block_timestamp": 1782874799,
+        "block_hash": "0x2633ae9568946fd37446e5e819fcb423c69834058a3d1922e83f2b0ca3507941",
+        "next_block_timestamp": 1782874800
+      },
+      {
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "instant_utc": "2026-06-30T23:59:59+00:00",
+        "unix": 1782863999,
+        "block": 7943802,
+        "block_timestamp": 1782863999,
+        "block_hash": "0x543dea245a969ddbfdd9434322d02c123fe3b15cb07032de546ef9148607fdd3",
+        "next_block_timestamp": 1782864000
+      },
+      {
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "instant_utc": "2026-10-01T02:59:59+00:00",
+        "unix": 1790823599,
+        "block": 23641972,
+        "block_timestamp": 1790823599,
+        "block_hash": "0x68b04bc70e50982164d56c1e8cf228fcfff163de9c61838e427a7ba4baa5967c",
+        "next_block_timestamp": 1790823600
+      },
+      {
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "instant_utc": "2026-09-30T23:59:59+00:00",
+        "unix": 1790812799,
+        "block": 23620687,
+        "block_timestamp": 1790812799,
+        "block_hash": "0x807b4608b50fbaeac3fc70d3b507cd77333e31367aa1ba1363786628eed24fc8",
+        "next_block_timestamp": 1790812800
+      }
+    ],
+    "rows": [
+      {
+        "token": "wARS",
+        "chain": "arc",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": null,
+        "status": "network_not_live",
+        "raw": "0",
+        "block_1_timestamp": 1778853531
+      },
+      {
+        "token": "wBRL",
+        "chain": "arc",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": null,
+        "status": "network_not_live",
+        "raw": "0",
+        "block_1_timestamp": 1778853531
+      },
+      {
+        "token": "wMXN",
+        "chain": "arc",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": null,
+        "status": "network_not_live",
+        "raw": "0",
+        "block_1_timestamp": 1778853531
+      },
+      {
+        "token": "wCOP",
+        "chain": "arc",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": null,
+        "status": "network_not_live",
+        "raw": "0",
+        "block_1_timestamp": 1778853531
+      },
+      {
+        "token": "wCLP",
+        "chain": "arc",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": null,
+        "status": "network_not_live",
+        "raw": "0",
+        "block_1_timestamp": 1778853531
+      },
+      {
+        "token": "wPEN",
+        "chain": "arc",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "block": null,
+        "status": "network_not_live",
+        "raw": "0",
+        "block_1_timestamp": 1778853531
+      },
+      {
+        "token": "wARS",
+        "chain": "arc",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": null,
+        "status": "network_not_live",
+        "raw": "0",
+        "block_1_timestamp": 1778853531
+      },
+      {
+        "token": "wBRL",
+        "chain": "arc",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": null,
+        "status": "network_not_live",
+        "raw": "0",
+        "block_1_timestamp": 1778853531
+      },
+      {
+        "token": "wMXN",
+        "chain": "arc",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": null,
+        "status": "network_not_live",
+        "raw": "0",
+        "block_1_timestamp": 1778853531
+      },
+      {
+        "token": "wCOP",
+        "chain": "arc",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": null,
+        "status": "network_not_live",
+        "raw": "0",
+        "block_1_timestamp": 1778853531
+      },
+      {
+        "token": "wCLP",
+        "chain": "arc",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": null,
+        "status": "network_not_live",
+        "raw": "0",
+        "block_1_timestamp": 1778853531
+      },
+      {
+        "token": "wPEN",
+        "chain": "arc",
+        "cutoff": "2026-03-31",
+        "convention": "UTC",
+        "block": null,
+        "status": "network_not_live",
+        "raw": "0",
+        "block_1_timestamp": 1778853531
+      },
+      {
+        "token": "wARS",
+        "chain": "arc",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 7965224,
+        "status": "not_created",
+        "raw": "0",
+        "creation_block": 19659303
+      },
+      {
+        "token": "wBRL",
+        "chain": "arc",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 7965224,
+        "status": "not_created",
+        "raw": "0",
+        "creation_block": 19663774
+      },
+      {
+        "token": "wMXN",
+        "chain": "arc",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 7965224,
+        "status": "not_created",
+        "raw": "0",
+        "creation_block": 19662934
+      },
+      {
+        "token": "wCOP",
+        "chain": "arc",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 7965224,
+        "status": "not_created",
+        "raw": "0",
+        "creation_block": 19665237
+      },
+      {
+        "token": "wCLP",
+        "chain": "arc",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 7965224,
+        "status": "not_created",
+        "raw": "0",
+        "creation_block": 19665736
+      },
+      {
+        "token": "wPEN",
+        "chain": "arc",
+        "cutoff": "2026-06-30",
+        "convention": "ART",
+        "block": 7965224,
+        "status": "not_created",
+        "raw": "0",
+        "creation_block": 19665967
+      },
+      {
+        "token": "wARS",
+        "chain": "arc",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 7943802,
+        "status": "not_created",
+        "raw": "0",
+        "creation_block": 19659303
+      },
+      {
+        "token": "wBRL",
+        "chain": "arc",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 7943802,
+        "status": "not_created",
+        "raw": "0",
+        "creation_block": 19663774
+      },
+      {
+        "token": "wMXN",
+        "chain": "arc",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 7943802,
+        "status": "not_created",
+        "raw": "0",
+        "creation_block": 19662934
+      },
+      {
+        "token": "wCOP",
+        "chain": "arc",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 7943802,
+        "status": "not_created",
+        "raw": "0",
+        "creation_block": 19665237
+      },
+      {
+        "token": "wCLP",
+        "chain": "arc",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 7943802,
+        "status": "not_created",
+        "raw": "0",
+        "creation_block": 19665736
+      },
+      {
+        "token": "wPEN",
+        "chain": "arc",
+        "cutoff": "2026-06-30",
+        "convention": "UTC",
+        "block": 7943802,
+        "status": "not_created",
+        "raw": "0",
+        "creation_block": 19665967
+      },
+      {
+        "token": "wARS",
+        "chain": "arc",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 23641972,
+        "status": "ok",
+        "raw": "117924064398213000000000000",
+        "reads": {
+          "https://rpc.mainnet.arc.io": "117924064398213000000000000",
+          "https://rpc.drpc.mainnet.arc.io": "117924064398213000000000000"
+        }
+      },
+      {
+        "token": "wBRL",
+        "chain": "arc",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 23641972,
+        "status": "ok",
+        "raw": "329380864996706797392792",
+        "reads": {
+          "https://rpc.mainnet.arc.io": "329380864996706797392792",
+          "https://rpc.drpc.mainnet.arc.io": "329380864996706797392792"
+        }
+      },
+      {
+        "token": "wMXN",
+        "chain": "arc",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 23641972,
+        "status": "ok",
+        "raw": "0",
+        "reads": {
+          "https://rpc.mainnet.arc.io": "0",
+          "https://rpc.drpc.mainnet.arc.io": "0"
+        }
+      },
+      {
+        "token": "wCOP",
+        "chain": "arc",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 23641972,
+        "status": "ok",
+        "raw": "0",
+        "reads": {
+          "https://rpc.mainnet.arc.io": "0",
+          "https://rpc.drpc.mainnet.arc.io": "0"
+        }
+      },
+      {
+        "token": "wCLP",
+        "chain": "arc",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 23641972,
+        "status": "ok",
+        "raw": "0",
+        "reads": {
+          "https://rpc.mainnet.arc.io": "0",
+          "https://rpc.drpc.mainnet.arc.io": "0"
+        }
+      },
+      {
+        "token": "wPEN",
+        "chain": "arc",
+        "cutoff": "2026-09-30",
+        "convention": "ART",
+        "block": 23641972,
+        "status": "ok",
+        "raw": "0",
+        "reads": {
+          "https://rpc.mainnet.arc.io": "0",
+          "https://rpc.drpc.mainnet.arc.io": "0"
+        }
+      },
+      {
+        "token": "wARS",
+        "chain": "arc",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 23620687,
+        "status": "ok",
+        "raw": "117924064398213000000000000",
+        "reads": {
+          "https://rpc.mainnet.arc.io": "117924064398213000000000000",
+          "https://rpc.drpc.mainnet.arc.io": "117924064398213000000000000"
+        }
+      },
+      {
+        "token": "wBRL",
+        "chain": "arc",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 23620687,
+        "status": "ok",
+        "raw": "329380864996706797392792",
+        "reads": {
+          "https://rpc.mainnet.arc.io": "329380864996706797392792",
+          "https://rpc.drpc.mainnet.arc.io": "329380864996706797392792"
+        }
+      },
+      {
+        "token": "wMXN",
+        "chain": "arc",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 23620687,
+        "status": "ok",
+        "raw": "0",
+        "reads": {
+          "https://rpc.mainnet.arc.io": "0",
+          "https://rpc.drpc.mainnet.arc.io": "0"
+        }
+      },
+      {
+        "token": "wCOP",
+        "chain": "arc",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 23620687,
+        "status": "ok",
+        "raw": "0",
+        "reads": {
+          "https://rpc.mainnet.arc.io": "0",
+          "https://rpc.drpc.mainnet.arc.io": "0"
+        }
+      },
+      {
+        "token": "wCLP",
+        "chain": "arc",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 23620687,
+        "status": "ok",
+        "raw": "0",
+        "reads": {
+          "https://rpc.mainnet.arc.io": "0",
+          "https://rpc.drpc.mainnet.arc.io": "0"
+        }
+      },
+      {
+        "token": "wPEN",
+        "chain": "arc",
+        "cutoff": "2026-09-30",
+        "convention": "UTC",
+        "block": 23620687,
+        "status": "ok",
+        "raw": "0",
+        "reads": {
+          "https://rpc.mainnet.arc.io": "0",
+          "https://rpc.drpc.mainnet.arc.io": "0"
+        }
+      }
+    ]
+  }
+]

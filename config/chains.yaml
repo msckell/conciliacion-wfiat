@@ -4,7 +4,10 @@
 # The rest are probed for deployments only.
 #
 # rpc_urls are free public endpoints, tried in order. An env var RPC_URL_<KEY> goes first.
-# explorer_api: free Blockscout or Etherscan style API used as a second source for logs.
+# explorer_api: free Blockscout or Etherscan style API used as a source for logs.
+# logs_rpc: public endpoints that serve eth_getLogs, and the block grid they accept.
+#   Networks without it are too slow to scan on free RPCs (1000 block limits over millions
+#   of blocks), so their logs come from the explorer and are checked against totalSupply.
 
 chains:
   ethereum:
@@ -15,6 +18,7 @@ chains:
       - https://ethereum-rpc.publicnode.com
       - https://eth.drpc.org
       - https://1rpc.io/eth
+    logs_rpc: {urls: [https://mainnet.gateway.tenderly.co], grid: 1000000}
     explorer: https://etherscan.io
     explorer_api:
       - {kind: blockscout, url: https://eth.blockscout.com/api}
@@ -41,6 +45,9 @@ chains:
       - https://polygon-bor-rpc.publicnode.com
       - https://polygon.drpc.org
       - https://1rpc.io/matic
+    # publicnode serves eth_getLogs here but takes about 15 s per 10k blocks, so Polygon logs
+    # come from Blockscout.
+    logs_rpc: {urls: [https://polygon.gateway.tenderly.co], grid: 100000}
     explorer: https://polygonscan.com
     explorer_api:
       - {kind: blockscout, url: https://polygon.blockscout.com/api}
@@ -55,6 +62,7 @@ chains:
       - https://rpc.gnosischain.com
       - https://gnosis.drpc.org
       - https://1rpc.io/gnosis
+    logs_rpc: {urls: [https://rpc.gnosischain.com], grid: 100000}
     explorer: https://gnosisscan.io
     explorer_api:
       - {kind: blockscout, url: https://gnosis.blockscout.com/api}
@@ -68,6 +76,8 @@ chains:
       - https://bsc-dataseed1.defibit.io
       - https://bsc-rpc.publicnode.com
       - https://bsc-mainnet.public.blastapi.io
+    # No free logs API on BNB: the tx list comes from BscScan (data/sources), amounts from receipts.
+    logs_bscscan_list: data/sources/bscscan_zero_address_transfers.json
     explorer: https://bscscan.com
     explorer_api: []
 
@@ -79,6 +89,7 @@ chains:
       - https://worldchain-mainnet.g.alchemy.com/public
       - https://worldchain.drpc.org
       - https://480.rpc.thirdweb.com
+    logs_rpc: {urls: [https://worldchain-mainnet.gateway.tenderly.co], grid: 1000000}
     explorer: https://worldscan.org
     explorer_api:
       - {kind: blockscout, url: https://worldchain-mainnet.explorer.alchemy.com/api}
@@ -93,6 +104,7 @@ chains:
       - https://celo-json-rpc.stakely.io
       - https://celo.drpc.org
       - https://1rpc.io/celo
+    logs_rpc: {urls: [https://celo.gateway.tenderly.co], grid: 1000000}
     explorer: https://celoscan.io
     explorer_api:
       - {kind: blockscout, url: https://celo.blockscout.com/api}
@@ -113,6 +125,12 @@ chains:
       - https://rpc.hyperliquid.xyz/evm
       - https://rpc.hypurrscan.io
       - https://hyperliquid-json-rpc.stakely.io
+    # rpc.hyperliquid.xyz answers "rate limited" to most eth_getLogs calls (2026-10-01).
+    logs_rpc:
+      urls: [https://hyperliquid-json-rpc.stakely.io, https://rpc.hypurrscan.io]
+      grid: 1000
+      all_transfers: true
+      workers: 4
     explorer: https://hyperevmscan.io
     explorer_api:
       - {kind: etherscan, url: https://api.etherscan.io/v2/api}
@@ -126,9 +144,10 @@ chains:
       - https://rpc.drpc.mainnet.arc.io
       - https://rpc.blockdaemon.mainnet.arc.io
       - https://rpc.quicknode.mainnet.arc.io
+    logs_rpc: {urls: [https://arc.gateway.tenderly.co], grid: 100000}
     explorer: https://explorer.arc.io
-    explorer_api:
-      - {kind: blockscout, url: https://explorer.arc.io/api}
+    # explorer.arc.io answers scripts with a bot challenge (seen 2026-10-01), so no API here.
+    explorer_api: []
 
   # Probed for deployments only.
   arbitrum:
