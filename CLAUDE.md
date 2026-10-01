@@ -96,7 +96,7 @@ Success means the page opens instantly, with no login and no API key, and shows:
 9. **Not official, not branded.**
    - Title "Cierre trimestral wFIAT", subtitle "Demo independiente para Ripio, por Máximo Sckell".
    - A visible disclaimer.
-   - No Ripio logo, colors or fonts.
+   - No Ripio logo, colors or fonts on the page or in Slack. Exception (Maxi's decision, 2026-10-01): the Excel package carries light Ripio branding (logo and purple), and keeps the "No es una herramienta oficial" disclaimer.
    - The domain must not contain "ripio".
 10. **Sensitivity.**
     - Add a `noindex,nofollow` meta tag and a `robots.txt` that disallows everything.

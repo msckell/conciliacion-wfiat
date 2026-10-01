@@ -11,9 +11,11 @@ from decimal import Decimal
 from zoneinfo import ZoneInfo
 
 from openpyxl import Workbook
+from openpyxl.drawing.image import Image
 from openpyxl.styles import Alignment, Font, PatternFill
 from openpyxl.utils import get_column_letter
 
+from cierre import REPO_ROOT
 from cierre.config import Chain, Token
 
 ART = ZoneInfo("America/Argentina/Buenos_Aires")
@@ -57,7 +59,9 @@ def build(
     methodology: list[dict],
     convention: str,
     all_chains: dict[str, Chain] | None = None,
+    overrides: dict[tuple[str, str, int], dict] | None = None,
 ) -> dict:
+    """overrides: movements the exception agent proved, keyed by (chain, tx, log_index)."""
     by_chain = {c["chain"]: c for c in engine}
     first = next(c for c in engine if "previous_cutoff" in c)
     cutoff, prev = first["cutoff"], first["previous_cutoff"]
@@ -160,6 +164,9 @@ def build(
                 }
             )
             for m in t.get("movements", []):
+                fix = (overrides or {}).get((m["chain"], m["tx_hash"], m["log_index"]))
+                if fix:
+                    m = m | fix
                 cat = m.get("category", "unclassified")
                 agg["by_category"][cat]["amount"] += int(m["amount"])
                 agg["by_category"][cat]["count"] += 1
@@ -248,6 +255,8 @@ def _review_items(movements: list[dict], chains: dict[str, Chain]) -> list[dict]
     for m in movements:
         reason = None
         b = m.get("bridge") or {}
+        if m.get("resolved_by_agent"):
+            continue
         if m.get("category") == "unclassified":
             reason = (
                 "Sin clasificar: no tiene evento del puente ni de LimitedMinter."
@@ -297,9 +306,16 @@ def _review_items(movements: list[dict], chains: dict[str, Chain]) -> list[dict]
 # ---------------------------------------------------------------------------- Excel
 
 
+# Ripio branding, Excel only. Purple sampled from the wordmark, tint is 10% purple on white.
+PURPLE = "7808FE"
+TINT = "F2E6FF"
+LOGO = REPO_ROOT / "assets" / "branding" / "ripio_wordmark.png"
+LOGO_HEIGHT_PX = 40
+
 HEAD = Font(bold=True, color="FFFFFF")
-HEAD_FILL = PatternFill("solid", fgColor="3F4A5A")
-TITLE = Font(bold=True, size=14)
+HEAD_FILL = PatternFill("solid", fgColor=PURPLE)
+TINT_FILL = PatternFill("solid", fgColor=TINT)
+TITLE = Font(bold=True, size=16, color=PURPLE)
 NUM = "#,##0.00"
 
 
@@ -322,6 +338,14 @@ def _link(cell, url: str | None, text: str) -> None:
         cell.font = Font(color="1F4E99", underline="single")
 
 
+def _logo(ws) -> None:
+    """Wordmark in A1, row 1 sized to hold it."""
+    img = Image(str(LOGO))
+    img.width, img.height = round(img.width * LOGO_HEIGHT_PX / img.height), LOGO_HEIGHT_PX
+    ws.add_image(img, "A1")
+    ws.row_dimensions[1].height = LOGO_HEIGHT_PX * 0.75 + 4  # points
+
+
 def _dt(ts: int | None) -> str:
     if not ts:
         return ""
@@ -341,22 +365,23 @@ def write_excel(pkg: dict, chains: dict[str, Chain], path) -> None:
     # Resumen
     ws = wb.active
     ws.title = "Resumen"
-    ws["A1"] = f"Cierre trimestral wFIAT al {cut}"
-    ws["A1"].font = TITLE
-    ws["A2"] = "Demo independiente para Ripio, por Máximo Sckell. No es una herramienta oficial."
-    ws["A3"] = (
+    _logo(ws)
+    ws["A2"] = f"Cierre trimestral wFIAT al {cut}"
+    ws["A2"].font = TITLE
+    ws["A3"] = "Demo independiente para Ripio, por Máximo Sckell. No es una herramienta oficial."
+    ws["A4"] = (
         f"Corte: {cut} 23:59:59 hora de Buenos Aires. Cierre anterior: {prev}. "
         f"Generado: {pkg['generated_at']} (UTC)."
     )
-    ws["A4"] = (
+    ws["A5"] = (
         "Conciliación por red: todas las diferencias son cero."
         if pkg["all_reconciled"]
         else "Atención: hay redes o tokens que no concilian. Revisá la hoja Conciliación."
     )
-    ws["A4"].font = Font(bold=True)
+    ws["A5"].font = Font(bold=True)
     _header(
         ws,
-        6,
+        7,
         [
             "Token",
             f"Saldo al {prev}",
@@ -372,7 +397,7 @@ def write_excel(pkg: dict, chains: dict[str, Chain], path) -> None:
             "Redes con saldo",
         ],
     )
-    r = 7
+    r = 8
     for sym, t in pkg["tokens"].items():
         cat = t["by_category"]
         vals = [
@@ -540,7 +565,13 @@ def write_excel(pkg: dict, chains: dict[str, Chain], path) -> None:
                 b["source"]["explorer_url"],
                 f"salió de {names[b['source_chain']]} en el bloque {b['source']['block']}",
             )
-        ws.cell(row=i, column=13, value=review_tx.get((m["chain"], m["tx_hash"]), ""))
+        reason = review_tx.get((m["chain"], m["tx_hash"]), "")
+        agent = m.get("resolved_by_agent")
+        if agent and not reason:
+            reason = "Resuelto por el agente. Verificado: " + ". ".join(agent["checks"])
+        ws.cell(row=i, column=13, value=reason)
+        if reason and not agent:
+            ws.cell(row=i, column=13).fill = TINT_FILL
     _widths(ws, [20, 14, 7, 8, 18, 16, 30, 11, 30, 44, 30, 40, 50])
     ws.freeze_panes = "A2"
 
@@ -602,4 +633,6 @@ def write_excel(pkg: dict, chains: dict[str, Chain], path) -> None:
         ws.cell(row=i, column=3, value=m["source"]).alignment = Alignment(wrap_text=True)
     _widths(ws, [70, 14, 70])
 
+    for sheet in wb.worksheets:
+        sheet.sheet_properties.tabColor = PURPLE
     wb.save(path)

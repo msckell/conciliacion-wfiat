@@ -273,6 +273,76 @@ def cmd_coingecko(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_memo(args: argparse.Namespace) -> int:
+    """Closing memo for a close that already has its package."""
+    from cierre.agent.llm import ask_claude
+    from cierre.agent.memo import build_memo
+
+    out_dir = DATA_DIR / "closes" / args.cutoff
+    pkg = json.loads((out_dir / "package.json").read_text(encoding="utf-8"))
+    memo = build_memo(pkg, ask_claude, out_dir)
+    _dump(out_dir / "memo.json", memo)
+    for sym, t in memo["tokens"].items():
+        e = t["explanation"]
+        print(f"{sym}: {e['source']} after {e['attempts']} attempt(s)", flush=True)
+    return 0
+
+
+def cmd_extract_eval(args: argparse.Namespace) -> int:
+    """LLM extraction of every certificate, scored against the confirmed table."""
+    from cierre.agent.extract import run_eval
+    from cierre.agent.llm import ask_claude
+    from cierre.golden import load_confirmed
+
+    result = run_eval(load_confirmed(), ask_claude)
+    _dump(DATA_DIR / "golden" / "extraction_eval.json", result)
+    print(f"{result['documents_all_fields_ok']} of {result['documents']} documents fully right")
+    print(result["per_field_ok"])
+    return 0
+
+
+def cmd_exceptions(args: argparse.Namespace) -> int:
+    """Exception agent over the review items of the engine package. The package and the
+    Excel are rebuilt afterwards, with the movements it proved."""
+    from cierre.agent.exceptions import run
+    from cierre.agent.llm import ask_claude
+    from cierre.agent.tools import Tools
+
+    out_dir = DATA_DIR / "closes" / args.cutoff
+    pkg = json.loads((out_dir / "package.json").read_text(encoding="utf-8"))
+    chains = {k: c for k, c in load_chains().items() if c.in_scope}
+    tools = Tools(chains, pkg, DiskCache())
+    try:
+        result = run(pkg, tools, ask_claude, out_dir)
+    finally:
+        tools.close()
+    _dump(out_dir / "exceptions.json", result)
+    print(f"resolved {result['resolved']} of {result['investigated']}, tasks {result['tasks']}")
+    return _package(args.cutoff, out_dir, out_dir / "engine.json")
+
+
+def cmd_slack(args: argparse.Namespace) -> int:
+    """Slack message for a close. Dry run (payload to a file) without SLACK_WEBHOOK_URL."""
+    from cierre.slack import close_message, send
+
+    out_dir = DATA_DIR / "closes" / args.cutoff
+
+    def read(name: str):
+        path = out_dir / name
+        return json.loads(path.read_text(encoding="utf-8")) if path.exists() else None
+
+    payload = close_message(
+        read("package.json"),
+        read("memo.json"),
+        read("exceptions.json"),
+        json.loads((DATA_DIR / "golden" / "verification.json").read_text(encoding="utf-8")),
+        args.excel_url,
+        {k: c.name for k, c in load_chains().items()},
+    )
+    print(send(payload, out_dir / "slack_payload.json"))
+    return 0
+
+
 def cmd_close(args: argparse.Namespace) -> int:
     """Quarter close: engine (supply, movements, reconciliation), then the package."""
     from cierre.close import run_close
@@ -299,11 +369,13 @@ def _package(cutoff: str, out_dir, engine_path) -> int:
     import yaml
 
     from cierre import CONFIG_DIR
+    from cierre.agent.exceptions import overrides
     from cierre.bridge import match
     from cierre.close import classify_all
     from cierre.golden import OFFICIAL_RULE, load_confirmed
     from cierre.package import build, write_excel
 
+    exc_path = out_dir / "exceptions.json"
     engine = json.loads(engine_path.read_text(encoding="utf-8"))
     chains = {k: c for k, c in load_chains().items() if c.in_scope}
     tokens = load_tokens()
@@ -325,6 +397,9 @@ def _package(cutoff: str, out_dir, engine_path) -> int:
         methodology,
         OFFICIAL_RULE["convention"],
         all_chains=load_chains(),
+        overrides=overrides(json.loads(exc_path.read_text(encoding="utf-8")))
+        if exc_path.exists()
+        else None,
     )
     _dump(out_dir / "package.json", pkg)
     write_excel(pkg, chains, out_dir / f"paquete_cierre_{cutoff}.xlsx")
@@ -346,6 +421,14 @@ def main(argv: list[str] | None = None) -> int:
     p_supply.add_argument("--cutoffs", nargs="+", default=CUTOFFS)
     sub.add_parser("golden", help="computed vs confirmed certified figures, every rule")
     sub.add_parser("coingecko", help="networks CoinGecko lists for each token")
+    p_exc = sub.add_parser("exceptions", help="exception agent over the review items")
+    p_exc.add_argument("--cutoff", required=True)
+    p_slack = sub.add_parser("slack", help="Slack message for a close (dry run without webhook)")
+    p_slack.add_argument("--cutoff", required=True)
+    p_slack.add_argument("--excel-url", required=True)
+    sub.add_parser("extract-eval", help="LLM certificate extraction vs confirmed table")
+    p_memo = sub.add_parser("memo", help="closing memo (LLM explanations, verified)")
+    p_memo.add_argument("--cutoff", required=True)
     p_close = sub.add_parser("close", help="quarter close package for a cutoff")
     p_close.add_argument("--cutoff", required=True)
     p_close.add_argument("--chains", nargs="+", help="rerun the engine only for these")
@@ -362,6 +445,10 @@ def main(argv: list[str] | None = None) -> int:
         "golden": cmd_golden,
         "close": cmd_close,
         "coingecko": cmd_coingecko,
+        "memo": cmd_memo,
+        "extract-eval": cmd_extract_eval,
+        "exceptions": cmd_exceptions,
+        "slack": cmd_slack,
     }
     return commands[args.command](args)
 

@@ -1,0 +1,514 @@
+{
+  "generated_at": "2026-10-01T20:48:26+00:00",
+  "model": "claude-sonnet-5-5",
+  "documents": 9,
+  "documents_all_fields_ok": 9,
+  "per_field_ok": {
+    "token": 9,
+    "cutoff": 9,
+    "tokens_outstanding": 9,
+    "collateral": 9,
+    "signed_date": 9,
+    "networks": 9
+  },
+  "rows": [
+    {
+      "token": "wARS",
+      "cutoff": "2026-03-31",
+      "url": "https://action.ripio.com/hubfs/2026/wFIAT/ATTESTATION/20260331_wARS_Certification.pdf",
+      "extracted": {
+        "token": "wARS",
+        "cutoff": "2026-03-31",
+        "tokens_outstanding": "973,000,960.19",
+        "tokens_outstanding_quote": "To reconcile the number of wARS tokens issued as of 03.31.2026, total 973,000,960.19 as reported by the issuing entity",
+        "collateral": "1,036,276,284",
+        "collateral_currency": "ARS",
+        "signed_date": "2026-04-22",
+        "networks_listed": [
+          "Ethereum",
+          "World Chain",
+          "Base",
+          "Polygon",
+          "Gnosis",
+          "Binance Smart Chain"
+        ],
+        "notes": "Las fechas de corte son consistentes (03.31.2026); el certificado usa formato MM/DD (firma 04/22/2026 = 22 de abril de 2026) y el respaldo se informa sin decimales mientras los tokens tienen dos."
+      },
+      "fields": {
+        "token": {
+          "ok": true
+        },
+        "cutoff": {
+          "ok": true
+        },
+        "tokens_outstanding": {
+          "ok": true,
+          "value": "973000960.19"
+        },
+        "collateral": {
+          "ok": true
+        },
+        "signed_date": {
+          "ok": true
+        },
+        "networks": {
+          "ok": true,
+          "keys": [
+            "base",
+            "bsc",
+            "ethereum",
+            "gnosis",
+            "polygon",
+            "worldchain"
+          ]
+        }
+      },
+      "duration_s": 5.1,
+      "all_ok": true
+    },
+    {
+      "token": "wBRL",
+      "cutoff": "2026-03-31",
+      "url": "https://action.ripio.com/hubfs/2026/wFIAT/ATTESTATION/20260331__wBRL__Token-Certification.pdf",
+      "extracted": {
+        "token": "wBRL",
+        "cutoff": "2026-03-31",
+        "tokens_outstanding": "719,448",
+        "tokens_outstanding_quote": "To reconcile the number of wBRL tokens issued as of 03.31.2026, totaling 719,448 as reported by the issuing entity",
+        "collateral": "809,597.28",
+        "collateral_currency": "R$",
+        "signed_date": "2026-05-18",
+        "networks_listed": [
+          "Ethereum",
+          "World Chain",
+          "Base",
+          "Gnosis",
+          "Polygon",
+          "BNB Smart Chain"
+        ],
+        "notes": "La fecha de corte aparece en formatos distintos (03.31.2026, March 31, 2026 y 03/31/2026) pero todas son la misma fecha."
+      },
+      "fields": {
+        "token": {
+          "ok": true
+        },
+        "cutoff": {
+          "ok": true
+        },
+        "tokens_outstanding": {
+          "ok": true,
+          "value": "719448"
+        },
+        "collateral": {
+          "ok": true
+        },
+        "signed_date": {
+          "ok": true
+        },
+        "networks": {
+          "ok": true,
+          "keys": [
+            "base",
+            "bsc",
+            "ethereum",
+            "gnosis",
+            "polygon",
+            "worldchain"
+          ]
+        }
+      },
+      "duration_s": 4.7,
+      "all_ok": true
+    },
+    {
+      "token": "wCOP",
+      "cutoff": "2026-03-31",
+      "url": "https://action.ripio.com/hubfs/2026/wFIAT/ATTESTATION/20260331__wCOP__Token-Certification.pdf",
+      "extracted": {
+        "token": "wCOP",
+        "cutoff": "2026-03-31",
+        "tokens_outstanding": "104,898,654",
+        "tokens_outstanding_quote": "To reconcile the number of wCOP tokens issued as of 03.31.2026, totaling 104,898,654 as reported by the issuing entity",
+        "collateral": "107,966,549.02",
+        "collateral_currency": "COP",
+        "signed_date": "2026-04-23",
+        "networks_listed": [
+          "Ethereum",
+          "World Chain",
+          "Base",
+          "Polygon",
+          "Gnosis",
+          "Binance Smart Chain"
+        ],
+        "notes": "Las fechas de corte coinciden (03.31.2026 / March 31, 2026); la fecha de firma está en formato 04/23/2026 (MM/DD/AAAA) y se interpretó como 23 de abril de 2026."
+      },
+      "fields": {
+        "token": {
+          "ok": true
+        },
+        "cutoff": {
+          "ok": true
+        },
+        "tokens_outstanding": {
+          "ok": true,
+          "value": "104898654"
+        },
+        "collateral": {
+          "ok": true
+        },
+        "signed_date": {
+          "ok": true
+        },
+        "networks": {
+          "ok": true,
+          "keys": [
+            "base",
+            "bsc",
+            "ethereum",
+            "gnosis",
+            "polygon",
+            "worldchain"
+          ]
+        }
+      },
+      "duration_s": 4.9,
+      "all_ok": true
+    },
+    {
+      "token": "wMXN",
+      "cutoff": "2026-03-31",
+      "url": "https://action.ripio.com/hubfs/2026/wFIAT/ATTESTATION/20260331__wMXN__Token-Certification.pdf",
+      "extracted": {
+        "token": "wMXN",
+        "cutoff": "2026-03-31",
+        "tokens_outstanding": "518,689",
+        "tokens_outstanding_quote": "To reconcile the number of wMXN tokens issued as of 03.31.2026, totaling 518,689 as reported by the issuing entity",
+        "collateral": "937,364.13",
+        "collateral_currency": "MXN",
+        "signed_date": "2026-04-24",
+        "networks_listed": [
+          "Ethereum",
+          "World Chain",
+          "Base",
+          "Polygon",
+          "Gnosis",
+          "Binance Smart Chain"
+        ],
+        "notes": "La fecha de firma aparece como 04/24/2026 (formato MM/DD/AAAA, interpretada como 24 de abril); el corte 03.31.2026 es consistente en todo el texto."
+      },
+      "fields": {
+        "token": {
+          "ok": true
+        },
+        "cutoff": {
+          "ok": true
+        },
+        "tokens_outstanding": {
+          "ok": true,
+          "value": "518689"
+        },
+        "collateral": {
+          "ok": true
+        },
+        "signed_date": {
+          "ok": true
+        },
+        "networks": {
+          "ok": true,
+          "keys": [
+            "base",
+            "bsc",
+            "ethereum",
+            "gnosis",
+            "polygon",
+            "worldchain"
+          ]
+        }
+      },
+      "duration_s": 4.9,
+      "all_ok": true
+    },
+    {
+      "token": "wARS",
+      "cutoff": "2026-06-30",
+      "url": "https://action.ripio.com/hubfs/2026/wFIAT/ATTESTATION/Aug%202026/Token%20wARS%2006.30.2026%20Certification%20vf.pdf",
+      "extracted": {
+        "token": "wARS",
+        "cutoff": "2026-06-30",
+        "tokens_outstanding": "7,619,996,077",
+        "tokens_outstanding_quote": "To reconcile the number of wARS tokens issued as of 06.30.2026, total 7,619,996,077 as reported by the issuing entity",
+        "collateral": "7,909,436,643.14",
+        "collateral_currency": "ARS",
+        "signed_date": "2026-07-28",
+        "networks_listed": [
+          "Ethereum",
+          "World Chain",
+          "Base",
+          "Polygon",
+          "Gnosis",
+          "Binance Smart Chain",
+          "HyperEVM",
+          "CeloScan"
+        ],
+        "notes": "La última red aparece como \"CeloScan\" (nombre de un explorador de bloques, no de la red Celo), y la fecha de firma 07/28/2026 está en formato mes/día/año."
+      },
+      "fields": {
+        "token": {
+          "ok": true
+        },
+        "cutoff": {
+          "ok": true
+        },
+        "tokens_outstanding": {
+          "ok": true,
+          "value": "7619996077"
+        },
+        "collateral": {
+          "ok": true
+        },
+        "signed_date": {
+          "ok": true
+        },
+        "networks": {
+          "ok": true,
+          "keys": [
+            "base",
+            "bsc",
+            "celo",
+            "ethereum",
+            "gnosis",
+            "hyperevm",
+            "polygon",
+            "worldchain"
+          ]
+        }
+      },
+      "duration_s": 5.1,
+      "all_ok": true
+    },
+    {
+      "token": "wBRL",
+      "cutoff": "2026-06-30",
+      "url": "https://action.ripio.com/hubfs/2026/wFIAT/ATTESTATION/Aug%202026/Token%20wBRL%2006.30.2026%20Certification%20vf.pdf",
+      "extracted": {
+        "token": "wBRL",
+        "cutoff": "2026-06-30",
+        "tokens_outstanding": "2.586.148",
+        "tokens_outstanding_quote": "To reconcile the number of w BRL tokens issued as of 06.30.2026, totaling 2.586.148 as reported by the issuing entity",
+        "collateral": "2.594.240,11",
+        "collateral_currency": "R$",
+        "signed_date": "2026-07-28",
+        "networks_listed": [
+          "Ethereum",
+          "World Chain",
+          "Base",
+          "Gnosis",
+          "Polygon",
+          "BNB Smart Chain",
+          "CeloScan"
+        ],
+        "notes": "El texto escribe \"w BRL\" con espacio en varios lugares y \"CeloScan\" (nombre de un explorador) figura como red; las fechas de corte coinciden (06.30.2026 y 06/30/2026) y la firma (07/28/2026) se interpretó en formato mes/día/año."
+      },
+      "fields": {
+        "token": {
+          "ok": true
+        },
+        "cutoff": {
+          "ok": true
+        },
+        "tokens_outstanding": {
+          "ok": true,
+          "value": "2586148"
+        },
+        "collateral": {
+          "ok": true
+        },
+        "signed_date": {
+          "ok": true
+        },
+        "networks": {
+          "ok": true,
+          "keys": [
+            "base",
+            "bsc",
+            "celo",
+            "ethereum",
+            "gnosis",
+            "polygon",
+            "worldchain"
+          ]
+        }
+      },
+      "duration_s": 5.0,
+      "all_ok": true
+    },
+    {
+      "token": "wMXN",
+      "cutoff": "2026-06-30",
+      "url": "https://action.ripio.com/hubfs/2026/wFIAT/ATTESTATION/Aug%202026/Token%20wMXN%2006.30.2026%20Certification%20vf.pdf",
+      "extracted": {
+        "token": "wMXN",
+        "cutoff": "2026-06-30",
+        "tokens_outstanding": "968,789",
+        "tokens_outstanding_quote": "To reconcile the number of w MXN tokens issued as of 06.30.2026, totaling 968,789 as reported by the issuing entity",
+        "collateral": "2,086,193.01",
+        "collateral_currency": "MXN",
+        "signed_date": "2026-07-28",
+        "networks_listed": [
+          "Ethereum",
+          "World Chain",
+          "Base",
+          "Polygon",
+          "Gnosis",
+          "Binance Smart Chain",
+          "CeloScan"
+        ],
+        "notes": "El texto escribe \"w MXN\" con espacio en algunos lugares y \"CeloScan\" (un explorador de bloques) figura en lugar de la red Celo; la fecha de firma 07/28/2026 está en formato MM/DD/AAAA."
+      },
+      "fields": {
+        "token": {
+          "ok": true
+        },
+        "cutoff": {
+          "ok": true
+        },
+        "tokens_outstanding": {
+          "ok": true,
+          "value": "968789"
+        },
+        "collateral": {
+          "ok": true
+        },
+        "signed_date": {
+          "ok": true
+        },
+        "networks": {
+          "ok": true,
+          "keys": [
+            "base",
+            "bsc",
+            "celo",
+            "ethereum",
+            "gnosis",
+            "polygon",
+            "worldchain"
+          ]
+        }
+      },
+      "duration_s": 4.9,
+      "all_ok": true
+    },
+    {
+      "token": "wCOP",
+      "cutoff": "2026-06-30",
+      "url": "https://action.ripio.com/hubfs/2026/wFIAT/ATTESTATION/Aug%202026/Token%20wCOP%2006.30.2026%20Certification%20vf.pdf",
+      "extracted": {
+        "token": "wCOP",
+        "cutoff": "2026-06-30",
+        "tokens_outstanding": "196,398,754",
+        "tokens_outstanding_quote": "To reconcile the number of wCOP tokens issued as of 06.30.2026, totaling 196,398,754 as reported by the issuing entity",
+        "collateral": "212,085,195.86",
+        "collateral_currency": "COP",
+        "signed_date": "2026-07-28",
+        "networks_listed": [
+          "Ethereum",
+          "World Chain",
+          "Base",
+          "Polygon",
+          "Gnosis",
+          "Binance Smart Chain",
+          "CeloScan"
+        ],
+        "notes": "La última red aparece como \"CeloScan\" (nombre del explorador de bloques, no de la red Celo); la fecha de firma 07/28/2026 está en formato MM/DD/AAAA."
+      },
+      "fields": {
+        "token": {
+          "ok": true
+        },
+        "cutoff": {
+          "ok": true
+        },
+        "tokens_outstanding": {
+          "ok": true,
+          "value": "196398754"
+        },
+        "collateral": {
+          "ok": true
+        },
+        "signed_date": {
+          "ok": true
+        },
+        "networks": {
+          "ok": true,
+          "keys": [
+            "base",
+            "bsc",
+            "celo",
+            "ethereum",
+            "gnosis",
+            "polygon",
+            "worldchain"
+          ]
+        }
+      },
+      "duration_s": 4.9,
+      "all_ok": true
+    },
+    {
+      "token": "wCLP",
+      "cutoff": "2026-06-30",
+      "url": "https://action.ripio.com/hubfs/2026/wFIAT/ATTESTATION/Aug%202026/Token%20wCLP%2006.30.2026%20Certification%20vf.pdf",
+      "extracted": {
+        "token": "wCLP",
+        "cutoff": "2026-06-30",
+        "tokens_outstanding": "64,295,100",
+        "tokens_outstanding_quote": "To reconcile the number of wCLP tokens issued as of 03.31.2026, total 64,295,100 as reported by the issuing entity",
+        "collateral": "64,790,000",
+        "collateral_currency": "ARS",
+        "signed_date": "2026-07-28",
+        "networks_listed": [
+          "Ethereum",
+          "World Chain",
+          "Base",
+          "Polygon",
+          "Gnosis",
+          "Binance Smart Chain",
+          "CeloScan"
+        ],
+        "notes": "El conteo de tokens (64,295,100) está fechado al 03.31.2026 y no al corte del 06.30.2026 del título, y el respaldo figura en ARS aunque el texto también habla de pesos chilenos y de una institución financiera en Chile."
+      },
+      "fields": {
+        "token": {
+          "ok": true
+        },
+        "cutoff": {
+          "ok": true
+        },
+        "tokens_outstanding": {
+          "ok": true,
+          "value": "64295100"
+        },
+        "collateral": {
+          "ok": true
+        },
+        "signed_date": {
+          "ok": true
+        },
+        "networks": {
+          "ok": true,
+          "keys": [
+            "base",
+            "bsc",
+            "celo",
+            "ethereum",
+            "gnosis",
+            "polygon",
+            "worldchain"
+          ]
+        }
+      },
+      "duration_s": 5.4,
+      "all_ok": true
+    }
+  ]
+}
