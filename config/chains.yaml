@@ -1,0 +1,223 @@
+# Written list of candidate networks. Only these are checked ("redes revisadas").
+#
+# in_scope: networks named in the published certificates, plus Arc (mainnet since 2026-09-16).
+# The rest are probed for deployments only.
+#
+# rpc_urls are free public endpoints, tried in order. An env var RPC_URL_<KEY> goes first.
+# explorer_api: free Blockscout or Etherscan style API used as a second source for logs.
+
+chains:
+  ethereum:
+    name: Ethereum
+    chain_id: 1
+    in_scope: true
+    rpc_urls:
+      - https://ethereum-rpc.publicnode.com
+      - https://eth.drpc.org
+      - https://1rpc.io/eth
+    explorer: https://etherscan.io
+    explorer_api:
+      - {kind: blockscout, url: https://eth.blockscout.com/api}
+      - {kind: etherscan, url: https://api.etherscan.io/v2/api}
+
+  base:
+    name: Base
+    chain_id: 8453
+    in_scope: true
+    rpc_urls:
+      - https://base-rpc.publicnode.com
+      - https://mainnet.base.org
+      - https://base.drpc.org
+      - https://1rpc.io/base
+    explorer: https://basescan.org
+    explorer_api:
+      - {kind: blockscout, url: https://base.blockscout.com/api}
+
+  polygon:
+    name: Polygon
+    chain_id: 137
+    in_scope: true
+    rpc_urls:
+      - https://polygon-bor-rpc.publicnode.com
+      - https://polygon.drpc.org
+      - https://1rpc.io/matic
+    explorer: https://polygonscan.com
+    explorer_api:
+      - {kind: blockscout, url: https://polygon.blockscout.com/api}
+      - {kind: etherscan, url: https://api.etherscan.io/v2/api}
+
+  gnosis:
+    name: Gnosis
+    chain_id: 100
+    in_scope: true
+    rpc_urls:
+      - https://gnosis-rpc.publicnode.com
+      - https://rpc.gnosischain.com
+      - https://gnosis.drpc.org
+      - https://1rpc.io/gnosis
+    explorer: https://gnosisscan.io
+    explorer_api:
+      - {kind: blockscout, url: https://gnosis.blockscout.com/api}
+
+  bsc:
+    name: BNB Smart Chain
+    chain_id: 56
+    in_scope: true
+    rpc_urls:
+      - https://bsc-dataseed.bnbchain.org
+      - https://bsc-dataseed1.defibit.io
+      - https://bsc-rpc.publicnode.com
+      - https://bsc-mainnet.public.blastapi.io
+    explorer: https://bscscan.com
+    explorer_api: []
+
+  worldchain:
+    name: World Chain
+    chain_id: 480
+    in_scope: true
+    rpc_urls:
+      - https://worldchain-mainnet.g.alchemy.com/public
+      - https://worldchain.drpc.org
+      - https://480.rpc.thirdweb.com
+    explorer: https://worldscan.org
+    explorer_api:
+      - {kind: blockscout, url: https://worldchain-mainnet.explorer.alchemy.com/api}
+      - {kind: etherscan, url: https://api.etherscan.io/v2/api}
+
+  celo:
+    name: Celo
+    chain_id: 42220
+    in_scope: true
+    rpc_urls:
+      - https://forno.celo.org
+      - https://celo-json-rpc.stakely.io
+      - https://celo.drpc.org
+      - https://1rpc.io/celo
+    explorer: https://celoscan.io
+    explorer_api:
+      - {kind: blockscout, url: https://celo.blockscout.com/api}
+      - {kind: etherscan, url: https://api.etherscan.io/v2/api}
+
+  hyperevm:
+    name: HyperEVM
+    chain_id: 999
+    in_scope: true
+    rpc_urls:
+      - https://rpc.hyperliquid.xyz/evm
+      - https://hyperliquid.drpc.org
+      - https://rpc.hypurrscan.io
+      - https://hyperliquid-json-rpc.stakely.io
+    # Seen on 2026-10-01: these answer old blocks with today's state, sometimes or always.
+    # They are never used for historical state, whatever qualify_history() says.
+    no_history:
+      - https://rpc.hyperliquid.xyz/evm
+      - https://rpc.hypurrscan.io
+      - https://hyperliquid-json-rpc.stakely.io
+    explorer: https://hyperevmscan.io
+    explorer_api:
+      - {kind: etherscan, url: https://api.etherscan.io/v2/api}
+
+  arc:
+    name: Arc
+    chain_id: 5042
+    in_scope: true
+    rpc_urls:
+      - https://rpc.mainnet.arc.io
+      - https://rpc.drpc.mainnet.arc.io
+      - https://rpc.blockdaemon.mainnet.arc.io
+      - https://rpc.quicknode.mainnet.arc.io
+    explorer: https://explorer.arc.io
+    explorer_api:
+      - {kind: blockscout, url: https://explorer.arc.io/api}
+
+  # Probed for deployments only.
+  arbitrum:
+    name: Arbitrum One
+    chain_id: 42161
+    in_scope: false
+    rpc_urls: [https://arbitrum-one-rpc.publicnode.com, https://arb1.arbitrum.io/rpc]
+    explorer: https://arbiscan.io
+  optimism:
+    name: OP Mainnet
+    chain_id: 10
+    in_scope: false
+    rpc_urls: [https://optimism-rpc.publicnode.com, https://mainnet.optimism.io]
+    explorer: https://optimistic.etherscan.io
+  avalanche:
+    name: Avalanche C-Chain
+    chain_id: 43114
+    in_scope: false
+    rpc_urls: [https://avalanche-c-chain-rpc.publicnode.com, https://api.avax.network/ext/bc/C/rpc]
+    explorer: https://snowtrace.io
+  unichain:
+    name: Unichain
+    chain_id: 130
+    in_scope: false
+    rpc_urls: [https://unichain-rpc.publicnode.com, https://mainnet.unichain.org]
+    explorer: https://uniscan.xyz
+  linea:
+    name: Linea
+    chain_id: 59144
+    in_scope: false
+    rpc_urls: [https://linea-rpc.publicnode.com, https://rpc.linea.build]
+    explorer: https://lineascan.build
+  scroll:
+    name: Scroll
+    chain_id: 534352
+    in_scope: false
+    rpc_urls: [https://scroll-rpc.publicnode.com, https://rpc.scroll.io]
+    explorer: https://scrollscan.com
+  mantle:
+    name: Mantle
+    chain_id: 5000
+    in_scope: false
+    rpc_urls: [https://mantle-rpc.publicnode.com, https://rpc.mantle.xyz]
+    explorer: https://mantlescan.xyz
+  sonic:
+    name: Sonic
+    chain_id: 146
+    in_scope: false
+    rpc_urls: [https://sonic-rpc.publicnode.com, https://rpc.soniclabs.com]
+    explorer: https://sonicscan.org
+  monad:
+    name: Monad
+    chain_id: 143
+    in_scope: false
+    rpc_urls: [https://rpc.monad.xyz, https://monad-mainnet.drpc.org]
+    explorer: https://monadscan.com
+  plasma:
+    name: Plasma
+    chain_id: 9745
+    in_scope: false
+    rpc_urls: [https://rpc.plasma.to, https://plasma.drpc.org]
+    explorer: https://plasmascan.to
+  ink:
+    name: Ink
+    chain_id: 57073
+    in_scope: false
+    rpc_urls: [https://rpc-gel.inkonchain.com, https://ink.drpc.org]
+    explorer: https://explorer.inkonchain.com
+  lisk:
+    name: Lisk
+    chain_id: 1135
+    in_scope: false
+    rpc_urls: [https://rpc.api.lisk.com, https://lisk.drpc.org]
+    explorer: https://blockscout.lisk.com
+  sei:
+    name: Sei
+    chain_id: 1329
+    in_scope: false
+    rpc_urls: [https://evm-rpc.sei-apis.com, https://sei.drpc.org]
+    explorer: https://seitrace.com
+  katana:
+    name: Katana
+    chain_id: 747474
+    in_scope: false
+    rpc_urls: [https://rpc.katana.network, https://katana.drpc.org]
+    explorer: https://katanascan.com
+  rootstock:
+    name: Rootstock
+    chain_id: 30
+    in_scope: false
+    rpc_urls: [https://public-node.rsk.co, https://rootstock.drpc.org]
+    explorer: https://rootstock.blockscout.com

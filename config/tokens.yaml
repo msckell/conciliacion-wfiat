@@ -1,0 +1,284 @@
+# wFIAT tokens. Addresses come from CoinGecko `platforms` and Blockscout search, and each one
+# is confirmed onchain with name(), symbol() and decimals() by `cierre discover`.
+# Every token uses the same address on every network (deterministic deployment).
+#
+# status:
+#   confirmed    deployed by the same creator as wARS (0xDf20...08DC), same proxy design
+#   unconfirmed  seen on a Ripio page or an explorer, no onchain link to the other tokens yet
+
+tokens:
+  wARS:
+    name: Argentine Peso
+    decimals: 18
+    coingecko_id: argentine-peso
+    status: confirmed
+    address: "0x0DC4F92879B7670e5f4e4e6e3c801D229129D90D"
+    deployments:
+      ethereum:
+        creation_block: 23175121
+        creation_tx: "0xb706b573e11857bb6bbf80346603ee658981e810d25529e0a069956d125fb2e1"
+        creation_evidence: "explorer creation tx matches archive binary search"
+      worldchain:
+        creation_block: 14210391
+        creation_tx: "0xceb185bed92a505d6bde1c909783319459645a16d01e8f3c8e6ab65993e9da1c"
+        creation_evidence: "explorer creation tx matches archive binary search"
+      base:
+        creation_block: 32347496
+        creation_tx: "0xb5a5936aca08a87e47d3c2b0d23d5d617624f350aaee32692a9021b0f98f7344"
+        creation_evidence: "explorer creation tx matches archive binary search"
+      polygon:
+        creation_block: 83198922
+        creation_evidence: "archive: no code at block-1, code at block (polygon.drpc.org)"
+      gnosis:
+        creation_block: 44763972
+        creation_tx: "0x006cdb94612a82635b9c4802f79d7585965198ebc0bda8d52dd3fd2545f313f1"
+        creation_evidence: "explorer creation tx matches archive binary search"
+      bsc:
+        creation_block: 82186272
+        creation_evidence: "archive: no code at block-1, code at block (bsc-mainnet.public.blastapi.)"
+      celo:
+        creation_block: 68435445
+        creation_tx: "0xb0e485969045835436dfe04afa1f934e2ad794bfdbc5c20f565da481916018a4"
+        creation_evidence: "explorer creation tx matches archive binary search"
+      hyperevm:
+        creation_block: 35699695
+        creation_evidence: "archive (drpc only): no code at block-1, code at block. stakely excluded, ignores block parameter"
+      arc:
+        creation_block: 19659303
+        creation_evidence: "archive: no code at block-1, code at block (rpc.mainnet.arc.io, rpc.drpc.mainnet.arc.io, rpc.quicknode.mainnet.arc.io)"
+  wBRL:
+    name: Brazilian Real
+    decimals: 18
+    coingecko_id: brazilian-real
+    status: confirmed
+    address: "0xD76f5Faf6888e24D9F04Bf92a0c8B921FE4390e0"
+    deployments:
+      ethereum:
+        creation_block: 23175225
+        creation_tx: "0x44d43f7a7b486ac776e3c2a414999c345eae74027c73e2794b87c1e935818947"
+        creation_evidence: "explorer creation tx matches archive binary search"
+      worldchain:
+        creation_block: 14210767
+        creation_tx: "0xe99ef257a29b64f3c087424bdf5d50707fd35ca5d05c96286cf6b94e0399678a"
+        creation_evidence: "explorer creation tx matches archive binary search"
+      base:
+        creation_block: 32735038
+        creation_tx: "0x9ccf456956e205bbd141e2e98392bb3e4490a879936c13c23b306b2a42d03d9f"
+        creation_evidence: "explorer creation tx matches archive binary search"
+      polygon:
+        creation_block: 83199479
+        creation_evidence: "archive: no code at block-1, code at block (polygon.drpc.org)"
+      gnosis:
+        creation_block: 44764114
+        creation_tx: "0x5de18a28ef3fbb8c085d860cb44fb5affd8b71a69fc7c72663ae65ca092611ae"
+        creation_evidence: "explorer creation tx matches archive binary search"
+      bsc:
+        creation_block: 82187187
+        creation_evidence: "archive: no code at block-1, code at block (bsc-mainnet.public.blastapi.)"
+      celo:
+        creation_block: 68435974
+        creation_tx: "0xb42eef5bc1abea4beae71ab9f10f6dff3f3736862add3ea67935852eabae1dec"
+        creation_evidence: "explorer creation tx matches archive binary search"
+      hyperevm:
+        creation_block: 35701321
+        creation_evidence: "archive (drpc only): no code at block-1, code at block. stakely excluded, ignores block parameter"
+      arc:
+        creation_block: 19663774
+        creation_evidence: "archive: no code at block-1, code at block (rpc.mainnet.arc.io, rpc.drpc.mainnet.arc.io, rpc.quicknode.mainnet.arc.io)"
+  wMXN:
+    name: Mexican Peso
+    decimals: 18
+    coingecko_id: mexican-peso
+    status: confirmed
+    address: "0x337E7456B420bD3481e7FA61fA9850343D610D34"
+    deployments:
+      ethereum:
+        creation_block: 23175193
+        creation_tx: "0xfdc5d220b24d45054ebea60e1db586c67537b1202b0a70e3accb76e564dc7667"
+        creation_evidence: "explorer creation tx matches archive binary search"
+      worldchain:
+        creation_block: 14210697
+        creation_tx: "0xe940a5b9f3d96aa74ffd63ed6a5add2aaaf906fa1f621851e0d84a32baa21661"
+        creation_evidence: "explorer creation tx matches archive binary search"
+      base:
+        creation_block: 32734948
+        creation_tx: "0xf5c901937bae3d8cb58be6d1ceb99a4e04d0bec2d2364af94c09224c84c1cad2"
+        creation_evidence: "explorer creation tx matches archive binary search"
+      polygon:
+        creation_block: 83199311
+        creation_tx: "0xf05ebc1013a2de80aa209e687f4de499760c1452e3d5fe83a602ccdee44e85db"
+        creation_evidence: "explorer creation tx matches archive binary search"
+      gnosis:
+        creation_block: 44764067
+        creation_tx: "0xe213a9de34537ec5e9054f0e3fe77a10bb35b7efcce4e93f1654c38d085303f1"
+        creation_evidence: "explorer creation tx matches archive binary search"
+      bsc:
+        creation_block: 82186861
+        creation_evidence: "archive: no code at block-1, code at block (bsc-mainnet.public.blastapi.)"
+      celo:
+        creation_block: 68435758
+        creation_tx: "0xa824768497be726ba673009396f50469964bf9122bcf7d2a4fa61b939ce162d0"
+        creation_evidence: "explorer creation tx matches archive binary search"
+      hyperevm:
+        creation_block: 35701061
+        creation_evidence: "archive (drpc only): no code at block-1, code at block. stakely excluded, ignores block parameter"
+      arc:
+        creation_block: 19662934
+        creation_evidence: "archive: no code at block-1, code at block (rpc.mainnet.arc.io, rpc.drpc.mainnet.arc.io, rpc.quicknode.mainnet.arc.io)"
+  wCOP:
+    name: Colombian Peso
+    decimals: 18
+    coingecko_id: colombian-peso
+    status: confirmed
+    address: "0x8A1D45E102e886510E891d2EC656a708991E2D76"
+    deployments:
+      ethereum:
+        creation_block: 23418962
+        creation_tx: "0xb96280f5d74523b23f5fd4dca0a549a3846a08d6280a0aad84103b86e58ec7a0"
+        creation_evidence: "explorer creation tx matches archive binary search"
+      worldchain:
+        creation_block: 19606475
+        creation_tx: "0x792b95ee573d2a556f1465271cf0449d043cb89337a819568a34fe5fdbec90b1"
+        creation_evidence: "explorer creation tx matches archive binary search"
+      base:
+        creation_block: 35880054
+        creation_tx: "0xccb0a4470a18bab5a6162e612755d4f897cabc47164800aea4bf7edc9d7c7ebc"
+        creation_evidence: "explorer creation tx matches archive binary search"
+      polygon:
+        creation_block: 83200069
+        creation_tx: "0x6a7ac1b365620864d7bfe5ca9fb797139e0a08f828d011e9b7f24ace56dd2dae"
+        creation_evidence: "explorer creation tx matches archive binary search"
+      gnosis:
+        creation_block: 44764271
+        creation_tx: "0xdc6cf14bed532628504d3b673c771e83686d34d159a11c957b1de1c688ae77cd"
+        creation_evidence: "explorer creation tx matches archive binary search"
+      bsc:
+        creation_block: 82188231
+        creation_evidence: "archive: no code at block-1, code at block (bsc-mainnet.public.blastapi.)"
+      celo:
+        creation_block: 68436556
+        creation_tx: "0xb281779f90c56849d060f33cbab46f478b3a9f7bd2fd289c228c1634e80cc181"
+        creation_evidence: "explorer creation tx matches archive binary search"
+      hyperevm:
+        creation_block: 35703976
+        creation_evidence: "archive (drpc only): no code at block-1, code at block. stakely excluded, ignores block parameter"
+      arc:
+        creation_block: 19665237
+        creation_evidence: "archive: no code at block-1, code at block (rpc.mainnet.arc.io, rpc.drpc.mainnet.arc.io, rpc.quicknode.mainnet.arc.io)"
+  wCLP:
+    name: Chilean Peso
+    decimals: 18
+    coingecko_id: chilean-peso
+    status: confirmed
+    address: "0x61D450a098b6A7F69Fc4B98Ce68198fE59768651"
+    deployments:
+      ethereum:
+        creation_block: 23891029
+        creation_tx: "0x0afc69787f3260409493c8aa6f05c1e60b02d38c8783ebcadb06f8df4e4cb3d7"
+        creation_evidence: "explorer creation tx matches archive binary search"
+      worldchain:
+        creation_block: 22461211
+        creation_tx: "0x66c33198e557b8394fdd9cbce733ea005a0e282ff35a3768bc380df628bf210f"
+        creation_evidence: "explorer creation tx matches archive binary search"
+      base:
+        creation_block: 38734816
+        creation_tx: "0xb6b33591514f383848715981e3f8f312171d9efc7455a380c87e572813a4115d"
+        creation_evidence: "explorer creation tx matches archive binary search"
+      polygon:
+        creation_block: 83200504
+        creation_evidence: "archive: no code at block-1, code at block (polygon.drpc.org)"
+      gnosis:
+        creation_block: 44764384
+        creation_tx: "0x1d2f9a7e6f3ef8a85be650acc62af8a2fd62c70a76f2da28b861ce93353fa2e8"
+        creation_evidence: "explorer creation tx matches archive binary search"
+      bsc:
+        creation_block: 82189276
+        creation_evidence: "archive: no code at block-1, code at block (bsc-mainnet.public.blastapi.)"
+      celo:
+        creation_block: 68436918
+        creation_tx: "0x95b0cddf2df3fc06a43783177b49a4e8778a7055e1b94b05d6a440b6563af440"
+        creation_evidence: "explorer creation tx matches archive binary search"
+      hyperevm:
+        creation_block: 35704902
+        creation_evidence: "archive (drpc only): no code at block-1, code at block. stakely excluded, ignores block parameter"
+      arc:
+        creation_block: 19665736
+        creation_evidence: "archive: no code at block-1, code at block (rpc.mainnet.arc.io, rpc.drpc.mainnet.arc.io, rpc.quicknode.mainnet.arc.io)"
+  wPEN:
+    name: Peruvian Sol
+    decimals: 18
+    coingecko_id: peruvian-sol
+    status: confirmed
+    address: "0x4F34c8b3b5FB6D98Da888F0feA543d4d9C9F2eBE"
+    deployments:
+      ethereum:
+        creation_block: 23891123
+        creation_tx: "0x65c0a2b1bd5d2fc36764f6451e157c6a4c13867a0b306401f953a5652a0c54e0"
+        creation_evidence: "explorer creation tx matches archive binary search"
+      worldchain:
+        creation_block: 22461805
+        creation_tx: "0x2300ed94842a1e8132ba7f535d82d24e6ddac7cb28aee805c0fc08daf08e9226"
+        creation_evidence: "explorer creation tx matches archive binary search"
+      base:
+        creation_block: 38735180
+        creation_tx: "0x42452cffc33a5a1408c8435f0612f19bbea2bb67cf84d78c893eccc1e2b0f1dc"
+        creation_evidence: "explorer creation tx matches archive binary search"
+      polygon:
+        creation_block: 83200582
+        creation_tx: "0xd6cd5ec139659c212bb922bedd0dd5d156ae68f6b9556a8635c5756d3f4b1535"
+        creation_evidence: "explorer creation tx matches archive binary search"
+      gnosis:
+        creation_block: 44764415
+        creation_tx: "0xf0be0ccd21e41620f42c7aea81694d1f37dfae1ea0a74056b9df9d0a2c31c034"
+        creation_evidence: "explorer creation tx matches archive binary search"
+      bsc:
+        creation_block: 82189565
+        creation_evidence: "archive: no code at block-1, code at block (bsc-mainnet.public.blastapi.)"
+      celo:
+        creation_block: 68437044
+        creation_tx: "0xd5c952f1ad0fd57238ecf40f52c6bc47a18a241f09e8412d4d537fb96b688d1f"
+        creation_evidence: "explorer creation tx matches archive binary search"
+      hyperevm:
+        creation_block: 35705024
+        creation_evidence: "archive (drpc only): no code at block-1, code at block. stakely excluded, ignores block parameter"
+      arc:
+        creation_block: 19665967
+        creation_evidence: "archive: no code at block-1, code at block (rpc.mainnet.arc.io, rpc.drpc.mainnet.arc.io, rpc.quicknode.mainnet.arc.io)"
+  wUYU:
+    name: Peso Uruguayo
+    decimals: 18
+    coingecko_id: null
+    status: unconfirmed
+    address: "0x0b16F64948468A54aB3736A5Da1A8eB83d46D602"
+    deployments:
+      ethereum:
+        creation_block: 25882455
+        creation_tx: "0xf7337cd8b0d93dc8741b6f1428db0519782f9bdd9b56e6d21fdb10b6e46b55f4"
+        creation_evidence: "explorer creation tx matches archive binary search"
+      worldchain:
+        creation_block: 34464208
+        creation_tx: "0x058f7d69cd6a88f30d64635e7ec72477137c1ba57df81c2b8c731637978c451a"
+        creation_evidence: "explorer creation tx matches archive binary search"
+      base:
+        creation_block: 50736583
+        creation_evidence: "UNVERIFIED: explorer reports no creation tx"
+      polygon:
+        creation_block: 93038651
+        creation_evidence: "archive: no code at block-1, code at block (polygon.drpc.org)"
+      gnosis:
+        creation_block: 48025428
+        creation_tx: "0x9bd5a99110c85de272cacda2f9f8148b31ad4efa78a23280af09c3538ae6323c"
+        creation_evidence: "explorer creation tx matches archive binary search"
+      bsc:
+        creation_block: 119339039
+        creation_evidence: "archive: no code at block-1, code at block (bsc-mainnet.public.blastapi.)"
+      celo:
+        creation_block: 76363618
+        creation_tx: "0x9f643d23d17e1d150f35cb97f32e8bdd25fd1b68db509099fdf5d70c7ad57845"
+        creation_evidence: "explorer creation tx matches archive binary search"
+      hyperevm:
+        creation_block: 44743061
+        creation_evidence: "archive (drpc only): no code at block-1, code at block. stakely excluded, ignores block parameter"
+      arc:
+        creation_block: 19669902
+        creation_evidence: "archive: no code at block-1, code at block (rpc.mainnet.arc.io, rpc.drpc.mainnet.arc.io, rpc.quicknode.mainnet.arc.io)"
