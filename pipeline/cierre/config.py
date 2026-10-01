@@ -27,6 +27,11 @@ class Chain:
     explorer: str
     explorer_api: tuple[ExplorerApi, ...] = field(default_factory=tuple)
     no_history: tuple[str, ...] = field(default_factory=tuple)
+    logs_rpc_urls: tuple[str, ...] = field(default_factory=tuple)
+    logs_grid: int = 10_000
+    logs_all_transfers: bool = False
+    logs_workers_per_endpoint: int = 1
+    logs_bscscan_list: str | None = None
 
     def tx_url(self, tx_hash: str) -> str:
         return f"{self.explorer}/tx/{tx_hash}"
@@ -55,6 +60,11 @@ def load_chains(path: Path | None = None) -> dict[str, Chain]:
             explorer=c["explorer"].rstrip("/"),
             explorer_api=tuple(ExplorerApi(**e) for e in c.get("explorer_api") or []),
             no_history=tuple(c.get("no_history") or []),
+            logs_rpc_urls=tuple((c.get("logs_rpc") or {}).get("urls") or []),
+            logs_grid=int((c.get("logs_rpc") or {}).get("grid") or 10_000),
+            logs_all_transfers=bool((c.get("logs_rpc") or {}).get("all_transfers")),
+            logs_workers_per_endpoint=int((c.get("logs_rpc") or {}).get("workers") or 1),
+            logs_bscscan_list=c.get("logs_bscscan_list"),
         )
     return chains
 

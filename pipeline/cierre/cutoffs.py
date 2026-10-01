@@ -25,8 +25,23 @@ def cutoff_instant(day: str, convention: str) -> datetime:
 
 
 def cutoff_block(rpc: RpcClient, day: str, convention: str) -> dict:
+    """The cutoff block, or block None with the genesis timestamp as evidence when the
+    network did not exist yet at the cutoff."""
     instant = cutoff_instant(day, convention)
     ts = int(instant.timestamp())
+    genesis = get_block(rpc, 0)
+    first = get_block(rpc, 1)
+    if first.timestamp > ts:
+        return {
+            "cutoff": day,
+            "convention": convention,
+            "instant_utc": instant.astimezone(UTC).isoformat(),
+            "unix": ts,
+            "block": None,
+            "network_not_live": True,
+            "genesis_timestamp": genesis.timestamp,
+            "block_1_timestamp": first.timestamp,
+        }
     blk = block_at_or_before(rpc, ts)
     nxt = get_block(rpc, blk.number + 1)
     if not (blk.timestamp <= ts < nxt.timestamp):

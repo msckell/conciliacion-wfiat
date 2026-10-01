@@ -124,7 +124,13 @@ def cmd_supply(args: argparse.Namespace) -> int:
                         "convention": conv,
                         "block": cb["block"],
                     }
-                    if dep is None or dep.creation_block is None:
+                    if cb["block"] is None:
+                        row |= {
+                            "status": "network_not_live",
+                            "raw": "0",
+                            "block_1_timestamp": cb["block_1_timestamp"],
+                        }
+                    elif dep is None or dep.creation_block is None:
                         row |= {"status": "error", "error": "no creation block on record"}
                     elif dep.creation_block > cb["block"]:
                         row |= {
@@ -179,6 +185,133 @@ def cmd_supply(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_movements(args: argparse.Namespace) -> int:
+    """Phase 0 movement test: opening + mints - burns == closing, per network, exact."""
+    from cierre.movement_test import collect_sources, compare_sources, reconcile
+
+    chains = {k: c for k, c in load_chains().items() if c.in_scope}
+    if args.chains:
+        chains = {k: chains[k] for k in args.chains}
+    token = load_tokens()[args.token]
+    supply_rows = json.loads((DATA_DIR / "phase0" / "supply_raw.json").read_text("utf-8"))
+    index = {
+        (r["token"], r["chain"], r["cutoff"], r["convention"]): r
+        for chain in supply_rows
+        for r in chain["rows"]
+    }
+    cache = DiskCache()
+
+    def run_chain(key: str) -> dict:
+        chain = chains[key]
+        creation = token.on(key).creation_block
+        open_day, close_day = (
+            ("2026-06-30", "2026-09-30") if key == "arc" else ("2026-03-31", "2026-06-30")
+        )
+        windows = {}
+        for conv in ("ART", "UTC"):
+            o = index[(token.symbol, key, open_day, conv)]
+            c = index[(token.symbol, key, close_day, conv)]
+            if c["status"] != "ok":
+                return {"chain": key, "passed": False, "error": f"closing supply {c['status']}"}
+            if o["status"] == "ok":
+                open_block, opening, basis = o["block"], int(o["raw"]), "totalSupply at cutoff"
+            elif o["status"] in ("not_created", "network_not_live"):
+                open_block, opening = creation - 1, 0
+                basis = f"contract created at block {creation}, after the opening cutoff"
+            else:
+                return {"chain": key, "passed": False, "error": f"opening supply {o['status']}"}
+            windows[conv] = (open_block, opening, basis, c["block"], int(c["raw"]))
+        lo = min(w[0] for w in windows.values()) + 1
+        hi = max(w[3] for w in windows.values())
+        print(f"{key:10} logs {lo}..{hi} ({hi - lo + 1} blocks)", flush=True)
+        failed: dict[str, str] = {}
+        sources = collect_sources(
+            chain,
+            token,
+            lo,
+            hi,
+            cache,
+            failed,
+            progress=lambda n, t: print(f"{key:10} {n}/{t} cells", flush=True),
+        )
+        result = {
+            "chain": key,
+            "token": token.symbol,
+            "range": [lo, hi],
+            "sources": {n: len(ms) for n, ms in sources.items()},
+            "sources_failed": failed,
+            "source_comparison": compare_sources(sources),
+            "conventions": {},
+        }
+        if not sources:
+            result |= {"passed": False, "error": "no log source"}
+            return result
+        # The reconciliation decides which source is complete: a source passes only if it
+        # reconciles exactly under every convention. The network passes if one source does.
+        complete = set(sources)
+        for conv, (ob, opening, basis, cb, closing) in windows.items():
+            per_source = {
+                n: reconcile(opening, closing, ms, ob + 1, cb) for n, ms in sources.items()
+            }
+            complete &= {n for n, r in per_source.items() if r["passed"]}
+            result["conventions"][conv] = {
+                "opening_block": ob,
+                "opening_basis": basis,
+                "closing_block": cb,
+                "by_source": per_source,
+            }
+        result["sources_complete"] = sorted(complete)
+        result["sources_incomplete"] = sorted(set(sources) - complete)
+        result["passed"] = bool(complete)
+        best = sorted(complete)[0] if complete else next(iter(sources))
+        first = result["conventions"]["ART"]["by_source"][best]
+        print(
+            f"{key:10} {'PASSED' if result['passed'] else 'FAILED'} sources={result['sources']} "
+            f"incomplete={result['sources_incomplete']} "
+            f"mints={first['n_mints']} burns={first['n_burns']} diff={first['difference']}",
+            flush=True,
+        )
+        return result
+
+    def safe(key: str) -> dict:
+        try:
+            return run_chain(key)
+        except Exception as exc:  # one network failing must not hide the others
+            print(f"{key:10} ERROR {type(exc).__name__}: {str(exc)[:300]}", flush=True)
+            return {"chain": key, "passed": False, "error": f"{type(exc).__name__}: {exc}"}
+
+    with cf.ThreadPoolExecutor(max_workers=len(chains)) as ex:
+        results = list(ex.map(safe, list(chains)))
+    path = DATA_DIR / "phase0" / f"movement_test_{token.symbol}.json"
+    if args.chains and path.exists():
+        old = json.loads(path.read_text(encoding="utf-8"))
+        results = [r for r in old if r["chain"] not in chains] + results
+    _dump(path, results)
+    return 0
+
+
+def cmd_golden(args: argparse.Namespace) -> int:
+    """Computed vs certified. Refuses to run on figures a person has not confirmed."""
+    from cierre.golden import PRECISION_RULES, compare, load_confirmed
+
+    certs = load_confirmed()
+    supply_rows = [
+        r
+        for chain in json.loads((DATA_DIR / "phase0" / "supply_raw.json").read_text("utf-8"))
+        for r in chain["rows"]
+    ]
+    grid = {}
+    for conv in ("ART", "UTC"):
+        for nets in ("all_checked", "listed_in_certificate"):
+            for prec in PRECISION_RULES:
+                rows = compare(certs, supply_rows, conv, nets, prec)
+                grid[f"{conv}|{nets}|{prec}"] = rows
+                n = sum(r["match"] for r in rows)
+                print(f"{conv} {nets:22} {prec:14} -> {n} of {len(rows)} match", flush=True)
+    _dump(DATA_DIR / "phase0" / "golden_grid.json", grid)
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="cierre")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -187,11 +320,17 @@ def main(argv: list[str] | None = None) -> int:
     sub.add_parser("recheck-creation", help="redo the explorer check of creation blocks")
     p_supply = sub.add_parser("supply", help="raw totalSupply at each cutoff block")
     p_supply.add_argument("--cutoffs", nargs="+", default=CUTOFFS)
+    sub.add_parser("golden", help="computed vs confirmed certified figures, every rule")
+    p_mov = sub.add_parser("movements", help="phase 0 movement history test")
+    p_mov.add_argument("--token", default="wARS")
+    p_mov.add_argument("--chains", nargs="+")
     args = parser.parse_args(argv)
     commands = {
         "discover": cmd_discover,
         "recheck-creation": cmd_recheck_creation,
         "supply": cmd_supply,
+        "movements": cmd_movements,
+        "golden": cmd_golden,
     }
     return commands[args.command](args)
 

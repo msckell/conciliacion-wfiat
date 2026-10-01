@@ -1,0 +1,643 @@
+[
+  {
+    "chain": "ethereum",
+    "token": "wARS",
+    "range": [
+      24781027,
+      25434835
+    ],
+    "sources": {
+      "rpc:mainnet.gateway.tenderly.co": 58,
+      "blockscout:https://eth.blockscout.com/api": 58
+    },
+    "sources_failed": {},
+    "source_comparison": {
+      "compared": true,
+      "agree": true,
+      "diffs": {}
+    },
+    "conventions": {
+      "ART": {
+        "opening_block": 24781923,
+        "opening_basis": "totalSupply at cutoff",
+        "closing_block": 25434835,
+        "by_source": {
+          "rpc:mainnet.gateway.tenderly.co": {
+            "opening": "594325476599000000000000000",
+            "mints": "8405750305000000000000000000",
+            "burns": "2410019790000000000000000000",
+            "n_mints": 36,
+            "n_burns": 22,
+            "opening_plus_mints_minus_burns": "6590055991599000000000000000",
+            "closing": "6590055991599000000000000000",
+            "difference": "0",
+            "passed": true
+          },
+          "blockscout:https://eth.blockscout.com/api": {
+            "opening": "594325476599000000000000000",
+            "mints": "8405750305000000000000000000",
+            "burns": "2410019790000000000000000000",
+            "n_mints": 36,
+            "n_burns": 22,
+            "opening_plus_mints_minus_burns": "6590055991599000000000000000",
+            "closing": "6590055991599000000000000000",
+            "difference": "0",
+            "passed": true
+          }
+        }
+      },
+      "UTC": {
+        "opening_block": 24781026,
+        "opening_basis": "totalSupply at cutoff",
+        "closing_block": 25433938,
+        "by_source": {
+          "rpc:mainnet.gateway.tenderly.co": {
+            "opening": "594325476599000000000000000",
+            "mints": "8405750305000000000000000000",
+            "burns": "2410019790000000000000000000",
+            "n_mints": 36,
+            "n_burns": 22,
+            "opening_plus_mints_minus_burns": "6590055991599000000000000000",
+            "closing": "6590055991599000000000000000",
+            "difference": "0",
+            "passed": true
+          },
+          "blockscout:https://eth.blockscout.com/api": {
+            "opening": "594325476599000000000000000",
+            "mints": "8405750305000000000000000000",
+            "burns": "2410019790000000000000000000",
+            "n_mints": 36,
+            "n_burns": 22,
+            "opening_plus_mints_minus_burns": "6590055991599000000000000000",
+            "closing": "6590055991599000000000000000",
+            "difference": "0",
+            "passed": true
+          }
+        }
+      }
+    },
+    "sources_complete": [
+      "blockscout:https://eth.blockscout.com/api",
+      "rpc:mainnet.gateway.tenderly.co"
+    ],
+    "sources_incomplete": [],
+    "passed": true
+  },
+  {
+    "chain": "base",
+    "token": "wARS",
+    "range": [
+      44106127,
+      48042726
+    ],
+    "sources": {
+      "blockscout:https://base.blockscout.com/api": 14
+    },
+    "sources_failed": {},
+    "source_comparison": {
+      "compared": false,
+      "agree": null
+    },
+    "conventions": {
+      "ART": {
+        "opening_block": 44111526,
+        "opening_basis": "totalSupply at cutoff",
+        "closing_block": 48042726,
+        "by_source": {
+          "blockscout:https://base.blockscout.com/api": {
+            "opening": "102871938000000000030000000",
+            "mints": "395374992000000000000000000",
+            "burns": "91426621124288447031000000",
+            "n_mints": 6,
+            "n_burns": 8,
+            "opening_plus_mints_minus_burns": "406820308875711552999000000",
+            "closing": "406820308875711552999000000",
+            "difference": "0",
+            "passed": true
+          }
+        }
+      },
+      "UTC": {
+        "opening_block": 44106126,
+        "opening_basis": "totalSupply at cutoff",
+        "closing_block": 48037326,
+        "by_source": {
+          "blockscout:https://base.blockscout.com/api": {
+            "opening": "102871938000000000030000000",
+            "mints": "395374992000000000000000000",
+            "burns": "91426621124288447031000000",
+            "n_mints": 6,
+            "n_burns": 8,
+            "opening_plus_mints_minus_burns": "406820308875711552999000000",
+            "closing": "406820308875711552999000000",
+            "difference": "0",
+            "passed": true
+          }
+        }
+      }
+    },
+    "sources_complete": [
+      "blockscout:https://base.blockscout.com/api"
+    ],
+    "sources_incomplete": [],
+    "passed": true
+  },
+  {
+    "chain": "polygon",
+    "token": "wARS",
+    "range": [
+      84940782,
+      89446536
+    ],
+    "sources": {
+      "rpc:polygon.gateway.tenderly.co": 5,
+      "blockscout:https://polygon.blockscout.com/api": 4
+    },
+    "sources_failed": {},
+    "source_comparison": {
+      "compared": true,
+      "agree": false,
+      "diffs": {
+        "blockscout:https://polygon.blockscout.com/api": {
+          "only_in_rpc:polygon.gateway.tenderly.co": [
+            "(('0x507d2b14a139379e7e55a96f7ef0f8563ea9bc5c41b59059b539714652500e39', 2120), 'mint', 1000000000000000000000)"
+          ],
+          "only_in_blockscout:https://polygon.blockscout.com/api": []
+        }
+      }
+    },
+    "conventions": {
+      "ART": {
+        "opening_block": 84946181,
+        "opening_basis": "totalSupply at cutoff",
+        "closing_block": 89446536,
+        "by_source": {
+          "rpc:polygon.gateway.tenderly.co": {
+            "opening": "19935000000000000000000",
+            "mints": "19599483230000000000000000",
+            "burns": "0",
+            "n_mints": 5,
+            "n_burns": 0,
+            "opening_plus_mints_minus_burns": "19619418230000000000000000",
+            "closing": "19619418230000000000000000",
+            "difference": "0",
+            "passed": true
+          },
+          "blockscout:https://polygon.blockscout.com/api": {
+            "opening": "19935000000000000000000",
+            "mints": "19598483230000000000000000",
+            "burns": "0",
+            "n_mints": 4,
+            "n_burns": 0,
+            "opening_plus_mints_minus_burns": "19618418230000000000000000",
+            "closing": "19619418230000000000000000",
+            "difference": "1000000000000000000000",
+            "passed": false
+          }
+        }
+      },
+      "UTC": {
+        "opening_block": 84940781,
+        "opening_basis": "totalSupply at cutoff",
+        "closing_block": 89439336,
+        "by_source": {
+          "rpc:polygon.gateway.tenderly.co": {
+            "opening": "19935000000000000000000",
+            "mints": "19599483230000000000000000",
+            "burns": "0",
+            "n_mints": 5,
+            "n_burns": 0,
+            "opening_plus_mints_minus_burns": "19619418230000000000000000",
+            "closing": "19619418230000000000000000",
+            "difference": "0",
+            "passed": true
+          },
+          "blockscout:https://polygon.blockscout.com/api": {
+            "opening": "19935000000000000000000",
+            "mints": "19598483230000000000000000",
+            "burns": "0",
+            "n_mints": 4,
+            "n_burns": 0,
+            "opening_plus_mints_minus_burns": "19618418230000000000000000",
+            "closing": "19619418230000000000000000",
+            "difference": "1000000000000000000000",
+            "passed": false
+          }
+        }
+      }
+    },
+    "sources_complete": [
+      "rpc:polygon.gateway.tenderly.co"
+    ],
+    "sources_incomplete": [
+      "blockscout:https://polygon.blockscout.com/api"
+    ],
+    "passed": true
+  },
+  {
+    "chain": "gnosis",
+    "token": "wARS",
+    "range": [
+      45441138,
+      46972230
+    ],
+    "sources": {
+      "rpc:rpc.gnosischain.com": 2
+    },
+    "sources_failed": {
+      "blockscout:https://gnosis.blockscout.com/api": "blockscout:https://gnosis.blockscout.com/api: gave up after retries: HTTP 301 non JSON body: '<html>\\r\\n<head><title>301 Moved Permanently</title></head>\\r\\n<body>\\r\\n<center><h1>3'"
+    },
+    "source_comparison": {
+      "compared": false,
+      "agree": null
+    },
+    "conventions": {
+      "ART": {
+        "opening_block": 45443267,
+        "opening_basis": "totalSupply at cutoff",
+        "closing_block": 46972230,
+        "by_source": {
+          "rpc:rpc.gnosischain.com": {
+            "opening": "20170000000000000000000",
+            "mints": "9339985000000000000000000",
+            "burns": "0",
+            "n_mints": 2,
+            "n_burns": 0,
+            "opening_plus_mints_minus_burns": "9360155000000000000000000",
+            "closing": "9360155000000000000000000",
+            "difference": "0",
+            "passed": true
+          }
+        }
+      },
+      "UTC": {
+        "opening_block": 45441137,
+        "opening_basis": "totalSupply at cutoff",
+        "closing_block": 46970109,
+        "by_source": {
+          "rpc:rpc.gnosischain.com": {
+            "opening": "20170000000000000000000",
+            "mints": "9339985000000000000000000",
+            "burns": "0",
+            "n_mints": 2,
+            "n_burns": 0,
+            "opening_plus_mints_minus_burns": "9360155000000000000000000",
+            "closing": "9360155000000000000000000",
+            "difference": "0",
+            "passed": true
+          }
+        }
+      }
+    },
+    "sources_complete": [
+      "rpc:rpc.gnosischain.com"
+    ],
+    "sources_incomplete": [],
+    "passed": true
+  },
+  {
+    "chain": "bsc",
+    "token": "wARS",
+    "range": [
+      89894104,
+      107369127
+    ],
+    "sources": {
+      "bscscan list + RPC receipts": 5
+    },
+    "sources_failed": {},
+    "source_comparison": {
+      "compared": false,
+      "agree": null
+    },
+    "conventions": {
+      "ART": {
+        "opening_block": 89918100,
+        "opening_basis": "totalSupply at cutoff",
+        "closing_block": 107369127,
+        "by_source": {
+          "bscscan list + RPC receipts": {
+            "opening": "19525000000000000000000",
+            "mints": "68340955000000000000000000",
+            "burns": "0",
+            "n_mints": 5,
+            "n_burns": 0,
+            "opening_plus_mints_minus_burns": "68360480000000000000000000",
+            "closing": "68360480000000000000000000",
+            "difference": "0",
+            "passed": true
+          }
+        }
+      },
+      "UTC": {
+        "opening_block": 89894103,
+        "opening_basis": "totalSupply at cutoff",
+        "closing_block": 107345136,
+        "by_source": {
+          "bscscan list + RPC receipts": {
+            "opening": "19525000000000000000000",
+            "mints": "68340955000000000000000000",
+            "burns": "0",
+            "n_mints": 5,
+            "n_burns": 0,
+            "opening_plus_mints_minus_burns": "68360480000000000000000000",
+            "closing": "68360480000000000000000000",
+            "difference": "0",
+            "passed": true
+          }
+        }
+      }
+    },
+    "sources_complete": [
+      "bscscan list + RPC receipts"
+    ],
+    "sources_incomplete": [],
+    "passed": true
+  },
+  {
+    "chain": "worldchain",
+    "token": "wARS",
+    "range": [
+      27832981,
+      31769580
+    ],
+    "sources": {
+      "rpc:worldchain-mainnet.gateway.tenderly.co": 15,
+      "blockscout:https://worldchain-mainnet.explorer.alchemy.com/api": 15
+    },
+    "sources_failed": {},
+    "source_comparison": {
+      "compared": true,
+      "agree": true,
+      "diffs": {}
+    },
+    "conventions": {
+      "ART": {
+        "opening_block": 27838380,
+        "opening_basis": "totalSupply at cutoff",
+        "closing_block": 31769580,
+        "by_source": {
+          "rpc:worldchain-mainnet.gateway.tenderly.co": {
+            "opening": "275743915601642120690032840",
+            "mints": "132392697894288447031000000",
+            "burns": "11957000162053720924690420",
+            "n_mints": 8,
+            "n_burns": 7,
+            "opening_plus_mints_minus_burns": "396179613333876846796342420",
+            "closing": "396179613333876846796342420",
+            "difference": "0",
+            "passed": true
+          },
+          "blockscout:https://worldchain-mainnet.explorer.alchemy.com/api": {
+            "opening": "275743915601642120690032840",
+            "mints": "132392697894288447031000000",
+            "burns": "11957000162053720924690420",
+            "n_mints": 8,
+            "n_burns": 7,
+            "opening_plus_mints_minus_burns": "396179613333876846796342420",
+            "closing": "396179613333876846796342420",
+            "difference": "0",
+            "passed": true
+          }
+        }
+      },
+      "UTC": {
+        "opening_block": 27832980,
+        "opening_basis": "totalSupply at cutoff",
+        "closing_block": 31764180,
+        "by_source": {
+          "rpc:worldchain-mainnet.gateway.tenderly.co": {
+            "opening": "275743915601642120690032840",
+            "mints": "132392697894288447031000000",
+            "burns": "11957000162053720924690420",
+            "n_mints": 8,
+            "n_burns": 7,
+            "opening_plus_mints_minus_burns": "396179613333876846796342420",
+            "closing": "396179613333876846796342420",
+            "difference": "0",
+            "passed": true
+          },
+          "blockscout:https://worldchain-mainnet.explorer.alchemy.com/api": {
+            "opening": "275743915601642120690032840",
+            "mints": "132392697894288447031000000",
+            "burns": "11957000162053720924690420",
+            "n_mints": 8,
+            "n_burns": 7,
+            "opening_plus_mints_minus_burns": "396179613333876846796342420",
+            "closing": "396179613333876846796342420",
+            "difference": "0",
+            "passed": true
+          }
+        }
+      }
+    },
+    "sources_complete": [
+      "blockscout:https://worldchain-mainnet.explorer.alchemy.com/api",
+      "rpc:worldchain-mainnet.gateway.tenderly.co"
+    ],
+    "sources_incomplete": [],
+    "passed": true
+  },
+  {
+    "chain": "celo",
+    "token": "wARS",
+    "range": [
+      68435445,
+      70974041
+    ],
+    "sources": {
+      "rpc:celo.gateway.tenderly.co": 1,
+      "blockscout:https://celo.blockscout.com/api": 1
+    },
+    "sources_failed": {},
+    "source_comparison": {
+      "compared": true,
+      "agree": true,
+      "diffs": {}
+    },
+    "conventions": {
+      "ART": {
+        "opening_block": 68435444,
+        "opening_basis": "contract created at block 68435445, after the opening cutoff",
+        "closing_block": 70974041,
+        "by_source": {
+          "rpc:celo.gateway.tenderly.co": {
+            "opening": "0",
+            "mints": "100000000000000000000",
+            "burns": "0",
+            "n_mints": 1,
+            "n_burns": 0,
+            "opening_plus_mints_minus_burns": "100000000000000000000",
+            "closing": "100000000000000000000",
+            "difference": "0",
+            "passed": true
+          },
+          "blockscout:https://celo.blockscout.com/api": {
+            "opening": "0",
+            "mints": "100000000000000000000",
+            "burns": "0",
+            "n_mints": 1,
+            "n_burns": 0,
+            "opening_plus_mints_minus_burns": "100000000000000000000",
+            "closing": "100000000000000000000",
+            "difference": "0",
+            "passed": true
+          }
+        }
+      },
+      "UTC": {
+        "opening_block": 68435444,
+        "opening_basis": "contract created at block 68435445, after the opening cutoff",
+        "closing_block": 70963241,
+        "by_source": {
+          "rpc:celo.gateway.tenderly.co": {
+            "opening": "0",
+            "mints": "100000000000000000000",
+            "burns": "0",
+            "n_mints": 1,
+            "n_burns": 0,
+            "opening_plus_mints_minus_burns": "100000000000000000000",
+            "closing": "100000000000000000000",
+            "difference": "0",
+            "passed": true
+          },
+          "blockscout:https://celo.blockscout.com/api": {
+            "opening": "0",
+            "mints": "100000000000000000000",
+            "burns": "0",
+            "n_mints": 1,
+            "n_burns": 0,
+            "opening_plus_mints_minus_burns": "100000000000000000000",
+            "closing": "100000000000000000000",
+            "difference": "0",
+            "passed": true
+          }
+        }
+      }
+    },
+    "sources_complete": [
+      "blockscout:https://celo.blockscout.com/api",
+      "rpc:celo.gateway.tenderly.co"
+    ],
+    "sources_incomplete": [],
+    "passed": true
+  },
+  {
+    "chain": "hyperevm",
+    "token": "wARS",
+    "range": [
+      35699695,
+      39262879
+    ],
+    "sources": {
+      "rpc:hyperliquid-json-rpc.stakely.io,rpc.hypurrscan.io": 3
+    },
+    "sources_failed": {},
+    "source_comparison": {
+      "compared": false,
+      "agree": null
+    },
+    "conventions": {
+      "ART": {
+        "opening_block": 35699694,
+        "opening_basis": "contract created at block 35699695, after the opening cutoff",
+        "closing_block": 39262879,
+        "by_source": {
+          "rpc:hyperliquid-json-rpc.stakely.io,rpc.hypurrscan.io": {
+            "opening": "0",
+            "mints": "129600010000000000000000000",
+            "burns": "0",
+            "n_mints": 3,
+            "n_burns": 0,
+            "opening_plus_mints_minus_burns": "129600010000000000000000000",
+            "closing": "129600010000000000000000000",
+            "difference": "0",
+            "passed": true
+          }
+        }
+      },
+      "UTC": {
+        "opening_block": 35699694,
+        "opening_basis": "contract created at block 35699695, after the opening cutoff",
+        "closing_block": 39251899,
+        "by_source": {
+          "rpc:hyperliquid-json-rpc.stakely.io,rpc.hypurrscan.io": {
+            "opening": "0",
+            "mints": "129600010000000000000000000",
+            "burns": "0",
+            "n_mints": 3,
+            "n_burns": 0,
+            "opening_plus_mints_minus_burns": "129600010000000000000000000",
+            "closing": "129600010000000000000000000",
+            "difference": "0",
+            "passed": true
+          }
+        }
+      }
+    },
+    "sources_complete": [
+      "rpc:hyperliquid-json-rpc.stakely.io,rpc.hypurrscan.io"
+    ],
+    "sources_incomplete": [],
+    "passed": true
+  },
+  {
+    "chain": "arc",
+    "token": "wARS",
+    "range": [
+      19659303,
+      23641972
+    ],
+    "sources": {
+      "rpc:arc.gateway.tenderly.co": 13
+    },
+    "sources_failed": {},
+    "source_comparison": {
+      "compared": false,
+      "agree": null
+    },
+    "conventions": {
+      "ART": {
+        "opening_block": 19659302,
+        "opening_basis": "contract created at block 19659303, after the opening cutoff",
+        "closing_block": 23641972,
+        "by_source": {
+          "rpc:arc.gateway.tenderly.co": {
+            "opening": "0",
+            "mints": "121850913671753000000000000",
+            "burns": "3926849273540000000000000",
+            "n_mints": 12,
+            "n_burns": 1,
+            "opening_plus_mints_minus_burns": "117924064398213000000000000",
+            "closing": "117924064398213000000000000",
+            "difference": "0",
+            "passed": true
+          }
+        }
+      },
+      "UTC": {
+        "opening_block": 19659302,
+        "opening_basis": "contract created at block 19659303, after the opening cutoff",
+        "closing_block": 23620687,
+        "by_source": {
+          "rpc:arc.gateway.tenderly.co": {
+            "opening": "0",
+            "mints": "121850913671753000000000000",
+            "burns": "3926849273540000000000000",
+            "n_mints": 12,
+            "n_burns": 1,
+            "opening_plus_mints_minus_burns": "117924064398213000000000000",
+            "closing": "117924064398213000000000000",
+            "difference": "0",
+            "passed": true
+          }
+        }
+      }
+    },
+    "sources_complete": [
+      "rpc:arc.gateway.tenderly.co"
+    ],
+    "sources_incomplete": [],
+    "passed": true
+  }
+]

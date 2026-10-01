@@ -42,14 +42,19 @@ class CallReverted(Exception):
 
 
 _RANGE_PATTERNS = re.compile(
-    r"block range|range is too|range too|exceed.*range|too many (blocks|results|logs)|"
+    r"block range (is )?(too|exceed)|max(imum)? block range|block range limit|range is too|"
+    r"range too|exceed.*range|too many (blocks|results|logs)|"
     r"more than \d+ (results|logs)|response size|max results|retry with|query timeout|"
     r"maximum (block )?range|max(imum)? (is|of) \d+|eth_getLogs.*(range|limited)|"
     r"ranges? over|-32005|-32012|log response size|too large|exceeds the range",
     re.IGNORECASE,
 )
+# The node does not have that range (a gap or a lagging backend). Not a size problem, so
+# the range is not split: another endpoint is asked instead.
+_INVALID_RANGE_PATTERNS = re.compile(r"invalid block range", re.IGNORECASE)
 _RATE_PATTERNS = re.compile(
-    r"rate.?limit|too many requests|throttl|capacity|timeout|timed out|temporarily", re.IGNORECASE
+    r"rate.?limit|too many requests|throttl|capacity|request timeout|timed out|temporarily",
+    re.IGNORECASE,
 )
 _STATE_PATTERNS = re.compile(
     r"missing trie node|header not found|state.*not available|historical state|pruned|"
@@ -224,6 +229,8 @@ class RpcClient:
                 if _RATE_PATTERNS.search(msg) or err.get("code") == 429:
                     time.sleep(2.0 * (attempt + 1))
                     continue
+                if _INVALID_RANGE_PATTERNS.search(msg):
+                    return "failed"
                 if method == "eth_getLogs" and _RANGE_PATTERNS.search(msg):
                     return "range"
                 if _STATE_PATTERNS.search(msg):
