@@ -14,6 +14,7 @@
 - Every phase ends in a **CHECKPOINT** that Maxi verifies on a real output (a table, a file, a page). **Stop at every checkpoint and wait for his OK.**
 - One phase at a time. Commit at the end of each phase.
 - At the end of each phase, rewrite `STATUS.md` instead of appending to it. It says what is done, what is next and what questions are open, and it must fit on one screen.
+- Write that summary as soon as the phase work is done, **before** Maxi confirms the checkpoint (Maxi's rule, 2026-10-01). Keep it short and concise, but spell out the details that matter (decisions taken, sources that failed, traps for the next session). A new session must be able to continue from `CLAUDE.md` + `STATUS.md` alone.
 
 ---
 
