@@ -42,11 +42,11 @@ export default function App() {
 
   return (
     <div className="min-h-screen">
-      <header className="sticky top-0 z-10 border-b border-line bg-paper/90 backdrop-blur">
-        <div className="mx-auto flex max-w-4xl items-center justify-between gap-3 px-4 py-3">
+      <header className="z-10 border-b border-line bg-paper sm:sticky sm:top-0">
+        <div className="mx-auto flex max-w-4xl flex-col gap-2 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
           <div className="min-w-0">
-            <h1 className="truncate text-base font-semibold tracking-tight sm:text-lg">Cierre trimestral wFIAT</h1>
-            <p className="truncate text-xs text-ink-3">Demo independiente para Ripio, por Máximo Sckell</p>
+            <h1 className="text-base font-semibold tracking-tight sm:text-lg">Cierre trimestral wFIAT</h1>
+            <p className="text-xs text-ink-3">Demo independiente para Ripio, por Máximo Sckell</p>
           </div>
           <nav className="flex shrink-0 gap-1">
             {tab('resumen', 'Resumen')}

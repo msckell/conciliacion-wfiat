@@ -62,7 +62,42 @@ function Verification() {
       title="Verificación contra el contador"
       lead={`Regla única para todas las filas: ${v.rule} Coincide en ${v.matched} de ${v.total}.`}
     >
-      <Card className="p-0 sm:p-0">
+      <ul className="space-y-2 sm:hidden">
+        {v.rows.map((r) => (
+          <li key={r.token + r.cutoff}>
+            <Card className="p-3">
+              <div className="flex items-center justify-between gap-2">
+                <span className="font-medium">
+                  {r.token} <span className="num font-normal text-ink-3">al {r.cutoff}</span>
+                </span>
+                {r.match ? (
+                  <Pill tone="ok">
+                    <Check className="h-3 w-3" />
+                    Coincide
+                  </Pill>
+                ) : (
+                  <Pill tone="warn">No coincide</Pill>
+                )}
+              </div>
+              <dl className="mt-2 grid grid-cols-2 gap-x-3 gap-y-1 text-sm">
+                <dt className="text-ink-3">Suma de contratos</dt>
+                <dd className="num text-right">{r.raw_sum}</dd>
+                <dt className="text-ink-3">Ajustes</dt>
+                <dd className="text-right">{r.adjustments}</dd>
+                <dt className="text-ink-3">Calculado</dt>
+                <dd className="num text-right">{r.computed}</dd>
+                <dt className="text-ink-3">Certificado</dt>
+                <dd className="num text-right">
+                  <Ext href={r.document_url}>{r.certified}</Ext>
+                </dd>
+                <dt className="text-ink-3">Diferencia</dt>
+                <dd className="num text-right">{r.difference}</dd>
+              </dl>
+            </Card>
+          </li>
+        ))}
+      </ul>
+      <Card className="hidden p-0 sm:block sm:p-0">
         <div className="p-4 sm:p-5">
           <Table head={['Moneda', 'Corte', 'Suma de contratos', 'Ajustes', 'Calculado', 'Certificado', 'Diferencia', 'Estado']}>
             {v.rows.map((r) => (
@@ -92,7 +127,7 @@ function Verification() {
         </div>
       </Card>
       <p className="mt-2 text-xs text-ink-3">
-        La cifra certificada lleva al certificado publicado. La suma de contratos se muestra con dos decimales y
+        La cifra certificada lleva al certificado publicado. La suma de contratos se muestra con hasta dos decimales y
         se compara en tokens enteros.
       </p>
     </Section>
