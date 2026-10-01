@@ -6,6 +6,9 @@
 
 One rule for every certificate: same networks rule, same time convention, same precision
 rule. Only figures confirmed by a person (data/golden/certifications.json) are compared.
+
+The official rule compares both sides in whole tokens (OFFICIAL_RULE). The grid still
+records every other rule, so the choice stays visible.
 """
 
 from __future__ import annotations
@@ -22,6 +25,16 @@ GOLDEN_PATH = DATA_DIR / "golden" / "certifications.json"
 ADJUSTMENTS: list[dict] = []
 
 PRECISION_RULES = {"round_half_up": ROUND_HALF_UP, "truncate": ROUND_DOWN}
+
+# Places compared: "printed" uses each certificate's printed precision, "whole_units" uses 0.
+PLACES_RULES = ("printed", "whole_units")
+
+OFFICIAL_RULE = {
+    "convention": "ART",
+    "networks_rule": "all_checked",
+    "precision_rule": "round_half_up",
+    "places_rule": "whole_units",
+}
 
 
 def load_confirmed(path: Path = GOLDEN_PATH) -> list[dict]:
@@ -45,6 +58,7 @@ def compare(
     convention: str,
     networks_rule: str,
     precision_rule: str,
+    places_rule: str = "printed",
     decimals: int = 18,
 ) -> list[dict]:
     """networks_rule: 'all_checked' sums every network checked where the token exists.
@@ -68,7 +82,9 @@ def compare(
         computed_raw = raw_sum + adj_total
         computed = to_units(computed_raw, decimals)
         certified = Decimal(cert["figure"])
-        shown = at_printed_precision(computed, cert["printed_decimals"], precision_rule)
+        places = cert["printed_decimals"] if places_rule == "printed" else 0
+        shown = at_printed_precision(computed, places, precision_rule)
+        certified_cmp = at_printed_precision(certified, places, precision_rule)
         out.append(
             {
                 "token": cert["token"],
@@ -80,7 +96,8 @@ def compare(
                 "computed": str(computed),
                 "computed_at_printed_precision": str(shown),
                 "difference": str(computed - certified),
-                "match": not bad and shown == certified,
+                "compared_places": places,
+                "match": not bad and shown == certified_cmp,
                 "networks_included": sorted(
                     r["chain"] for r in rows if r["status"] == "ok" and int(r["raw"]) > 0
                 ),
@@ -88,6 +105,7 @@ def compare(
                 "convention": convention,
                 "networks_rule": networks_rule,
                 "precision_rule": precision_rule,
+                "places_rule": places_rule,
             }
         )
     return out

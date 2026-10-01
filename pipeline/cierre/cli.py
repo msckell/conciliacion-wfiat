@@ -292,7 +292,7 @@ def cmd_movements(args: argparse.Namespace) -> int:
 
 def cmd_golden(args: argparse.Namespace) -> int:
     """Computed vs certified. Refuses to run on figures a person has not confirmed."""
-    from cierre.golden import PRECISION_RULES, compare, load_confirmed
+    from cierre.golden import OFFICIAL_RULE, PLACES_RULES, PRECISION_RULES, compare, load_confirmed
 
     certs = load_confirmed()
     supply_rows = [
@@ -304,11 +304,24 @@ def cmd_golden(args: argparse.Namespace) -> int:
     for conv in ("ART", "UTC"):
         for nets in ("all_checked", "listed_in_certificate"):
             for prec in PRECISION_RULES:
-                rows = compare(certs, supply_rows, conv, nets, prec)
-                grid[f"{conv}|{nets}|{prec}"] = rows
-                n = sum(r["match"] for r in rows)
-                print(f"{conv} {nets:22} {prec:14} -> {n} of {len(rows)} match", flush=True)
+                for places in PLACES_RULES:
+                    rows = compare(certs, supply_rows, conv, nets, prec, places)
+                    grid[f"{conv}|{nets}|{prec}|{places}"] = rows
+                    n = sum(r["match"] for r in rows)
+                    print(f"{conv} {nets:22} {prec:14} {places:11} -> {n} of {len(rows)} match")
     _dump(DATA_DIR / "phase0" / "golden_grid.json", grid)
+    official = compare(certs, supply_rows, **OFFICIAL_RULE)
+    _dump(
+        DATA_DIR / "golden" / "verification.json",
+        {
+            "rule": OFFICIAL_RULE,
+            "matched": sum(r["match"] for r in official),
+            "total": len(official),
+            "rows": official,
+        },
+    )
+    n_ok = sum(r["match"] for r in official)
+    print(f"official rule {OFFICIAL_RULE} -> {n_ok} of {len(official)}")
     return 0
 
 

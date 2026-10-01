@@ -77,3 +77,27 @@ def test_precision_rules_differ_only_where_they_should():
     v = to_units(973_000_960_195_000_000_000_000_000, 18)  # 973,000,960.195
     assert at_printed_precision(v, 2, "round_half_up") == Decimal("973000960.20")
     assert at_printed_precision(v, 2, "truncate") == Decimal("973000960.19")
+
+
+def test_whole_units_rule_compares_both_sides_at_zero_places():
+    from cierre.golden import compare
+
+    cert = {
+        "token": "wARS",
+        "cutoff": "2026-03-31",
+        "figure": "973000960.19",
+        "printed_decimals": 2,
+        "network_keys": ["base"],
+    }
+    raw = str(973000960_2006421207200328 * 10**2)  # 973000960.2006... with 18 decimals
+    row = {
+        "token": "wARS",
+        "cutoff": "2026-03-31",
+        "convention": "ART",
+        "chain": "base",
+        "status": "ok",
+        "raw": raw,
+    }
+    printed = compare([cert], [row], "ART", "all_checked", "round_half_up", "printed")[0]
+    whole = compare([cert], [row], "ART", "all_checked", "round_half_up", "whole_units")[0]
+    assert (printed["match"], whole["match"], whole["compared_places"]) == (False, True, 0)
