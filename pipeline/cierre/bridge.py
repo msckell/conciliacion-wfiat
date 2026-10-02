@@ -33,6 +33,19 @@ def _topic_addr(a: str) -> str:
     return "0x" + "0" * 24 + a.lower()[2:]
 
 
+def _bridge_address(known: list[KnownContract], chain: str) -> str | None:
+    hits = [k.address for k in known if k.chain == chain and k.role == "bridge_deposit"]
+    return hits[0] if len(hits) == 1 else None
+
+
+def _side(chain_result: dict, movement: dict) -> dict:
+    return {
+        "chain": chain_result["chain"],
+        "tx_hash": movement["tx_hash"],
+        "block": movement["block"],
+    }
+
+
 def find_fulfillment_after(
     chain: Chain,
     bridge_address: str,
@@ -131,36 +144,28 @@ def match(
                 cut[(c["chain"], b["cutoff"])] = b["block"]
     outs, ins = {}, {}
     for c in engine:
-        for sym, t in c.get("tokens", {}).items():
+        for t in c.get("tokens", {}).values():
             for m in t.get("movements", []):
                 ev = m.get("evidence") or {}
                 if m.get("category") == "bridge_out":
-                    outs[(c["chain"], m["tx_hash"], int(ev["deposit_id"]))] = (sym, c, m)
+                    outs[(c["chain"], m["tx_hash"], int(ev["deposit_id"]))] = (c, m)
                 elif m.get("category") == "bridge_in":
                     src = by_id.get(int(ev["source_chain_id"]))
                     key = (src, "0x" + ev["source_tx_hash"][-64:], int(ev["source_deposit_id"]))
-                    ins[key] = (sym, c, m)
+                    ins[key] = (c, m)
 
     delays = []
-    for key, (_sym, c, m) in outs.items():
+    for key, (c, m) in outs.items():
         ev = m["evidence"]
         hit = ins.get(key)
         if hit is not None:
-            _, c2, m2 = hit
+            c2, m2 = hit
             ok = m2["amount"] == m["amount"] and m2["counterparty"] == ev["dest_recipient"]
+            status = "matched" if ok else "mismatch"
             delay = m2["timestamp"] - m["timestamp"]
             delays.append(delay)
-            pair = {"chain": c2["chain"], "tx_hash": m2["tx_hash"], "block": m2["block"]}
-            m["bridge"] = {
-                "status": "matched" if ok else "mismatch",
-                "other_side": pair,
-                "delay_seconds": delay,
-            }
-            m2["bridge"] = {
-                "status": "matched" if ok else "mismatch",
-                "other_side": {"chain": c["chain"], "tx_hash": m["tx_hash"], "block": m["block"]},
-                "delay_seconds": delay,
-            }
+            m["bridge"] = {"status": status, "other_side": _side(c2, m2), "delay_seconds": delay}
+            m2["bridge"] = {"status": status, "other_side": _side(c, m), "delay_seconds": delay}
             continue
         dest = by_id.get(int(ev["dest_chain_id"]))
         if dest is None:
@@ -182,7 +187,7 @@ def match(
         )
         m["bridge"] = {"status": "in_flight_at_cutoff", "dest_chain": dest, "after": after}
 
-    for key, (_sym, c, m) in ins.items():
+    for key, (c, m) in ins.items():
         if "bridge" in m:
             continue
         src, src_tx, dep = key
@@ -207,8 +212,3 @@ def match(
         "delay_seconds_max": max(delays) if delays else None,
         "delay_seconds_median": sorted(delays)[len(delays) // 2] if delays else None,
     }
-
-
-def _bridge_address(known: list[KnownContract], chain: str) -> str | None:
-    hits = [k.address for k in known if k.chain == chain and k.role == "bridge_deposit"]
-    return hits[0] if len(hits) == 1 else None
