@@ -1,8 +1,12 @@
 import { Fragment, useState, type ReactNode } from 'react'
-import { site } from './data'
+import { dataHref, excelHref, site } from './data'
 
 // Faithful render of the Block Kit payload the pipeline wrote (slack_payload.json).
 // Only the subset of mrkdwn the payload uses: *bold*, <url|text>, :emoji: and lines.
+
+const SLACK_CHANNEL = 'finanzas-cierre'
+// Start of the placeholder link a dry run puts in the button (see cli.py).
+const DRY_RUN_LINK = 'https://LINK'
 
 const EMOJI: Record<string, string> = {
   ':warning:': '⚠️',
@@ -60,13 +64,13 @@ type Block = {
   elements?: { text: { text: string }; url: string }[]
 }
 
-export function SlackMessage({ excelHref }: { excelHref: string }) {
+function SlackMessage() {
   const payload = site.slack.payload as { blocks: Block[] } | null
   if (!payload) return null
   return (
     <div className="overflow-hidden rounded-xl border border-line bg-white shadow-sm">
       <div className="flex items-center gap-2 border-b border-line bg-[#2b2d31] px-4 py-2 text-sm text-white">
-        <span className="font-semibold"># finanzas-cierre</span>
+        <span className="font-semibold"># {SLACK_CHANNEL}</span>
       </div>
       <div className="flex gap-3 p-4 text-[15px] leading-relaxed text-[#1d1c1d]">
         <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-accent text-sm font-bold text-white">
@@ -101,7 +105,7 @@ export function SlackMessage({ excelHref }: { excelHref: string }) {
                         key={j}
                         // The dry run payload has no published link yet: the button opens
                         // the Excel served by this page.
-                        href={e.url.startsWith('https://LINK') ? excelHref : e.url}
+                        href={e.url.startsWith(DRY_RUN_LINK) ? excelHref : e.url}
                         className="inline-block rounded border border-[#007a5a] bg-[#007a5a] px-3 py-1 text-sm font-bold text-white hover:bg-[#148567]"
                       >
                         {e.text.text}
@@ -119,10 +123,10 @@ export function SlackMessage({ excelHref }: { excelHref: string }) {
 }
 
 // The message as text (working links) and, after a live send, the screenshot from the channel.
-export function SlackView({ excelHref }: { excelHref: string }) {
-  const shot = site.slack.screenshot ? `/data/${site.slack.screenshot}` : null
+export function SlackView() {
+  const shot = site.slack.screenshot ? dataHref(site.slack.screenshot) : null
   const [tab, setTab] = useState<'message' | 'screenshot'>('message')
-  if (!shot) return <SlackMessage excelHref={excelHref} />
+  if (!shot) return <SlackMessage />
   const button = (value: typeof tab, label: string) => (
     <button
       type="button"
@@ -142,19 +146,19 @@ export function SlackView({ excelHref }: { excelHref: string }) {
         {button('screenshot', 'Captura en Slack')}
       </div>
       {tab === 'message' ? (
-        <SlackMessage excelHref={excelHref} />
+        <SlackMessage />
       ) : (
         <figure>
           <a href={shot} target="_blank" rel="noreferrer" className="block">
             <img
               src={shot}
-              alt="Captura del mensaje del cierre en el canal #finanzas-cierre de Slack"
+              alt={`Captura del mensaje del cierre en el canal #${SLACK_CHANNEL} de Slack`}
               className="w-full rounded-xl border border-line bg-white shadow-sm"
               loading="lazy"
             />
           </a>
           <figcaption className="mt-2 text-xs text-ink-3">
-            Captura del canal #finanzas-cierre. Tocá la imagen para verla en tamaño completo.
+            Captura del canal #{SLACK_CHANNEL}. Tocá la imagen para verla en tamaño completo.
           </figcaption>
         </figure>
       )}
