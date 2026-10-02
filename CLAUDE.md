@@ -98,6 +98,8 @@ Success means the page opens instantly, with no login and no API key, and shows:
    - Title "Cierre trimestral wFIAT", subtitle "Demo independiente para Ripio, por Máximo Sckell".
    - A visible disclaimer.
    - No Ripio logo, colors or fonts on the page or in Slack. Exception (Maxi's decision, 2026-10-01): the Excel package carries light Ripio branding (logo and purple), and keeps the "No es una herramienta oficial" disclaimer.
+   - Exception (Maxi's decision, 2026-10-02): the page shows the wFIAT token icons, as CoinGecko and the explorers do. Still no Ripio logo, no Geist font and no Ripio purple (#7908ff) on the page.
+   - Style (Maxi's decision, 2026-10-02): a fintech look in the same family as Ripio (deep navy, one indigo accent, Inter), so the demo is not out of line with them, without copying their identity.
    - The domain must not contain "ripio".
 10. **Sensitivity.**
     - Add a `noindex,nofollow` meta tag and a `robots.txt` that disallows everything.
