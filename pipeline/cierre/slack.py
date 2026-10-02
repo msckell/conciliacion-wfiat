@@ -2,7 +2,7 @@
 
 Every figure and status comes from templates over the package, the memo and the
 verification files. Without SLACK_WEBHOOK_URL (dry run), the payload is written to a file.
-A message without a reachable Excel link is an alert, never a close notice (decision 12).
+A message without a reachable Excel link is an alert, not a close notice.
 """
 
 from __future__ import annotations
@@ -13,13 +13,8 @@ from pathlib import Path
 
 import httpx
 
-from cierre.agent.memo import fmt
-from cierre.package import units
-
-
-def _d(iso: str) -> str:
-    y, m, d = iso.split("-")
-    return f"{d}/{m}/{y}"
+from cierre.agent.memo import fmt_date
+from cierre.tasks import describe_movement
 
 
 def _section(text: str) -> dict:
@@ -27,11 +22,10 @@ def _section(text: str) -> dict:
 
 
 def task_line(r: dict, chain_names: dict[str, str], issue_url: str | None = None) -> str:
-    amount = fmt(units(r["amount"], 18))
-    kind = "emisión" if r["kind"] == "mint" else "quema"
+    kind, amount = describe_movement(r)
     issue = f" · <{issue_url}|tarea>" if issue_url else ""
     return (
-        f"• {chain_names[r['chain']]}, {kind} de {amount} {r['token']}: {r['reason']} "
+        f"• {chain_names[r['chain']]}, {kind} de {amount}: {r['reason']} "
         f"<{r['explorer_url']}|ver transacción>{issue}"
     )
 
@@ -46,7 +40,7 @@ def close_message(
     tasks: dict | None = None,
 ) -> dict:
     """`tasks` is the output of tasks.open_issues: each task line links its issue."""
-    cut = _d(pkg["cutoff"])
+    cut = fmt_date(pkg["cutoff"])
     issue_urls = {
         (i["chain"], i["tx_hash"], i["log_index"]): i["url"]
         for i in (tasks or {}).get("issues", [])
@@ -56,7 +50,7 @@ def close_message(
         _section("El agente armó el paquete onchain del cierre. Está listo para que lo revisés."),
     ]
 
-    # First what needs a person (Maxi's order, 2026-10-02), then everything that is in order.
+    # Items that need a person go first.
     review = []
     if not pkg["all_reconciled"]:
         review.append(":rotating_light: Hay redes que no concilian. Revisá la hoja Conciliación.")
@@ -116,6 +110,7 @@ def close_message(
     return {"text": f"Cierre wFIAT al {cut} listo para revisión", "blocks": blocks}
 
 
+# What an alert says about the package, by how far the close got before it stopped.
 PACKAGE_STATE = {
     "none": " No hay paquete publicado.",
     "pushed": " El paquete se subió al repo, pero el sitio no lo sirvió a tiempo. "
@@ -125,7 +120,7 @@ PACKAGE_STATE = {
 
 
 def alert_message(step: str, error: str, what: str = "El cierre", package: str = "none") -> dict:
-    """An alert never carries the Excel link (decision 12)."""
+    """Alerts carry no Excel link."""
     text = f":rotating_light: {what} se detuvo en el paso *{step}*."
     if what == "El cierre":
         text += PACKAGE_STATE[package]

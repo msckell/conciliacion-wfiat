@@ -11,16 +11,20 @@ import os
 
 import httpx
 
-from cierre.agent.memo import fmt
+from cierre.agent.memo import fmt, fmt_date
+from cierre.config import load_tokens
 from cierre.package import units
 
 API = "https://api.github.com"
+CLOSE_LABEL_COLOR = "5319e7"
 REVIEW_LABEL = ("revisar", "d93f0b", "Un movimiento que el agente no pudo probar")
 
 
-def _d(iso: str) -> str:
-    y, m, d = iso.split("-")
-    return f"{d}/{m}/{y}"
+def describe_movement(r: dict) -> tuple[str, str]:
+    """Kind and amount of a movement row, in Spanish: ('quema', '985,00 wARS')."""
+    decimals = load_tokens()[r["token"]].decimals
+    kind = "emisión" if r["kind"] == "mint" else "quema"
+    return kind, f"{fmt(units(r['amount'], decimals))} {r['token']}"
 
 
 def marker(cutoff: str, r: dict) -> str:
@@ -28,8 +32,7 @@ def marker(cutoff: str, r: dict) -> str:
 
 
 def issue_for(cutoff: str, r: dict, chain_names: dict[str, str]) -> dict:
-    kind = "emisión" if r["kind"] == "mint" else "quema"
-    amount = f"{fmt(units(r['amount'], 18))} {r['token']}"
+    kind, amount = describe_movement(r)
     chain = chain_names[r["chain"]]
     body = "\n".join(
         [
@@ -51,7 +54,7 @@ def issue_for(cutoff: str, r: dict, chain_names: dict[str, str]) -> dict:
         ]
     )
     return {
-        "title": f"Revisar {kind} de {amount} en {chain} (cierre {_d(cutoff)})",
+        "title": f"Revisar {kind} de {amount} en {chain} (cierre {fmt_date(cutoff)})",
         "body": body,
         "labels": [f"cierre-{cutoff}", REVIEW_LABEL[0]],
     }
@@ -81,7 +84,7 @@ def open_issues(
     with httpx.Client(base_url=API, headers=headers, timeout=30, transport=transport) as gh:
         label = f"cierre-{cutoff}"
         for name, color, desc in (
-            (label, "5319e7", f"Tareas del cierre al {_d(cutoff)}"),
+            (label, CLOSE_LABEL_COLOR, f"Tareas del cierre al {fmt_date(cutoff)}"),
             REVIEW_LABEL,
         ):
             resp = gh.post(
@@ -93,9 +96,7 @@ def open_issues(
             f"/repos/{repo}/issues", params={"labels": label, "state": "all", "per_page": 100}
         )
         resp.raise_for_status()
-        existing = {
-            m: i for i in resp.json() for m in [_marker_of(i.get("body") or "")] if m is not None
-        }
+        existing = {m: i for i in resp.json() if (m := _marker_of(i.get("body") or "")) is not None}
         out = []
         for r, issue in wanted:
             found = existing.get(marker(cutoff, r))
