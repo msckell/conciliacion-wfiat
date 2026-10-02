@@ -1,6 +1,6 @@
 """Checks an LLM explanation before any of it reaches Finance.
 
-The LLM never types a figure. It cites facts by ID, like {wARS.outstanding.2026-09-30},
+The LLM does not type figures. It cites facts by ID, like {wARS.outstanding.2026-09-30},
 and code replaces each ID with the formatted value. This module rejects:
 
 - raw_figure: any digit, or a number written in words, outside a fact ID
@@ -73,8 +73,7 @@ def _style_problems(rest: str, digits_detail: str) -> list[Problem]:
 
 
 def check(text: str, token: str, facts: dict[str, str], periods: set[str]) -> list[Problem]:
-    """facts: every fact ID of this close (all tokens) to its formatted value.
-    periods: the periods this close may cite."""
+    """facts: fact ID to formatted value. periods: the periods this close may cite."""
     problems: list[Problem] = []
     for m in FACT_ID.finditer(text):
         fid = f"{m.group(1)}.{m.group(2)}.{m.group(3)}"
