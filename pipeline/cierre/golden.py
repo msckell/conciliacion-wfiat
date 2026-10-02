@@ -21,6 +21,9 @@ from cierre import DATA_DIR
 
 GOLDEN_PATH = DATA_DIR / "golden" / "certifications.json"
 
+# Every wFIAT token has 18 decimals (config/tokens.yaml).
+WFIAT_DECIMALS = 18
+
 # Documented adjustments only, each with an external source. None apply: an exclusion that
 # only improves the match is not evidence.
 ADJUSTMENTS: list[dict] = []
@@ -60,7 +63,7 @@ def compare(
     networks_rule: str,
     precision_rule: str,
     places_rule: str = "printed",
-    decimals: int = 18,
+    decimals: int = WFIAT_DECIMALS,
 ) -> list[dict]:
     """networks_rule: 'all_checked' sums every network checked where the token exists.
     'listed_in_certificate' sums only the networks the certificate names."""

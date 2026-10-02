@@ -23,6 +23,8 @@ COINGECKO_COIN_URL = "https://api.coingecko.com/api/v3/coins/{coin_id}"
 
 @dataclass
 class Probe:
+    """What was found for one token address on one network."""
+
     chain: str
     address: str
     deployed: bool
