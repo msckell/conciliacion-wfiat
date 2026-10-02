@@ -16,7 +16,7 @@ function inline(text: string): ReactNode[] {
     if (m.index > last) out.push(text.slice(last, m.index))
     if (m[1]) {
       out.push(
-        <a key={k++} href={m[1]} target="_blank" rel="noreferrer" className="text-[#1264a3] hover:underline">
+        <a key={k++} href={m[1]} target="_blank" rel="noreferrer" className="text-[#1264a3] underline decoration-[#1264a3]/40 underline-offset-2 hover:decoration-[#1264a3]">
           {m[2]}
         </a>,
       )

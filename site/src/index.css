@@ -1,18 +1,22 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", Consolas, monospace;
-  --color-ink: #16181d;
-  --color-ink-2: #4a4f5a;
-  --color-ink-3: #767c88;
-  --color-line: #e3e5e9;
-  --color-paper: #f7f7f5;
+  /* Neutral fintech palette. Every text color passes WCAG AA (4.5:1) on card, paper and soft fills. */
+  --color-ink: #0e1330;
+  --color-ink-2: #454a63;
+  --color-ink-3: #646a80;
+  --color-line: #e4e6ef;
+  --color-paper: #f5f6fa;
   --color-card: #ffffff;
-  --color-accent: #0f5f5a;
-  --color-accent-soft: #e5f1ef;
-  --color-ok: #1d7a46;
-  --color-ok-soft: #e7f4ec;
+  --color-navy: #0e1330;
+  --color-navy-2: #1c2459;
+  --color-on-navy: #c3c8ea;
+  --color-accent: #3a47d5;
+  --color-accent-soft: #eceefd;
+  --color-ok: #157347;
+  --color-ok-soft: #e6f4ec;
   --color-warn: #8a5a00;
   --color-warn-soft: #fdf3dc;
   --color-net-1: #2a78d6;
@@ -23,6 +27,8 @@
   --color-net-6: #008300;
   --color-net-7: #4a3aa7;
   --color-net-other: #a3a7ae;
+  --shadow-card: 0 1px 2px rgb(14 19 48 / 0.04), 0 2px 8px rgb(14 19 48 / 0.04);
+  --shadow-lift: 0 2px 4px rgb(14 19 48 / 0.05), 0 8px 24px rgb(14 19 48 / 0.08);
 }
 
 html {
@@ -36,9 +42,17 @@ body {
   margin: 0;
   background: var(--color-paper);
   font-family: var(--font-sans);
+  font-feature-settings: "cv11", "ss01";
   line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
 }
 
 .num {
   font-variant-numeric: tabular-nums;
+}
+
+.hero-bg {
+  background:
+    radial-gradient(120% 140% at 100% 0%, rgb(58 71 213 / 0.55) 0%, transparent 55%),
+    linear-gradient(160deg, var(--color-navy-2) 0%, var(--color-navy) 70%);
 }
