@@ -33,6 +33,10 @@ chains:
       - https://mainnet.base.org
       - https://base.drpc.org
       - https://1rpc.io/base
+      # Archive state, checked against the recorded cutoff reads (2026-10-02). Added because
+      # mainnet.base.org answers HTTP 429 to GitHub Actions runners.
+      - https://base.gateway.tenderly.co
+      - https://base-mainnet.public.blastapi.io
     # base.drpc.org allows 10 blocks per eth_getLogs on the free plan, mainnet.base.org
     # 2000 (2026-10-01). base.blockscout.com allows 10 calls per window and missed mints and
     # burns in Q3 2026 (caught by the reconciliation), so it is only a second source.
