@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { useReveal } from './reveal'
 
 export function Section({
   id,
@@ -11,8 +12,9 @@ export function Section({
   lead?: ReactNode
   children: ReactNode
 }) {
+  const [ref, shown] = useReveal<HTMLElement>()
   return (
-    <section id={id} className="mt-12 scroll-mt-20">
+    <section ref={ref} id={id} className={`reveal mt-12 scroll-mt-20 ${shown ? 'is-visible' : ''}`}>
       <h2 className="text-xl font-semibold tracking-tight text-ink sm:text-[1.65rem]">{title}</h2>
       {lead && <p className="mt-2 max-w-prose text-ink-2">{lead}</p>}
       <div className="mt-5">{children}</div>
@@ -105,7 +107,7 @@ function tokenIcon(symbol: string): string | undefined {
 export function TokenIcon({ symbol, size = 'md' }: { symbol: string; size?: 'sm' | 'md' }) {
   const box = size === 'sm' ? 'h-5 w-5 text-[7px]' : 'h-9 w-9 text-[10px]'
   const url = tokenIcon(symbol)
-  if (url) return <img src={url} alt="" className={`${box} shrink-0 rounded-full object-contain`} />
+  if (url) return <img src={url} alt="" className={`${box} shrink-0 rounded-full object-contain ring-1 ring-line`} />
   // Monogram until the icon file exists: the currency code without the leading "w".
   return (
     <span

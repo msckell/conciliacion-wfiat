@@ -9,6 +9,7 @@
 tokens:
   wARS:
     name: Argentine Peso
+    name_es: Peso argentino
     decimals: 18
     coingecko_id: argentine-peso
     status: confirmed
@@ -48,6 +49,7 @@ tokens:
         creation_evidence: "archive: no code at block-1, code at block (rpc.mainnet.arc.io, rpc.drpc.mainnet.arc.io, rpc.quicknode.mainnet.arc.io)"
   wBRL:
     name: Brazilian Real
+    name_es: Real brasileño
     decimals: 18
     coingecko_id: brazilian-real
     status: confirmed
@@ -87,6 +89,7 @@ tokens:
         creation_evidence: "archive: no code at block-1, code at block (rpc.mainnet.arc.io, rpc.drpc.mainnet.arc.io, rpc.quicknode.mainnet.arc.io)"
   wMXN:
     name: Mexican Peso
+    name_es: Peso mexicano
     decimals: 18
     coingecko_id: mexican-peso
     status: confirmed
@@ -127,6 +130,7 @@ tokens:
         creation_evidence: "archive: no code at block-1, code at block (rpc.mainnet.arc.io, rpc.drpc.mainnet.arc.io, rpc.quicknode.mainnet.arc.io)"
   wCOP:
     name: Colombian Peso
+    name_es: Peso colombiano
     decimals: 18
     coingecko_id: colombian-peso
     status: confirmed
@@ -167,6 +171,7 @@ tokens:
         creation_evidence: "archive: no code at block-1, code at block (rpc.mainnet.arc.io, rpc.drpc.mainnet.arc.io, rpc.quicknode.mainnet.arc.io)"
   wCLP:
     name: Chilean Peso
+    name_es: Peso chileno
     decimals: 18
     coingecko_id: chilean-peso
     status: confirmed
@@ -206,6 +211,7 @@ tokens:
         creation_evidence: "archive: no code at block-1, code at block (rpc.mainnet.arc.io, rpc.drpc.mainnet.arc.io, rpc.quicknode.mainnet.arc.io)"
   wPEN:
     name: Peruvian Sol
+    name_es: Sol peruano
     decimals: 18
     coingecko_id: peruvian-sol
     status: confirmed
@@ -246,6 +252,7 @@ tokens:
         creation_evidence: "archive: no code at block-1, code at block (rpc.mainnet.arc.io, rpc.drpc.mainnet.arc.io, rpc.quicknode.mainnet.arc.io)"
   wUYU:
     name: Peso Uruguayo
+    name_es: Peso uruguayo
     decimals: 18
     coingecko_id: null
     status: unconfirmed
