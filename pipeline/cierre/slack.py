@@ -51,44 +51,55 @@ def close_message(
         (i["chain"], i["tx_hash"], i["log_index"]): i["url"]
         for i in (tasks or {}).get("issues", [])
     }
-    lines = [f"• *{t['headline']}*. {t['status']}" for t in memo["tokens"].values()]
     blocks = [
         {"type": "header", "text": {"type": "plain_text", "text": f"Cierre wFIAT al {cut}"}},
         _section("El agente armó el paquete onchain del cierre. Está listo para que lo revisés."),
-        _section("\n".join(lines)),
     ]
-    alerts = []
+
+    # First what needs a person (Maxi's order, 2026-10-02), then everything that is in order.
+    review = []
+    if not pkg["all_reconciled"]:
+        review.append(":rotating_light: Hay redes que no concilian. Revisá la hoja Conciliación.")
+    if exceptions:
+        pending = [r for r in exceptions["results"] if r["outcome"] == "task"]
+        if pending:
+            review.append(
+                f":mag: *Se requiere tu revisión en {len(pending)} "
+                f"{'movimiento' if len(pending) == 1 else 'movimientos'}*\n"
+                f"El agente investigó {exceptions['investigated']} movimientos, resolvió "
+                f"{exceptions['resolved']} con evidencia y te deja estos:\n"
+                + "\n".join(
+                    task_line(
+                        r, chain_names, issue_urls.get((r["chain"], r["tx_hash"], r["log_index"]))
+                    )
+                    for r in pending
+                )
+            )
+    if review:
+        blocks.append(_section("\n\n".join(review)))
+
+    all_good = pkg["all_reconciled"] and verification["matched"] == verification["total"]
+    if all_good and review:
+        ok_head = ":white_check_mark: *Todo lo demás está conciliado y verificado*"
+    elif all_good:
+        ok_head = ":white_check_mark: *Todo está conciliado y verificado*"
+    else:
+        ok_head = "*Resto del cierre*"
+    lines = [f"• *{t['headline']}*. {t['status']}" for t in memo["tokens"].values()]
+    notes = []
     for n in pkg["networks"]:
         if n["is_new"]:
             blk = next(iter(n["new_tokens"].values()))["creation_block"]
-            alerts.append(
-                f":warning: Red nueva desde el último cierre: *{n['name']}* "
+            notes.append(
+                f":new: Red nueva desde el último cierre: *{n['name']}* "
                 f"(contratos creados desde el bloque {blk})."
             )
-    if not pkg["all_reconciled"]:
-        alerts.append(":rotating_light: Hay redes que no concilian. Revisá la hoja Conciliación.")
-    if alerts:
-        blocks.append(_section("\n".join(alerts)))
-    if exceptions:
-        pending = [r for r in exceptions["results"] if r["outcome"] == "task"]
-        head = (
-            f"*Qué te toca revisar* ({len(pending)})\n"
-            f"El agente investigó {exceptions['investigated']} movimientos, resolvió "
-            f"{exceptions['resolved']} con evidencia y te deja estos:"
-        )
-        body = "\n".join(
-            task_line(r, chain_names, issue_urls.get((r["chain"], r["tx_hash"], r["log_index"])))
-            for r in pending
-        )
-        body = body or "Nada pendiente."
-        blocks.append(_section(head + "\n" + body))
-    blocks.append(
-        _section(
-            f"*Verificación:* el método coincide con la cantidad certificada por el contador "
-            f"en {verification['matched']} de las {verification['total']} certificaciones "
-            f"publicadas. Redes revisadas: {len(pkg['networks_checked'])}."
-        )
+    notes.append(
+        f"*Verificación:* el método coincide con la cantidad certificada por el contador "
+        f"en {verification['matched']} de las {verification['total']} certificaciones "
+        f"publicadas. Redes revisadas: {len(pkg['networks_checked'])}."
     )
+    blocks.append(_section(ok_head + "\n" + "\n".join(lines) + "\n\n" + "\n".join(notes)))
     blocks.append(
         {
             "type": "actions",
