@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-10-02T02:52:43+00:00",
+  "checked_at": "2026-10-02T02:57:38+00:00",
   "networks_checked": [
     "ethereum",
     "base",
@@ -28,7 +28,7 @@
   ],
   "supply": {
     "ethereum": {
-      "block": 26101772,
+      "block": 26101797,
       "tokens": {
         "wARS": "12285069043587961552517100013",
         "wBRL": "4770577392513443946870893",
@@ -39,7 +39,7 @@
       }
     },
     "base": {
-      "block": 52060108,
+      "block": 52060255,
       "tokens": {
         "wARS": "1638446091742940132955015243",
         "wBRL": "2480648758403505658617551",
@@ -50,7 +50,7 @@
       }
     },
     "polygon": {
-      "block": 94802949,
+      "block": 94803146,
       "tokens": {
         "wARS": "38523919735333389016100000",
         "wBRL": "45465547879000000000000",
@@ -61,7 +61,7 @@
       }
     },
     "gnosis": {
-      "block": 48543402,
+      "block": 48543460,
       "tokens": {
         "wARS": "9360155000000000000000000",
         "wBRL": "32999840000000000000000",
@@ -72,7 +72,7 @@
       }
     },
     "bsc": {
-      "block": 125215714,
+      "block": 125216369,
       "tokens": {
         "wARS": "85064244090776000000000000",
         "wBRL": "237107041289472274000000",
@@ -83,7 +83,7 @@
       }
     },
     "worldchain": {
-      "block": 35786962,
+      "block": 35787109,
       "tokens": {
         "wARS": "390379882760387597974376622",
         "wBRL": "481574740439523099909700",
@@ -94,7 +94,7 @@
       }
     },
     "celo": {
-      "block": 79008799,
+      "block": 79009096,
       "tokens": {
         "wARS": "262660671708647000000000000",
         "wBRL": "3708687895892251128768916",
@@ -105,7 +105,7 @@
       }
     },
     "hyperevm": {
-      "block": 47430591,
+      "block": 47430891,
       "tokens": {
         "wARS": "409279807617718859506384744",
         "wBRL": "2499220298586097094440148",
@@ -116,7 +116,7 @@
       }
     },
     "arc": {
-      "block": 23811396,
+      "block": 23811978,
       "tokens": {
         "wARS": "112410772682783000000000000",
         "wBRL": "329380864996706797392792",
@@ -330,27 +330,22 @@
     }
   },
   "golden_live": {
-    "matched": 8,
+    "matched": 9,
     "total": 9,
-    "read_errors": [
-      "base"
-    ],
-    "read_error_detail": {
-      "base": {
-        "https://mainnet.base.org": "error: RpcError: base eth_call: all endpoints failed: https://mainnet.base.org: HTTP 429 | https://mainnet.base.org: HTTP 429 | https://mainnet.base.org: HTTP 429"
-      }
-    },
+    "read_errors": [],
+    "read_error_detail": {},
     "mismatch_without_errors": []
   },
   "ci": {
     "conclusion": "success",
-    "at": "2026-10-02T02:52:44Z",
-    "sha": "fce9641"
+    "at": "2026-10-02T02:57:42Z",
+    "sha": "3b0c823"
   },
-  "problems": [
-    "El chequeo contra las certificaciones no pudo leer Base."
+  "problems": [],
+  "changes": [
+    "Chequeo contra las certificaciones: antes 8 de 9, ahora 9 de 9.",
+    "Los chequeos que fallaban en la corrida anterior volvieron a pasar."
   ],
-  "changes": [],
-  "status": "failed",
+  "status": "ok",
   "notified": "dry_run"
 }

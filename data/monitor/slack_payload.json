@@ -1,5 +1,5 @@
 {
-  "text": "Monitor wFIAT: falló un chequeo",
+  "text": "Monitor wFIAT: hay cambios",
   "blocks": [
     {
       "type": "header",
@@ -12,7 +12,7 @@
       "type": "section",
       "text": {
         "type": "mrkdwn",
-        "text": ":rotating_light: *Falló un chequeo*\n• El chequeo contra las certificaciones no pudo leer Base."
+        "text": "*Qué cambió*\n• Chequeo contra las certificaciones: antes 8 de 9, ahora 9 de 9.\n• Los chequeos que fallaban en la corrida anterior volvieron a pasar."
       }
     },
     {
