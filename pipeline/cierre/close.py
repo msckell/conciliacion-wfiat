@@ -241,7 +241,7 @@ def classify_all(
     known = load_contracts()
     report: dict = {"contracts_checked": [], "contracts_dropped": []}
     usable = []
-    for chain_key in {k.chain for k in known}:
+    for chain_key in dict.fromkeys(k.chain for k in known):
         if chain_key not in chains:
             continue
         rpc = RpcClient(chains[chain_key], cache)
