@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { excelHref, isOtherNetwork, networkColor, site, type Token } from './data'
+import { prefersReducedMotion } from './reveal'
 import { SlackView } from './Slack'
 import { Alert, Card, Check, Dot, Ext, NavyCard, Pill, Section, TokenIcon } from './ui'
 
@@ -51,7 +52,7 @@ function Hero() {
             href="#cierre"
             onClick={(e) => {
               e.preventDefault()
-              document.getElementById('cierre')?.scrollIntoView({ behavior: 'smooth' })
+              document.getElementById('cierre')?.scrollIntoView({ behavior: prefersReducedMotion() ? 'auto' : 'smooth' })
             }}
             className="inline-flex items-center justify-center rounded-xl px-4 py-2.5 font-semibold text-white ring-1 ring-white/25 transition hover:bg-white/10"
           >
