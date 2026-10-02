@@ -1232,6 +1232,13 @@
   "runs": [
     {
       "kind": "monitor",
+      "trigger": "manual en GitHub",
+      "started_at": "01/10/2026 23:49",
+      "duration": "2 minutos",
+      "status": "failed"
+    },
+    {
+      "kind": "monitor",
       "trigger": "local",
       "started_at": "01/10/2026 23:43",
       "duration": "1 minuto",
@@ -1271,16 +1278,24 @@
       "monitor": "Todos los días a las 09:00 de Buenos Aires",
       "close": "El 1 de enero, abril, julio y octubre a las 09:00 de Buenos Aires, el día siguiente a cada fin de trimestre"
     },
-    "ci": null,
+    "ci": {
+      "conclusion": "success",
+      "at": "01/10/2026 23:49",
+      "sha": "859d704"
+    },
     "monitor": {
-      "last_run_at_iso": "2026-10-02T02:43:21+00:00",
-      "last_run_status": "ok",
+      "last_run_at_iso": "2026-10-02T02:49:45+00:00",
+      "last_run_status": "failed",
       "last_ok_at_iso": "2026-10-02T02:43:21+00:00",
       "networks_checked": 24,
-      "golden_live_all_match": true,
+      "golden_live_all_match": false,
       "golden_live_total": 9,
-      "changes": [],
-      "problems": []
+      "changes": [
+        "Chequeo contra las certificaciones: antes 9 de 9, ahora 8 de 9."
+      ],
+      "problems": [
+        "El chequeo contra las certificaciones no pudo leer Base."
+      ]
     },
     "slack_live": false
   }
