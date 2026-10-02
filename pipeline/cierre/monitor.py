@@ -118,6 +118,63 @@ def golden_live(chains: dict[str, Chain], tokens: dict[str, Token], cache: DiskC
     }
 
 
+def prefetch_logs(
+    chains: dict[str, Chain], tokens: dict[str, Token], cache: DiskCache, today
+) -> dict:
+    """Read the mint and burn logs of the running quarter into the disk cache, so the
+    close does not ask free nodes for millions of blocks in one day (seen on 2026-10-02:
+    HyperEVM stopped at 5000 of 8093 cells from a GitHub runner).
+
+    Same filter and grid as the close engine, so its inner cells hit the same cache keys.
+    Only whole cells that end well behind the head are read: a cached answer must never
+    change, and blocks near the head can still be reorganized. Nothing here is used as data,
+    the close reads and reconciles everything again."""
+    from dataclasses import replace
+
+    from cierre.close import last_quarter_end
+    from cierre.cutoffs import cutoff_block
+    from cierre.ledger import mints_and_burns_rpc
+
+    start_day = last_quarter_end(today)
+
+    def one(chain: Chain) -> tuple[str, dict]:
+        if not chain.logs_rpc_urls:
+            return chain.key, {"skipped": "no logs RPC (explorer or list source)"}
+        live = [t for t in tokens.values() if t.on(chain.key) is not None]
+        rpc = RpcClient(chain, cache)
+        try:
+            head = int(rpc.call("eth_blockNumber", []), 16)
+            lo = cutoff_block(rpc, start_day, "UTC")["block"]  # the earlier convention
+        except Exception as exc:
+            return chain.key, {"error": f"{type(exc).__name__}: {str(exc)[:160]}"}
+        finally:
+            rpc.close()
+        grid = chain.logs_grid
+        hi = ((head - 2 * grid) // grid) * grid - 1
+        if lo is None or hi <= lo:
+            return chain.key, {"cells": 0}
+        lrpc = RpcClient(replace(chain, rpc_urls=chain.logs_rpc_urls), cache)
+        try:
+            mints_and_burns_rpc(
+                lrpc,
+                [t.address for t in live],
+                lo,
+                hi,
+                grid,
+                None,
+                all_transfers=chain.logs_all_transfers,
+                workers_per_endpoint=chain.logs_workers_per_endpoint,
+            )
+            return chain.key, {"from": lo, "to": hi, "cells": (hi - lo) // grid + 1}
+        except Exception as exc:
+            return chain.key, {"error": f"{type(exc).__name__}: {str(exc)[:160]}"}
+        finally:
+            lrpc.close()
+
+    with cf.ThreadPoolExecutor(max_workers=len(chains)) as ex:
+        return dict(ex.map(one, chains.values()))
+
+
 def ci_status() -> dict | None:
     token, repo = os.environ.get("GITHUB_TOKEN"), os.environ.get("GITHUB_REPOSITORY")
     if not token or not repo:
