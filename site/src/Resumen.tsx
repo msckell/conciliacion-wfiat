@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { excelHref, isOtherNetwork, networkColor, site, type Token } from './data'
-import { SlackMessage } from './Slack'
+import { SlackView } from './Slack'
 import { Alert, Card, Check, Dot, Ext, NavyCard, Pill, Section, TokenIcon } from './ui'
 
 const close = site.close
@@ -382,7 +382,7 @@ export function Resumen() {
             : 'El mensaje que llegó a Slack.'
         }
       >
-        <SlackMessage excelHref={excelHref} />
+        <SlackView excelHref={excelHref} />
         {exc && (
           <p className="mt-2 text-sm text-ink-3">
             Las tareas salen del agente de excepciones: investigó {exc.investigated} movimientos, resolvió{' '}

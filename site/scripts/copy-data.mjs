@@ -1,4 +1,5 @@
-// Copies the files people download (the Excel package) from data/ into public/data/.
+// Copies the files the page links to (the Excel package and the Slack screenshot) from data/
+// into public/data/.
 // The page data itself is imported at build time from data/site/site.json.
 import { copyFileSync, mkdirSync, readFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
@@ -10,5 +11,8 @@ const [d, m, y] = site.close.cutoff.split('/')
 const name = site.close.excel_file
 const out = join(root, 'site', 'public', 'data')
 mkdirSync(out, { recursive: true })
-copyFileSync(join(root, 'data', 'closes', `${y}-${m}-${d}`, name), join(out, name))
-console.log(`copied ${name}`)
+const closeDir = join(root, 'data', 'closes', `${y}-${m}-${d}`)
+for (const file of [name, site.slack.screenshot].filter(Boolean)) {
+  copyFileSync(join(closeDir, file), join(out, file))
+  console.log(`copied ${file}`)
+}

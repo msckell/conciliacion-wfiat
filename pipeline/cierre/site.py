@@ -26,6 +26,7 @@ from cierre.package import units
 from cierre.runlog import read_runs
 
 ART = ZoneInfo("America/Argentina/Buenos_Aires")
+SLACK_SCREENSHOT = "slack_captura.png"
 
 TRIGGERS = {
     "schedule": "programada",
@@ -491,6 +492,10 @@ def build_site(cutoff: str) -> dict:
                 for st in (last_ok or {}).get("steps", [])
             ),
             "payload": slack,
+            # Screenshot of the message in the channel, added by hand after a live send
+            "screenshot": (
+                SLACK_SCREENSHOT if (close_dir / SLACK_SCREENSHOT).exists() else None
+            ),
         },
         "runs": [
             {
