@@ -1,0 +1,55 @@
+{
+  "status": "ok",
+  "issues": [
+    {
+      "chain": "base",
+      "tx_hash": "0x973ffae966a4117988101c26b8bbdde3256619169a1988796b8eb713a8cf0dcc",
+      "log_index": 486,
+      "title": "Revisar quema de 985,00 wARS en Base (cierre 30/09/2026)",
+      "status": "opened",
+      "number": 1,
+      "url": "https://github.com/msckell/conciliacion-wfiat/issues/1",
+      "state": "open"
+    },
+    {
+      "chain": "worldchain",
+      "tx_hash": "0xbfcca975bfc33291227162dc80cf5fec141c209604f5dcf205efca99708569eb",
+      "log_index": 15,
+      "title": "Revisar quema de 37,11 wARS en World Chain (cierre 30/09/2026)",
+      "status": "opened",
+      "number": 2,
+      "url": "https://github.com/msckell/conciliacion-wfiat/issues/2",
+      "state": "open"
+    },
+    {
+      "chain": "worldchain",
+      "tx_hash": "0xad0126a996caf877ab6265d9494c12c22824e59463f68bfc6a1e9078d2579249",
+      "log_index": 32,
+      "title": "Revisar quema de 1,00 wARS en World Chain (cierre 30/09/2026)",
+      "status": "opened",
+      "number": 3,
+      "url": "https://github.com/msckell/conciliacion-wfiat/issues/3",
+      "state": "open"
+    },
+    {
+      "chain": "polygon",
+      "tx_hash": "0x854723b7fd5543cab04edbdf903dd4dd271567da6477449741d50c2070789615",
+      "log_index": 675,
+      "title": "Revisar quema de 485,00 wARS en Polygon (cierre 30/09/2026)",
+      "status": "opened",
+      "number": 4,
+      "url": "https://github.com/msckell/conciliacion-wfiat/issues/4",
+      "state": "open"
+    },
+    {
+      "chain": "hyperevm",
+      "tx_hash": "0x3ff080dac8b08f89c84dbb2c4e076b2bfc69b66c2df2a7493788675023f526c6",
+      "log_index": 10,
+      "title": "Revisar quema de 19.965,12 wBRL en HyperEVM (cierre 30/09/2026)",
+      "status": "opened",
+      "number": 5,
+      "url": "https://github.com/msckell/conciliacion-wfiat/issues/5",
+      "state": "open"
+    }
+  ]
+}
