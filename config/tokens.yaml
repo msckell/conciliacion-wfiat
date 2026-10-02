@@ -5,6 +5,9 @@
 # status:
 #   confirmed    deployed by the same creator as wARS (0xDf20...08DC), same proxy design
 #   unconfirmed  seen on a Ripio page or an explorer, no onchain link to the other tokens yet
+#
+# deployments: creation block per network, found by binary search on archive state and, when
+# the explorer reports a creation tx, cross checked against it (creation_evidence says how).
 
 tokens:
   wARS:

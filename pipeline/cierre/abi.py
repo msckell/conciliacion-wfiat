@@ -30,7 +30,7 @@ def _rol(x: int, n: int) -> int:
     return ((x << n) | (x >> (64 - n))) & _MASK if n else x
 
 
-def _f(a: list[list[int]]) -> None:
+def _keccak_f(a: list[list[int]]) -> None:
     for rc in _RC:
         c = [a[x][0] ^ a[x][1] ^ a[x][2] ^ a[x][3] ^ a[x][4] for x in range(5)]
         d = [c[(x - 1) % 5] ^ _rol(c[(x + 1) % 5], 1) for x in range(5)]
@@ -57,9 +57,8 @@ def keccak256(data: bytes) -> bytes:
         block = msg[off : off + rate]
         for i in range(rate // 8):
             a[i % 5][i // 5] ^= int.from_bytes(block[8 * i : 8 * i + 8], "little")
-        _f(a)
-    out = b"".join(a[i % 5][i // 5].to_bytes(8, "little") for i in range(4))
-    return out
+        _keccak_f(a)
+    return b"".join(a[i % 5][i // 5].to_bytes(8, "little") for i in range(4))
 
 
 def topic(signature: str) -> str:
@@ -81,8 +80,8 @@ def addr(word: int | str) -> str:
     return "0x" + format(word, "064x")[-40:]
 
 
-# Events from the verified sources (BridgeDeposit.sol and LimitedMinter.sol, see
-# config/contracts.yaml for where each one was read).
+# Topics of the bridge and minter events, from the verified sources (BridgeDeposit.sol and
+# LimitedMinter.sol). config/contracts.yaml says where each source was read.
 BRIDGE_DEPOSIT_INITIATED = topic(
     "BridgeDepositInitiated(uint256,address,address,uint256,uint256,uint256,address,bytes32)"
 )
@@ -132,6 +131,7 @@ class PrimaryMint:
 
 
 def decode(log: dict) -> BridgeOut | BridgeIn | PrimaryMint | None:
+    """The event in a log, or None when it is not one of the three this close reads."""
     t = [x.lower() for x in log["topics"]]
     if not t:
         return None
