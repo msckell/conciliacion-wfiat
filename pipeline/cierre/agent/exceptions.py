@@ -258,6 +258,8 @@ def run(pkg: dict, tools: Tools, ask: Ask, out_dir: Path) -> dict:
                 f.write(json.dumps(rec, ensure_ascii=False) + "\n")
 
         res = investigate(m, item["reason"], tools, ask, log)
+        # The proposal's kind gets its own key so it does not replace the movement's kind.
+        proposal_kind = res.pop("kind", None)
         results.append(
             header
             | {
@@ -266,10 +268,11 @@ def run(pkg: dict, tools: Tools, ask: Ask, out_dir: Path) -> dict:
                 "explorer_url": item["explorer_url"],
             }
             | res
+            | {"proposal_kind": proposal_kind}
         )
         print(
             f"{m['chain']:10} {m['token']} {m['kind']} -> {res['outcome']} "
-            f"({res.get('kind')}, {res['steps']} pasos)",
+            f"({proposal_kind}, {res['steps']} pasos)",
             flush=True,
         )
     return {
@@ -286,11 +289,13 @@ def overrides(exceptions: dict) -> dict[tuple[str, str, int], dict]:
     """Movements the agent proved, keyed by (chain, tx_hash, log_index), for the package."""
     out = {}
     for r in exceptions.get("results", []):
-        if r["outcome"] == "resolved" and r.get("kind") in CATEGORY_FOR:
+        # Files written before proposal_kind existed kept the proposal's kind under "kind".
+        kind = r.get("proposal_kind", r.get("kind"))
+        if r["outcome"] == "resolved" and kind in CATEGORY_FOR:
             out[(r["chain"], r["tx_hash"], r["log_index"])] = {
-                "category": CATEGORY_FOR[r["kind"]],
+                "category": CATEGORY_FOR[kind],
                 "resolved_by_agent": {
-                    "kind": r["kind"],
+                    "kind": kind,
                     "checks": r["checks"],
                     "summary": r["summary"],
                     "proposal": r["proposal"],
