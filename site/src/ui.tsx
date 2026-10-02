@@ -22,9 +22,19 @@ export function Section({
   )
 }
 
-export function Card({ children, className = '' }: { children: ReactNode; className?: string }) {
+export function Card({
+  children,
+  className = '',
+  flush = false,
+}: {
+  children: ReactNode
+  className?: string
+  flush?: boolean // no inner padding, for lists and tables that bring their own
+}) {
   return (
-    <div className={`rounded-2xl border border-line bg-card p-4 shadow-card sm:p-5 ${className}`}>{children}</div>
+    <div className={`rounded-2xl border border-line bg-card shadow-card ${flush ? '' : 'p-4 sm:p-5'} ${className}`}>
+      {children}
+    </div>
   )
 }
 
