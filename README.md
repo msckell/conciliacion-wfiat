@@ -98,7 +98,7 @@ Without `SLACK_WEBHOOK_URL` the Slack message is written to `data/closes/<cutoff
 * EVM networks from a written candidate list only. The page says "redes revisadas", never "all networks".
 * Free public sources only. Some nodes rate limit CI runners, so the engine retries across several endpoints and caches immutable responses.
 * BNB Smart Chain has no free log API. The 2026-09-30 close uses a transaction list exported from BscScan. The next close needs another free source or an updated list.
-* Gnosis reconciles over RPC, but its second comparison source (Blockscout) now asks for an API key.
+* Gnosis reconciles over RPC, but its second comparison source (Blockscout) currently answers with a redirect to an HTML page instead of data.
 * Bridge transfers in flight at the cutoff are listed for review using a window based on observed bridge delays. That is a preventive review, not proof that every pending transfer was found.
 * No bank collateral and no coverage ratios for cutoffs without a published certificate.
 
