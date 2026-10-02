@@ -1,0 +1,14 @@
+# Published token certifications. pipeline/cierre/references.py reads these PDFs to draft
+# the table of certified figures (data/golden/certifications.json) that a person confirms.
+# Index of the published certificates: https://action.ripio.com/en/wfiat-attestations
+
+certificates:
+  - {token: wARS, cutoff: "2026-03-31", url: https://action.ripio.com/hubfs/2026/wFIAT/ATTESTATION/20260331_wARS_Certification.pdf}
+  - {token: wBRL, cutoff: "2026-03-31", url: https://action.ripio.com/hubfs/2026/wFIAT/ATTESTATION/20260331__wBRL__Token-Certification.pdf}
+  - {token: wCOP, cutoff: "2026-03-31", url: https://action.ripio.com/hubfs/2026/wFIAT/ATTESTATION/20260331__wCOP__Token-Certification.pdf}
+  - {token: wMXN, cutoff: "2026-03-31", url: https://action.ripio.com/hubfs/2026/wFIAT/ATTESTATION/20260331__wMXN__Token-Certification.pdf}
+  - {token: wARS, cutoff: "2026-06-30", url: https://action.ripio.com/hubfs/2026/wFIAT/ATTESTATION/Aug%202026/Token%20wARS%2006.30.2026%20Certification%20vf.pdf}
+  - {token: wBRL, cutoff: "2026-06-30", url: https://action.ripio.com/hubfs/2026/wFIAT/ATTESTATION/Aug%202026/Token%20wBRL%2006.30.2026%20Certification%20vf.pdf}
+  - {token: wMXN, cutoff: "2026-06-30", url: https://action.ripio.com/hubfs/2026/wFIAT/ATTESTATION/Aug%202026/Token%20wMXN%2006.30.2026%20Certification%20vf.pdf}
+  - {token: wCOP, cutoff: "2026-06-30", url: https://action.ripio.com/hubfs/2026/wFIAT/ATTESTATION/Aug%202026/Token%20wCOP%2006.30.2026%20Certification%20vf.pdf}
+  - {token: wCLP, cutoff: "2026-06-30", url: https://action.ripio.com/hubfs/2026/wFIAT/ATTESTATION/Aug%202026/Token%20wCLP%2006.30.2026%20Certification%20vf.pdf}
