@@ -3,7 +3,7 @@
     "cutoff": "30/09/2026",
     "previous_cutoff": "30/06/2026",
     "cutoff_instant": "30/09/2026 23:59:59, hora de Buenos Aires",
-    "generated_at": "01/10/2026 23:10",
+    "generated_at": "02/10/2026 16:37",
     "tokens": [
       {
         "symbol": "wARS",
@@ -477,7 +477,7 @@
         "headline": "wARS: 14.931.194.588,93 al 30/09/2026 (+7.311.198.511,89 vs 30/06/2026)",
         "status": "Conciliado en 9 redes, diferencia cero.",
         "review": "4 movimientos para revisar.",
-        "explanation": "La circulación de wARS creció 7.311.198.511,89 en el trimestre. El cambio vino sobre todo de la emisión primaria, con 9.769.200.030,00 tokens nuevos, y en parte lo compensaron los rescates, que quemaron 2.458.000.010,00. El puente movió tokens entre redes sin ser una fuente de emisión nueva, y Arc, la red nueva desde el cierre anterior, ya tiene saldo. Quedan algunos movimientos para que una persona los revise.",
+        "explanation": "En el trimestre la circulación de wARS pasó de 7.619.996.077,04 a 14.931.194.588,93. El cambio vino sobre todo de la emisión primaria de 9.769.200.030,00, y los rescates quemaron una parte. Los movimientos del puente entre redes entraron y salieron casi parejos, y Arc, la red nueva, ya tiene saldo al cierre. Quedan movimientos para que una persona revise.",
         "explanation_source": "llm"
       },
       {
@@ -485,7 +485,7 @@
         "headline": "wBRL: 13.807.477,38 al 30/09/2026 (+11.221.329,88 vs 30/06/2026)",
         "status": "Conciliado en 9 redes, diferencia cero.",
         "review": "1 movimiento para revisar.",
-        "explanation": "En el trimestre la circulación de wBRL creció 11.221.329,88, sobre todo por la emisión primaria de 11.396.295,00, que es lo que el emisor creó como tokens nuevos. Los rescates primarios fueron 155.000,00. El puente entre redes movió tokens de una red a otra y salió algo más de lo que entró, así que casi no cambió el total. Arc se sumó como red nueva y ya tiene saldo al cierre. Además, queda pendiente de revisión manual algún movimiento.",
+        "explanation": "La circulación de wBRL creció en el trimestre: pasó de 2.586.147,50 a 13.807.477,38. Casi todo vino de la emisión primaria, que fue de 11.396.295,00, con rescates bastante más chicos y movimientos del puente que prácticamente se compensaron entre redes. Arc se sumó como red nueva y ya tiene saldo al cierre, y queda un movimiento para que una persona lo revise.",
         "explanation_source": "llm"
       },
       {
@@ -493,7 +493,7 @@
         "headline": "wMXN: 5.638.788,69 al 30/09/2026 (+4.670.000,00 vs 30/06/2026)",
         "status": "Conciliado en 9 redes, diferencia cero.",
         "review": "Nada para revisar.",
-        "explanation": "En el trimestre la circulación de wMXN subió 4.670.000,00 y cerró en 5.638.788,69. Todo el aumento vino de la emisión primaria, que fue de 4.670.000,00. Lo quemado en el trimestre corresponde solo a tokens que salieron por el puente hacia otra red, así que no hubo rescates por fuera del puente. Arc es una red nueva desde el cierre anterior y, al cierre, el contrato de wMXN existe ahí pero no tiene saldo.",
+        "explanation": "La circulación de wMXN cerró el trimestre en 5.638.788,69. El crecimiento vino casi por completo de la emisión primaria, que fue de 4.670.000,00 tokens nuevos emitidos por el emisor. El puente entre redes movió 90.418,98 tokens hacia adentro de las redes y esa misma cantidad hacia afuera, así que solo los cambió de lugar y no modificó el total. Arc, que es red nueva, tiene el contrato de wMXN pero no tenía saldo al cierre.",
         "explanation_source": "llm"
       },
       {
@@ -501,7 +501,7 @@
         "headline": "wCOP: 911.258.753,80 al 30/09/2026 (+714.860.000,00 vs 30/06/2026)",
         "status": "Conciliado en 9 redes, diferencia cero.",
         "review": "Nada para revisar.",
-        "explanation": "En el trimestre la circulación de wCOP creció 714.860.000,00. El cambio vino de la emisión primaria, con 774.860.000,00 en tokens nuevos, y de ahí se restaron los rescates por 60.000.000,00. El puente movió tokens de una red a otra sin cambiar el total, y Arc, la red nueva, ya tiene el contrato de wCOP pero al cierre no tiene saldo.",
+        "explanation": "La circulación de wCOP pasó de 196.398.753,80 a 911.258.753,80. El crecimiento vino sobre todo de la emisión primaria de 774.860.000,00, y se compensó en parte con los rescates que hizo el emisor. Los movimientos del puente entre redes entraron y salieron por el mismo monto, así que no cambiaron el total. Arc es una red nueva y el contrato de wCOP ya existe ahí, pero al cierre no tiene saldo.",
         "explanation_source": "llm"
       },
       {
@@ -509,7 +509,7 @@
         "headline": "wCLP: 66.565.100,00 al 30/09/2026 (+2.270.000,00 vs 30/06/2026)",
         "status": "Conciliado en 9 redes, diferencia cero.",
         "review": "Nada para revisar.",
-        "explanation": "La circulación de wCLP subió 2.270.000,00 en el trimestre y cerró en 66.565.100,00. Ese aumento vino de la emisión primaria, es decir de los tokens nuevos que emitió el emisor (2.270.000,00), mientras que los movimientos del puente solo pasaron tokens de red en red sin sumar circulación. Arc es una red nueva y el contrato de wCLP ya existe ahí, pero al cierre no tiene saldo.",
+        "explanation": "La circulación de wCLP pasó de 64.295.100,00 a 66.565.100,00. Todo ese aumento vino de la emisión primaria, que fue de 2.270.000,00, y no hubo rescates que lo achicaran. Lo que se movió por el puente entre redes salió de una red y entró a otra en la misma cantidad, así que no cambió el total. Arc es una red nueva y el contrato ya existe ahí, pero al cierre no tiene saldo.",
         "explanation_source": "llm"
       },
       {
@@ -517,7 +517,7 @@
         "headline": "wPEN: 132.950,00 al 30/09/2026 (+10.000,00 vs 30/06/2026)",
         "status": "Conciliado en 9 redes, diferencia cero.",
         "review": "Nada para revisar.",
-        "explanation": "La circulación de wPEN creció 10.000,00 en el trimestre, y todo ese aumento vino de la emisión primaria de 10.000,00. El puente entre redes movió 5.770,89 hacia adentro de una red, pero esos tokens también salieron de otra, así que no cambiaron el total. Arc es una red nueva y el contrato de wPEN ya existe ahí, pero al cierre no tiene saldo.",
+        "explanation": "En el trimestre la circulación de wPEN pasó de 122.950,00 a 132.950,00. Todo el aumento vino de la emisión primaria de 10.000,00, y los movimientos del puente entre redes entraron y salieron por igual, así que no cambiaron el total. Arc es una red nueva y el contrato de wPEN ya existe ahí, pero al cierre todavía no tiene saldo.",
         "explanation_source": "llm"
       }
     ]
@@ -889,8 +889,8 @@
         "chain": "Base",
         "token": "wARS",
         "movement": "quema de 985,00 wARS",
-        "reason": "Salió por el puente el 29/07/2026 hacia Celo y no encontramos la emisión del otro lado (buscada hasta el bloque 79005809 de Celo).",
-        "summary": "La quema en Base salió por depositForBridge del contrato BridgeDeposit hacia Celo, con destinatario la misma cuenta 0x6c3acdc8c93d13087e3348732a1894e5f3c164b3, y no encontré la emisión en Celo ni por el puente ni como emisión directa a esa dirección. Tampoco vi en Base una emisión de devolución a esa cuenta después de la quema. Una persona debería revisar con el operador del puente si el depósito quedó pendiente o si se devolvió por otra vía que estas herramientas no cubren, por ejemplo una transferencia común.",
+        "reason": "Salió por el puente el 29/07/2026 hacia Celo y no encontramos la emisión del otro lado (buscada hasta el bloque 79068747 de Celo).",
+        "summary": "La transacción 0x973ffae966a4117988101c26b8bbdde3256619169a1988796b8eb713a8cf0dcc llamó a depositForBridge en Base y quemó wARS con destino Celo para la misma cuenta 0x6c3acdc8c93d13087e3348732a1894e5f3c164b3. No encontramos fulfillBridgeMint en Celo ni en el trimestre ni después del corte, y tampoco hay emisiones hacia esa cuenta en Base. Una persona debería revisar con el operador del puente si el depósito sigue pendiente de cumplirse en Celo o si hubo una devolución en Base que las herramientas no pueden buscar.",
         "checks": [
           "el agente pidió una persona"
         ],
@@ -898,9 +898,6 @@
         "steps": [
           "Leyó la transacción y sus eventos",
           "Buscó la emisión del puente en la red de destino",
-          "Buscó emisiones hacia la cuenta",
-          "Buscó emisiones hacia la cuenta",
-          "Miró el contrato",
           "Buscó emisiones hacia la cuenta",
           "Propuso una clasificación"
         ]
@@ -911,7 +908,7 @@
         "token": "wARS",
         "movement": "quema de 37,11 wARS",
         "reason": "Sin clasificar: no tiene evento del puente y quien quema no tiene permiso de emisión.",
-        "summary": "En la transacción 0xbfcca975bfc33291227162dc80cf5fec141c209604f5dcf205efca99708569eb la Safe 0x34b92f4813f80f2fe8bc739eabb7263e4f6cc9cc mandó los wARS al contrato proxy 0x62af8720d73bdf6801c16826b568ccc9f1d2d835 y ese contrato los quemó, todo dentro de una operación de cuenta abstracta. Ni la Safe ni el proxy tenían MINTER_ROLE en el token y no hay evento del puente. Una persona debería revisar qué implementación tiene ese proxy, quién es su dueño y si esa quema responde a algún acuerdo de rescate o a una devolución fuera de los flujos conocidos.",
+        "summary": "La quema salió de una operación de cuenta abstracta en worldchain. El Safe 0x34b92f4813f80f2fe8bc739eabb7263e4f6cc9cc le transfirió los tokens al contrato 0x62af8720d73bdf6801c16826b568ccc9f1d2d835, un ERC1967Proxy sin MINTER_ROLE y fuera de la lista de contratos conocidos, y ese contrato los quemó en la misma transacción 0xbfcca975bfc33291227162dc80cf5fec141c209604f5dcf205efca99708569eb. No hay evento del puente ni emisión o devolución que lo explique, así que una persona debería revisar quién controla ese proxy, qué implementación tiene y por qué el Safe le mandó los tokens para quemarlos.",
         "checks": [
           "el agente pidió una persona"
         ],
@@ -921,8 +918,6 @@
           "Miró el contrato",
           "Consultó permisos de emisión",
           "Miró el contrato",
-          "Consultó permisos de emisión",
-          "Propuso una clasificación",
           "Propuso una clasificación"
         ]
       },
@@ -932,7 +927,7 @@
         "token": "wARS",
         "movement": "quema de 1,00 wARS",
         "reason": "Sin clasificar: no tiene evento del puente y quien quema no tiene permiso de emisión.",
-        "summary": "En la transacción 0xad0126a996caf877ab6265d9494c12c22824e59463f68bfc6a1e9078d2579249 la cuenta 0x0d7416332f6aed4bf04e8fafe63cd81de5db402b mandó wARS al contrato 0x62af8720d73bdf6801c16826b568ccc9f1d2d835 a través de handleOps y ese contrato los quemó. Ese contrato es un proxy ERC1967 que no figura entre los conocidos, no tiene MINTER_ROLE en el token y la transacción no tiene eventos del puente. Una persona debería revisar la implementación del proxy para ver qué función quema y quién la controla, y definir si es un rescate de un usuario o un puente que no emite el evento.",
+        "summary": "En la transacción 0xad0126a996caf877ab6265d9494c12c22824e59463f68bfc6a1e9078d2579249 una Safe (0x0d7416332f6aed4bf04e8fafe63cd81de5db402b) mandó wARS vía handleOps al contrato 0x62af8720d73bdf6801c16826b568ccc9f1d2d835, un ERC1967Proxy sin etiqueta, y ese mismo contrato los quemó. Ni la Safe ni el proxy tienen MINTER_ROLE en el token y no hay evento del puente ni un reembolso que pueda probar con las herramientas. Una persona debería revisar qué implementación tiene ese proxy, quién lo controla y por qué quema tokens, y confirmar con el dueño de la Safe cuál fue el motivo de la operación.",
         "checks": [
           "el agente pidió una persona"
         ],
@@ -941,7 +936,8 @@
           "Leyó la transacción y sus eventos",
           "Miró el contrato",
           "Consultó permisos de emisión",
-          "Propuso una clasificación",
+          "Miró el contrato",
+          "Consultó permisos de emisión",
           "Propuso una clasificación"
         ]
       },
@@ -950,8 +946,8 @@
         "chain": "Polygon",
         "token": "wARS",
         "movement": "quema de 485,00 wARS",
-        "reason": "Salió por el puente el 02/09/2026 hacia Gnosis y no encontramos la emisión del otro lado (buscada hasta el bloque 48542814 de Gnosis).",
-        "summary": "La cuenta 0xea44c33cef2f663beabb59110990cb58b6b8447e quemó el monto en Polygon con depositForBridge en la transacción 0x854723b7fd5543cab04edbdf903dd4dd271567da6477449741d50c2070789615 hacia Gnosis. No encontré la emisión del puente en Gnosis ni en el trimestre ni después del corte, y tampoco hay emisiones hacia esa cuenta en Polygon. Una persona debería revisar si el operador todavía tiene pendiente el fulfillBridgeMint de este depósito o si el emisor hizo un reembolso por otra vía que estas herramientas no ven.",
+        "reason": "Salió por el puente el 02/09/2026 hacia Gnosis y no encontramos la emisión del otro lado (buscada hasta el bloque 48555139 de Gnosis).",
+        "summary": "La quema en Polygon fue un depósito de puente hacia Gnosis hecho por 0xea44c33cef2f663beabb59110990cb58b6b8447e en la transacción 0x854723b7fd5543cab04edbdf903dd4dd271567da6477449741d50c2070789615. No encontré la emisión en Gnosis para ese depósito ni emisiones hacia esa cuenta en Polygon que indiquen una devolución. Debería mirar una persona si el operador del puente tiene ese depósito pendiente o si hubo una devolución por otra vía.",
         "checks": [
           "el agente pidió una persona"
         ],
@@ -959,6 +955,7 @@
         "steps": [
           "Leyó la transacción y sus eventos",
           "Buscó la emisión del puente en la red de destino",
+          "Buscó emisiones hacia la cuenta",
           "Buscó emisiones hacia la cuenta",
           "Buscó emisiones hacia la cuenta",
           "Propuso una clasificación"
@@ -970,7 +967,7 @@
         "token": "wARS",
         "movement": "emisión de 100.000,00 wARS",
         "reason": "Sin clasificar: no tiene evento del puente ni de LimitedMinter.",
-        "summary": "La cuenta 0x2b839174fe62466067c22e2a4c8054071f9d8d68 ejecutó la transacción con execTransaction y recibió la emisión de wARS directo desde el token. Esa cuenta tenía MINTER_ROLE en el token 0x0dc4f92879b7670e5f4e4e6e3c801d229129d90d en ese bloque, así que se trata de una emisión primaria hecha por una cuenta con ese rol.",
+        "summary": "La cuenta 0x2b839174fe62466067c22e2a4c8054071f9d8d68 ejecutó la transacción con execTransaction y recibió la emisión de wARS directo desde el token. Esa cuenta tenía MINTER_ROLE en el token 0x0dc4f92879b7670e5f4e4e6e3c801d229129d90d en ese bloque, así que es una emisión primaria.",
         "checks": [
           "MINTER_ROLE de 0x2b839174fe62466067c22e2a4c8054071f9d8d68 en 0x0dc4f92879b7670e5f4e4e6e3c801d229129d90d al bloque 20356249: sí"
         ],
@@ -978,7 +975,6 @@
         "steps": [
           "Leyó la transacción y sus eventos",
           "Consultó permisos de emisión",
-          "Propuso una clasificación",
           "Propuso una clasificación"
         ]
       },
@@ -988,28 +984,11 @@
         "token": "wBRL",
         "movement": "emisión de 5.000,00 wBRL",
         "reason": "Sin clasificar: no tiene evento del puente ni de LimitedMinter.",
-        "summary": "La cuenta 0x2b839174fe62466067c22e2a4c8054071f9d8d68 ejecutó una transacción propia con execTransaction y se emitió wBRL a sí misma desde el contrato 0xd76f5faf6888e24d9f04bf92a0c8b921fe4390e0. Esa cuenta tenía MINTER_ROLE en ese contrato en ese bloque, por eso es una emisión primaria hecha por un minter.",
+        "summary": "La transacción es un execTransaction de la cuenta 0x2b839174fe62466067c22e2a4c8054071f9d8d68, que recibió la emisión de wBRL desde la dirección nula. Esa cuenta tenía MINTER_ROLE en el token 0xd76f5faf6888e24d9f04bf92a0c8b921fe4390e0 en ese bloque, por eso se trata de una emisión primaria hecha por un minter.",
         "checks": [
           "MINTER_ROLE de 0x2b839174fe62466067c22e2a4c8054071f9d8d68 en 0xd76f5faf6888e24d9f04bf92a0c8b921fe4390e0 al bloque 20356249: sí"
         ],
         "explorer_url": "https://explorer.arc.io/tx/0x38b894554ff500774abbef275499a906fc426d4618506a82436f0d4f902c4947",
-        "steps": [
-          "Leyó la transacción y sus eventos",
-          "Consultó permisos de emisión",
-          "Propuso una clasificación"
-        ]
-      },
-      {
-        "outcome": "resolved",
-        "chain": "Arc",
-        "token": "wBRL",
-        "movement": "emisión de 130.000,00 wBRL",
-        "reason": "Sin clasificar: no tiene evento del puente ni de LimitedMinter.",
-        "summary": "La emisión salió de un execTransaction de la cuenta 0x2b839174fe62466067c22e2a4c8054071f9d8d68, que tenía MINTER_ROLE en el token wBRL en ese bloque. El Transfer desde la dirección nula hacia 0xe7e486057c2d962d1e5b46f292daf4d2fa2313c4 lo emitió el contrato del token 0xd76f5faf6888e24d9f04bf92a0c8b921fe4390e0. En la misma transacción también se emitió wARS hacia esa cuenta, pero eso es otro movimiento.",
-        "checks": [
-          "MINTER_ROLE de 0x2b839174fe62466067c22e2a4c8054071f9d8d68 en 0xd76f5faf6888e24d9f04bf92a0c8b921fe4390e0 al bloque 20828490: sí"
-        ],
-        "explorer_url": "https://explorer.arc.io/tx/0x5ac54053e491087a116e2f513bbebfeb5de076f3a625cc781a9158dd44438aac",
         "steps": [
           "Leyó la transacción y sus eventos",
           "Consultó permisos de emisión",
@@ -1020,10 +999,27 @@
       {
         "outcome": "resolved",
         "chain": "Arc",
+        "token": "wBRL",
+        "movement": "emisión de 130.000,00 wBRL",
+        "reason": "Sin clasificar: no tiene evento del puente ni de LimitedMinter.",
+        "summary": "La emisión salió de un execTransaction de la cuenta 0x2b839174fe62466067c22e2a4c8054071f9d8d68, que tenía MINTER_ROLE en el token wBRL 0xd76f5faf6888e24d9f04bf92a0c8b921fe4390e0 en ese bloque. Los tokens fueron directo a 0xe7e486057c2d962d1e5b46f292daf4d2fa2313c4, así que es una emisión primaria hecha por un minter.",
+        "checks": [
+          "MINTER_ROLE de 0x2b839174fe62466067c22e2a4c8054071f9d8d68 en 0xd76f5faf6888e24d9f04bf92a0c8b921fe4390e0 al bloque 20828490: sí"
+        ],
+        "explorer_url": "https://explorer.arc.io/tx/0x5ac54053e491087a116e2f513bbebfeb5de076f3a625cc781a9158dd44438aac",
+        "steps": [
+          "Leyó la transacción y sus eventos",
+          "Consultó permisos de emisión",
+          "Propuso una clasificación"
+        ]
+      },
+      {
+        "outcome": "resolved",
+        "chain": "Arc",
         "token": "wARS",
         "movement": "emisión de 40.000.000,00 wARS",
         "reason": "Sin clasificar: no tiene evento del puente ni de LimitedMinter.",
-        "summary": "La emisión salió de un execTransaction de la cuenta 0x2b839174fe62466067c22e2a4c8054071f9d8d68, que tenía MINTER_ROLE en el token wARS en ese bloque. Los tokens se emitieron hacia 0xe7e486057c2d962d1e5b46f292daf4d2fa2313c4 en la misma transacción donde también se emitió wBRL.",
+        "summary": "La emisión salió de una execTransaction del Safe 0x2b839174fe62466067c22e2a4c8054071f9d8d68, que tenía MINTER_ROLE en el token wARS en ese bloque. El token emitió hacia 0xe7e486057c2d962d1e5b46f292daf4d2fa2313c4 sin pasar por el puente ni por un LimitedMinter, así que es una emisión primaria hecha por una cuenta con el rol.",
         "checks": [
           "MINTER_ROLE de 0x2b839174fe62466067c22e2a4c8054071f9d8d68 en 0x0dc4f92879b7670e5f4e4e6e3c801d229129d90d al bloque 20828490: sí"
         ],
@@ -1039,16 +1035,20 @@
         "chain": "HyperEVM",
         "token": "wBRL",
         "movement": "quema de 19.965,12 wBRL",
-        "reason": "Salió por el puente el 14/09/2026 hacia Ethereum y no encontramos la emisión del otro lado (buscada hasta el bloque 26101524 de Ethereum).",
-        "summary": "La transacción 0x3ff080dac8b08f89c84dbb2c4e076b2bfc69b66c2df2a7493788675023f526c6 llamó a depositForBridge en hyperevm, quemó el monto y cobró una comisión aparte, con destino Ethereum y la misma dirección 0xd7700c8fbb6df79ce08d6d1d138547d097a8eb67 como destinatario. No encontré la emisión del puente en Ethereum ni dentro del trimestre ni después del corte, y tampoco hay emisiones de wBRL hacia esa cuenta en hyperevm que sugieran una devolución. Una persona debería revisar si el operador todavía tiene pendiente el fulfillBridgeMint o si hubo una devolución por transferencia en hyperevm, que con estas herramientas no puedo buscar.",
+        "reason": "Salió por el puente el 14/09/2026 hacia Ethereum y no encontramos la emisión del otro lado (buscada hasta el bloque 26106745 de Ethereum).",
+        "summary": "La quema salió por depositForBridge hacia Ethereum y no aparece la emisión en destino ni en el trimestre ni después del corte. Las emisiones que encontré hacia esa cuenta en hyperevm vienen de depósitos en Arc, y las de Ethereum son de otros montos, así que ninguna corresponde a este depósito. Tampoco encontré un reembolso en la red de origen. Que una persona revise si el operador tiene pendiente el fulfillBridgeMint en Ethereum o si hubo un reembolso que las herramientas no vieron.",
         "checks": [
           "el agente pidió una persona"
         ],
         "explorer_url": "https://hyperevmscan.io/tx/0x3ff080dac8b08f89c84dbb2c4e076b2bfc69b66c2df2a7493788675023f526c6",
         "steps": [
+          "Leyó la transacción y sus eventos",
           "Buscó la emisión del puente en la red de destino",
+          "Buscó emisiones hacia la cuenta",
+          "Buscó emisiones hacia la cuenta",
           "Leyó la transacción y sus eventos",
           "Buscó emisiones hacia la cuenta",
+          "Leyó la transacción y sus eventos",
           "Propuso una clasificación"
         ]
       }
@@ -1062,42 +1062,42 @@
         "attempt": 1,
         "accepted": true,
         "problems": [],
-        "duration": "8 segundos"
+        "duration": "3 segundos"
       },
       {
         "token": "wBRL",
         "attempt": 1,
         "accepted": true,
         "problems": [],
-        "duration": "10 segundos"
+        "duration": "3 segundos"
       },
       {
         "token": "wMXN",
         "attempt": 1,
         "accepted": true,
         "problems": [],
-        "duration": "10 segundos"
+        "duration": "8 segundos"
       },
       {
         "token": "wCOP",
         "attempt": 1,
         "accepted": true,
         "problems": [],
-        "duration": "6 segundos"
+        "duration": "3 segundos"
       },
       {
         "token": "wCLP",
         "attempt": 1,
         "accepted": true,
         "problems": [],
-        "duration": "8 segundos"
+        "duration": "3 segundos"
       },
       {
         "token": "wPEN",
         "attempt": 1,
         "accepted": true,
         "problems": [],
-        "duration": "8 segundos"
+        "duration": "3 segundos"
       }
     ],
     "cases": [
