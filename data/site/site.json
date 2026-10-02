@@ -1233,6 +1233,13 @@
     {
       "kind": "monitor",
       "trigger": "manual en GitHub",
+      "started_at": "01/10/2026 23:52",
+      "duration": "3 minutos",
+      "status": "failed"
+    },
+    {
+      "kind": "monitor",
+      "trigger": "manual en GitHub",
       "started_at": "01/10/2026 23:49",
       "duration": "2 minutos",
       "status": "failed"
@@ -1280,19 +1287,17 @@
     },
     "ci": {
       "conclusion": "success",
-      "at": "01/10/2026 23:49",
-      "sha": "859d704"
+      "at": "01/10/2026 23:52",
+      "sha": "fce9641"
     },
     "monitor": {
-      "last_run_at_iso": "2026-10-02T02:49:45+00:00",
+      "last_run_at_iso": "2026-10-02T02:52:43+00:00",
       "last_run_status": "failed",
       "last_ok_at_iso": "2026-10-02T02:43:21+00:00",
       "networks_checked": 24,
       "golden_live_all_match": false,
       "golden_live_total": 9,
-      "changes": [
-        "Chequeo contra las certificaciones: antes 9 de 9, ahora 8 de 9."
-      ],
+      "changes": [],
       "problems": [
         "El chequeo contra las certificaciones no pudo leer Base."
       ]

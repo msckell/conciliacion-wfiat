@@ -19,13 +19,6 @@
       "type": "section",
       "text": {
         "type": "mrkdwn",
-        "text": "*Qué cambió*\n• Chequeo contra las certificaciones: antes 9 de 9, ahora 8 de 9."
-      }
-    },
-    {
-      "type": "section",
-      "text": {
-        "type": "mrkdwn",
         "text": "Redes revisadas: 24."
       }
     }
