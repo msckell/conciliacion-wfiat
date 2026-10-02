@@ -1,12 +1,14 @@
 """Read only tools for the exception agent. Each returns plain JSON, small enough to put
 back in the prompt. None of them writes anything or changes any state.
 
-Results carry decoded fields only (names, addresses, amounts, blocks, hashes), never raw
-calldata, topics or data blobs. The agent does not need them, and on 2026-10-01 the long
-hex of an ERC-4337 handleOps receipt made the model's safeguards refuse the prompt.
+Results carry decoded fields only (names, addresses, amounts, blocks, hashes), not raw
+calldata, topics or data blobs. The agent does not need them, and the long hex of an
+ERC-4337 handleOps receipt made the model's safeguards refuse the prompt.
 """
 
 from __future__ import annotations
+
+from dataclasses import replace
 
 import httpx
 
@@ -15,9 +17,15 @@ from cierre.blocks import get_block
 from cierre.bridge import find_fulfillment_after
 from cierre.cache import DiskCache
 from cierre.classify import load_contracts, receipt_client
-from cierre.config import Chain
+from cierre.config import Chain, load_tokens
 from cierre.ledger import TRANSFER_TOPIC, ZERO_TOPIC, RpcLogFetcher
 from cierre.rpc import USER_AGENT, RpcClient
+
+# What one tool result may hold, so it stays small enough to put back in the prompt.
+MAX_LOGS = 25
+MAX_MINTS = 20
+# Its contract is the probe that tells archive endpoints from the rest (see qualify_history).
+HISTORY_PROBE_TOKEN = "wARS"
 
 FUNCTIONS = {
     selector(s): s.split("(")[0]
@@ -53,7 +61,6 @@ BLOCKSCOUT_V2 = {
     "celo": "https://celo.blockscout.com/api/v2",
     "worldchain": "https://worldchain-mainnet.explorer.alchemy.com/api/v2",
 }
-
 
 ROLES = {
     "0x" + keccak256(b"MINTER_ROLE").hex(): "MINTER_ROLE",
@@ -130,7 +137,7 @@ def brief_transaction(chain: str, tx: dict, receipt: dict, timestamp: int, token
         "from": tx["from"].lower(),
         "to": (tx.get("to") or "").lower(),
         "function": FUNCTIONS.get(sel, "desconocida"),
-        "logs": [brief_log(lg, tokens) for lg in receipt["logs"][:25]],
+        "logs": [brief_log(lg, tokens) for lg in receipt["logs"][:MAX_LOGS]],
     }
 
 
@@ -140,15 +147,9 @@ class Tools:
         self.pkg = pkg
         self.cache = cache
         self.known = load_contracts()
-        self.tokens = {}  # address -> symbol, from the package movements and config
-        from cierre.config import load_tokens
-
-        for sym, t in load_tokens().items():
-            self.tokens[t.address.lower()] = sym
+        self.tokens = {t.address.lower(): sym for sym, t in load_tokens().items()}
         self.by_symbol = {v: k for k, v in self.tokens.items()}
         self._state: dict[str, RpcClient] = {}
-
-    # -- helpers ------------------------------------------------------------------
 
     def _rpc(self, chain: str) -> RpcClient:
         return receipt_client(self.chains[chain], self.cache)
@@ -156,7 +157,7 @@ class Tools:
     def _state_rpc(self, chain: str) -> RpcClient:
         if chain not in self._state:
             rpc = RpcClient(self.chains[chain], self.cache)
-            rpc.qualify_history(self.by_symbol["wARS"])
+            rpc.qualify_history(self.by_symbol[HISTORY_PROBE_TOKEN])
             self._state[chain] = rpc
         return self._state[chain]
 
@@ -164,7 +165,14 @@ class Tools:
         for rpc in self._state.values():
             rpc.close()
 
-    # -- tools --------------------------------------------------------------------
+    def receipt(self, chain: str, tx_hash: str) -> dict:
+        """The raw receipt of a transaction. For the code that checks proposals, not for
+        the agent: it keeps the logs undecoded."""
+        rpc = self._rpc(chain)
+        try:
+            return rpc.call("eth_getTransactionReceipt", [tx_hash], cache=True, require_result=True)
+        finally:
+            rpc.close()
 
     def get_transaction(self, chain: str, tx_hash: str) -> dict:
         rpc = self._rpc(chain)
@@ -247,8 +255,6 @@ class Tools:
         after = net["cutoff_block"] + 1
         searched_after = None
         if chain_cfg.logs_rpc_urls:
-            from dataclasses import replace
-
             lrpc = RpcClient(replace(chain_cfg, rpc_urls=chain_cfg.logs_rpc_urls), None)
             try:
                 head = int(lrpc.call("eth_blockNumber", []), 16)
@@ -277,7 +283,7 @@ class Tools:
             "from_block": int(from_block),
             "quarter_checked_to_block": net["cutoff_block"],
             "after_cutoff_checked_to_block": searched_after,
-            "mints": hits[:20],
+            "mints": hits[:MAX_MINTS],
         }
 
     def find_bridge_fulfillment(

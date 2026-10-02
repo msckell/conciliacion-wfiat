@@ -2,9 +2,7 @@
 
 Runs `claude -p` with a replaced system prompt, no tools, no settings and a JSON schema,
 so it uses the logged in Claude subscription (or CLAUDE_CODE_OAUTH_TOKEN in CI) instead
-of API billing. The model comes from ANTHROPIC_MODEL.
-
-Tests pass a fake `Ask` instead, so nothing here runs offline.
+of API billing. The model comes from ANTHROPIC_MODEL. Tests pass a fake `Ask` instead.
 """
 
 from __future__ import annotations
@@ -18,8 +16,8 @@ from collections.abc import Callable
 from dataclasses import dataclass
 
 DEFAULT_MODEL = "claude-sonnet-5-5"
-# Used once when the main model's safeguards refuse a prompt. Seen on 2026-10-01 with
-# prompts that only read public transactions (false positives).
+# Asked once when the main model's safeguards refuse a prompt. Prompts that only read
+# public transactions have triggered false positives.
 DEFAULT_FALLBACK_MODEL = "claude-opus-5-5"
 
 
@@ -32,7 +30,6 @@ class Reply:
     data: dict
     model: str
     duration_s: float
-    cost_usd: float | None
 
 
 Ask = Callable[[str, str, dict], Reply]
@@ -46,7 +43,7 @@ def ask_claude(system: str, prompt: str, schema: dict, timeout: int = 300) -> Re
     try:
         return _ask(system, prompt, schema, model_name(), timeout)
     except LlmError as exc:
-        if "safeguards" not in str(exc):
+        if "safeguards" not in str(exc):  # a refusal says so in its message
             raise
         fallback = os.environ.get("ANTHROPIC_FALLBACK_MODEL") or DEFAULT_FALLBACK_MODEL
         return _ask(system, prompt, schema, fallback, timeout)
@@ -109,5 +106,4 @@ def _ask(system: str, prompt: str, schema: dict, model: str, timeout: int) -> Re
         data=out["structured_output"],
         model=model,
         duration_s=round(time.monotonic() - start, 1),
-        cost_usd=out.get("total_cost_usd"),
     )

@@ -1,9 +1,9 @@
 """LLM extraction of the published certificates, scored against the confirmed table.
 
-This is an eval, not a source of truth: the golden figures were extracted with pypdf and
-regex and confirmed by Maxi (data/golden/certifications.json). Here the LLM reads each
-PDF on its own, every number it returns must appear verbatim in the PDF text, and each
-field is compared with the confirmed value.
+This is an eval, not a source of truth: the golden figures (data/golden/certifications.json)
+come from pypdf and regex and were confirmed by hand. Here the LLM reads each PDF on its
+own, every number it returns must appear verbatim in the PDF text, and each field is
+compared with the confirmed value.
 """
 
 from __future__ import annotations
@@ -19,30 +19,21 @@ from cierre.references import fetch_pdf, network_keys, parse_printed_number
 
 SYSTEM = (Path(__file__).parent / "prompts" / "extract_system.md").read_text(encoding="utf-8")
 
+_PROPERTIES = {
+    "token": {"type": "string"},
+    "cutoff": {"type": "string"},
+    "tokens_outstanding": {"type": "string"},
+    "tokens_outstanding_quote": {"type": "string"},
+    "collateral": {"type": "string"},
+    "collateral_currency": {"type": "string"},
+    "signed_date": {"type": "string"},
+    "networks_listed": {"type": "array", "items": {"type": "string"}},
+    "notes": {"type": "string"},
+}
 SCHEMA = {
     "type": "object",
-    "properties": {
-        "token": {"type": "string"},
-        "cutoff": {"type": "string"},
-        "tokens_outstanding": {"type": "string"},
-        "tokens_outstanding_quote": {"type": "string"},
-        "collateral": {"type": "string"},
-        "collateral_currency": {"type": "string"},
-        "signed_date": {"type": "string"},
-        "networks_listed": {"type": "array", "items": {"type": "string"}},
-        "notes": {"type": "string"},
-    },
-    "required": [
-        "token",
-        "cutoff",
-        "tokens_outstanding",
-        "tokens_outstanding_quote",
-        "collateral",
-        "collateral_currency",
-        "signed_date",
-        "networks_listed",
-        "notes",
-    ],
+    "properties": _PROPERTIES,
+    "required": list(_PROPERTIES),
     "additionalProperties": False,
 }
 
@@ -84,8 +75,6 @@ def score(got: dict, cert: dict, text: str) -> dict:
         out["networks"] = {"ok": keys == sorted(set(cert["network_keys"])), "keys": keys}
     except ValueError as exc:
         out["networks"] = {"ok": False, "reason": str(exc)[:120]}
-    for f in FIELDS:
-        out.setdefault(f, {"ok": False})
     return out
 
 

@@ -1,5 +1,5 @@
 """What the exception agent sees of a transaction: decoded fields only. The fixtures are the
-raw RPC answers of two cases the model refused on 2026-10-01 when it got raw hex."""
+raw RPC answers of two cases the model refused when it was given the raw hex."""
 
 import json
 import re

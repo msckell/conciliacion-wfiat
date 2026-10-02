@@ -3,7 +3,7 @@
 import json
 
 from cierre.agent.llm import Reply
-from cierre.agent.memo import build_memo, fmt
+from cierre.agent.memo import build_memo, fmt, rerender
 
 PKG = {
     "cutoff": "2026-09-30",
@@ -33,7 +33,7 @@ def fake(replies):
 
     def ask(system, prompt, schema):
         seen.append(prompt)
-        return Reply({"explanation": replies[len(seen) - 1]}, "fake", 0.0, None)
+        return Reply({"explanation": replies[len(seen) - 1]}, "fake", 0.0)
 
     return ask, seen
 
@@ -67,8 +67,6 @@ def test_fmt_spanish():
 
 
 def test_rerender_reformats_without_calling_the_llm(tmp_path):
-    from cierre.agent.memo import rerender
-
     ask, _ = fake(["Cerró en {wARS.outstanding.2026-09-30}."])
     memo = build_memo(PKG, ask, tmp_path)
     memo["tokens"]["wARS"]["explanation"]["text"] = "texto viejo"

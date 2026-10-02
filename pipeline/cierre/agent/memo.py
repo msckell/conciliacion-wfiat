@@ -1,14 +1,15 @@
 """Closing memo: templates render every figure and status, the LLM writes only the
 explanation, one token at a time, citing facts by ID.
 
-Flow per token: build the token's facts, ask for an explanation, check it with the
-verifier, retry at most twice with feedback that names each problem, then fall back to
-the template only version. Every attempt is appended to attempts.jsonl.
+Per token: build its facts, ask for an explanation, check it with the verifier, retry with
+feedback that names each problem, then fall back to the template only version. Every
+attempt is appended to attempts.jsonl.
 """
 
 from __future__ import annotations
 
 import json
+from dataclasses import asdict
 from datetime import UTC, datetime
 from decimal import ROUND_HALF_UP, Decimal
 from pathlib import Path
@@ -40,7 +41,6 @@ FACT_MEANING = {
     "review_items": "movimientos que quedan para que una persona revise",
 }
 
-
 COUNT_FACTS = {"networks_with_balance", "review_items"}
 
 
@@ -59,7 +59,8 @@ def fmt(value: Decimal | str | int, places: int = 2) -> str:
     return sign + whole + ("," + frac if frac else "")
 
 
-def _d(iso: str) -> str:
+def fmt_date(iso: str) -> str:
+    """2026-09-30 -> 30/09/2026."""
     y, m, d = iso.split("-")
     return f"{d}/{m}/{y}"
 
@@ -88,7 +89,7 @@ def token_facts(pkg: dict, sym: str) -> dict[str, dict]:
             "review_items",
         ),
     }
-    # Zero flows are left out, so the text cannot dwell on them. Balances always stay.
+    # Zero flows are left out, so the text cannot dwell on them. Balances stay.
     return {
         fid: {"value": fmt(v, 0 if kind in COUNT_FACTS else 2), "meaning": FACT_MEANING[kind]}
         for fid, (v, kind) in raw.items()
@@ -110,8 +111,8 @@ def template(pkg: dict, sym: str) -> dict:
     sign = "+" if change >= 0 else ""
     return {
         "headline": (
-            f"{sym}: {fmt(t['closing'])} al {_d(pkg['cutoff'])} "
-            f"({sign}{fmt(change)} vs {_d(pkg['previous_cutoff'])})"
+            f"{sym}: {fmt(t['closing'])} al {fmt_date(pkg['cutoff'])} "
+            f"({sign}{fmt(change)} vs {fmt_date(pkg['previous_cutoff'])})"
         ),
         "status": (
             f"Conciliado en {_plural(len(rows), 'red', 'redes')}, diferencia cero."
@@ -129,7 +130,11 @@ def template(pkg: dict, sym: str) -> dict:
 
 
 def _prompt(sym: str, facts: dict[str, dict], pkg: dict) -> str:
-    lines = [f"Token: {sym}. Trimestre cerrado al {_d(pkg['cutoff'])}.", "", "Datos disponibles:"]
+    lines = [
+        f"Token: {sym}. Trimestre cerrado al {fmt_date(pkg['cutoff'])}.",
+        "",
+        "Datos disponibles:",
+    ]
     for fid, f in facts.items():
         lines.append(f"- {{{fid}}}: {f['meaning']} (valor {f['value']})")
     with_balance = set(pkg["tokens"][sym]["networks_with_balance"])
@@ -146,12 +151,14 @@ def _prompt(sym: str, facts: dict[str, dict], pkg: dict) -> str:
 
 
 def explain_token(pkg: dict, sym: str, ask: Ask, attempts_path: Path | None = None) -> dict:
+    """The verified LLM explanation of one token, or the fallback marker when every attempt
+    failed. A failed call (LlmError) asks again with the prompt of the previous attempt."""
     facts = token_facts(pkg, sym)
     values = {fid: f["value"] for fid, f in facts.items()}
     periods = {pkg["cutoff"], pkg["previous_cutoff"], quarter(pkg["cutoff"])}
-    prompt = _prompt(sym, facts, pkg)
-    tries = []
-    for attempt in range(1, MAX_RETRIES + 2):
+    base_prompt = prompt = _prompt(sym, facts, pkg)
+    attempts = MAX_RETRIES + 1
+    for attempt in range(1, attempts + 1):
         record = {"token": sym, "attempt": attempt, "at": datetime.now(UTC).isoformat()}
         try:
             reply = ask(SYSTEM, prompt, SCHEMA)
@@ -161,13 +168,12 @@ def explain_token(pkg: dict, sym: str, ask: Ask, attempts_path: Path | None = No
                 "model": reply.model,
                 "duration_s": reply.duration_s,
                 "text": text,
-                "problems": [p.__dict__ for p in problems],
+                "problems": [asdict(p) for p in problems],
                 "accepted": not problems,
             }
         except LlmError as exc:
-            problems = None
+            problems = []
             record |= {"error": str(exc)[:300], "accepted": False}
-        tries.append(record)
         if attempts_path is not None:
             with open(attempts_path, "a", encoding="utf-8", newline="\n") as f:
                 f.write(json.dumps(record, ensure_ascii=False) + "\n")
@@ -179,8 +185,8 @@ def explain_token(pkg: dict, sym: str, ask: Ask, attempts_path: Path | None = No
                 "attempts": attempt,
             }
         if problems:
-            prompt = _prompt(sym, facts, pkg) + "\n\n" + verifier.feedback(problems)
-    return {"source": "fallback", "text_with_ids": None, "text": None, "attempts": len(tries)}
+            prompt = base_prompt + "\n\n" + verifier.feedback(problems)
+    return {"source": "fallback", "text_with_ids": None, "text": None, "attempts": attempts}
 
 
 def build_memo(pkg: dict, ask: Ask, out_dir: Path) -> dict:
