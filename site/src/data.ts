@@ -1,11 +1,10 @@
 // Everything the page shows comes from this file, written by the pipeline
 // (`cierre site`). The page formats nothing and computes no figure.
-import raw from '../../data/site/site.json'
+import site from '../../data/site/site.json'
 
-export const site = raw
+export { site }
 
-export type Site = typeof raw
-export type Token = Site['close']['tokens'][number]
+export type Token = (typeof site)['close']['tokens'][number]
 
 // Fixed color per network, so a network keeps its color across every token.
 // Seven categorical slots, validated order. Networks past seven share a gray.
@@ -28,10 +27,13 @@ export function isOtherNetwork(chain: string): boolean {
   return !(chain in NETWORK_SLOT)
 }
 
-export const excelHref = `/data/${site.close.excel_file}`
+// Files the pipeline publishes next to the page (see scripts/copy-data.mjs).
+export const dataHref = (file: string) => `/data/${file}`
+
+export const excelHref = dataHref(site.close.excel_file)
 
 // Typed by hand: the JSON holds null until the first CI read or monitor run.
-export type Production = {
+type Production = {
   schedule: { monitor: string | null; close: string | null }
   ci: { conclusion: string | null; at: string; sha: string } | null
   monitor: {
@@ -47,4 +49,4 @@ export type Production = {
   slack_live: boolean
 }
 
-export const production = raw.production as unknown as Production
+export const production = site.production as unknown as Production
