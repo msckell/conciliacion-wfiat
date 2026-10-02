@@ -12,7 +12,7 @@
 - unclassified: anything else. Nothing is guessed.
 
 Each event is used for one movement only, so a transaction with several movements cannot
-classify two of them with the same event. Classification never changes the reconciliation,
+classify two of them with the same event. Classification does not change the reconciliation,
 which counts every movement that changes supply.
 """
 
