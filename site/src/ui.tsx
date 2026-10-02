@@ -13,7 +13,7 @@ export function Section({
 }) {
   return (
     <section id={id} className="mt-12 scroll-mt-20">
-      <h2 className="text-xl font-semibold tracking-tight text-ink sm:text-2xl">{title}</h2>
+      <h2 className="text-xl font-semibold tracking-tight text-ink sm:text-[1.65rem]">{title}</h2>
       {lead && <p className="mt-2 max-w-prose text-ink-2">{lead}</p>}
       <div className="mt-5">{children}</div>
     </section>
@@ -22,7 +22,7 @@ export function Section({
 
 export function Card({ children, className = '' }: { children: ReactNode; className?: string }) {
   return (
-    <div className={`rounded-xl border border-line bg-card p-4 sm:p-5 ${className}`}>{children}</div>
+    <div className={`rounded-2xl border border-line bg-card p-4 shadow-card sm:p-5 ${className}`}>{children}</div>
   )
 }
 
@@ -84,5 +84,35 @@ export function Alert({ className = 'h-4 w-4' }: { className?: string }) {
       <path d="M10 6v5" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
       <circle cx="10" cy="14.2" r="1.3" fill="currentColor" />
     </svg>
+  )
+}
+
+// Token icons live in src/assets/tokens/<symbol>.svg|png and are picked up at build time.
+const TOKEN_ICONS = import.meta.glob<string>('./assets/tokens/*.{svg,png,webp}', {
+  eager: true,
+  query: '?url',
+  import: 'default',
+})
+
+function tokenIcon(symbol: string): string | undefined {
+  const key = symbol.toLowerCase()
+  for (const [path, url] of Object.entries(TOKEN_ICONS)) {
+    if (path.split('/').pop()?.split('.')[0] === key) return url
+  }
+  return undefined
+}
+
+export function TokenIcon({ symbol, size = 'md' }: { symbol: string; size?: 'sm' | 'md' }) {
+  const box = size === 'sm' ? 'h-5 w-5 text-[7px]' : 'h-9 w-9 text-[10px]'
+  const url = tokenIcon(symbol)
+  if (url) return <img src={url} alt="" className={`${box} shrink-0 rounded-full object-contain`} />
+  // Monogram until the icon file exists: the currency code without the leading "w".
+  return (
+    <span
+      aria-hidden
+      className={`${box} inline-flex shrink-0 items-center justify-center rounded-full bg-accent-soft font-bold tracking-tight text-accent`}
+    >
+      {size === 'sm' ? symbol.slice(1, 2) : symbol.slice(1)}
+    </span>
   )
 }

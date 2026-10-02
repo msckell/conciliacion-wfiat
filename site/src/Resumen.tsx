@@ -1,25 +1,63 @@
+import { useState } from 'react'
 import { excelHref, networkColor, site, type Token } from './data'
 import { SlackMessage } from './Slack'
-import { Alert, Card, Check, Dot, Ext, Pill, Section } from './ui'
+import { Alert, Card, Check, Dot, Ext, Pill, Section, TokenIcon } from './ui'
 
 const close = site.close
 
+function DownloadIcon() {
+  return (
+    <svg viewBox="0 0 20 20" className="h-4 w-4" fill="none" aria-hidden>
+      <path d="M10 3v10m0 0l-4-4m4 4l4-4M4 16h12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
+function HeroStat({ value, label }: { value: string; label: string }) {
+  return (
+    <div className="bg-navy/55 px-4 py-3.5 sm:px-5 sm:py-4">
+      <dt className="sr-only">{label}</dt>
+      <dd className="num text-xl font-semibold tracking-tight text-white sm:text-2xl">{value}</dd>
+      <dd className="mt-0.5 text-xs leading-snug text-on-navy sm:text-[13px]">{label}</dd>
+    </div>
+  )
+}
+
+// A step detail that is a bare URL reads better as a link named after its file.
+function StepDetail({ text }: { text: string }) {
+  if (/^https?:\/\/\S+$/.test(text)) {
+    return <Ext href={text}>{text.split('/').pop()}</Ext>
+  }
+  return <>{text}</>
+}
+
 function Timeline() {
   const t = site.timeline
+  const [open, setOpen] = useState(false)
   if (!t) {
     return <Card>Todavía no hay una corrida registrada del cierre.</Card>
   }
   return (
     <Card>
-      <p className="text-sm text-ink-3">
-        Corrida del {t.started_at} (hora de Buenos Aires), duró {t.duration}.
-      </p>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <p className="text-sm text-ink-3">
+          Corrida del {t.started_at} (hora de Buenos Aires), duró {t.duration}.
+        </p>
+        <button
+          type="button"
+          onClick={() => setOpen(!open)}
+          aria-expanded={open}
+          className="text-sm font-medium text-accent sm:hidden"
+        >
+          {open ? 'Ocultar el detalle' : 'Ver el detalle de cada paso'}
+        </button>
+      </div>
       <ol className="mt-4 space-y-0">
         {t.steps.map((s, i) => {
           const done = s.status === 'ok'
           const last = i === t.steps.length - 1
           return (
-            <li key={s.key} className="relative flex gap-3 pb-5 last:pb-0">
+            <li key={s.key} className={`relative flex gap-3 last:pb-0 ${open ? 'pb-5' : 'pb-3.5 sm:pb-5'}`}>
               {!last && (
                 <span className="absolute left-[11px] top-7 bottom-0 w-px bg-line" aria-hidden />
               )}
@@ -32,7 +70,9 @@ function Timeline() {
               </span>
               <div className="min-w-0">
                 <p className="font-medium leading-snug text-ink">{s.title}</p>
-                <p className="mt-0.5 text-sm text-ink-2">{s.detail}</p>
+                <p className={`mt-0.5 break-words text-sm text-ink-2 ${open ? '' : 'hidden sm:block'}`}>
+                  <StepDetail text={s.detail} />
+                </p>
                 <p className="mt-0.5 text-xs text-ink-3">
                   {s.at} · {s.duration}
                 </p>
@@ -107,14 +147,19 @@ function Legend() {
 function TokenCard({ token }: { token: Token }) {
   return (
     <Card>
-      <div className="flex items-baseline justify-between gap-2">
-        <div>
-          <span className="text-lg font-semibold">{token.symbol}</span>
-          <span className="ml-2 text-sm text-ink-3">{token.name}</span>
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex min-w-0 items-center gap-2.5">
+          <TokenIcon symbol={token.symbol} />
+          <div className="min-w-0 leading-tight">
+            <p className="font-semibold">{token.symbol}</p>
+            <p className="truncate text-xs text-ink-3">{token.name}</p>
+          </div>
         </div>
-        <span className="text-xs text-ink-3">{token.networks_with_balance} redes con saldo</span>
+        <span className="shrink-0 rounded-full bg-paper px-2 py-0.5 text-xs text-ink-2">
+          {token.networks_with_balance} redes con saldo
+        </span>
       </div>
-      <p className="num mt-2 text-2xl font-semibold tracking-tight sm:text-[1.7rem]">{token.closing}</p>
+      <p className="num mt-3 text-2xl font-semibold tracking-tight sm:text-[1.7rem]">{token.closing}</p>
       <p className="num text-sm text-ink-2">
         {token.change} desde el {close.previous_cutoff}
       </p>
@@ -131,12 +176,51 @@ export function Resumen() {
   const exc = site.exceptions
   return (
     <>
-      <section className="pt-8 sm:pt-12">
-        <p className="max-w-prose text-lg leading-relaxed text-ink sm:text-xl">
-          Cada trimestre, un contador certifica que cada wARS, wBRL y demás stablecoins de Ripio están
-          respaldadas. Para eso, alguien de Finanzas junta los datos de todas las redes. Este agente
-          arma esa parte solo, al día siguiente del cierre.
-        </p>
+      <section className="pt-5 sm:pt-10">
+        <div className="hero-bg overflow-hidden rounded-3xl px-5 pb-5 pt-6 text-white shadow-lift sm:px-10 sm:pb-8 sm:pt-10">
+          <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-on-navy ring-1 ring-white/15">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#6ee7a8]" aria-hidden />
+            Cierre al {close.cutoff}, listo para revisión
+          </span>
+          <p className="mt-4 max-w-2xl text-lg leading-relaxed text-white sm:text-[1.4rem] sm:leading-relaxed">
+            Cada trimestre, un contador certifica que cada wARS, wBRL y demás stablecoins de Ripio están
+            respaldadas. Para eso, alguien de Finanzas junta los datos de todas las redes. Este agente
+            arma esa parte solo, al día siguiente del cierre.
+          </p>
+          <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:gap-3">
+            <a
+              href={excelHref}
+              download
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-4 py-2.5 font-semibold text-navy transition hover:bg-white/90"
+            >
+              <DownloadIcon />
+              Descargar el Excel
+            </a>
+            <a
+              href="#cierre"
+              onClick={(e) => {
+                e.preventDefault()
+                document.getElementById('cierre')?.scrollIntoView({ behavior: 'smooth' })
+              }}
+              className="inline-flex items-center justify-center rounded-xl px-4 py-2.5 font-semibold text-white ring-1 ring-white/25 transition hover:bg-white/10"
+            >
+              Ver el cierre
+            </a>
+          </div>
+          <dl className="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-2xl bg-white/10 ring-1 ring-white/10 lg:grid-cols-4">
+            <HeroStat value={`${v.matched} de ${v.total}`} label="certificaciones publicadas coinciden con el contador" />
+            <HeroStat
+              value={`${close.reconciled} de ${close.reconciliations}`}
+              label="conciliaciones por moneda y red con diferencia cero"
+            />
+            {vs && (
+              <>
+                <HeroStat value={String(vs.transactions)} label={`transacciones revisadas en ${vs.networks} redes`} />
+                <HeroStat value={vs.duration} label="duró la última corrida del agente" />
+              </>
+            )}
+          </dl>
+        </div>
       </section>
 
       <Section title="Lo que hizo el agente" lead="Cada paso de la última corrida del cierre, tal como quedó registrado.">
@@ -162,8 +246,10 @@ export function Resumen() {
           ].map((text, i) => (
             <li key={i}>
               <Card className="h-full">
-                <span className="text-sm font-semibold text-accent">Paso {i + 1}</span>
-                <p className="mt-1 text-ink">{text}</p>
+                <span className="flex h-7 w-7 items-center justify-center rounded-full bg-accent-soft text-sm font-semibold text-accent">
+                  {i + 1}
+                </span>
+                <p className="mt-3 text-ink">{text}</p>
               </Card>
             </li>
           ))}
@@ -216,11 +302,9 @@ export function Resumen() {
             <a
               href={excelHref}
               download
-              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg bg-accent px-4 py-2.5 font-medium text-white hover:bg-accent/90"
+              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-accent px-4 py-2.5 font-semibold text-white transition hover:bg-accent/90"
             >
-              <svg viewBox="0 0 20 20" className="h-4 w-4" fill="none" aria-hidden>
-                <path d="M10 3v10m0 0l-4-4m4 4l4-4M4 16h12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
+              <DownloadIcon />
               Descargar el Excel
             </a>
           </div>
@@ -284,7 +368,7 @@ export function Resumen() {
         </ul>
       </Section>
 
-      <div className="mt-12">
+      <div className="mt-12 rounded-2xl border border-line bg-card/60 p-4 sm:p-5">
         <Pill tone="neutral">Aviso</Pill>
         <p className="mt-2 max-w-prose text-sm text-ink-2">
           No es una herramienta oficial de Ripio. Usa solo datos públicos: las blockchains y las
