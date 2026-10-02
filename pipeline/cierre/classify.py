@@ -29,7 +29,6 @@ from cierre.cache import DiskCache
 from cierre.config import Chain
 from cierre.rpc import RpcClient
 
-CATEGORIES = ("primary", "redemption", "bridge_in", "bridge_out", "unclassified")
 MINTER_ROLE = "0x" + keccak256(b"MINTER_ROLE").hex()
 SEL_HAS_ROLE = selector("hasRole(bytes32,address)")
 

@@ -10,6 +10,9 @@ import yaml
 
 from cierre import CONFIG_DIR
 
+# Blocks per eth_getLogs cell when chains.yaml sets no logs_rpc.grid for a network.
+DEFAULT_LOGS_GRID = 10_000
+
 
 @dataclass(frozen=True)
 class ExplorerApi:
@@ -28,7 +31,7 @@ class Chain:
     explorer_api: tuple[ExplorerApi, ...] = field(default_factory=tuple)
     no_history: tuple[str, ...] = field(default_factory=tuple)
     logs_rpc_urls: tuple[str, ...] = field(default_factory=tuple)
-    logs_grid: int = 10_000
+    logs_grid: int = DEFAULT_LOGS_GRID
     logs_all_transfers: bool = False
     logs_workers_per_endpoint: int = 1
     logs_bscscan_list: str | None = None
@@ -39,9 +42,6 @@ class Chain:
     def block_url(self, number: int) -> str:
         return f"{self.explorer}/block/{number}"
 
-    def address_url(self, address: str) -> str:
-        return f"{self.explorer}/address/{address}"
-
 
 def load_chains(path: Path | None = None) -> dict[str, Chain]:
     raw = yaml.safe_load((path or CONFIG_DIR / "chains.yaml").read_text(encoding="utf-8"))
@@ -51,6 +51,7 @@ def load_chains(path: Path | None = None) -> dict[str, Chain]:
         override = os.environ.get(f"RPC_URL_{key.upper()}")
         if override:
             urls.insert(0, override)
+        logs = c.get("logs_rpc") or {}
         chains[key] = Chain(
             key=key,
             name=c["name"],
@@ -60,10 +61,10 @@ def load_chains(path: Path | None = None) -> dict[str, Chain]:
             explorer=c["explorer"].rstrip("/"),
             explorer_api=tuple(ExplorerApi(**e) for e in c.get("explorer_api") or []),
             no_history=tuple(c.get("no_history") or []),
-            logs_rpc_urls=tuple((c.get("logs_rpc") or {}).get("urls") or []),
-            logs_grid=int((c.get("logs_rpc") or {}).get("grid") or 10_000),
-            logs_all_transfers=bool((c.get("logs_rpc") or {}).get("all_transfers")),
-            logs_workers_per_endpoint=int((c.get("logs_rpc") or {}).get("workers") or 1),
+            logs_rpc_urls=tuple(logs.get("urls") or []),
+            logs_grid=int(logs.get("grid") or DEFAULT_LOGS_GRID),
+            logs_all_transfers=bool(logs.get("all_transfers")),
+            logs_workers_per_endpoint=int(logs.get("workers") or 1),
             logs_bscscan_list=c.get("logs_bscscan_list"),
         )
     return chains
