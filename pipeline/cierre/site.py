@@ -200,7 +200,8 @@ def _verification(names: dict[str, str]) -> dict:
             {
                 "token": r["token"],
                 "cutoff": _d(r["cutoff"]),
-                "certified": fmt(r["certified"]),
+                # As printed in the certificate (2 decimals or whole units).
+                "certified": fmt(r["certified"], r["printed_decimals"]),
                 "raw_sum": fmt(r["computed"])
                 if not r["adjustments"]
                 else fmt(units(r["raw_sum_base_units"], 18)),

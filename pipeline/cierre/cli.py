@@ -280,6 +280,12 @@ def cmd_memo(args: argparse.Namespace) -> int:
 
     out_dir = DATA_DIR / "closes" / args.cutoff
     pkg = json.loads((out_dir / "package.json").read_text(encoding="utf-8"))
+    if args.rerender:
+        from cierre.agent.memo import rerender
+
+        old = json.loads((out_dir / "memo.json").read_text(encoding="utf-8"))
+        _dump(out_dir / "memo.json", rerender(pkg, old))
+        return 0
     memo = build_memo(pkg, ask_claude, out_dir)
     _dump(out_dir / "memo.json", memo)
     for sym, t in memo["tokens"].items():
@@ -578,6 +584,9 @@ def main(argv: list[str] | None = None) -> int:
     sub.add_parser("extract-eval", help="LLM certificate extraction vs confirmed table")
     p_memo = sub.add_parser("memo", help="closing memo (LLM explanations, verified)")
     p_memo.add_argument("--cutoff", required=True)
+    p_memo.add_argument(
+        "--rerender", action="store_true", help="only reformat the figures, no LLM call"
+    )
     p_close = sub.add_parser("close", help="quarter close package for a cutoff")
     p_close.add_argument("--cutoff", required=True)
     p_close.add_argument("--chains", nargs="+", help="rerun the engine only for these")

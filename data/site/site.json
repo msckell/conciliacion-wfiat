@@ -46,7 +46,7 @@
           {
             "chain": "arc",
             "name": "Arc",
-            "amount": "117.924.064,4",
+            "amount": "117.924.064,40",
             "share_pct": 0.8
           },
           {
@@ -64,7 +64,7 @@
           {
             "chain": "gnosis",
             "name": "Gnosis",
-            "amount": "9.360.155",
+            "amount": "9.360.155,00",
             "share_pct": 0.1
           }
         ]
@@ -73,7 +73,7 @@
         "symbol": "wBRL",
         "name": "Brazilian Real",
         "closing": "13.807.477,38",
-        "opening": "2.586.147,5",
+        "opening": "2.586.147,50",
         "change": "+11.221.329,88",
         "networks_with_balance": 9,
         "by_network": [
@@ -86,13 +86,13 @@
           {
             "chain": "celo",
             "name": "Celo",
-            "amount": "3.708.687,9",
+            "amount": "3.708.687,90",
             "share_pct": 26.9
           },
           {
             "chain": "hyperevm",
             "name": "HyperEVM",
-            "amount": "2.499.220,3",
+            "amount": "2.499.220,30",
             "share_pct": 18.1
           },
           {
@@ -138,7 +138,7 @@
         "name": "Mexican Peso",
         "closing": "5.638.788,69",
         "opening": "968.788,69",
-        "change": "+4.670.000",
+        "change": "+4.670.000,00",
         "networks_with_balance": 7,
         "by_network": [
           {
@@ -188,9 +188,9 @@
       {
         "symbol": "wCOP",
         "name": "Colombian Peso",
-        "closing": "911.258.753,8",
-        "opening": "196.398.753,8",
-        "change": "+714.860.000",
+        "closing": "911.258.753,80",
+        "opening": "196.398.753,80",
+        "change": "+714.860.000,00",
         "networks_with_balance": 7,
         "by_network": [
           {
@@ -214,7 +214,7 @@
           {
             "chain": "celo",
             "name": "Celo",
-            "amount": "33.999.986",
+            "amount": "33.999.986,00",
             "share_pct": 3.7
           },
           {
@@ -226,13 +226,13 @@
           {
             "chain": "polygon",
             "name": "Polygon",
-            "amount": "22.458.699",
+            "amount": "22.458.699,00",
             "share_pct": 2.5
           },
           {
             "chain": "gnosis",
             "name": "Gnosis",
-            "amount": "19.320.986",
+            "amount": "19.320.986,00",
             "share_pct": 2.1
           }
         ]
@@ -240,9 +240,9 @@
       {
         "symbol": "wCLP",
         "name": "Chilean Peso",
-        "closing": "66.565.100",
-        "opening": "64.295.100",
-        "change": "+2.270.000",
+        "closing": "66.565.100,00",
+        "opening": "64.295.100,00",
+        "change": "+2.270.000,00",
         "networks_with_balance": 7,
         "by_network": [
           {
@@ -254,13 +254,13 @@
           {
             "chain": "gnosis",
             "name": "Gnosis",
-            "amount": "4.646.014",
+            "amount": "4.646.014,00",
             "share_pct": 7.0
           },
           {
             "chain": "ethereum",
             "name": "Ethereum",
-            "amount": "4.431.817,7",
+            "amount": "4.431.817,70",
             "share_pct": 6.7
           },
           {
@@ -284,7 +284,7 @@
           {
             "chain": "celo",
             "name": "Celo",
-            "amount": "1.000.087",
+            "amount": "1.000.087,00",
             "share_pct": 1.5
           }
         ]
@@ -292,9 +292,9 @@
       {
         "symbol": "wPEN",
         "name": "Peruvian Sol",
-        "closing": "132.950",
-        "opening": "122.950",
-        "change": "+10.000",
+        "closing": "132.950,00",
+        "opening": "122.950,00",
+        "change": "+10.000,00",
         "networks_with_balance": 7,
         "by_network": [
           {
@@ -312,13 +312,13 @@
           {
             "chain": "gnosis",
             "name": "Gnosis",
-            "amount": "4.500",
+            "amount": "4.500,00",
             "share_pct": 3.4
           },
           {
             "chain": "polygon",
             "name": "Polygon",
-            "amount": "4.172,5",
+            "amount": "4.172,50",
             "share_pct": 3.1
           },
           {
@@ -477,47 +477,47 @@
         "headline": "wARS: 14.931.194.588,93 al 30/09/2026 (+7.311.198.511,89 vs 30/06/2026)",
         "status": "Conciliado en 9 redes, diferencia cero.",
         "review": "4 movimientos para revisar.",
-        "explanation": "La circulación de wARS creció 7.311.198.511,89 en el trimestre. El cambio vino sobre todo de la emisión primaria, con 9.769.200.030 tokens nuevos, y en menor medida de los rescates, que quemaron 2.458.000.010. Los movimientos del puente entre redes se dieron en ambos sentidos y no explican el cambio, y Arc, la red nueva desde el cierre anterior, ya tiene saldo. Quedan algunos movimientos para que alguien del equipo los revise.",
+        "explanation": "La circulación de wARS creció 7.311.198.511,89 en el trimestre. El cambio vino sobre todo de la emisión primaria, con 9.769.200.030,00 tokens nuevos, y en menor medida de los rescates, que quemaron 2.458.000.010,00. Los movimientos del puente entre redes se dieron en ambos sentidos y no explican el cambio, y Arc, la red nueva desde el cierre anterior, ya tiene saldo. Quedan algunos movimientos para que alguien del equipo los revise.",
         "explanation_source": "llm"
       },
       {
         "symbol": "wBRL",
         "headline": "wBRL: 13.807.477,38 al 30/09/2026 (+11.221.329,88 vs 30/06/2026)",
         "status": "Conciliado en 9 redes, diferencia cero.",
-        "review": "1 movimientos para revisar.",
-        "explanation": "La circulación de wBRL creció 11.221.329,88 en el trimestre, y casi todo vino de la emisión primaria de 11.396.295. Hubo algunos rescates, y el puente solo movió tokens de una red a otra. Arc se sumó como red nueva y ya tiene saldo al cierre. Para revisión de una persona quedan pendientes esta cantidad de movimientos: 1.",
+        "review": "1 movimiento para revisar.",
+        "explanation": "La circulación de wBRL creció 11.221.329,88 en el trimestre, y casi todo vino de la emisión primaria de 11.396.295,00. Hubo algunos rescates, y el puente solo movió tokens de una red a otra. Arc se sumó como red nueva y ya tiene saldo al cierre. Para revisión de una persona quedan pendientes esta cantidad de movimientos: 1.",
         "explanation_source": "llm"
       },
       {
         "symbol": "wMXN",
-        "headline": "wMXN: 5.638.788,69 al 30/09/2026 (+4.670.000 vs 30/06/2026)",
+        "headline": "wMXN: 5.638.788,69 al 30/09/2026 (+4.670.000,00 vs 30/06/2026)",
         "status": "Conciliado en 9 redes, diferencia cero.",
         "review": "Nada para revisar.",
-        "explanation": "En el trimestre la circulación de wMXN pasó a 5.638.788,69, y todo el crecimiento vino de la emisión primaria de 4.670.000. Los rescates no tuvieron peso en la variación, ya que lo quemado fue lo mismo que lo que se movió por el puente entre redes. Arc se sumó como red nueva, con el contrato de wMXN ya creado pero sin saldo al cierre.",
+        "explanation": "En el trimestre la circulación de wMXN pasó a 5.638.788,69, y todo el crecimiento vino de la emisión primaria de 4.670.000,00. Los rescates no tuvieron peso en la variación, ya que lo quemado fue lo mismo que lo que se movió por el puente entre redes. Arc se sumó como red nueva, con el contrato de wMXN ya creado pero sin saldo al cierre.",
         "explanation_source": "llm"
       },
       {
         "symbol": "wCOP",
-        "headline": "wCOP: 911.258.753,8 al 30/09/2026 (+714.860.000 vs 30/06/2026)",
+        "headline": "wCOP: 911.258.753,80 al 30/09/2026 (+714.860.000,00 vs 30/06/2026)",
         "status": "Conciliado en 9 redes, diferencia cero.",
         "review": "Nada para revisar.",
-        "explanation": "La circulación de wCOP creció 714.860.000 en el trimestre. Casi todo vino de la emisión primaria de 774.860.000, y los rescates que quemó el emisor fueron 60.000.000. El puente movió tokens entre redes, pero lo que entró y lo que salió fue lo mismo, así que no explica el cambio. Arc es una red nueva, y el contrato de wCOP ya existe ahí pero al cierre no tiene saldo.",
+        "explanation": "La circulación de wCOP creció 714.860.000,00 en el trimestre. Casi todo vino de la emisión primaria de 774.860.000,00, y los rescates que quemó el emisor fueron 60.000.000,00. El puente movió tokens entre redes, pero lo que entró y lo que salió fue lo mismo, así que no explica el cambio. Arc es una red nueva, y el contrato de wCOP ya existe ahí pero al cierre no tiene saldo.",
         "explanation_source": "llm"
       },
       {
         "symbol": "wCLP",
-        "headline": "wCLP: 66.565.100 al 30/09/2026 (+2.270.000 vs 30/06/2026)",
+        "headline": "wCLP: 66.565.100,00 al 30/09/2026 (+2.270.000,00 vs 30/06/2026)",
         "status": "Conciliado en 9 redes, diferencia cero.",
         "review": "Nada para revisar.",
-        "explanation": "En el trimestre la circulación de wCLP cambió en 2.270.000, y todo vino de la emisión primaria de 2.270.000. No se ven rescates aparte de lo que se quemó por el puente entre redes. Ese puente movió 7.960.305,19 hacia las redes, y esos movimientos son traslados entre redes que no crean circulación nueva. Arc se sumó como red nueva y, al cierre, el contrato existe pero todavía no tiene saldo.",
+        "explanation": "En el trimestre la circulación de wCLP cambió en 2.270.000,00, y todo vino de la emisión primaria de 2.270.000,00. No se ven rescates aparte de lo que se quemó por el puente entre redes. Ese puente movió 7.960.305,19 hacia las redes, y esos movimientos son traslados entre redes que no crean circulación nueva. Arc se sumó como red nueva y, al cierre, el contrato existe pero todavía no tiene saldo.",
         "explanation_source": "llm"
       },
       {
         "symbol": "wPEN",
-        "headline": "wPEN: 132.950 al 30/09/2026 (+10.000 vs 30/06/2026)",
+        "headline": "wPEN: 132.950,00 al 30/09/2026 (+10.000,00 vs 30/06/2026)",
         "status": "Conciliado en 9 redes, diferencia cero.",
         "review": "Nada para revisar.",
-        "explanation": "La circulación de wPEN creció 10.000 en el trimestre, y todo vino de la emisión primaria de 10.000 tokens nuevos, sin rescates fuera del puente. El puente entre redes movió 5.770,89 tokens hacia adentro de unas redes y la misma cantidad hacia afuera de otras, así que no cambió el total. Arc se sumó como red nueva y su contrato de wPEN ya existe, pero al cierre no tiene saldo.",
+        "explanation": "La circulación de wPEN creció 10.000,00 en el trimestre, y todo vino de la emisión primaria de 10.000,00 tokens nuevos, sin rescates fuera del puente. El puente entre redes movió 5.770,89 tokens hacia adentro de unas redes y la misma cantidad hacia afuera de otras, así que no cambió el total. Arc se sumó como red nueva y su contrato de wPEN ya existe, pero al cierre no tiene saldo.",
         "explanation_source": "llm"
       }
     ]
@@ -609,7 +609,7 @@
         "token": "wARS",
         "cutoff": "31/03/2026",
         "certified": "973.000.960,19",
-        "raw_sum": "973.000.960,2",
+        "raw_sum": "973.000.960,20",
         "adjustments": "Ninguno",
         "computed": "973.000.960",
         "difference": "0",
@@ -629,7 +629,7 @@
         "token": "wBRL",
         "cutoff": "31/03/2026",
         "certified": "719.448",
-        "raw_sum": "719.447,5",
+        "raw_sum": "719.447,50",
         "adjustments": "Ninguno",
         "computed": "719.448",
         "difference": "0",
@@ -649,7 +649,7 @@
         "token": "wCOP",
         "cutoff": "31/03/2026",
         "certified": "104.898.654",
-        "raw_sum": "104.898.653,8",
+        "raw_sum": "104.898.653,80",
         "adjustments": "Ninguno",
         "computed": "104.898.654",
         "difference": "0",
@@ -711,7 +711,7 @@
         "token": "wBRL",
         "cutoff": "30/06/2026",
         "certified": "2.586.148",
-        "raw_sum": "2.586.147,5",
+        "raw_sum": "2.586.147,50",
         "adjustments": "Ninguno",
         "computed": "2.586.148",
         "difference": "0",
@@ -753,7 +753,7 @@
         "token": "wCOP",
         "cutoff": "30/06/2026",
         "certified": "196.398.754",
-        "raw_sum": "196.398.753,8",
+        "raw_sum": "196.398.753,80",
         "adjustments": "Ninguno",
         "computed": "196.398.754",
         "difference": "0",
@@ -774,7 +774,7 @@
         "token": "wCLP",
         "cutoff": "30/06/2026",
         "certified": "64.295.100",
-        "raw_sum": "64.295.100",
+        "raw_sum": "64.295.100,00",
         "adjustments": "Ninguno",
         "computed": "64.295.100",
         "difference": "0",
@@ -888,7 +888,7 @@
         "outcome": "task",
         "chain": "Base",
         "token": "wARS",
-        "movement": "quema de 985 wARS",
+        "movement": "quema de 985,00 wARS",
         "reason": "Salió por el puente el 29/07/2026 hacia Celo y no encontramos la emisión del otro lado (buscada hasta el bloque 79003857 de Celo).",
         "summary": "La quema salió por depositForBridge en el contrato BridgeDeposit de Base y el destino era Celo con el mismo destinatario 0x6c3acdc8c93d13087e3348732a1894e5f3c164b3. No encontré la emisión del puente en Celo ni emisiones de wARS hacia esa cuenta, ni en el trimestre ni después del corte, y tampoco veo una devolución en Base con mis herramientas. Debería mirar una persona si el operador tiene el depósito pendiente de cumplir o si el emisor devolvió los tokens por otra vía.",
         "checks": [
@@ -921,7 +921,7 @@
         "outcome": "task",
         "chain": "World Chain",
         "token": "wARS",
-        "movement": "quema de 1 wARS",
+        "movement": "quema de 1,00 wARS",
         "reason": "Sin clasificar: no tiene evento del puente y quien quema no tiene permiso de emisión.",
         "summary": "El modelo no respondió a esta consulta, así que el agente no pudo analizar el movimiento. Revisalo a mano con el link de la transacción.",
         "checks": [],
@@ -934,7 +934,7 @@
         "outcome": "task",
         "chain": "Polygon",
         "token": "wARS",
-        "movement": "quema de 485 wARS",
+        "movement": "quema de 485,00 wARS",
         "reason": "Salió por el puente el 02/09/2026 hacia Gnosis y no encontramos la emisión del otro lado (buscada hasta el bloque 48542427 de Gnosis).",
         "summary": "La transacción 0x854723b7fd5543cab04edbdf903dd4dd271567da6477449741d50c2070789615 llamó a depositForBridge en el contrato BridgeDeposit 0x465e642387d3d73a57cdc1368ffa53a800ba5d47 y quemó el monto desde la cuenta 0xea44c33cef2f663beabb59110990cb58b6b8447e con destino Gnosis. No encontré ninguna emisión del puente en Gnosis ni emisiones hacia esa cuenta en ninguna de las redes, tanto en el trimestre como después del corte, y tampoco un reembolso en Polygon. Una persona debería revisar si el operador todavía tiene pendiente el fulfillBridgeMint o si se devolvió con otro mecanismo, por ejemplo una transferencia común, que mis herramientas no buscan.",
         "checks": [
@@ -956,7 +956,7 @@
         "outcome": "resolved",
         "chain": "Arc",
         "token": "wARS",
-        "movement": "emisión de 100.000 wARS",
+        "movement": "emisión de 100.000,00 wARS",
         "reason": "Sin clasificar: no tiene evento del puente ni de LimitedMinter.",
         "summary": "La cuenta 0x2b839174fe62466067c22e2a4c8054071f9d8d68 ejecutó un execTransaction y el token wARS emitió el monto a esa misma cuenta. Las herramientas muestran que esa cuenta tenía MINTER_ROLE en el contrato 0x0dc4f92879b7670e5f4e4e6e3c801d229129d90d en ese bloque, así que se trata de una emisión primaria hecha por un minter.",
         "checks": [
@@ -973,7 +973,7 @@
         "outcome": "resolved",
         "chain": "Arc",
         "token": "wBRL",
-        "movement": "emisión de 5.000 wBRL",
+        "movement": "emisión de 5.000,00 wBRL",
         "reason": "Sin clasificar: no tiene evento del puente ni de LimitedMinter.",
         "summary": "La emisión salió de una execTransaction ejecutada por la cuenta 0x2b839174fe62466067c22e2a4c8054071f9d8d68, que es quien recibe los tokens. Esa cuenta tenía MINTER_ROLE en el token wBRL 0xd76f5faf6888e24d9f04bf92a0c8b921fe4390e0 en ese bloque. Por eso la tratamos como emisión primaria hecha por un minter.",
         "checks": [
@@ -990,7 +990,7 @@
         "outcome": "resolved",
         "chain": "Arc",
         "token": "wBRL",
-        "movement": "emisión de 130.000 wBRL",
+        "movement": "emisión de 130.000,00 wBRL",
         "reason": "Sin clasificar: no tiene evento del puente ni de LimitedMinter.",
         "summary": "La emisión la ejecutó la Safe 0x2b839174fe62466067c22e2a4c8054071f9d8d68 mediante execTransaction, y esa cuenta tenía MINTER_ROLE en el token wBRL en ese bloque. El token emitió directo a la cuenta 0xe7e486057c2d962d1e5b46f292daf4d2fa2313c4, por eso no hay evento del puente ni de LimitedMinter.",
         "checks": [
@@ -1007,7 +1007,7 @@
         "outcome": "resolved",
         "chain": "Arc",
         "token": "wARS",
-        "movement": "emisión de 40.000.000 wARS",
+        "movement": "emisión de 40.000.000,00 wARS",
         "reason": "Sin clasificar: no tiene evento del puente ni de LimitedMinter.",
         "summary": "La emisión se hizo desde una execTransaction de la cuenta 0x2b839174fe62466067c22e2a4c8054071f9d8d68, que tenía MINTER_ROLE en el token wARS en ese bloque. En la misma transacción también se emitió wBRL a la misma cuenta receptora, así que parece una emisión primaria conjunta.",
         "checks": [
@@ -1167,7 +1167,7 @@
           "type": "section",
           "text": {
             "type": "mrkdwn",
-            "text": "• *wARS: 14.931.194.588,93 al 30/09/2026 (+7.311.198.511,89 vs 30/06/2026)*. Conciliado en 9 redes, diferencia cero.\n• *wBRL: 13.807.477,38 al 30/09/2026 (+11.221.329,88 vs 30/06/2026)*. Conciliado en 9 redes, diferencia cero.\n• *wMXN: 5.638.788,69 al 30/09/2026 (+4.670.000 vs 30/06/2026)*. Conciliado en 9 redes, diferencia cero.\n• *wCOP: 911.258.753,8 al 30/09/2026 (+714.860.000 vs 30/06/2026)*. Conciliado en 9 redes, diferencia cero.\n• *wCLP: 66.565.100 al 30/09/2026 (+2.270.000 vs 30/06/2026)*. Conciliado en 9 redes, diferencia cero.\n• *wPEN: 132.950 al 30/09/2026 (+10.000 vs 30/06/2026)*. Conciliado en 9 redes, diferencia cero."
+            "text": "• *wARS: 14.931.194.588,93 al 30/09/2026 (+7.311.198.511,89 vs 30/06/2026)*. Conciliado en 9 redes, diferencia cero.\n• *wBRL: 13.807.477,38 al 30/09/2026 (+11.221.329,88 vs 30/06/2026)*. Conciliado en 9 redes, diferencia cero.\n• *wMXN: 5.638.788,69 al 30/09/2026 (+4.670.000,00 vs 30/06/2026)*. Conciliado en 9 redes, diferencia cero.\n• *wCOP: 911.258.753,80 al 30/09/2026 (+714.860.000,00 vs 30/06/2026)*. Conciliado en 9 redes, diferencia cero.\n• *wCLP: 66.565.100,00 al 30/09/2026 (+2.270.000,00 vs 30/06/2026)*. Conciliado en 9 redes, diferencia cero.\n• *wPEN: 132.950,00 al 30/09/2026 (+10.000,00 vs 30/06/2026)*. Conciliado en 9 redes, diferencia cero."
           }
         },
         {
@@ -1181,7 +1181,7 @@
           "type": "section",
           "text": {
             "type": "mrkdwn",
-            "text": "*Qué te toca revisar* (5)\nEl agente investigó 9 movimientos, resolvió 4 con evidencia y te deja estos:\n• Base, quema de 985 wARS: Salió por el puente el 29/07/2026 hacia Celo y no encontramos la emisión del otro lado (buscada hasta el bloque 79003857 de Celo). <https://basescan.org/tx/0x973ffae966a4117988101c26b8bbdde3256619169a1988796b8eb713a8cf0dcc|ver transacción>\n• World Chain, quema de 37,11 wARS: Sin clasificar: no tiene evento del puente y quien quema no tiene permiso de emisión. <https://worldscan.org/tx/0xbfcca975bfc33291227162dc80cf5fec141c209604f5dcf205efca99708569eb|ver transacción>\n• World Chain, quema de 1 wARS: Sin clasificar: no tiene evento del puente y quien quema no tiene permiso de emisión. <https://worldscan.org/tx/0xad0126a996caf877ab6265d9494c12c22824e59463f68bfc6a1e9078d2579249|ver transacción>\n• Polygon, quema de 485 wARS: Salió por el puente el 02/09/2026 hacia Gnosis y no encontramos la emisión del otro lado (buscada hasta el bloque 48542427 de Gnosis). <https://polygonscan.com/tx/0x854723b7fd5543cab04edbdf903dd4dd271567da6477449741d50c2070789615|ver transacción>\n• HyperEVM, quema de 19.965,12 wBRL: Salió por el puente el 14/09/2026 hacia Ethereum y no encontramos la emisión del otro lado (buscada hasta el bloque 26101361 de Ethereum). <https://hyperevmscan.io/tx/0x3ff080dac8b08f89c84dbb2c4e076b2bfc69b66c2df2a7493788675023f526c6|ver transacción>"
+            "text": "*Qué te toca revisar* (5)\nEl agente investigó 9 movimientos, resolvió 4 con evidencia y te deja estos:\n• Base, quema de 985,00 wARS: Salió por el puente el 29/07/2026 hacia Celo y no encontramos la emisión del otro lado (buscada hasta el bloque 79003857 de Celo). <https://basescan.org/tx/0x973ffae966a4117988101c26b8bbdde3256619169a1988796b8eb713a8cf0dcc|ver transacción>\n• World Chain, quema de 37,11 wARS: Sin clasificar: no tiene evento del puente y quien quema no tiene permiso de emisión. <https://worldscan.org/tx/0xbfcca975bfc33291227162dc80cf5fec141c209604f5dcf205efca99708569eb|ver transacción>\n• World Chain, quema de 1,00 wARS: Sin clasificar: no tiene evento del puente y quien quema no tiene permiso de emisión. <https://worldscan.org/tx/0xad0126a996caf877ab6265d9494c12c22824e59463f68bfc6a1e9078d2579249|ver transacción>\n• Polygon, quema de 485,00 wARS: Salió por el puente el 02/09/2026 hacia Gnosis y no encontramos la emisión del otro lado (buscada hasta el bloque 48542427 de Gnosis). <https://polygonscan.com/tx/0x854723b7fd5543cab04edbdf903dd4dd271567da6477449741d50c2070789615|ver transacción>\n• HyperEVM, quema de 19.965,12 wBRL: Salió por el puente el 14/09/2026 hacia Ethereum y no encontramos la emisión del otro lado (buscada hasta el bloque 26101361 de Ethereum). <https://hyperevmscan.io/tx/0x3ff080dac8b08f89c84dbb2c4e076b2bfc69b66c2df2a7493788675023f526c6|ver transacción>"
           }
         },
         {

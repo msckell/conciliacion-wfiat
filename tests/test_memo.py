@@ -42,7 +42,7 @@ def test_retry_with_feedback_then_accept(tmp_path):
     ask, seen = fake(["Subió a 150 tokens.", "Cerró en {wARS.outstanding.2026-09-30}."])
     memo = build_memo(PKG, ask, tmp_path)
     e = memo["tokens"]["wARS"]["explanation"]
-    assert (e["source"], e["attempts"], e["text"]) == ("llm", 2, "Cerró en 150,5.")
+    assert (e["source"], e["attempts"], e["text"]) == ("llm", 2, "Cerró en 150,50.")
     assert "rechazado" in seen[1]
     lines = (tmp_path / "attempts.jsonl").read_text(encoding="utf-8").splitlines()
     assert [json.loads(x)["accepted"] for x in lines] == [False, True]
@@ -53,12 +53,24 @@ def test_fallback_after_three_bad_attempts(tmp_path):
     memo = build_memo(PKG, ask, tmp_path)
     assert memo["tokens"]["wARS"]["explanation"]["source"] == "fallback"
     assert memo["fallbacks"] == ["wARS"]
-    assert memo["tokens"]["wARS"]["status"] == "Conciliado en 1 redes, diferencia cero."
+    assert memo["tokens"]["wARS"]["status"] == "Conciliado en 1 red, diferencia cero."
 
 
 def test_fmt_spanish():
     assert (fmt("14931194588.926548"), fmt("-0.5"), fmt("7619996077")) == (
         "14.931.194.588,93",
-        "-0,5",
-        "7.619.996.077",
+        "-0,50",
+        "7.619.996.077,00",
     )
+    assert fmt("911258753.8") == "911.258.753,80"
+    assert fmt("4", 0) == "4"
+
+
+def test_rerender_reformats_without_calling_the_llm(tmp_path):
+    from cierre.agent.memo import rerender
+
+    ask, _ = fake(["Cerró en {wARS.outstanding.2026-09-30}."])
+    memo = build_memo(PKG, ask, tmp_path)
+    memo["tokens"]["wARS"]["explanation"]["text"] = "texto viejo"
+    again = rerender(PKG, memo)
+    assert again["tokens"]["wARS"]["explanation"]["text"] == "Cerró en 150,50."

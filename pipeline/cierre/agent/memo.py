@@ -41,18 +41,21 @@ FACT_MEANING = {
 }
 
 
+COUNT_FACTS = {"networks_with_balance", "review_items"}
+
+
 def quarter(cutoff: str) -> str:
     y, m, _ = cutoff.split("-")
     return f"{y}Q{(int(m) - 1) // 3 + 1}"
 
 
 def fmt(value: Decimal | str | int, places: int = 2) -> str:
-    """Spanish format: 1.234.567,89, without ',00' for whole numbers."""
+    """Spanish format with a fixed number of decimals: 1.234.567,89 and 132.950,00.
+    Counts use places=0."""
     d = Decimal(str(value)).quantize(Decimal(1).scaleb(-places), rounding=ROUND_HALF_UP)
     sign = "-" if d < 0 else ""
     whole, _, frac = f"{abs(d):f}".partition(".")
     whole = f"{int(whole):,}".replace(",", ".")
-    frac = frac.rstrip("0")
     return sign + whole + ("," + frac if frac else "")
 
 
@@ -87,10 +90,14 @@ def token_facts(pkg: dict, sym: str) -> dict[str, dict]:
     }
     # Zero flows are left out, so the text cannot dwell on them. Balances always stay.
     return {
-        fid: {"value": fmt(v), "meaning": FACT_MEANING[kind]}
+        fid: {"value": fmt(v, 0 if kind in COUNT_FACTS else 2), "meaning": FACT_MEANING[kind]}
         for fid, (v, kind) in raw.items()
         if kind == "outstanding" or Decimal(str(v)) != 0
     }
+
+
+def _plural(n: int, one: str, many: str) -> str:
+    return f"{n} {one if n == 1 else many}"
 
 
 def template(pkg: dict, sym: str) -> dict:
@@ -107,12 +114,16 @@ def template(pkg: dict, sym: str) -> dict:
             f"({sign}{fmt(change)} vs {_d(pkg['previous_cutoff'])})"
         ),
         "status": (
-            f"Conciliado en {len(rows)} redes, diferencia cero."
+            f"Conciliado en {_plural(len(rows), 'red', 'redes')}, diferencia cero."
             if ok
             else "No concilia en alguna red. Revisá la hoja Conciliación."
         ),
         "reconciled": ok,
-        "review": f"{n_review} movimientos para revisar." if n_review else "Nada para revisar.",
+        "review": (
+            f"{_plural(n_review, 'movimiento', 'movimientos')} para revisar."
+            if n_review
+            else "Nada para revisar."
+        ),
         "networks_with_balance": len(t["networks_with_balance"]),
     }
 
@@ -185,3 +196,16 @@ def build_memo(pkg: dict, ask: Ask, out_dir: Path) -> dict:
         "tokens": tokens,
         "fallbacks": [s for s, t in tokens.items() if t["explanation"]["source"] == "fallback"],
     }
+
+
+def rerender(pkg: dict, memo: dict) -> dict:
+    """Templates and fact values again, over the explanations already verified. No LLM
+    call: only the formatting of the figures changes."""
+    tokens = {}
+    for sym, old in memo["tokens"].items():
+        expl = dict(old["explanation"])
+        if expl["source"] == "llm":
+            values = {fid: f["value"] for fid, f in token_facts(pkg, sym).items()}
+            expl["text"] = verifier.render(expl["text_with_ids"], values)
+        tokens[sym] = template(pkg, sym) | {"explanation": expl}
+    return memo | {"tokens": tokens}
