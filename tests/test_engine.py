@@ -1,10 +1,11 @@
-"""Offline unit tests for the Phase 0 building blocks."""
+"""Offline unit tests for the engine pieces: certificate parsing, log decoding, the exact
+reconciliation and the precision rules."""
 
 from decimal import Decimal
 
 import pytest
 
-from cierre.golden import at_printed_precision, to_units
+from cierre.golden import at_printed_precision, compare, to_units
 from cierre.ledger import TRANSFER_TOPIC, ZERO_TOPIC, Movement, parse_log
 from cierre.movement_test import compare_sources, reconcile
 from cierre.references import network_keys, parse_printed_number
@@ -80,8 +81,6 @@ def test_precision_rules_differ_only_where_they_should():
 
 
 def test_whole_units_rule_compares_both_sides_at_zero_places():
-    from cierre.golden import compare
-
     cert = {
         "token": "wARS",
         "cutoff": "2026-03-31",
