@@ -375,10 +375,12 @@ def build_site(cutoff: str) -> dict:
                     "token": a["token"],
                     "attempt": a["attempt"],
                     "accepted": a["accepted"],
+                    # An attempt the model never answered carries "error" and no problems
                     "problems": [
                         p.get("code", str(p)) if isinstance(p, dict) else str(p)
-                        for p in a["problems"]
-                    ],
+                        for p in a.get("problems", [])
+                    ]
+                    or (["sin respuesta del modelo"] if a.get("error") else []),
                     "duration": _duration(a.get("duration_s", 0)),
                 }
             )

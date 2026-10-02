@@ -113,3 +113,21 @@ def test_duration():
     assert _duration(42.4) == "42 segundos"
     assert _duration(61) == "1 minuto"
     assert _duration(245) == "4 minutos"
+
+
+def test_site_survives_an_attempt_the_model_never_answered(tmp_path, monkeypatch):
+    import json
+    import shutil
+
+    import cierre.site as site
+    from cierre import DATA_DIR
+
+    for part in ("closes/2026-09-30", "golden", "monitor"):
+        shutil.copytree(DATA_DIR / part, tmp_path / part)
+    attempts = tmp_path / "closes/2026-09-30/attempts.jsonl"
+    failed = {"token": "wARS", "attempt": 1, "error": "claude error: Invalid auth token"}
+    attempts.write_text(json.dumps(failed | {"accepted": False}) + "\n", encoding="utf-8")
+    monkeypatch.setattr(site, "DATA_DIR", tmp_path)
+
+    out = site.build_site("2026-09-30")
+    assert out["verifier"]["attempts"][0]["problems"] == ["sin respuesta del modelo"]
