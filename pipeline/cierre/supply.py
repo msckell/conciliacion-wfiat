@@ -4,7 +4,12 @@ from __future__ import annotations
 
 from cierre.cache import DiskCache
 from cierre.config import Chain, Token
-from cierre.rpc import RpcClient
+from cierre.cutoffs import CONVENTIONS, cutoff_block
+from cierre.rpc import RpcClient, block_tag
+
+# Created long after block 1 on every network, so a node that really serves historical state
+# answers "no code" for it at block 1. See RpcClient.qualify_history().
+HISTORY_PROBE_SYMBOL = "wARS"
 
 SEL_TOTAL_SUPPLY = "0x18160ddd"
 SEL_NAME = "0x06fdde03"
@@ -17,13 +22,13 @@ class NoContract(Exception):
 
 
 def _call(rpc: RpcClient, address: str, data: str, block: int | str) -> str:
-    tag = hex(block) if isinstance(block, int) else block
-    cacheable = isinstance(block, int)
+    # An explicit block never changes, so it is cached and needs archive state.
+    by_number = isinstance(block, int)
     out = rpc.call(
         "eth_call",
-        [{"to": address, "data": data}, tag],
-        cache=cacheable,
-        historical=cacheable,
+        [{"to": address, "data": data}, block_tag(block)],
+        cache=by_number,
+        historical=by_number,
     )
     if not isinstance(out, str) or out in ("0x", ""):
         raise NoContract(f"{rpc.chain.key}: empty eth_call result at {address} block {block}")
@@ -31,14 +36,11 @@ def _call(rpc: RpcClient, address: str, data: str, block: int | str) -> str:
 
 
 def code_at(rpc: RpcClient, address: str, block: int | str) -> str:
-    tag = hex(block) if isinstance(block, int) else block
-    cacheable = isinstance(block, int)
-    return rpc.call("eth_getCode", [address, tag], cache=cacheable, historical=cacheable)
-
-
-def total_supply(rpc: RpcClient, address: str, block: int | str) -> int:
-    """totalSupply in base units. Raises NoContract instead of returning 0."""
-    return int(_call(rpc, address, SEL_TOTAL_SUPPLY, block), 16)
+    """Contract code at a block, "0x" when there is none."""
+    by_number = isinstance(block, int)
+    return rpc.call(
+        "eth_getCode", [address, block_tag(block)], cache=by_number, historical=by_number
+    )
 
 
 def decimals(rpc: RpcClient, address: str, block: int | str = "latest") -> int:
@@ -79,7 +81,7 @@ def _two_reads(
                 historical=True,
             )
             reads[url] = str(int(out, 16))
-        except Exception as exc:  # recorded, never turned into a zero
+        except Exception as exc:  # a failed read is recorded as an error string, not a zero
             reads[url] = f"error: {type(exc).__name__}: {str(exc)[:160]}"
         if sum(not v.startswith("error") for v in reads.values()) == 2:
             break
@@ -98,16 +100,14 @@ def read_chain(
     """Cutoff blocks (both conventions) and raw totalSupply of every token at each one.
 
     Two archive endpoints are read when available and must agree. A failed or disputed read
-    is recorded as an error, never as a zero. A token whose contract did not exist yet at
+    is recorded as an error, not as a zero. A token whose contract did not exist yet at
     the cutoff block gets status not_created, with its creation block as evidence.
 
     `live` reads totalSupply from the network again instead of the disk cache. Cutoff blocks
-    may still come from the cache: a block number at a past instant never changes."""
-    from cierre.cutoffs import CONVENTIONS, cutoff_block
-
+    may still come from the cache: a block number at a past instant does not change."""
     key = chain.key
     rpc = RpcClient(chain, cache)
-    history = rpc.qualify_history(tokens["wARS"].address)
+    history = rpc.qualify_history(tokens[HISTORY_PROBE_SYMBOL].address)
     good = [ep.url for ep in rpc.endpoints if ep.history_ok]
     blocks, rows = [], []
     for day in days:

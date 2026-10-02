@@ -12,7 +12,7 @@
 - unclassified: anything else. Nothing is guessed.
 
 Each event is used for one movement only, so a transaction with several movements cannot
-classify two of them with the same event. Classification never changes the reconciliation,
+classify two of them with the same event. Classification does not change the reconciliation,
 which counts every movement that changes supply.
 """
 
@@ -29,7 +29,6 @@ from cierre.cache import DiskCache
 from cierre.config import Chain
 from cierre.rpc import RpcClient
 
-CATEGORIES = ("primary", "redemption", "bridge_in", "bridge_out", "unclassified")
 MINTER_ROLE = "0x" + keccak256(b"MINTER_ROLE").hex()
 SEL_HAS_ROLE = selector("hasRole(bytes32,address)")
 

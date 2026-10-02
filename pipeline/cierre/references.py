@@ -2,7 +2,7 @@
 
 The output is a draft. A person confirms it before it is frozen in
 data/golden/certifications.json, and nothing is compared against an unconfirmed figure.
-Personal names in the certificates are never extracted.
+Personal names in the certificates are not extracted.
 """
 
 from __future__ import annotations
@@ -13,20 +13,10 @@ from decimal import Decimal
 from pathlib import Path
 
 import httpx
+import yaml
 from pypdf import PdfReader
 
-from cierre import CACHE_DIR
-
-BASE = "https://action.ripio.com/hubfs/2026/wFIAT/ATTESTATION"
-SOURCES: list[tuple[str, str, str]] = [
-    ("wARS", "2026-03-31", f"{BASE}/20260331_wARS_Certification.pdf"),
-    ("wBRL", "2026-03-31", f"{BASE}/20260331__wBRL__Token-Certification.pdf"),
-    ("wCOP", "2026-03-31", f"{BASE}/20260331__wCOP__Token-Certification.pdf"),
-    ("wMXN", "2026-03-31", f"{BASE}/20260331__wMXN__Token-Certification.pdf"),
-] + [
-    (t, "2026-06-30", f"{BASE}/Aug%202026/Token%20{t}%2006.30.2026%20Certification%20vf.pdf")
-    for t in ("wARS", "wBRL", "wMXN", "wCOP", "wCLP")
-]
+from cierre import CACHE_DIR, CONFIG_DIR
 
 _FIGURE = re.compile(
     r"number of w\s?([A-Z]{3}) tokens issued as of (\d\d\.\d\d\.\d{4}),\s*"
@@ -86,6 +76,12 @@ def parse_printed_number(s: str) -> ParsedNumber:
     return ParsedNumber(s, str(value), decimals, thou, dec, ambiguous)
 
 
+def load_sources(path: Path | None = None) -> list[tuple[str, str, str]]:
+    """(token, cutoff, url) of every published certificate, from config/certificates.yaml."""
+    raw = yaml.safe_load((path or CONFIG_DIR / "certificates.yaml").read_text(encoding="utf-8"))
+    return [(c["token"], c["cutoff"], c["url"]) for c in raw["certificates"]]
+
+
 def _clean(text: str) -> str:
     text = text.replace("\uf0b7", "•")
     return re.sub(r"[ \t]+", " ", text)
@@ -138,7 +134,7 @@ def extract(token: str, expected_cutoff: str, url: str) -> dict:
             conv
             and conv.decimal_sep
             and not conv.ambiguous
-            and conv.thousands_sep == (number.thousands_sep)
+            and conv.thousands_sep == number.thousands_sep
         ):
             notes.append(
                 f"'{number.printed}' alone is ambiguous. Read as thousands separator because "
@@ -216,4 +212,4 @@ def network_keys(names: list[str]) -> list[str]:
 
 
 def extract_all() -> list[dict]:
-    return [extract(t, c, u) for t, c, u in SOURCES]
+    return [extract(t, c, u) for t, c, u in load_sources()]

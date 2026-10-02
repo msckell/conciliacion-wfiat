@@ -12,9 +12,12 @@ import concurrent.futures as cf
 from datetime import date
 
 from cierre import supply
+from cierre.abi import keccak256
 from cierre.blocks import get_block
 from cierre.cache import DiskCache
+from cierre.classify import classify_movements, load_contracts, mark_redemptions, receipt_client
 from cierre.config import Chain, Token
+from cierre.cutoffs import CONVENTIONS
 from cierre.ledger import Movement, collect_sources_multi
 from cierre.movement_test import compare_sources, reconcile
 from cierre.rpc import RpcClient
@@ -104,7 +107,7 @@ def run_chain(
         dep = tok.on(chain.key)
         creation = dep.creation_block if dep else None
         windows[sym] = {}
-        for conv in ("ART", "UTC"):
+        for conv in CONVENTIONS:
             o = _opening(rows[(sym, prev, conv)], creation)
             c = rows[(sym, cutoff, conv)]
             if isinstance(o, str):
@@ -235,18 +238,10 @@ def classify_all(
 ) -> dict:
     """Receipts for every movement, then the classification. A listed contract whose code
     hash changed is dropped for that network, so its events classify nothing."""
-    from cierre.abi import keccak256
-    from cierre.classify import (
-        classify_movements,
-        load_contracts,
-        mark_redemptions,
-        receipt_client,
-    )
-
     known = load_contracts()
     report: dict = {"contracts_checked": [], "contracts_dropped": []}
     usable = []
-    for chain_key in {k.chain for k in known}:
+    for chain_key in dict.fromkeys(k.chain for k in known):
         if chain_key not in chains:
             continue
         rpc = RpcClient(chains[chain_key], cache)
@@ -278,7 +273,7 @@ def classify_all(
             rpc.close()
         state = RpcClient(chains[c["chain"]], cache)
         try:
-            state.qualify_history(tokens["wARS"].address)
+            state.qualify_history(tokens[supply.HISTORY_PROBE_SYMBOL].address)
             for t in c["tokens"].values():
                 mark_redemptions(t.get("movements", []), state, usable, c["chain"])
         finally:
