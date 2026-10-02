@@ -185,6 +185,8 @@ def run_chain(
             f"complete={res['sources_complete']} "
             + " ".join(f"{n.split(':')[0]}:diff={r['difference']}" for n, r in first.items())
         )
+    for name, err in failed.items():
+        log(f"{chain.key:10} source failed {name}: {err}")
     return out
 
 
