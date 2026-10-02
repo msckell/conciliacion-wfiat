@@ -1,9 +1,8 @@
-"""Phase 0 movement history test: can the free sources build the package?
+"""Movement history check: opening supply + every mint - every burn == closing supply.
 
-For one token on one network: opening supply + every mint - every burn must equal the
-closing supply, exactly, in base units. Supplies come from totalSupply() on archive nodes
-(path A). Mints and burns come from logs (path B). When two log sources exist, they must
-also agree with each other, event by event.
+Exact, in base units, for one token on one network. Supplies come from totalSupply() on
+archive nodes, mints and burns from logs. When two log sources exist, they must also agree
+with each other, event by event.
 """
 
 from __future__ import annotations
@@ -26,6 +25,7 @@ def collect_sources(
 
 
 def compare_sources(sources: dict[str, list[Movement]]) -> dict:
+    """Do all log sources hold the same movements? Differences are listed against the first."""
     keys = {name: {(m.key, m.kind, m.amount) for m in ms} for name, ms in sources.items()}
     names = list(keys)
     if len(names) < 2:
@@ -42,6 +42,7 @@ def compare_sources(sources: dict[str, list[Movement]]) -> dict:
 
 
 def reconcile(opening: int, closing: int, movements: list[Movement], lo: int, hi: int) -> dict:
+    """Reconcile `closing` against `opening` plus the movements in blocks [lo, hi]."""
     inside = [m for m in movements if lo <= m.block <= hi]
     mints = sum(m.amount for m in inside if m.kind == "mint")
     burns = sum(m.amount for m in inside if m.kind == "burn")

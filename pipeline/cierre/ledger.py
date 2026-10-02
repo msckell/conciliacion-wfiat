@@ -2,7 +2,6 @@
 
 Two independent sources: chunked eth_getLogs on RPC, and an explorer logs API. Callers pass
 only final block ranges (cutoff blocks are at least 24 h old), so results are cached forever.
-Classification (primary issuance, bridge, unclassified) is added in Phase 1.
 """
 
 from __future__ import annotations
@@ -16,8 +15,7 @@ from cierre import REPO_ROOT
 from cierre.cache import DiskCache
 from cierre.config import Chain, Token
 from cierre.explorer import ExplorerClient, ExplorerError
-from cierre.rpc import _INVALID_RANGE_PATTERNS as _INVALID_RANGE
-from cierre.rpc import RangeTooLarge, RpcClient, RpcError
+from cierre.rpc import INVALID_RANGE_PATTERNS, RangeTooLarge, RpcClient, RpcError
 
 TRANSFER_TOPIC = "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
 ZERO_TOPIC = "0x" + "0" * 64
@@ -87,23 +85,18 @@ class RpcLogFetcher:
         self.rpc = rpc
         self.grid = grid
         self.workers_per_endpoint = workers_per_endpoint
-        self.calls = 0
 
     def _cell(self, flt: dict, lo: int, hi: int, pin: str | None = None) -> list[dict]:
         params = [flt | {"fromBlock": hex(lo), "toBlock": hex(hi)}]
         try:
-            self.calls += 1
             out = self.rpc.call("eth_getLogs", params, cache=True, only_url=pin)
-        except RangeTooLarge:
-            if lo == hi:
-                raise
-            mid = (lo + hi) // 2
-            return self._cell(flt, lo, mid, pin) + self._cell(flt, mid + 1, hi, pin)
         except RpcError as exc:
-            # An endpoint answered "invalid block range". Seen on HyperEVM (2026-10-01):
-            # newer blocks fail at 1000 and pass at 500, so this is a size limit there.
-            # A real gap fails down to one block and raises.
-            if lo == hi or not any(_INVALID_RANGE.search(e) for e in exc.errors):
+            # HyperEVM answers "invalid block range" for newer blocks at 1000 and passes at
+            # 500, so it is a size limit there. A real gap fails down to one block and raises.
+            too_large = isinstance(exc, RangeTooLarge) or any(
+                INVALID_RANGE_PATTERNS.search(e) for e in exc.errors
+            )
+            if lo == hi or not too_large:
                 raise
             mid = (lo + hi) // 2
             return self._cell(flt, lo, mid, pin) + self._cell(flt, mid + 1, hi, pin)
@@ -233,8 +226,8 @@ def collect_sources_multi(
 ) -> dict[str, list[Movement]]:
     """Every available log source for mints and burns of `tokens` in [lo, hi]. RPC sources
     ask for every token in one scan. A source that fails is recorded in `failed` and left
-    out, it never counts as "no movements". An explorer source counts only if it answered
-    for every token."""
+    out: a failure is not "no movements". An explorer source counts only if it answered for
+    every token."""
     sources: dict[str, list[Movement]] = {}
     if chain.logs_rpc_urls:
         name = "rpc:" + ",".join(u.split("//")[1] for u in chain.logs_rpc_urls)
@@ -252,7 +245,8 @@ def collect_sources_multi(
             )
         except RpcError as exc:
             failed[name] = str(exc)[:300]
-        rpc.close()
+        finally:
+            rpc.close()
     for api in chain.explorer_api:
         if api.kind == "etherscan" and not os.environ.get("ETHERSCAN_API_KEY"):
             continue
@@ -265,21 +259,8 @@ def collect_sources_multi(
             failed[ex.label] = str(exc)[:300]
     if chain.logs_bscscan_list:
         rpc = RpcClient(chain, cache)
-        sources["bscscan list + RPC receipts"] = _bscscan_movements(rpc, chain, tokens, lo, hi)
-        rpc.close()
+        try:
+            sources["bscscan list + RPC receipts"] = _bscscan_movements(rpc, chain, tokens, lo, hi)
+        finally:
+            rpc.close()
     return sources
-
-
-def net(movements: list[Movement], address: str) -> int:
-    a = address.lower()
-    return sum(m.signed for m in movements if m.token_address == a)
-
-
-__all__ = [
-    "DiskCache",
-    "Movement",
-    "collect_sources_multi",
-    "mints_and_burns_explorer",
-    "mints_and_burns_rpc",
-    "net",
-]

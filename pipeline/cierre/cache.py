@@ -1,6 +1,6 @@
-"""Disk cache for responses that can never change (historical blocks, finished log ranges).
+"""Disk cache for responses that cannot change (historical blocks, finished log ranges).
 
-Only immutable answers go in here. Callers decide what is immutable, never the cache.
+Only immutable answers go in here. Callers decide what is immutable, not the cache.
 """
 
 from __future__ import annotations

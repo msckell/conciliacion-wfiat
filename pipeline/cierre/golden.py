@@ -1,14 +1,14 @@
 """Computed vs certified, in three separate layers.
 
 1. raw sum: totalSupply() summed over the networks checked, in base units
-2. adjustments: each documented adjustment, with its source (none documented so far)
+2. adjustments: each documented adjustment, with its source (none apply)
 3. computed: raw sum + adjustments, shown next to the certified figure
 
 One rule for every certificate: same networks rule, same time convention, same precision
 rule. Only figures confirmed by a person (data/golden/certifications.json) are compared.
 
-The official rule compares both sides in whole tokens (OFFICIAL_RULE). The grid still
-records every other rule, so the choice stays visible.
+OFFICIAL_RULE compares both sides in whole tokens. The grid also records the other rules,
+so the choice stays visible.
 """
 
 from __future__ import annotations
@@ -21,7 +21,11 @@ from cierre import DATA_DIR
 
 GOLDEN_PATH = DATA_DIR / "golden" / "certifications.json"
 
-# Documented adjustments only. Each entry needs an external source. Empty on purpose.
+# Every wFIAT token has 18 decimals (config/tokens.yaml).
+WFIAT_DECIMALS = 18
+
+# Documented adjustments only, each with an external source. None apply: an exclusion that
+# only improves the match is not evidence.
 ADJUSTMENTS: list[dict] = []
 
 PRECISION_RULES = {"round_half_up": ROUND_HALF_UP, "truncate": ROUND_DOWN}
@@ -59,7 +63,7 @@ def compare(
     networks_rule: str,
     precision_rule: str,
     places_rule: str = "printed",
-    decimals: int = 18,
+    decimals: int = WFIAT_DECIMALS,
 ) -> list[dict]:
     """networks_rule: 'all_checked' sums every network checked where the token exists.
     'listed_in_certificate' sums only the networks the certificate names."""

@@ -1,6 +1,6 @@
 """JSON-RPC client: several endpoints per chain, retries, rate limit, disk cache.
 
-A failed query raises. It never turns into a default value such as zero or an empty list.
+A failed query raises instead of returning a default such as zero or an empty list.
 """
 
 from __future__ import annotations
@@ -17,6 +17,11 @@ from cierre.cache import DiskCache
 from cierre.config import Chain
 
 USER_AGENT = "cierre-wfiat-demo/0.1 (+https://github.com/msckell)"
+
+
+def block_tag(block: int | str) -> str:
+    """JSON-RPC block parameter: a number becomes hex, a tag such as "latest" is kept."""
+    return hex(block) if isinstance(block, int) else block
 
 
 class RpcError(Exception):
@@ -49,9 +54,10 @@ _RANGE_PATTERNS = re.compile(
     r"ranges? over|-32005|-32012|log response size|too large|exceeds the range",
     re.IGNORECASE,
 )
-# The node does not have that range (a gap or a lagging backend). Not a size problem, so
-# the range is not split: another endpoint is asked instead.
-_INVALID_RANGE_PATTERNS = re.compile(r"invalid block range", re.IGNORECASE)
+# "invalid block range" can mean a gap in the node's data, a lagging backend or a size limit
+# (HyperEVM). It is not reported as RangeTooLarge: the endpoint counts as failed and
+# RpcLogFetcher decides whether to split the range.
+INVALID_RANGE_PATTERNS = re.compile(r"invalid block range", re.IGNORECASE)
 _RATE_PATTERNS = re.compile(
     r"rate.?limit|too many requests|throttl|capacity|request timeout|timed out|temporarily",
     re.IGNORECASE,
@@ -120,7 +126,7 @@ class RpcClient:
         require_result: a null result (for example a receipt a pruned node no longer has)
             moves on to the next endpoint instead of being returned.
         cache_per_url: with only_url, keep a separate cache entry per endpoint, so a check
-            that compares two endpoints never reads one endpoint's answer for the other.
+            that compares two endpoints cannot read one endpoint's answer for the other.
         """
         key = DiskCache.key(self.chain.chain_id, method, params)
         if cache_per_url:
@@ -157,7 +163,7 @@ class RpcClient:
             if result is None and require_result:
                 errors.append(f"{ep.url}: null result")
                 continue
-            # "0x" can mean "no contract" or a lagging node, so it is never cached.
+            # "0x" can mean "no contract" or a lagging node, so it is not cached.
             if cache and self.cache is not None and result not in (None, "0x"):
                 self.cache.put(key, result)
             self.last_url = ep.url
@@ -205,6 +211,8 @@ class RpcClient:
     def _try_endpoint(
         self, ep: _Endpoint, method: str, params: list[Any], errors: list[str]
     ) -> str | tuple[str, Any]:
+        """Ask one endpoint, with retries. Returns ("ok", result), or "range", "state" or
+        "failed" after recording the errors."""
         for attempt in range(self.retries):
             ep.wait_turn()
             self._id += 1
@@ -238,7 +246,7 @@ class RpcClient:
                 if _RATE_PATTERNS.search(msg) or err.get("code") == 429:
                     time.sleep(2.0 * (attempt + 1))
                     continue
-                if _INVALID_RANGE_PATTERNS.search(msg):
+                if INVALID_RANGE_PATTERNS.search(msg):
                     return "failed"
                 if method == "eth_getLogs" and _RANGE_PATTERNS.search(msg):
                     return "range"

@@ -1,4 +1,4 @@
-"""Odd answers from public nodes count as a failed endpoint, never as a crash."""
+"""Odd answers from public nodes count as a failed endpoint, not as a crash."""
 
 import httpx
 
