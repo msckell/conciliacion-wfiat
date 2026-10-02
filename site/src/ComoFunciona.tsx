@@ -57,7 +57,7 @@ function Diagram() {
       <div className="mt-5 grid gap-2 border-t border-white/15 pt-4 text-sm text-on-navy sm:grid-cols-2">
         <p className="flex items-start gap-2">
           <KindChip kind="code" />
-          <span>Siempre da el mismo resultado. Calcula y escribe cada cifra.</span>
+          <span>Con los mismos datos, siempre da el mismo resultado. Calcula y escribe cada cifra.</span>
         </p>
         <p className="flex items-start gap-2">
           <KindChip kind="ai" />
