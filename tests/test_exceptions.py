@@ -2,6 +2,9 @@
 
 from types import SimpleNamespace
 
+import pytest
+
+from cierre.abi import BridgeIn
 from cierre.agent.exceptions import investigate, verify
 from cierre.agent.llm import Reply
 
@@ -13,15 +16,19 @@ ZERO = "0x" + "0" * 40
 
 class FakeTools:
     def __init__(self, role=True, refund_amount="10"):
-        self.chains = {"arc": SimpleNamespace(chain_id=5042)}
+        self.chains = {
+            "arc": SimpleNamespace(chain_id=5042),
+            "ethereum": SimpleNamespace(chain_id=1),
+        }
         self.by_symbol = {"wARS": TOKEN}
         self.known = []
         self.role = role
         self.refund_amount = refund_amount
-        self.calls = []
+
+    def receipt(self, chain, tx_hash):
+        return {"logs": [{}]}
 
     def get_transaction(self, chain, tx_hash):
-        self.calls.append(("get_transaction", tx_hash))
         if tx_hash == "0xrefund":
             log = {
                 "event": "Transfer",
@@ -74,6 +81,44 @@ def test_refund_needs_same_amount_same_account_and_later_block():
     assert verify(p, BURN, FakeTools(refund_amount="9"))[0] is False
 
 
+def _fulfillment(**changes) -> BridgeIn:
+    """The destination mint that answers BURN, with some fields changed."""
+    fields = {
+        "emitter": "0x" + "b0" * 20,
+        "token": TOKEN,
+        "to": USER,
+        "amount": 10,
+        "source_chain_id": 5042,
+        "source_tx_hash": "0xburn",
+        "source_deposit_id": 1,
+    }
+    return BridgeIn(**(fields | changes))
+
+
+@pytest.mark.parametrize(
+    "changes, accepted",
+    [
+        ({}, True),
+        ({"amount": 9}, False),
+        ({"source_deposit_id": 2}, False),
+        ({"source_tx_hash": "0xother"}, False),
+        ({"source_chain_id": 1}, False),
+    ],
+)
+def test_late_fulfillment_needs_the_same_deposit_hash_chain_and_amount(
+    monkeypatch, changes, accepted
+):
+    monkeypatch.setattr("cierre.agent.exceptions.decode", lambda lg: _fulfillment(**changes))
+    p = {"kind": "bridge_late_fulfillment", "dest_chain": "ethereum", "dest_tx": "0xdest"}
+    assert verify(p, BURN, FakeTools())[0] is accepted
+
+
+def test_late_fulfillment_needs_the_destination_of_the_deposit_and_a_bridge_out():
+    p = {"kind": "bridge_late_fulfillment", "dest_chain": "arc", "dest_tx": "0xdest"}
+    assert verify(p, BURN, FakeTools())[0] is False
+    assert verify(p | {"dest_chain": "ethereum"}, MINT, FakeTools())[0] is False
+
+
 def test_loop_calls_a_tool_then_proposes_and_logs_each_step():
     replies = [
         {
@@ -96,12 +141,13 @@ def test_loop_calls_a_tool_then_proposes_and_logs_each_step():
 
     def ask(system, prompt, schema):
         seen.append(prompt)
-        return Reply(replies[len(seen) - 1], "fake", 0.0, None)
+        return Reply(replies[len(seen) - 1], "fake", 0.0)
 
     tools = FakeTools()
     res = investigate(MINT, "sin clasificar", tools, ask, logged.append)
     assert (res["outcome"], res["kind"], res["steps"]) == ("resolved", "primary_by_minter", 2)
     assert "Resultado" in seen[1] and len(logged) == 2
+    assert "Redes válidas: arc (chain id 5042), ethereum (chain id 1).\nTokens: wARS." in seen[0]
 
 
 def test_needs_person_becomes_a_task():
@@ -114,7 +160,6 @@ def test_needs_person_becomes_a_task():
             },
             "fake",
             0.0,
-            None,
         )
 
     res = investigate(MINT, "sin clasificar", FakeTools(), ask, lambda e: None)

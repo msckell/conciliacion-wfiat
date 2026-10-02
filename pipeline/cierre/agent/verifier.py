@@ -1,6 +1,6 @@
 """Checks an LLM explanation before any of it reaches Finance.
 
-The LLM never types a figure. It cites facts by ID, like {wARS.outstanding.2026-09-30},
+The LLM does not type figures. It cites facts by ID, like {wARS.outstanding.2026-09-30},
 and code replaces each ID with the formatted value. This module rejects:
 
 - raw_figure: any digit, or a number written in words, outside a fact ID
@@ -9,7 +9,7 @@ and code replaces each ID with the formatted value. This module rejects:
 - wrong_period: a fact ID of this token but a period outside this close
 - banned_claim: words that state a conclusion only the templates may state
   (reconciliation, coverage, audit, "todas las redes")
-- style: dashes or semicolons, which prose in Maxi's name does not use
+- style: dashes or semicolons, which the house style for Spanish copy does not use
 """
 
 from __future__ import annotations
@@ -40,6 +40,8 @@ BANNED = {
     "correcto": r"\bcorrect\w*",
 }
 
+DASH_OR_SEMICOLON = re.compile(r";|\s[-–—]\s|[–—]")
+
 
 @dataclass(frozen=True)
 class Problem:
@@ -53,9 +55,25 @@ def _plain(text: str) -> str:
     return "".join(c for c in norm if not unicodedata.combining(c))
 
 
+def _style_problems(rest: str, digits_detail: str) -> list[Problem]:
+    """Figures, banned claims and style, over text already stripped of fact IDs."""
+    problems: list[Problem] = []
+    if re.search(r"\d", rest):
+        problems.append(Problem("raw_figure", digits_detail))
+    elif word := NUMBER_WORDS.search(rest):
+        problems.append(
+            Problem("raw_figure", f"hay un número escrito en palabras: '{word.group(0)}'")
+        )
+    for label, pattern in BANNED.items():
+        if re.search(pattern, rest):
+            problems.append(Problem("banned_claim", f"no podés afirmar '{label}'"))
+    if DASH_OR_SEMICOLON.search(rest):
+        problems.append(Problem("style", "no uses guiones ni punto y coma"))
+    return problems
+
+
 def check(text: str, token: str, facts: dict[str, str], periods: set[str]) -> list[Problem]:
-    """facts: every fact ID of this close (all tokens) to its formatted value.
-    periods: the periods this close may cite."""
+    """facts: fact ID to formatted value. periods: the periods this close may cite."""
     problems: list[Problem] = []
     for m in FACT_ID.finditer(text):
         fid = f"{m.group(1)}.{m.group(2)}.{m.group(3)}"
@@ -66,16 +84,7 @@ def check(text: str, token: str, facts: dict[str, str], periods: set[str]) -> li
         elif fid not in facts:
             problems.append(Problem("unknown_fact", f"{{{fid}}} no existe"))
     rest = _plain(FACT_ID.sub(" ", text))
-    if re.search(r"\d", rest):
-        problems.append(Problem("raw_figure", "hay números escritos fuera de un ID de dato"))
-    elif NUMBER_WORDS.search(rest):
-        word = NUMBER_WORDS.search(rest).group(0)
-        problems.append(Problem("raw_figure", f"hay un número escrito en palabras: '{word}'"))
-    for label, pattern in BANNED.items():
-        if re.search(pattern, rest):
-            problems.append(Problem("banned_claim", f"no podés afirmar '{label}'"))
-    if ";" in rest or re.search(r"\s[-–—]\s|[–—]", rest):
-        problems.append(Problem("style", "no uses guiones ni punto y coma"))
+    problems += _style_problems(rest, "hay números escritos fuera de un ID de dato")
     if "{" in rest or "}" in rest:
         problems.append(Problem("unknown_fact", "hay una llave suelta que no es un ID válido"))
     return problems
@@ -100,19 +109,6 @@ def check_free_text(text: str) -> list[Problem]:
     """For texts without fact IDs, such as the exception agent's summary: no figures and
     no banned claims, but addresses and hashes may be quoted."""
     rest = _plain(IDENTIFIER.sub(" ", text))
-    problems: list[Problem] = []
-    if re.search(r"\d", rest):
-        problems.append(
-            Problem(
-                "raw_figure", "hay números (montos, bloques o ids) fuera de una dirección o hash"
-            )
-        )
-    elif NUMBER_WORDS.search(rest):
-        word = NUMBER_WORDS.search(rest).group(0)
-        problems.append(Problem("raw_figure", f"hay un número escrito en palabras: '{word}'"))
-    for label, pattern in BANNED.items():
-        if re.search(pattern, rest):
-            problems.append(Problem("banned_claim", f"no podés afirmar '{label}'"))
-    if ";" in rest or re.search(r"\s[-–—]\s|[–—]", rest):
-        problems.append(Problem("style", "no uses guiones ni punto y coma"))
-    return problems
+    return _style_problems(
+        rest, "hay números (montos, bloques o ids) fuera de una dirección o hash"
+    )
