@@ -107,23 +107,15 @@ export function Alert({ className = 'h-4 w-4' }: { className?: string }) {
 }
 
 // Token icons live in src/assets/tokens/<symbol>.svg|png and are picked up at build time.
-const TOKEN_ICONS = import.meta.glob<string>('./assets/tokens/*.{svg,png,webp}', {
-  eager: true,
-  query: '?url',
-  import: 'default',
-})
-
-function tokenIcon(symbol: string): string | undefined {
-  const key = symbol.toLowerCase()
-  for (const [path, url] of Object.entries(TOKEN_ICONS)) {
-    if (path.split('/').pop()?.split('.')[0] === key) return url
-  }
-  return undefined
-}
+const TOKEN_ICONS: Record<string, string | undefined> = Object.fromEntries(
+  Object.entries(
+    import.meta.glob<string>('./assets/tokens/*.{svg,png,webp}', { eager: true, query: '?url', import: 'default' }),
+  ).map(([path, url]) => [path.split('/').pop()!.split('.')[0], url]),
+)
 
 export function TokenIcon({ symbol, size = 'md' }: { symbol: string; size?: 'sm' | 'md' }) {
   const box = size === 'sm' ? 'h-5 w-5 text-[7px]' : 'h-9 w-9 text-[10px]'
-  const url = tokenIcon(symbol)
+  const url = TOKEN_ICONS[symbol.toLowerCase()]
   if (url) return <img src={url} alt="" className={`${box} shrink-0 rounded-full object-contain ring-1 ring-line`} />
   // Monogram until the icon file exists: the currency code without the leading "w".
   return (
