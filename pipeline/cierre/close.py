@@ -22,6 +22,16 @@ from cierre.rpc import RpcClient
 QUARTER_ENDS = ((3, 31), (6, 30), (9, 30), (12, 31))
 
 
+def last_quarter_end(today: date) -> str:
+    """The most recent quarter end strictly before `today` (the scheduled close runs the
+    day after)."""
+    for year in (today.year, today.year - 1):
+        for m, dd in reversed(QUARTER_ENDS):
+            if date(year, m, dd) < today:
+                return date(year, m, dd).isoformat()
+    raise AssertionError("unreachable")
+
+
 def previous_quarter_end(day: str) -> str:
     d = date.fromisoformat(day)
     if (d.month, d.day) not in QUARTER_ENDS:

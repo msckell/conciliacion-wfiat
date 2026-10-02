@@ -26,12 +26,13 @@ def _section(text: str) -> dict:
     return {"type": "section", "text": {"type": "mrkdwn", "text": text}}
 
 
-def task_line(r: dict, chain_names: dict[str, str]) -> str:
+def task_line(r: dict, chain_names: dict[str, str], issue_url: str | None = None) -> str:
     amount = fmt(units(r["amount"], 18))
     kind = "emisión" if r["kind"] == "mint" else "quema"
+    issue = f" · <{issue_url}|tarea>" if issue_url else ""
     return (
         f"• {chain_names[r['chain']]}, {kind} de {amount} {r['token']}: {r['reason']} "
-        f"<{r['explorer_url']}|ver transacción>"
+        f"<{r['explorer_url']}|ver transacción>{issue}"
     )
 
 
@@ -42,8 +43,14 @@ def close_message(
     verification: dict,
     excel_url: str,
     chain_names: dict[str, str],
+    tasks: dict | None = None,
 ) -> dict:
+    """`tasks` is the output of tasks.open_issues: each task line links its issue."""
     cut = _d(pkg["cutoff"])
+    issue_urls = {
+        (i["chain"], i["tx_hash"], i["log_index"]): i["url"]
+        for i in (tasks or {}).get("issues", [])
+    }
     lines = [f"• *{t['headline']}*. {t['status']}" for t in memo["tokens"].values()]
     blocks = [
         {"type": "header", "text": {"type": "plain_text", "text": f"Cierre wFIAT al {cut}"}},
@@ -63,13 +70,17 @@ def close_message(
     if alerts:
         blocks.append(_section("\n".join(alerts)))
     if exceptions:
-        tasks = [r for r in exceptions["results"] if r["outcome"] == "task"]
+        pending = [r for r in exceptions["results"] if r["outcome"] == "task"]
         head = (
-            f"*Qué te toca revisar* ({len(tasks)})\n"
+            f"*Qué te toca revisar* ({len(pending)})\n"
             f"El agente investigó {exceptions['investigated']} movimientos, resolvió "
             f"{exceptions['resolved']} con evidencia y te deja estos:"
         )
-        body = "\n".join(task_line(r, chain_names) for r in tasks) or "Nada pendiente."
+        body = "\n".join(
+            task_line(r, chain_names, issue_urls.get((r["chain"], r["tx_hash"], r["log_index"])))
+            for r in pending
+        )
+        body = body or "Nada pendiente."
         blocks.append(_section(head + "\n" + body))
     blocks.append(
         _section(
@@ -94,12 +105,37 @@ def close_message(
     return {"text": f"Cierre wFIAT al {cut} listo para revisión", "blocks": blocks}
 
 
-def alert_message(step: str, error: str) -> dict:
-    text = f":rotating_light: El cierre se detuvo en el paso *{step}*. No hay paquete publicado."
+PACKAGE_STATE = {
+    "none": " No hay paquete publicado.",
+    "pushed": " El paquete se subió al repo, pero el sitio no lo sirvió a tiempo. "
+    "No se avisó a Finanzas.",
+    "published": " El paquete quedó publicado, pero el aviso no se completó. Revisá la corrida.",
+}
+
+
+def alert_message(step: str, error: str, what: str = "El cierre", package: str = "none") -> dict:
+    """An alert never carries the Excel link (decision 12)."""
+    text = f":rotating_light: {what} se detuvo en el paso *{step}*."
+    if what == "El cierre":
+        text += PACKAGE_STATE[package]
     return {
-        "text": f"Cierre wFIAT detenido en {step}",
+        "text": f"{what} wFIAT detenido en {step}",
         "blocks": [_section(text), _section(f"```{error[:500]}```")],
     }
+
+
+def monitor_message(changes: list[str], problems: list[str], networks: int) -> dict:
+    """Daily monitor: sent only when something changed or a check failed."""
+    blocks = [{"type": "header", "text": {"type": "plain_text", "text": "Monitor diario wFIAT"}}]
+    if problems:
+        lines = "\n".join(f"• {p}" for p in problems)
+        blocks.append(_section(f":rotating_light: *Falló un chequeo*\n{lines}"))
+    if changes:
+        lines = "\n".join(f"• {c}" for c in changes)
+        blocks.append(_section(f"*Qué cambió*\n{lines}"))
+    blocks.append(_section(f"Redes revisadas: {networks}."))
+    title = "Monitor wFIAT: falló un chequeo" if problems else "Monitor wFIAT: hay cambios"
+    return {"text": title, "blocks": blocks}
 
 
 def send(payload: dict, dry_run_path: Path) -> str:

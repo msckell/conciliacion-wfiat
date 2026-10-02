@@ -8,6 +8,7 @@ el agente" from the last close run, so a step only says what its counts prove.
 from __future__ import annotations
 
 import json
+import os
 import time
 from contextlib import contextmanager
 from datetime import UTC, datetime
@@ -27,6 +28,8 @@ class Run:
             "id": datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ") + f"-{kind}",
             "kind": kind,
             "params": params,
+            # schedule, workflow_dispatch or push in GitHub Actions, local otherwise
+            "trigger": os.environ.get("GITHUB_EVENT_NAME", "local"),
             "started_at": _now(),
             "steps": [],
         }

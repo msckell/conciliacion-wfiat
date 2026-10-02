@@ -1231,29 +1231,57 @@
   },
   "runs": [
     {
+      "kind": "monitor",
+      "trigger": "local",
+      "started_at": "01/10/2026 23:43",
+      "duration": "1 minuto",
+      "status": "ok"
+    },
+    {
       "kind": "close",
+      "trigger": "local",
       "started_at": "01/10/2026 22:57",
       "duration": "14 minutos",
       "status": "ok"
     },
     {
       "kind": "close",
+      "trigger": "local",
       "started_at": "01/10/2026 22:26",
       "duration": "10 minutos",
       "status": "ok"
     },
     {
       "kind": "close",
+      "trigger": "local",
       "started_at": "01/10/2026 22:23",
       "duration": "2 minutos",
       "status": "failed"
     },
     {
       "kind": "close",
+      "trigger": "local",
       "started_at": "01/10/2026 18:55",
       "duration": "10 minutos",
       "status": "ok"
     }
   ],
-  "monitor": null
+  "production": {
+    "schedule": {
+      "monitor": "Todos los días a las 09:00 de Buenos Aires",
+      "close": "El 1 de enero, abril, julio y octubre a las 09:00 de Buenos Aires, el día siguiente a cada fin de trimestre"
+    },
+    "ci": null,
+    "monitor": {
+      "last_run_at_iso": "2026-10-02T02:43:21+00:00",
+      "last_run_status": "ok",
+      "last_ok_at_iso": "2026-10-02T02:43:21+00:00",
+      "networks_checked": 24,
+      "golden_live_all_match": true,
+      "golden_live_total": 9,
+      "changes": [],
+      "problems": []
+    },
+    "slack_live": false
+  }
 }

@@ -61,9 +61,12 @@ def symbol(rpc: RpcClient, address: str, block: int | str = "latest") -> str:
     return _decode_string(_call(rpc, address, SEL_SYMBOL, block))
 
 
-def _two_reads(rpc: RpcClient, urls: list[str], address: str, block: int) -> dict[str, str]:
+def _two_reads(
+    rpc: RpcClient, urls: list[str], address: str, block: int, live: bool = False
+) -> dict[str, str]:
     """totalSupply from up to two archive endpoints, moving on when one fails. Each answer
-    is cached per endpoint, so the comparison stays between two independent reads."""
+    is cached per endpoint, so the comparison stays between two independent reads. With
+    `live`, the cache is skipped and both endpoints are asked again."""
     reads: dict[str, str] = {}
     for url in urls:
         try:
@@ -71,7 +74,7 @@ def _two_reads(rpc: RpcClient, urls: list[str], address: str, block: int) -> dic
                 "eth_call",
                 [{"to": address, "data": SEL_TOTAL_SUPPLY}, hex(block)],
                 only_url=url,
-                cache=True,
+                cache=not live,
                 cache_per_url=True,
                 historical=True,
             )
@@ -84,13 +87,22 @@ def _two_reads(rpc: RpcClient, urls: list[str], address: str, block: int) -> dic
 
 
 def read_chain(
-    chain: Chain, tokens: dict[str, Token], days: list[str], cache: DiskCache, log: bool = False
+    chain: Chain,
+    tokens: dict[str, Token],
+    days: list[str],
+    cache: DiskCache,
+    log: bool = False,
+    conventions: tuple[str, ...] | None = None,
+    live: bool = False,
 ) -> dict:
     """Cutoff blocks (both conventions) and raw totalSupply of every token at each one.
 
     Two archive endpoints are read when available and must agree. A failed or disputed read
     is recorded as an error, never as a zero. A token whose contract did not exist yet at
-    the cutoff block gets status not_created, with its creation block as evidence."""
+    the cutoff block gets status not_created, with its creation block as evidence.
+
+    `live` reads totalSupply from the network again instead of the disk cache. Cutoff blocks
+    may still come from the cache: a block number at a past instant never changes."""
     from cierre.cutoffs import CONVENTIONS, cutoff_block
 
     key = chain.key
@@ -99,7 +111,7 @@ def read_chain(
     good = [ep.url for ep in rpc.endpoints if ep.history_ok]
     blocks, rows = [], []
     for day in days:
-        for conv in CONVENTIONS:
+        for conv in conventions or tuple(CONVENTIONS):
             cb = cutoff_block(rpc, day, conv)
             blocks.append(cb)
             for sym, tok in tokens.items():
@@ -126,7 +138,7 @@ def read_chain(
                         "creation_block": dep.creation_block,
                     }
                 else:
-                    reads = _two_reads(rpc, good, tok.address, cb["block"])
+                    reads = _two_reads(rpc, good, tok.address, cb["block"], live)
                     values = {v for v in reads.values() if not v.startswith("error")}
                     if len(values) == 1:
                         row |= {"status": "ok", "raw": values.pop(), "reads": reads}
