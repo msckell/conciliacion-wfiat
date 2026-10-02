@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { excelHref, networkColor, site, type Token } from './data'
+import { excelHref, isOtherNetwork, networkColor, site, type Token } from './data'
 import { SlackMessage } from './Slack'
 import { Alert, Card, Check, Dot, Ext, Pill, Section, TokenIcon } from './ui'
 
@@ -57,7 +57,11 @@ function Timeline() {
           const done = s.status === 'ok'
           const last = i === t.steps.length - 1
           return (
-            <li key={s.key} className={`relative flex gap-3 last:pb-0 ${open ? 'pb-5' : 'pb-3.5 sm:pb-5'}`}>
+            <li
+              key={s.key}
+              className={`reveal-step relative flex gap-3 last:pb-0 ${open ? 'pb-5' : 'pb-3.5 sm:pb-5'}`}
+              style={{ transitionDelay: `${150 + i * 110}ms` }}
+            >
               {!last && (
                 <span className="absolute left-[11px] top-7 bottom-0 w-px bg-line" aria-hidden />
               )}
@@ -86,14 +90,18 @@ function Timeline() {
 }
 
 function NetworkBar({ token }: { token: Token }) {
+  const ordered = [
+    ...token.by_network.filter((n) => !isOtherNetwork(n.chain)),
+    ...token.by_network.filter((n) => isOtherNetwork(n.chain)),
+  ]
   return (
     <div>
       <div
-        className="flex h-3 w-full overflow-hidden rounded-full bg-paper"
+        className="grow flex h-3 w-full overflow-hidden rounded-full bg-paper"
         role="img"
         aria-label={`Reparto de ${token.symbol} por red`}
       >
-        {token.by_network.map((n) => (
+        {ordered.map((n) => (
           <div
             key={n.chain}
             title={`${n.name}: ${n.amount} (${n.share_pct}%)`}
@@ -103,7 +111,7 @@ function NetworkBar({ token }: { token: Token }) {
         ))}
       </div>
       <details className="group mt-2">
-        <summary className="cursor-pointer list-none text-xs text-ink-3 hover:text-ink-2">
+        <summary className="cursor-pointer list-none text-xs font-medium text-accent">
           <span className="group-open:hidden">Ver por red</span>
           <span className="hidden group-open:inline">Ocultar</span>
         </summary>
@@ -132,21 +140,74 @@ function NetworkBar({ token }: { token: Token }) {
 function Legend() {
   const seen = new Map<string, string>()
   for (const t of close.tokens) for (const n of t.by_network) seen.set(n.chain, n.name)
+  const named = [...seen].filter(([chain]) => !isOtherNetwork(chain))
+  const others = [...seen].filter(([chain]) => isOtherNetwork(chain)).map(([, name]) => name)
+  const swatch = (color: string) => (
+    <span className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: color }} />
+  )
   return (
     <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-ink-2">
-      {[...seen].map(([chain, name]) => (
+      {named.map(([chain, name]) => (
         <span key={chain} className="inline-flex items-center gap-1.5">
-          <span className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: networkColor(chain) }} />
+          {swatch(networkColor(chain))}
           {name}
         </span>
       ))}
+      {others.length > 0 && (
+        <span className="inline-flex items-center gap-1.5">
+          {swatch('var(--color-net-other)')}
+          Otras redes ({others.join(', ')})
+        </span>
+      )}
     </div>
+  )
+}
+
+function NetworksChecked() {
+  const withContracts = new Set(close.networks.map((n) => n.name))
+  const without = close.networks_checked.filter((name) => !withContracts.has(name))
+  return (
+    <Card className="mt-4">
+      <p className="font-medium">Redes revisadas ({close.networks_checked.length})</p>
+      <p className="mt-0.5 text-sm text-ink-2">
+        Con contratos en {close.networks.length} de ellas. Cada una lleva el bloque usado en el corte como prueba.
+      </p>
+      <ul className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3">
+        {close.networks.map((n) => (
+          <li key={n.name} className="rounded-xl border border-line px-3 py-2">
+            <p className="flex items-center gap-1.5 text-sm font-medium">
+              {n.name}
+              {n.is_new && <Pill tone="warn">Nueva</Pill>}
+            </p>
+            <p className="text-xs text-ink-3">
+              Bloque{' '}
+              <Ext href={n.cutoff_block_url}>
+                <span className="num">{n.cutoff_block}</span>
+              </Ext>
+            </p>
+          </li>
+        ))}
+      </ul>
+      {without.length > 0 && (
+        <>
+          <p className="mt-4 text-xs font-medium text-ink-3">Sin contratos de las monedas</p>
+          <ul className="mt-1.5 flex flex-wrap gap-1.5">
+            {without.map((name) => (
+              <li key={name} className="rounded-full bg-paper px-2.5 py-0.5 text-xs text-ink-2">
+                {name}
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+      <p className="mt-3 text-xs text-ink-3">Solo se revisan redes EVM de una lista escrita.</p>
+    </Card>
   )
 }
 
 function TokenCard({ token }: { token: Token }) {
   return (
-    <Card>
+    <Card className="transition duration-200 hover:-translate-y-0.5 hover:shadow-lift">
       <div className="flex items-center justify-between gap-2">
         <div className="flex min-w-0 items-center gap-2.5">
           <TokenIcon symbol={token.symbol} />
@@ -177,7 +238,7 @@ export function Resumen() {
   return (
     <>
       <section className="pt-5 sm:pt-10">
-        <div className="hero-bg overflow-hidden rounded-3xl px-5 pb-5 pt-6 text-white shadow-lift sm:px-10 sm:pb-8 sm:pt-10">
+        <div className="fade-up hero-bg overflow-hidden rounded-3xl px-5 pb-5 pt-6 text-white shadow-lift sm:px-10 sm:pb-8 sm:pt-10">
           <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-on-navy ring-1 ring-white/15">
             <span className="h-1.5 w-1.5 rounded-full bg-[#6ee7a8]" aria-hidden />
             Cierre al {close.cutoff}, listo para revisión
@@ -310,14 +371,7 @@ export function Resumen() {
           </div>
         </Card>
 
-        <div className="mt-4">
-          <p className="text-sm font-medium text-ink-2">Redes revisadas ({close.networks_checked.length})</p>
-          <p className="mt-1 text-sm leading-relaxed text-ink-3">{close.networks_checked.join(' · ')}</p>
-          <p className="mt-1 text-xs text-ink-3">
-            Los contratos existen en {close.networks.length} de ellas. Solo se revisan redes EVM de una lista
-            escrita.
-          </p>
-        </div>
+        <NetworksChecked />
       </Section>
 
       <Section
@@ -352,6 +406,20 @@ export function Resumen() {
                 ? `Este cierre revisó ${vs.transactions} transacciones en ${vs.networks} redes para ${vs.tokens} monedas, en ${vs.duration}, con el link de cada transacción.`
                 : 'Todavía no hay una corrida registrada.'}
             </p>
+            {vs && (
+              <dl className="mt-4 grid grid-cols-3 gap-2 border-t border-line pt-4">
+                {[
+                  [String(vs.transactions), 'transacciones'],
+                  [String(vs.networks), 'redes'],
+                  [vs.duration, 'de corrida'],
+                ].map(([value, label]) => (
+                  <div key={label}>
+                    <dd className="num text-lg font-semibold tracking-tight text-ink sm:text-xl">{value}</dd>
+                    <dt className="text-xs text-ink-3">{label}</dt>
+                  </div>
+                ))}
+              </dl>
+            )}
           </Card>
         </div>
       </Section>

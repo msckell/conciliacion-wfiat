@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { production, site } from './data'
-import { Card, Check, Ext, Pill, Section } from './ui'
+import { Card, Check, Ext, Pill, Section, TokenIcon } from './ui'
 
 const LABEL_TONE: Record<string, 'ok' | 'accent' | 'warn'> = {
   documented: 'ok',
@@ -43,7 +43,7 @@ function Table({ head, children }: { head: string[]; children: ReactNode }) {
         <thead>
           <tr className="border-b border-line text-left text-xs font-medium uppercase tracking-wide text-ink-3">
             {head.map((h, i) => (
-              <th key={h} className={`px-2 py-2 font-medium ${i > 1 ? 'text-right' : ''}`}>
+              <th key={h} className={`px-2 py-2 font-medium ${i > 0 ? 'text-right' : ''}`}>
                 {h}
               </th>
             ))}
@@ -67,7 +67,8 @@ function Verification() {
           <li key={r.token + r.cutoff}>
             <Card className="p-3">
               <div className="flex items-center justify-between gap-2">
-                <span className="font-medium">
+                <span className="flex items-center gap-2 font-medium">
+                  <TokenIcon symbol={r.token} size="sm" />
                   {r.token} <span className="num font-normal text-ink-3">al {r.cutoff}</span>
                 </span>
                 {r.match ? (
@@ -99,11 +100,18 @@ function Verification() {
       </ul>
       <Card className="hidden p-0 sm:block sm:p-0">
         <div className="p-4 sm:p-5">
-          <Table head={['Moneda', 'Corte', 'Suma de contratos', 'Ajustes', 'Calculado', 'Certificado', 'Diferencia', 'Estado']}>
+          <Table head={['Moneda y corte', 'Suma de contratos', 'Ajustes', 'Calculado', 'Certificado', 'Diferencia', 'Estado']}>
             {v.rows.map((r) => (
               <tr key={r.token + r.cutoff} className="border-b border-line last:border-0">
-                <td className="px-2 py-2 font-medium">{r.token}</td>
-                <td className="num px-2 py-2">{r.cutoff}</td>
+                <td className="px-2 py-2">
+                  <span className="flex items-center gap-2">
+                    <TokenIcon symbol={r.token} size="sm" />
+                    <span className="leading-tight">
+                      <span className="block font-medium">{r.token}</span>
+                      <span className="num block text-xs text-ink-3">{r.cutoff}</span>
+                    </span>
+                  </span>
+                </td>
                 <td className="num px-2 py-2 text-right text-ink-2">{r.raw_sum}</td>
                 <td className="px-2 py-2 text-right text-ink-2">{r.adjustments}</td>
                 <td className="num px-2 py-2 text-right">{r.computed}</td>

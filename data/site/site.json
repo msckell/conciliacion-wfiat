@@ -7,7 +7,7 @@
     "tokens": [
       {
         "symbol": "wARS",
-        "name": "Argentine Peso",
+        "name": "Peso argentino",
         "closing": "14.931.194.588,93",
         "opening": "7.619.996.077,04",
         "change": "+7.311.198.511,89",
@@ -71,7 +71,7 @@
       },
       {
         "symbol": "wBRL",
-        "name": "Brazilian Real",
+        "name": "Real brasileño",
         "closing": "13.807.477,38",
         "opening": "2.586.147,50",
         "change": "+11.221.329,88",
@@ -135,7 +135,7 @@
       },
       {
         "symbol": "wMXN",
-        "name": "Mexican Peso",
+        "name": "Peso mexicano",
         "closing": "5.638.788,69",
         "opening": "968.788,69",
         "change": "+4.670.000,00",
@@ -187,7 +187,7 @@
       },
       {
         "symbol": "wCOP",
-        "name": "Colombian Peso",
+        "name": "Peso colombiano",
         "closing": "911.258.753,80",
         "opening": "196.398.753,80",
         "change": "+714.860.000,00",
@@ -239,7 +239,7 @@
       },
       {
         "symbol": "wCLP",
-        "name": "Chilean Peso",
+        "name": "Peso chileno",
         "closing": "66.565.100,00",
         "opening": "64.295.100,00",
         "change": "+2.270.000,00",
@@ -291,7 +291,7 @@
       },
       {
         "symbol": "wPEN",
-        "name": "Peruvian Sol",
+        "name": "Sol peruano",
         "closing": "132.950,00",
         "opening": "122.950,00",
         "change": "+10.000,00",
