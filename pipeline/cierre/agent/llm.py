@@ -52,6 +52,16 @@ def ask_claude(system: str, prompt: str, schema: dict, timeout: int = 300) -> Re
         return _ask(system, prompt, schema, fallback, timeout)
 
 
+def _env() -> dict[str, str]:
+    """A token pasted from a wrapped terminal line carries a line break. Tokens have no
+    whitespace, so drop it before the CLI builds the Authorization header."""
+    env = dict(os.environ)
+    token = env.get("CLAUDE_CODE_OAUTH_TOKEN")
+    if token:
+        env["CLAUDE_CODE_OAUTH_TOKEN"] = "".join(token.split())
+    return env
+
+
 def _ask(system: str, prompt: str, schema: dict, model: str, timeout: int) -> Reply:
     exe = shutil.which("claude")
     if exe is None:
@@ -83,6 +93,7 @@ def _ask(system: str, prompt: str, schema: dict, model: str, timeout: int) -> Re
             text=True,
             encoding="utf-8",
             timeout=timeout,
+            env=_env(),
         )
     except subprocess.TimeoutExpired as exc:
         raise LlmError(f"claude timed out after {timeout}s") from exc

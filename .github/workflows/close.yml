@@ -57,6 +57,17 @@ jobs:
         run: |
           npm install -g @anthropic-ai/claude-code
           claude --version
+      - name: Check that Claude answers
+        # Fail in seconds, before the engine runs, if the token does not authenticate.
+        # Same whitespace cleanup as the pipeline (a wrapped paste adds a line break).
+        if: env.MODE == 'full'
+        run: |
+          token="$(printf '%s' "$CLAUDE_CODE_OAUTH_TOKEN" | tr -d '[:space:]')"
+          answer="$(CLAUDE_CODE_OAUTH_TOKEN="$token" claude -p "Respond with the single word OK" 2>&1 || true)"
+          if ! printf '%s' "$answer" | grep -q "OK"; then
+            echo "::error::Claude no responde con CLAUDE_CODE_OAUTH_TOKEN: ${answer:0:200}"
+            exit 1
+          fi
       - name: Restore the RPC cache (immutable answers only)
         uses: actions/cache/restore@v6
         with:
