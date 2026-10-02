@@ -1,15 +1,10 @@
-"""Daily monitor over the written candidate list.
+"""Daily monitor over the written candidate list of networks.
 
-1. supply: totalSupply of each token on each network in scope, at the current head
-2. deployments: whether each token has code on every candidate network, two endpoints
-   agreeing, compared with config/tokens.yaml
-3. golden_live: the certified cutoffs recomputed from the network (cache skipped for the
-   supply reads) with the official rule, against the confirmed table
-4. ci: conclusion of the last CI run on main (GitHub API, only when a token is present)
-
-Writes data/monitor/latest.json and appends data/monitor/history.jsonl. Slack only when
-something changed against the previous run or a check failed. A failed read is recorded
-as a failure, never as a zero.
+Each run reads the supply of every token on every network in scope, checks which candidate
+networks hold a deployment, recomputes the certified cutoffs from the network (the live
+golden check), warms the log cache for the running quarter and reads the CI status. It
+writes data/monitor and the run log. Slack gets a message only when something changed or a
+check failed. A failed read is recorded as a failure, not as a zero.
 """
 
 from __future__ import annotations
@@ -17,23 +12,37 @@ from __future__ import annotations
 import concurrent.futures as cf
 import json
 import os
-from datetime import UTC, datetime
+from dataclasses import replace
+from datetime import date
 
 import httpx
 
 from cierre import DATA_DIR
+from cierre.alerts import mark_sent, send_failure
 from cierre.cache import DiskCache
-from cierre.config import Chain, Token
+from cierre.close import last_quarter_end
+from cierre.config import Chain, Token, load_chains, load_tokens
+from cierre.cutoffs import cutoff_block
 from cierre.discover import has_code
+from cierre.gitops import commit_and_push
+from cierre.golden import OFFICIAL_RULE, compare, load_confirmed
+from cierre.jsonio import dump_json, load_json_if_exists
+from cierre.ledger import mints_and_burns_rpc
 from cierre.rpc import RpcClient
-from cierre.supply import SEL_TOTAL_SUPPLY
+from cierre.runlog import RUNS_PATH, Run, now
+from cierre.site import publish_run_log, write_site
+from cierre.slack import alert_message, monitor_message, send
+from cierre.supply import SEL_TOTAL_SUPPLY, read_chain
 
 MONITOR_DIR = DATA_DIR / "monitor"
 LATEST = MONITOR_DIR / "latest.json"
 HISTORY = MONITOR_DIR / "history.jsonl"
+PROBE_WORKERS = 8  # networks probed in parallel for deployments
 
 
 def read_supply(chains: dict[str, Chain], tokens: dict[str, Token], cache: DiskCache) -> dict:
+    """totalSupply of each token on each network at its current head, in base units."""
+
     def one(chain: Chain) -> tuple[str, dict]:
         rpc = RpcClient(chain, cache)
         try:
@@ -49,7 +58,7 @@ def read_supply(chains: dict[str, Chain], tokens: dict[str, Token], cache: DiskC
                     raise ValueError(f"empty totalSupply for {sym}")
                 out[sym] = str(int(raw, 16))
             return chain.key, {"block": head, "tokens": out}
-        except Exception as exc:  # recorded per network, never a zero
+        except Exception as exc:  # recorded per network, not as a zero
             return chain.key, {"error": f"{type(exc).__name__}: {str(exc)[:200]}"}
         finally:
             rpc.close()
@@ -61,7 +70,8 @@ def read_supply(chains: dict[str, Chain], tokens: dict[str, Token], cache: DiskC
 def check_deployments(
     chains: dict[str, Chain], tokens: dict[str, Token], cache: DiskCache
 ) -> dict[str, dict[str, str]]:
-    """{chain: {token: 'deployed' | 'absent' | 'error: ...'}} for every candidate network."""
+    """{chain: {token: 'deployed' | 'absent' | 'error: ...'}} for every candidate network.
+    Two endpoints must agree before a contract counts as deployed or absent."""
 
     def one(chain: Chain) -> tuple[str, dict]:
         rpc = RpcClient(chain, cache)
@@ -77,14 +87,13 @@ def check_deployments(
             rpc.close()
         return chain.key, out
 
-    with cf.ThreadPoolExecutor(max_workers=8) as ex:
+    with cf.ThreadPoolExecutor(max_workers=PROBE_WORKERS) as ex:
         return dict(ex.map(one, chains.values()))
 
 
 def golden_live(chains: dict[str, Chain], tokens: dict[str, Token], cache: DiskCache) -> dict:
-    from cierre.golden import OFFICIAL_RULE, compare, load_confirmed
-    from cierre.supply import read_chain
-
+    """The certified cutoffs recomputed from the network with the official rule. The supply
+    reads skip the cache, so a changed archive answer shows up."""
     certs = load_confirmed()
     days = sorted({c["cutoff"] for c in certs})
     conv = (OFFICIAL_RULE["convention"],)
@@ -109,7 +118,7 @@ def golden_live(chains: dict[str, Chain], tokens: dict[str, Token], cache: DiskC
         "total": len(result),
         "read_errors": errors,
         "read_error_detail": detail,
-        # A mismatch with every read fine could mean a published figure is wrong: rule 10.
+        # A mismatch while every read worked could mean a published figure is wrong.
         "mismatch_without_errors": [
             f"{r['token']} {r['cutoff']}"
             for r in result
@@ -119,22 +128,16 @@ def golden_live(chains: dict[str, Chain], tokens: dict[str, Token], cache: DiskC
 
 
 def prefetch_logs(
-    chains: dict[str, Chain], tokens: dict[str, Token], cache: DiskCache, today
+    chains: dict[str, Chain], tokens: dict[str, Token], cache: DiskCache, today: date
 ) -> dict:
-    """Read the mint and burn logs of the running quarter into the disk cache, so the
-    close does not ask free nodes for millions of blocks in one day (seen on 2026-10-02:
-    HyperEVM stopped at 5000 of 8093 cells from a GitHub runner).
+    """Read the mint and burn logs of the running quarter into the disk cache, so the close
+    does not have to ask free nodes for millions of blocks in one go (a GitHub runner
+    stalled partway through HyperEVM's range).
 
-    Same filter and grid as the close engine, so its inner cells hit the same cache keys.
-    Only whole cells that end well behind the head are read: a cached answer must never
-    change, and blocks near the head can still be reorganized. Nothing here is used as data,
-    the close reads and reconciles everything again."""
-    from dataclasses import replace
-
-    from cierre.close import last_quarter_end
-    from cierre.cutoffs import cutoff_block
-    from cierre.ledger import mints_and_burns_rpc
-
+    Same filter and grid as the close engine, so its cells hit the same cache keys. Only
+    whole cells that end well behind the head are read: a cached answer lives forever, and
+    blocks near the head can still be reorganized. Nothing here is used as data: the
+    close reads and reconciles everything again."""
     start_day = last_quarter_end(today)
 
     def one(chain: Chain) -> tuple[str, dict]:
@@ -176,6 +179,8 @@ def prefetch_logs(
 
 
 def ci_status() -> dict | None:
+    """Conclusion of the latest finished CI run on main. None without GITHUB_TOKEN and
+    GITHUB_REPOSITORY, which is the case in local runs."""
     token, repo = os.environ.get("GITHUB_TOKEN"), os.environ.get("GITHUB_REPOSITORY")
     if not token or not repo:
         return None
@@ -246,6 +251,7 @@ def problems_of(current: dict, tokens: dict[str, Token], names: dict[str, str]) 
 
 
 def totals(supply: dict) -> dict[str, str]:
+    """Supply per token summed over the networks that were read, in base units."""
     acc: dict[str, int] = {}
     for s in supply.values():
         for sym, raw in s.get("tokens", {}).items():
@@ -254,10 +260,8 @@ def totals(supply: dict) -> dict[str, str]:
 
 
 def write(current: dict) -> None:
-    MONITOR_DIR.mkdir(parents=True, exist_ok=True)
-    LATEST.write_text(
-        json.dumps(current, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n"
-    )
+    """Save the run as latest.json and append a short line to the history."""
+    dump_json(LATEST, current)
     line = {
         "checked_at": current["checked_at"],
         "status": current["status"],
@@ -271,8 +275,103 @@ def write(current: dict) -> None:
 
 
 def read_previous() -> dict | None:
-    return json.loads(LATEST.read_text(encoding="utf-8")) if LATEST.exists() else None
+    return load_json_if_exists(LATEST)
 
 
-def now() -> str:
-    return datetime.now(UTC).isoformat(timespec="seconds")
+def run(push: bool) -> int:
+    """One monitor run, logged step by step. Returns the exit code: 0 when every check
+    passed. With `push`, commits the data (and, after a failure, only the run log)."""
+    all_chains = load_chains()
+    in_scope = {k: c for k, c in all_chains.items() if c.in_scope}
+    names = {k: c.name for k, c in all_chains.items()}
+    tokens = load_tokens()
+    cache = DiskCache()
+    previous = read_previous()
+    run_log = Run("monitor")
+    current = {"checked_at": now(), "networks_checked": list(all_chains)}
+    MONITOR_DIR.mkdir(parents=True, exist_ok=True)
+    try:
+        with run_log.step("supply") as s:
+            current["supply"] = read_supply(in_scope, tokens, cache)
+            current["totals"] = totals(current["supply"])
+            s["counts"] = {
+                "networks": len(in_scope),
+                "networks_failed": sum("error" in v for v in current["supply"].values()),
+            }
+        with run_log.step("deployments") as s:
+            current["deployments"] = check_deployments(all_chains, tokens, cache)
+            states = [st for t in current["deployments"].values() for st in t.values()]
+            s["counts"] = {
+                "networks_checked": len(all_chains),
+                "deployed": states.count("deployed"),
+                "errors": sum(st.startswith("error") for st in states),
+            }
+        with run_log.step("golden_live") as s:
+            current["golden_live"] = golden_live(in_scope, tokens, cache)
+            g = current["golden_live"]
+            if g["mismatch_without_errors"]:
+                # A figure that may contradict a published certificate is not published:
+                # alert privately and commit nothing.
+                s["counts"] = {"result": "held for review"}
+                raise RuntimeError(
+                    "live check differs from a certified figure with every read fine: "
+                    + ", ".join(g["mismatch_without_errors"])
+                )
+            s["counts"] = {"matched": g["matched"], "total": g["total"]}
+        with run_log.step("prefetch") as s:
+            # A warm up for the close: a failure here is recorded, not alerted.
+            current["prefetch"] = prefetch_logs(in_scope, tokens, cache, date.today())
+            s["counts"] = {
+                "cells": sum(v.get("cells", 0) for v in current["prefetch"].values()),
+                "networks_failed": [k for k, v in current["prefetch"].items() if "error" in v],
+            }
+        with run_log.step("ci") as s:
+            try:
+                current["ci"] = ci_status()
+            except httpx.HTTPError as exc:
+                current["ci"] = {"error": f"{type(exc).__name__}"}
+            s["status"] = "ok" if current["ci"] is not None else "skipped"
+            s["counts"] = {"conclusion": (current["ci"] or {}).get("conclusion")}
+        current["problems"] = problems_of(current, tokens, names)
+        current["changes"] = diff(previous, current, names)
+        current["status"] = "failed" if current["problems"] else "ok"
+        with run_log.step("notify") as s:
+            if current["changes"] or current["problems"]:
+                msg = monitor_message(current["changes"], current["problems"], len(all_chains))
+                result = send(msg, MONITOR_DIR / "slack_payload.json")
+                s["status"] = "dry_run" if result.startswith("dry run") else "ok"
+                if current["problems"]:
+                    mark_sent()
+            else:
+                s["status"] = "skipped"
+            s["counts"] = {
+                "changes": len(current["changes"]),
+                "problems": len(current["problems"]),
+            }
+            current["notified"] = s["status"]
+        write(current)
+    except Exception as exc:
+        run_log.finish("failed")
+        failed = run_log.last_step
+        send_failure(
+            alert_message(failed, str(exc), "El monitor"),
+            MONITOR_DIR / "slack_alert_payload.json",
+        )
+        print(f"monitor failed at {failed}: {exc}", flush=True)
+        # A failed live check may mean a published figure is wrong: publish nothing then.
+        if push and failed != "golden_live":
+            publish_run_log("monitor: failed run")
+        return 1
+    run_log.finish(current["status"])
+    print(
+        f"monitor {current['status']}: {len(current['changes'])} changes, "
+        f"{len(current['problems'])} problems",
+        flush=True,
+    )
+    if push:
+        site_json = write_site()
+        commit_and_push(
+            [MONITOR_DIR, RUNS_PATH, site_json],
+            f"monitor: {current['status']} {current['checked_at'][:10]}",
+        )
+    return 0 if current["status"] == "ok" else 1

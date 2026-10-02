@@ -1,8 +1,8 @@
 name: Cierre trimestral
 
-# The close, in the order of decision 12: compute, verify, commit the package, wait until
-# the site serves that same Excel, open the tasks as issues, then Slack with the link.
-# Scheduled the day after each quarter end at 12:00 UTC (09:00 Buenos Aires), or by hand.
+# The close: compute, verify, commit the package, wait until the site serves that same
+# Excel, open the tasks as issues, then Slack with the link. Runs the day after each quarter
+# end at 12:00 UTC (09:00 Buenos Aires), or by hand.
 on:
   workflow_dispatch:
     inputs:
