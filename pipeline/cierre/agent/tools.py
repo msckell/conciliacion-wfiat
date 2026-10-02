@@ -20,12 +20,11 @@ from cierre.classify import load_contracts, receipt_client
 from cierre.config import Chain, load_tokens
 from cierre.ledger import TRANSFER_TOPIC, ZERO_TOPIC, RpcLogFetcher
 from cierre.rpc import USER_AGENT, RpcClient
+from cierre.supply import HISTORY_PROBE_SYMBOL
 
 # What one tool result may hold, so it stays small enough to put back in the prompt.
 MAX_LOGS = 25
 MAX_MINTS = 20
-# Its contract is the probe that tells archive endpoints from the rest (see qualify_history).
-HISTORY_PROBE_TOKEN = "wARS"
 
 FUNCTIONS = {
     selector(s): s.split("(")[0]
@@ -54,14 +53,6 @@ EVENTS = {
         "Approval(address,address,uint256)",
     )
 }
-BLOCKSCOUT_V2 = {
-    "ethereum": "https://eth.blockscout.com/api/v2",
-    "base": "https://base.blockscout.com/api/v2",
-    "polygon": "https://polygon.blockscout.com/api/v2",
-    "celo": "https://celo.blockscout.com/api/v2",
-    "worldchain": "https://worldchain-mainnet.explorer.alchemy.com/api/v2",
-}
-
 ROLES = {
     "0x" + keccak256(b"MINTER_ROLE").hex(): "MINTER_ROLE",
     "0x" + "0" * 64: "DEFAULT_ADMIN_ROLE",
@@ -149,6 +140,13 @@ class Tools:
         self.known = load_contracts()
         self.tokens = {t.address.lower(): sym for sym, t in load_tokens().items()}
         self.by_symbol = {v: k for k, v in self.tokens.items()}
+        # Blockscout's v2 API sits next to the v1 one listed in config/chains.yaml.
+        self.blockscout = {
+            key: api.url + "/v2"
+            for key, chain in chains.items()
+            for api in chain.explorer_api
+            if api.kind == "blockscout"
+        }
         self._state: dict[str, RpcClient] = {}
 
     def _rpc(self, chain: str) -> RpcClient:
@@ -157,7 +155,7 @@ class Tools:
     def _state_rpc(self, chain: str) -> RpcClient:
         if chain not in self._state:
             rpc = RpcClient(self.chains[chain], self.cache)
-            rpc.qualify_history(self.by_symbol[HISTORY_PROBE_TOKEN])
+            rpc.qualify_history(self.by_symbol[HISTORY_PROBE_SYMBOL])
             self._state[chain] = rpc
         return self._state[chain]
 
@@ -199,7 +197,7 @@ class Tools:
                 if k.chain == chain and k.address == address
             ]
             out["is_wfiat_token"] = self.tokens.get(address)
-            base = BLOCKSCOUT_V2.get(chain)
+            base = self.blockscout.get(chain)
             if base:
                 try:
                     resp = httpx.get(

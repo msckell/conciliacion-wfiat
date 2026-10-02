@@ -18,6 +18,7 @@ from cierre.abi import BridgeIn, decode
 from cierre.agent import verifier
 from cierre.agent.llm import Ask, LlmError, Reply
 from cierre.agent.tools import TOOL_SPECS, Tools
+from cierre.rpc import RpcError
 
 SYSTEM = (Path(__file__).parent / "prompts" / "exceptions_system.md").read_text(encoding="utf-8")
 MAX_STEPS = 8
@@ -203,7 +204,13 @@ def investigate(m: dict, reason: str, tools: Tools, ask: Ask, log: Callable[[dic
             if args.get("kind") == "needs_person":
                 accepted, checks = False, ["el agente pidió una persona"]
             else:
-                accepted, checks = verify(args, m, tools)
+                # The proposal names hashes and fields the model chose: if the chain cannot
+                # confirm them, the movement goes to a person instead of stopping the run.
+                try:
+                    accepted, checks = verify(args, m, tools)
+                except (RpcError, LookupError, TypeError, ValueError) as exc:
+                    accepted = False
+                    checks = [f"no se pudo comprobar la propuesta ({type(exc).__name__})"]
             log(entry | {"accepted": accepted, "checks": checks})
             return {
                 "outcome": "resolved" if accepted else "task",
@@ -213,11 +220,14 @@ def investigate(m: dict, reason: str, tools: Tools, ask: Ask, log: Callable[[dic
                 "summary": args.get("summary", ""),
                 "steps": step,
             }
-        try:
-            result = getattr(tools, action)(**args)
-            text = json.dumps(result, ensure_ascii=False)[:RESULT_CHARS]
-        except Exception as exc:  # a failed call goes back to the agent as text
-            text = f"error: {type(exc).__name__}: {str(exc)[:200]}"
+        if action not in TOOL_SPECS:
+            text = f"error: unknown tool {action!r}"
+        else:
+            try:
+                result = getattr(tools, action)(**args)
+                text = json.dumps(result, ensure_ascii=False)[:RESULT_CHARS]
+            except Exception as exc:  # a failed call goes back to the agent as text
+                text = f"error: {type(exc).__name__}: {str(exc)[:200]}"
         log(entry | {"result_preview": text[:400]})
         history.append(f"Paso {step}: {action} {json.dumps(args)}\nResultado: {text}")
     return {
