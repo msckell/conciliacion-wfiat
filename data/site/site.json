@@ -523,9 +523,9 @@
     ]
   },
   "timeline": {
-    "id": "20261002T015756Z-close",
-    "started_at": "01/10/2026 22:57",
-    "duration": "14 minutos",
+    "id": "20261002T192944Z-close",
+    "started_at": "02/10/2026 16:29",
+    "duration": "9 minutos",
     "status": "ok",
     "steps": [
       {
@@ -533,7 +533,7 @@
         "title": "Detectó el cierre del 30/09/2026",
         "detail": "Corte a las 23:59:59 hora de Buenos Aires. Cierre anterior: 30/06/2026.",
         "status": "ok",
-        "at": "01/10/2026 22:57",
+        "at": "02/10/2026 16:29",
         "duration": "menos de 1 segundo"
       },
       {
@@ -541,23 +541,23 @@
         "title": "Leyó 9 redes",
         "detail": "Buscó el bloque del corte en cada red y leyó la cantidad de tokens y cada emisión y quema del trimestre.",
         "status": "ok",
-        "at": "01/10/2026 22:57",
-        "duration": "3 minutos"
+        "at": "02/10/2026 16:29",
+        "duration": "2 minutos"
       },
       {
         "key": "package",
         "title": "Concilió 54 de 54 combinaciones de moneda y red, con diferencia cero",
         "detail": "Clasificó 628 emisiones y quemas y emparejó 255 pases del puente entre redes. Red nueva: Arc. Encontró 9 movimientos para revisar.",
         "status": "ok",
-        "at": "01/10/2026 23:01",
-        "duration": "2 minutos"
+        "at": "02/10/2026 16:31",
+        "duration": "27 segundos"
       },
       {
         "key": "verify",
         "title": "Comprobó el método contra 9 certificaciones publicadas: coincide en 9",
         "detail": "Recalcula la cantidad de tokens de cada corte certificado con la misma regla.",
         "status": "ok",
-        "at": "01/10/2026 23:02",
+        "at": "02/10/2026 16:31",
         "duration": "menos de 1 segundo"
       },
       {
@@ -565,31 +565,39 @@
         "title": "Investigó 9 movimientos: resolvió 4 con evidencia y dejó 5 tareas para una persona",
         "detail": "Leyó cada transacción, consultó permisos y buscó la otra punta del puente. El código comprobó cada propuesta antes de aceptarla.",
         "status": "ok",
-        "at": "01/10/2026 23:02",
-        "duration": "8 minutos"
+        "at": "02/10/2026 16:31",
+        "duration": "6 minutos"
       },
       {
         "key": "memo",
         "title": "Escribió el resumen de las 6 monedas",
         "detail": "El verificador aceptó 6 de 6 textos al primer intento. Las cifras las pone el código, no la IA.",
         "status": "ok",
-        "at": "01/10/2026 23:10",
-        "duration": "50 segundos"
+        "at": "02/10/2026 16:37",
+        "duration": "23 segundos"
       },
       {
         "key": "publish",
-        "title": "Publicó el Excel y comprobó que el link responde",
+        "title": "Publicó el Excel y comprobó que el link sirve ese mismo archivo",
         "detail": "https://conciliacion-wfiat.vercel.app/data/paquete_cierre_2026-09-30.xlsx",
         "status": "ok",
-        "at": "01/10/2026 23:11",
-        "duration": "menos de 1 segundo"
+        "at": "02/10/2026 16:37",
+        "duration": "22 segundos"
+      },
+      {
+        "key": "tasks",
+        "title": "Abrió 5 tareas para revisar",
+        "detail": "Una por cada movimiento que el agente no pudo probar, con su evidencia y el link de la transacción.",
+        "status": "ok",
+        "at": "02/10/2026 16:38",
+        "duration": "4 segundos"
       },
       {
         "key": "notify",
-        "title": "Avisó a Finanzas por Slack (modo de prueba)",
+        "title": "Avisó a Finanzas por Slack",
         "detail": "Con el resumen, el link al Excel y 5 tareas para revisar.",
-        "status": "dry_run",
-        "at": "01/10/2026 23:11",
+        "status": "ok",
+        "at": "02/10/2026 16:38",
         "duration": "menos de 1 segundo"
       }
     ]
@@ -598,7 +606,7 @@
     "transactions": 626,
     "networks": 9,
     "tokens": 6,
-    "duration": "14 minutos"
+    "duration": "9 minutos"
   },
   "verification": {
     "matched": 9,
@@ -1166,7 +1174,7 @@
     }
   },
   "slack": {
-    "dry_run": true,
+    "dry_run": false,
     "payload": {
       "text": "Cierre wFIAT al 30/09/2026 listo para revisión",
       "blocks": [
@@ -1216,6 +1224,13 @@
     }
   },
   "runs": [
+    {
+      "kind": "close",
+      "trigger": "manual en GitHub",
+      "started_at": "02/10/2026 16:29",
+      "duration": "9 minutos",
+      "status": "ok"
+    },
     {
       "kind": "close",
       "trigger": "manual en GitHub",
@@ -1278,13 +1293,6 @@
       "started_at": "01/10/2026 22:23",
       "duration": "2 minutos",
       "status": "failed"
-    },
-    {
-      "kind": "close",
-      "trigger": "local",
-      "started_at": "01/10/2026 18:55",
-      "duration": "10 minutos",
-      "status": "ok"
     }
   ],
   "production": {
@@ -1307,6 +1315,6 @@
       "changes": [],
       "problems": []
     },
-    "slack_live": false
+    "slack_live": true
   }
 }
