@@ -93,6 +93,11 @@ class Token:
         return next((d for d in self.deployments if d.chain == chain), None)
 
 
+def in_scope(chains: dict[str, Chain]) -> dict[str, Chain]:
+    """The networks the close reconciles (in_scope in chains.yaml)."""
+    return {k: c for k, c in chains.items() if c.in_scope}
+
+
 def load_tokens(path: Path | None = None, include_unconfirmed: bool = False) -> dict[str, Token]:
     raw = yaml.safe_load((path or CONFIG_DIR / "tokens.yaml").read_text(encoding="utf-8"))
     tokens: dict[str, Token] = {}

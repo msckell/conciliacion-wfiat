@@ -21,7 +21,7 @@ from cierre import DATA_DIR
 from cierre.alerts import mark_sent, send_failure
 from cierre.cache import DiskCache
 from cierre.close import last_quarter_end
-from cierre.config import Chain, Token, load_chains, load_tokens
+from cierre.config import Chain, Token, in_scope, load_chains, load_tokens
 from cierre.cutoffs import cutoff_block
 from cierre.discover import has_code
 from cierre.gitops import commit_and_push
@@ -282,7 +282,7 @@ def run(push: bool) -> int:
     """One monitor run, logged step by step. Returns the exit code: 0 when every check
     passed. With `push`, commits the data (and, after a failure, only the run log)."""
     all_chains = load_chains()
-    in_scope = {k: c for k, c in all_chains.items() if c.in_scope}
+    chains = in_scope(all_chains)
     names = {k: c.name for k, c in all_chains.items()}
     tokens = load_tokens()
     cache = DiskCache()
@@ -292,10 +292,10 @@ def run(push: bool) -> int:
     MONITOR_DIR.mkdir(parents=True, exist_ok=True)
     try:
         with run_log.step("supply") as s:
-            current["supply"] = read_supply(in_scope, tokens, cache)
+            current["supply"] = read_supply(chains, tokens, cache)
             current["totals"] = totals(current["supply"])
             s["counts"] = {
-                "networks": len(in_scope),
+                "networks": len(chains),
                 "networks_failed": sum("error" in v for v in current["supply"].values()),
             }
         with run_log.step("deployments") as s:
@@ -307,7 +307,7 @@ def run(push: bool) -> int:
                 "errors": sum(st.startswith("error") for st in states),
             }
         with run_log.step("golden_live") as s:
-            current["golden_live"] = golden_live(in_scope, tokens, cache)
+            current["golden_live"] = golden_live(chains, tokens, cache)
             g = current["golden_live"]
             if g["mismatch_without_errors"]:
                 # A figure that may contradict a published certificate is not published:
@@ -320,7 +320,7 @@ def run(push: bool) -> int:
             s["counts"] = {"matched": g["matched"], "total": g["total"]}
         with run_log.step("prefetch") as s:
             # A warm up for the close: a failure here is recorded, not alerted.
-            current["prefetch"] = prefetch_logs(in_scope, tokens, cache, date.today())
+            current["prefetch"] = prefetch_logs(chains, tokens, cache, date.today())
             s["counts"] = {
                 "cells": sum(v.get("cells", 0) for v in current["prefetch"].values()),
                 "networks_failed": [k for k, v in current["prefetch"].items() if "error" in v],

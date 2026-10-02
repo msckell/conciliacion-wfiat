@@ -26,7 +26,7 @@ from cierre.alerts import send_failure
 from cierre.bridge import match
 from cierre.cache import DiskCache
 from cierre.close import classify_all, last_quarter_end, previous_quarter_end, run_close
-from cierre.config import load_chains, load_tokens
+from cierre.config import in_scope, load_chains, load_tokens
 from cierre.gitops import commit_and_push, is_tracked, restore
 from cierre.golden import OFFICIAL_RULE, compare, load_confirmed
 from cierre.jsonio import dump_json, load_json
@@ -50,7 +50,7 @@ def refresh_engine(cutoff: str, only: list[str] | None = None) -> None:
     """Run the engine and save engine.json. With `only`, just those networks are rerun and
     merged into the existing file."""
     engine_path = close_dir(cutoff) / "engine.json"
-    chains = {k: c for k, c in load_chains().items() if c.in_scope}
+    chains = in_scope(load_chains())
     if only:
         chains = {k: chains[k] for k in only}
     results = run_close(chains, load_tokens(), cutoff, OFFICIAL_RULE["convention"], DiskCache())
@@ -66,7 +66,7 @@ def build_package(cutoff: str, use_overrides: bool = True) -> dict:
     exceptions_path = out_dir / "exceptions.json"
     engine = load_json(out_dir / "engine.json")
     all_chains = load_chains()
-    chains = {k: c for k, c in all_chains.items() if c.in_scope}
+    chains = in_scope(all_chains)
     tokens = load_tokens()
     cache = DiskCache()
     report = classify_all(engine, chains, tokens, cache)
@@ -102,7 +102,7 @@ def build_package(cutoff: str, use_overrides: bool = True) -> dict:
 
 def investigate(pkg: dict, out_dir: Path) -> dict:
     """The exception agent over the review items of the package. Saves exceptions.json."""
-    chains = {k: c for k, c in load_chains().items() if c.in_scope}
+    chains = in_scope(load_chains())
     tools = Tools(chains, pkg, DiskCache())
     try:
         result = exception_agent.run(pkg, tools, ask_claude, out_dir)
@@ -208,7 +208,7 @@ def run(cutoff: str, site_url: str | None, push: bool, deploy_timeout: int) -> i
     site_url = (site_url or os.environ.get("SITE_URL") or "").rstrip("/")
     excel_url = f"{site_url}/data/{excel_name}" if site_url else None
     all_chains = load_chains()
-    chains = {k: c for k, c in all_chains.items() if c.in_scope}
+    chains = in_scope(all_chains)
     names = {k: c.name for k, c in all_chains.items()}
     run_log = Run("close", cutoff=cutoff, model=model_name())
     out_dir.mkdir(parents=True, exist_ok=True)
