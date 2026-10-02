@@ -454,11 +454,13 @@ def cmd_run_close(args: argparse.Namespace) -> int:
         current = "engine"
         with run.step("engine") as s:
             results = run_close(chains, tokens, cutoff, OFFICIAL_RULE["convention"], DiskCache())
-            _dump(engine_path, results)
             errors = [r["chain"] for r in results if "error" in r]
             s["counts"] = {"networks_read": len(results), "networks_failed": len(errors)}
             if errors:
+                # Kept apart, so a failed run never replaces the last good engine output.
+                _dump(out_dir / "engine_failed.json", results)
                 raise RuntimeError(f"engine failed on {', '.join(errors)}")
+            _dump(engine_path, results)
         current = "package"
         with run.step("package") as s:
             pkg = build_package(cutoff, out_dir, engine_path, use_overrides=False)

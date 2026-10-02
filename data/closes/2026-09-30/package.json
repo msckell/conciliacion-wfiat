@@ -3,7 +3,7 @@
   "previous_cutoff": "2026-06-30",
   "convention": "ART",
   "cutoff_instant": "2026-09-30 23:59:59 America/Argentina/Buenos_Aires",
-  "generated_at": "2026-10-01T22:04:51+00:00",
+  "generated_at": "2026-10-02T01:36:10+00:00",
   "all_reconciled": true,
   "engine_errors": [],
   "networks": [
@@ -7668,7 +7668,7 @@
         "dest_chain": "celo",
         "after": {
           "status": "not_found",
-          "searched_to": 78991528
+          "searched_to": 79004207
         }
       }
     },
@@ -12099,7 +12099,7 @@
         "dest_chain": "gnosis",
         "after": {
           "status": "not_found",
-          "searched_to": 48540003
+          "searched_to": 48542497
         }
       }
     },
@@ -17489,12 +17489,12 @@
         "checks": [
           "MINTER_ROLE de 0x2b839174fe62466067c22e2a4c8054071f9d8d68 en 0x0dc4f92879b7670e5f4e4e6e3c801d229129d90d al bloque 20356249: sí"
         ],
-        "summary": "La transacción es un execTransaction de la cuenta 0x2b839174fe62466067c22e2a4c8054071f9d8d68, que se emitió wARS a sí misma y tenía MINTER_ROLE en el token 0x0dc4f92879b7670e5f4e4e6e3c801d229129d90d en ese bloque. En la misma transacción también se emitió wBRL a la misma cuenta, así que conviene que alguien lo tenga presente al revisar esa otra emisión.",
+        "summary": "La cuenta 0x2b839174fe62466067c22e2a4c8054071f9d8d68 ejecutó un execTransaction y el token wARS emitió el monto a esa misma cuenta. Las herramientas muestran que esa cuenta tenía MINTER_ROLE en el contrato 0x0dc4f92879b7670e5f4e4e6e3c801d229129d90d en ese bloque, así que se trata de una emisión primaria hecha por un minter.",
         "proposal": {
           "kind": "primary_by_minter",
           "account": "0x2b839174fe62466067c22e2a4c8054071f9d8d68",
           "contract": "0x0dc4f92879b7670e5f4e4e6e3c801d229129d90d",
-          "summary": "La transacción es un execTransaction de la cuenta 0x2b839174fe62466067c22e2a4c8054071f9d8d68, que se emitió wARS a sí misma y tenía MINTER_ROLE en el token 0x0dc4f92879b7670e5f4e4e6e3c801d229129d90d en ese bloque. En la misma transacción también se emitió wBRL a la misma cuenta, así que conviene que alguien lo tenga presente al revisar esa otra emisión."
+          "summary": "La cuenta 0x2b839174fe62466067c22e2a4c8054071f9d8d68 ejecutó un execTransaction y el token wARS emitió el monto a esa misma cuenta. Las herramientas muestran que esa cuenta tenía MINTER_ROLE en el contrato 0x0dc4f92879b7670e5f4e4e6e3c801d229129d90d en ese bloque, así que se trata de una emisión primaria hecha por un minter."
         }
       }
     },
@@ -17519,12 +17519,12 @@
         "checks": [
           "MINTER_ROLE de 0x2b839174fe62466067c22e2a4c8054071f9d8d68 en 0xd76f5faf6888e24d9f04bf92a0c8b921fe4390e0 al bloque 20356249: sí"
         ],
-        "summary": "La emisión de wBRL salió de una ejecución de la billetera multifirma 0x2b839174fe62466067c22e2a4c8054071f9d8d68, que recibió los tokens. Esa cuenta tenía MINTER_ROLE en el token 0xd76f5faf6888e24d9f04bf92a0c8b921fe4390e0 en ese bloque, por eso se trata como emisión primaria.",
+        "summary": "La emisión salió de una execTransaction ejecutada por la cuenta 0x2b839174fe62466067c22e2a4c8054071f9d8d68, que es quien recibe los tokens. Esa cuenta tenía MINTER_ROLE en el token wBRL 0xd76f5faf6888e24d9f04bf92a0c8b921fe4390e0 en ese bloque. Por eso la tratamos como emisión primaria hecha por un minter.",
         "proposal": {
           "kind": "primary_by_minter",
           "account": "0x2b839174fe62466067c22e2a4c8054071f9d8d68",
           "contract": "0xd76f5faf6888e24d9f04bf92a0c8b921fe4390e0",
-          "summary": "La emisión de wBRL salió de una ejecución de la billetera multifirma 0x2b839174fe62466067c22e2a4c8054071f9d8d68, que recibió los tokens. Esa cuenta tenía MINTER_ROLE en el token 0xd76f5faf6888e24d9f04bf92a0c8b921fe4390e0 en ese bloque, por eso se trata como emisión primaria."
+          "summary": "La emisión salió de una execTransaction ejecutada por la cuenta 0x2b839174fe62466067c22e2a4c8054071f9d8d68, que es quien recibe los tokens. Esa cuenta tenía MINTER_ROLE en el token wBRL 0xd76f5faf6888e24d9f04bf92a0c8b921fe4390e0 en ese bloque. Por eso la tratamos como emisión primaria hecha por un minter."
         }
       }
     },
@@ -17771,12 +17771,12 @@
         "checks": [
           "MINTER_ROLE de 0x2b839174fe62466067c22e2a4c8054071f9d8d68 en 0xd76f5faf6888e24d9f04bf92a0c8b921fe4390e0 al bloque 20828490: sí"
         ],
-        "summary": "La emisión salió de una ejecución de la Safe 0x2b839174fe62466067c22e2a4c8054071f9d8d68 que mintió directo en el token wBRL hacia 0xe7e486057c2d962d1e5b46f292daf4d2fa2313c4. Esa Safe tenía MINTER_ROLE en el token en ese bloque. En la misma transacción también se emitió wARS a la misma cuenta, así que conviene que esa otra emisión se revise por separado.",
+        "summary": "La emisión la ejecutó la Safe 0x2b839174fe62466067c22e2a4c8054071f9d8d68 mediante execTransaction, y esa cuenta tenía MINTER_ROLE en el token wBRL en ese bloque. El token emitió directo a la cuenta 0xe7e486057c2d962d1e5b46f292daf4d2fa2313c4, por eso no hay evento del puente ni de LimitedMinter.",
         "proposal": {
           "kind": "primary_by_minter",
           "account": "0x2b839174fe62466067c22e2a4c8054071f9d8d68",
           "contract": "0xd76f5faf6888e24d9f04bf92a0c8b921fe4390e0",
-          "summary": "La emisión salió de una ejecución de la Safe 0x2b839174fe62466067c22e2a4c8054071f9d8d68 que mintió directo en el token wBRL hacia 0xe7e486057c2d962d1e5b46f292daf4d2fa2313c4. Esa Safe tenía MINTER_ROLE en el token en ese bloque. En la misma transacción también se emitió wARS a la misma cuenta, así que conviene que esa otra emisión se revise por separado."
+          "summary": "La emisión la ejecutó la Safe 0x2b839174fe62466067c22e2a4c8054071f9d8d68 mediante execTransaction, y esa cuenta tenía MINTER_ROLE en el token wBRL en ese bloque. El token emitió directo a la cuenta 0xe7e486057c2d962d1e5b46f292daf4d2fa2313c4, por eso no hay evento del puente ni de LimitedMinter."
         }
       }
     },
@@ -17801,12 +17801,12 @@
         "checks": [
           "MINTER_ROLE de 0x2b839174fe62466067c22e2a4c8054071f9d8d68 en 0x0dc4f92879b7670e5f4e4e6e3c801d229129d90d al bloque 20828490: sí"
         ],
-        "summary": "La emisión se hizo mediante execTransaction sobre el Safe 0x2b839174fe62466067c22e2a4c8054071f9d8d68, que tenía MINTER_ROLE en el token wARS en ese bloque. En la misma transacción también se emitió wBRL a la misma cuenta receptora, y no hay eventos del puente ni de LimitedMinter.",
+        "summary": "La emisión se hizo desde una execTransaction de la cuenta 0x2b839174fe62466067c22e2a4c8054071f9d8d68, que tenía MINTER_ROLE en el token wARS en ese bloque. En la misma transacción también se emitió wBRL a la misma cuenta receptora, así que parece una emisión primaria conjunta.",
         "proposal": {
           "kind": "primary_by_minter",
           "account": "0x2b839174fe62466067c22e2a4c8054071f9d8d68",
           "contract": "0x0dc4f92879b7670e5f4e4e6e3c801d229129d90d",
-          "summary": "La emisión se hizo mediante execTransaction sobre el Safe 0x2b839174fe62466067c22e2a4c8054071f9d8d68, que tenía MINTER_ROLE en el token wARS en ese bloque. En la misma transacción también se emitió wBRL a la misma cuenta receptora, y no hay eventos del puente ni de LimitedMinter."
+          "summary": "La emisión se hizo desde una execTransaction de la cuenta 0x2b839174fe62466067c22e2a4c8054071f9d8d68, que tenía MINTER_ROLE en el token wARS en ese bloque. En la misma transacción también se emitió wBRL a la misma cuenta receptora, así que parece una emisión primaria conjunta."
         }
       }
     },
@@ -17881,7 +17881,7 @@
         "dest_chain": "ethereum",
         "after": {
           "status": "not_found",
-          "searched_to": 26100337
+          "searched_to": 26101390
         }
       }
     },
@@ -23628,7 +23628,7 @@
       "amount": "985000000000000000000",
       "tx_hash": "0x973ffae966a4117988101c26b8bbdde3256619169a1988796b8eb713a8cf0dcc",
       "explorer_url": "https://basescan.org/tx/0x973ffae966a4117988101c26b8bbdde3256619169a1988796b8eb713a8cf0dcc",
-      "reason": "Salió por el puente el 29/07/2026 hacia Celo y no encontramos la emisión del otro lado (buscada hasta el bloque 78991528 de Celo)."
+      "reason": "Salió por el puente el 29/07/2026 hacia Celo y no encontramos la emisión del otro lado (buscada hasta el bloque 79004207 de Celo)."
     },
     {
       "chain": "worldchain",
@@ -23655,7 +23655,7 @@
       "amount": "485000000000000000000",
       "tx_hash": "0x854723b7fd5543cab04edbdf903dd4dd271567da6477449741d50c2070789615",
       "explorer_url": "https://polygonscan.com/tx/0x854723b7fd5543cab04edbdf903dd4dd271567da6477449741d50c2070789615",
-      "reason": "Salió por el puente el 02/09/2026 hacia Gnosis y no encontramos la emisión del otro lado (buscada hasta el bloque 48540003 de Gnosis)."
+      "reason": "Salió por el puente el 02/09/2026 hacia Gnosis y no encontramos la emisión del otro lado (buscada hasta el bloque 48542497 de Gnosis)."
     },
     {
       "chain": "hyperevm",
@@ -23664,7 +23664,7 @@
       "amount": "19965120000000000000000",
       "tx_hash": "0x3ff080dac8b08f89c84dbb2c4e076b2bfc69b66c2df2a7493788675023f526c6",
       "explorer_url": "https://hyperevmscan.io/tx/0x3ff080dac8b08f89c84dbb2c4e076b2bfc69b66c2df2a7493788675023f526c6",
-      "reason": "Salió por el puente el 14/09/2026 hacia Ethereum y no encontramos la emisión del otro lado (buscada hasta el bloque 26100337 de Ethereum)."
+      "reason": "Salió por el puente el 14/09/2026 hacia Ethereum y no encontramos la emisión del otro lado (buscada hasta el bloque 26101390 de Ethereum)."
     }
   ],
   "bridge": {
@@ -23673,6 +23673,51 @@
     "delay_seconds_median": 29,
     "contracts": {
       "contracts_checked": [
+        {
+          "chain": "hyperevm",
+          "role": "bridge_deposit",
+          "address": "0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
+        },
+        {
+          "chain": "hyperevm",
+          "role": "limited_minter_bridge",
+          "address": "0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
+        },
+        {
+          "chain": "hyperevm",
+          "role": "limited_minter",
+          "address": "0xd168cfbbe260d48cd119497a9a2ee8482080c5e7"
+        },
+        {
+          "chain": "gnosis",
+          "role": "bridge_deposit",
+          "address": "0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
+        },
+        {
+          "chain": "gnosis",
+          "role": "limited_minter_bridge",
+          "address": "0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
+        },
+        {
+          "chain": "gnosis",
+          "role": "limited_minter",
+          "address": "0xd168cfbbe260d48cd119497a9a2ee8482080c5e7"
+        },
+        {
+          "chain": "ethereum",
+          "role": "bridge_deposit",
+          "address": "0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
+        },
+        {
+          "chain": "ethereum",
+          "role": "limited_minter_bridge",
+          "address": "0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
+        },
+        {
+          "chain": "ethereum",
+          "role": "limited_minter",
+          "address": "0xd168cfbbe260d48cd119497a9a2ee8482080c5e7"
+        },
         {
           "chain": "worldchain",
           "role": "bridge_deposit",
@@ -23687,66 +23732,6 @@
           "chain": "worldchain",
           "role": "limited_minter",
           "address": "0xde7ec97cfdee9f20f9d256f4a0a0d694479fa2e0"
-        },
-        {
-          "chain": "celo",
-          "role": "bridge_deposit",
-          "address": "0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
-        },
-        {
-          "chain": "celo",
-          "role": "limited_minter_bridge",
-          "address": "0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
-        },
-        {
-          "chain": "celo",
-          "role": "limited_minter",
-          "address": "0xd168cfbbe260d48cd119497a9a2ee8482080c5e7"
-        },
-        {
-          "chain": "arc",
-          "role": "bridge_deposit",
-          "address": "0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
-        },
-        {
-          "chain": "arc",
-          "role": "limited_minter_bridge",
-          "address": "0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
-        },
-        {
-          "chain": "arc",
-          "role": "limited_minter",
-          "address": "0xd168cfbbe260d48cd119497a9a2ee8482080c5e7"
-        },
-        {
-          "chain": "hyperevm",
-          "role": "bridge_deposit",
-          "address": "0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
-        },
-        {
-          "chain": "hyperevm",
-          "role": "limited_minter_bridge",
-          "address": "0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
-        },
-        {
-          "chain": "hyperevm",
-          "role": "limited_minter",
-          "address": "0xd168cfbbe260d48cd119497a9a2ee8482080c5e7"
-        },
-        {
-          "chain": "polygon",
-          "role": "bridge_deposit",
-          "address": "0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
-        },
-        {
-          "chain": "polygon",
-          "role": "limited_minter_bridge",
-          "address": "0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
-        },
-        {
-          "chain": "polygon",
-          "role": "limited_minter",
-          "address": "0xd168cfbbe260d48cd119497a9a2ee8482080c5e7"
         },
         {
           "chain": "base",
@@ -23779,32 +23764,47 @@
           "address": "0xd168cfbbe260d48cd119497a9a2ee8482080c5e7"
         },
         {
-          "chain": "ethereum",
+          "chain": "arc",
           "role": "bridge_deposit",
           "address": "0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
         },
         {
-          "chain": "ethereum",
+          "chain": "arc",
           "role": "limited_minter_bridge",
           "address": "0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
         },
         {
-          "chain": "ethereum",
+          "chain": "arc",
           "role": "limited_minter",
           "address": "0xd168cfbbe260d48cd119497a9a2ee8482080c5e7"
         },
         {
-          "chain": "gnosis",
+          "chain": "celo",
           "role": "bridge_deposit",
           "address": "0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
         },
         {
-          "chain": "gnosis",
+          "chain": "celo",
           "role": "limited_minter_bridge",
           "address": "0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
         },
         {
-          "chain": "gnosis",
+          "chain": "celo",
+          "role": "limited_minter",
+          "address": "0xd168cfbbe260d48cd119497a9a2ee8482080c5e7"
+        },
+        {
+          "chain": "polygon",
+          "role": "bridge_deposit",
+          "address": "0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
+        },
+        {
+          "chain": "polygon",
+          "role": "limited_minter_bridge",
+          "address": "0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
+        },
+        {
+          "chain": "polygon",
           "role": "limited_minter",
           "address": "0xd168cfbbe260d48cd119497a9a2ee8482080c5e7"
         }
