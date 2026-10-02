@@ -8,7 +8,6 @@ from __future__ import annotations
 
 from datetime import UTC, datetime
 from decimal import Decimal
-from zoneinfo import ZoneInfo
 
 from openpyxl import Workbook
 from openpyxl.drawing.image import Image
@@ -16,9 +15,11 @@ from openpyxl.styles import Alignment, Font, PatternFill
 from openpyxl.utils import get_column_letter
 
 from cierre import REPO_ROOT
+from cierre.agent.memo import fmt_date
 from cierre.config import Chain, Token
+from cierre.cutoffs import CONVENTIONS
 
-ART = ZoneInfo("America/Argentina/Buenos_Aires")
+ART = CONVENTIONS["ART"]
 
 CATEGORY_ES = {
     "primary": "Emisión primaria",
@@ -44,8 +45,11 @@ def units(raw: int | str, decimals: int) -> Decimal:
     return Decimal(int(raw)) / (Decimal(10) ** decimals)
 
 
-def _iso_art(ts: int) -> str:
-    return datetime.fromtimestamp(ts, UTC).astimezone(ART).isoformat()
+def _dt(ts: int | None) -> str:
+    """Unix time to 'dd/mm/yyyy hh:mm:ss' in Buenos Aires time, empty when unknown."""
+    if not ts:
+        return ""
+    return datetime.fromtimestamp(ts, UTC).astimezone(ART).strftime("%d/%m/%Y %H:%M:%S")
 
 
 def build(
@@ -61,7 +65,8 @@ def build(
     all_chains: dict[str, Chain] | None = None,
     overrides: dict[tuple[str, str, int], dict] | None = None,
 ) -> dict:
-    """overrides: movements the exception agent proved, keyed by (chain, tx, log_index)."""
+    """The package from the engine output. `overrides` holds the movements the exception
+    agent proved, keyed by (chain, tx hash, log index)."""
     by_chain = {c["chain"]: c for c in engine}
     first = next(c for c in engine if "previous_cutoff" in c)
     cutoff, prev = first["cutoff"], first["previous_cutoff"]
@@ -74,6 +79,58 @@ def build(
         if not t.get("passed")
     ]
 
+    networks = _networks(by_chain, chains, tokens, cutoff, prev, convention)
+    token_rows, network_rows, movements = _token_rows(
+        by_chain, chains, tokens, convention, overrides
+    )
+    movements.sort(key=lambda m: (m["timestamp"], m["chain"], m["log_index"]))
+    between = [
+        m
+        for c in engine
+        for t in c.get("tokens", {}).values()
+        for m in t.get("movements_between_conventions", [])
+    ]
+    return {
+        "cutoff": cutoff,
+        "previous_cutoff": prev,
+        "convention": convention,
+        "cutoff_instant": f"{cutoff} 23:59:59 {ART.key}",
+        "generated_at": datetime.now(UTC).isoformat(timespec="seconds"),
+        "all_reconciled": not engine_errors
+        and all(r["passed"] and r["difference"] == "0" for r in network_rows),
+        "engine_errors": engine_errors,
+        "networks": networks,
+        "networks_checked": discovery["networks_checked"],
+        "networks_checked_names": [
+            (all_chains or chains)[k].name for k in discovery["networks_checked"]
+        ],
+        "new_networks": [n["chain"] for n in networks if n["is_new"]],
+        "tokens": token_rows,
+        "by_network": network_rows,
+        "movements": movements,
+        "review": _review_items(movements, chains),
+        "bridge": bridge_summary,
+        "convention_check": {
+            "movements_between_art_and_utc": len(between),
+            "note": "La convención horaria no cambia este cierre."
+            if not between
+            else "Hay movimientos entre las 23:59:59 UTC y las 23:59:59 de Buenos Aires.",
+        },
+        "cross_checks": _cross_checks(network_rows, coingecko, certifications),
+        "methodology": methodology,
+    }
+
+
+def _networks(
+    by_chain: dict[str, dict],
+    chains: dict[str, Chain],
+    tokens: dict[str, Token],
+    cutoff: str,
+    prev: str,
+    convention: str,
+) -> list[dict]:
+    """Cutoff blocks per network, and the tokens whose contract was created after the
+    previous cutoff (their opening supply is zero, with the creation block as evidence)."""
     networks = []
     for key in chains:
         c = by_chain.get(key)
@@ -111,7 +168,17 @@ def build(
                 else "la red no existía al corte anterior",
             }
         )
+    return networks
 
+
+def _token_rows(
+    by_chain: dict[str, dict],
+    chains: dict[str, Chain],
+    tokens: dict[str, Token],
+    convention: str,
+    overrides: dict[tuple[str, str, int], dict] | None,
+) -> tuple[dict, list[dict], list[dict]]:
+    """Per token totals, per token and network reconciliation rows, and every movement."""
     token_rows, network_rows, movements = {}, [], []
     for sym, tok in tokens.items():
         d = tok.decimals
@@ -192,15 +259,11 @@ def build(
                 r["chain"]: str(units(r["closing"], d)) for r in network_rows if r["token"] == sym
             },
         }
+    return token_rows, network_rows, movements
 
-    movements.sort(key=lambda m: (m["timestamp"], m["chain"], m["log_index"]))
-    review = _review_items(movements, chains)
-    between = [
-        m
-        for c in engine
-        for t in c.get("tokens", {}).values()
-        for m in t.get("movements_between_conventions", [])
-    ]
+
+def _cross_checks(network_rows: list[dict], coingecko: dict, certifications: list[dict]) -> dict:
+    """The networks found against the ones CoinGecko lists and the latest certificates name."""
     latest_cert = max(certifications, key=lambda x: x["cutoff"])
     cert_nets = sorted(
         {
@@ -214,39 +277,11 @@ def build(
     cg = {sym: sorted(v["platforms"]) for sym, v in (coingecko.get("tokens") or {}).items()}
     cg_union = sorted({k for v in cg.values() for k in v})
     return {
-        "cutoff": cutoff,
-        "previous_cutoff": prev,
-        "convention": convention,
-        "cutoff_instant": f"{cutoff} 23:59:59 America/Argentina/Buenos_Aires",
-        "generated_at": datetime.now(UTC).isoformat(timespec="seconds"),
-        "all_reconciled": not engine_errors
-        and all(r["passed"] and r["difference"] == "0" for r in network_rows),
-        "engine_errors": engine_errors,
-        "networks": networks,
-        "networks_checked": discovery["networks_checked"],
-        "networks_checked_names": [
-            (all_chains or chains)[k].name for k in discovery["networks_checked"]
-        ],
-        "new_networks": [n["chain"] for n in networks if n["is_new"]],
-        "tokens": token_rows,
-        "by_network": network_rows,
-        "movements": movements,
-        "review": review,
-        "bridge": bridge_summary,
-        "convention_check": {
-            "movements_between_art_and_utc": len(between),
-            "note": "La convención horaria no cambia este cierre."
-            if not between
-            else "Hay movimientos entre las 23:59:59 UTC y las 23:59:59 de Buenos Aires.",
-        },
-        "cross_checks": {
-            "coingecko_platforms": cg,
-            "coingecko_not_found_here": sorted(set(cg_union) - set(found)),
-            "found_not_in_coingecko": sorted(set(found) - set(cg_union)),
-            "previous_certificates_networks": cert_nets,
-            "found_not_in_previous_certificates": sorted(set(found) - set(cert_nets)),
-        },
-        "methodology": methodology,
+        "coingecko_platforms": cg,
+        "coingecko_not_found_here": sorted(set(cg_union) - set(found)),
+        "found_not_in_coingecko": sorted(set(found) - set(cg_union)),
+        "previous_certificates_networks": cert_nets,
+        "found_not_in_previous_certificates": sorted(set(found) - set(cert_nets)),
     }
 
 
@@ -303,9 +338,6 @@ def _review_items(movements: list[dict], chains: dict[str, Chain]) -> list[dict]
     return out
 
 
-# ---------------------------------------------------------------------------- Excel
-
-
 # Ripio branding, Excel only. Purple sampled from the wordmark, tint is 10% purple on white.
 PURPLE = "7808FE"
 TINT = "F2E6FF"
@@ -346,25 +378,35 @@ def _logo(ws) -> None:
     ws.row_dimensions[1].height = LOGO_HEIGHT_PX * 0.75 + 4  # points
 
 
-def _dt(ts: int | None) -> str:
-    if not ts:
-        return ""
-    return datetime.fromtimestamp(ts, UTC).astimezone(ART).strftime("%d/%m/%Y %H:%M:%S")
+def _num(value: str) -> float:
+    """Excel cells hold floats. The exact figures are in base units in the Conciliación sheet."""
+    return float(Decimal(value))
 
 
-def _d(iso: str) -> str:
-    y, m, d = iso.split("-")
-    return f"{d}/{m}/{y}"
+def _write_row(ws, row: int, values: list) -> None:
+    for col, value in enumerate(values, 1):
+        cell = ws.cell(row=row, column=col, value=value)
+        if isinstance(value, float):
+            cell.number_format = NUM
 
 
 def write_excel(pkg: dict, chains: dict[str, Chain], path) -> None:
     wb = Workbook()
     names = {k: c.name for k, c in chains.items()}
-    cut, prev = _d(pkg["cutoff"]), _d(pkg["previous_cutoff"])
+    summary = wb.active
+    summary.title = "Resumen"
+    _summary_sheet(summary, pkg, names)
+    _networks_sheet(wb.create_sheet("Por red"), pkg, names)
+    _movements_sheet(wb.create_sheet("Emisiones y quemas"), pkg, chains, names)
+    _reconciliation_sheet(wb.create_sheet("Conciliación"), pkg, names)
+    _methodology_sheet(wb.create_sheet("Metodología"), pkg)
+    for sheet in wb.worksheets:
+        sheet.sheet_properties.tabColor = PURPLE
+    wb.save(path)
 
-    # Resumen
-    ws = wb.active
-    ws.title = "Resumen"
+
+def _summary_sheet(ws, pkg: dict, names: dict[str, str]) -> None:
+    cut, prev = fmt_date(pkg["cutoff"]), fmt_date(pkg["previous_cutoff"])
     _logo(ws)
     ws["A2"] = f"Cierre trimestral wFIAT al {cut}"
     ws["A2"].font = TITLE
@@ -400,24 +442,24 @@ def write_excel(pkg: dict, chains: dict[str, Chain], path) -> None:
     r = 8
     for sym, t in pkg["tokens"].items():
         cat = t["by_category"]
-        vals = [
-            sym,
-            float(Decimal(t["opening"])),
-            float(Decimal(t["mints"])),
-            float(Decimal(t["burns"])),
-            float(Decimal(t["closing"])),
-            float(Decimal(t["change"])),
-            float(Decimal(cat["primary"]["amount"])),
-            float(Decimal(cat["redemption"]["amount"])),
-            float(Decimal(cat["bridge_in"]["amount"])),
-            float(Decimal(cat["bridge_out"]["amount"])),
-            cat["unclassified"]["count"],
-            ", ".join(names[k] for k in t["networks_with_balance"]),
-        ]
-        for i, v in enumerate(vals, 1):
-            cell = ws.cell(row=r, column=i, value=v)
-            if isinstance(v, float):
-                cell.number_format = NUM
+        _write_row(
+            ws,
+            r,
+            [
+                sym,
+                _num(t["opening"]),
+                _num(t["mints"]),
+                _num(t["burns"]),
+                _num(t["closing"]),
+                _num(t["change"]),
+                _num(cat["primary"]["amount"]),
+                _num(cat["redemption"]["amount"]),
+                _num(cat["bridge_in"]["amount"]),
+                _num(cat["bridge_out"]["amount"]),
+                cat["unclassified"]["count"],
+                ", ".join(names[k] for k in t["networks_with_balance"]),
+            ],
+        )
         r += 1
     r += 1
     for n in pkg["networks"]:
@@ -456,8 +498,9 @@ def write_excel(pkg: dict, chains: dict[str, Chain], path) -> None:
     )
     _widths(ws, [10, 18, 16, 16, 18, 16, 16, 16, 16, 16, 12, 60])
 
-    # Por red
-    ws = wb.create_sheet("Por red")
+
+def _networks_sheet(ws, pkg: dict, names: dict[str, str]) -> None:
+    cut, prev = fmt_date(pkg["cutoff"]), fmt_date(pkg["previous_cutoff"])
     _header(
         ws,
         1,
@@ -481,24 +524,24 @@ def write_excel(pkg: dict, chains: dict[str, Chain], path) -> None:
         d = pkg["tokens"][row["token"]]["decimals"]
         n = newmap[row["chain"]]
         new_tok = n["new_tokens"].get(row["token"])
-        vals = [
-            row["token"],
-            names[row["chain"]],
-            row["opening_block"] if not new_tok else f"creado en {new_tok['creation_block']}",
-            float(units(row["opening"], d)),
-            float(units(row["mints"], d)),
-            row["n_mints"],
-            float(units(row["burns"], d)),
-            row["n_burns"],
-            float(units(row["closing"], d)),
-            row["closing_block"],
-            "sí" if new_tok else "no",
-            row["source_used"],
-        ]
-        for j, v in enumerate(vals, 1):
-            cell = ws.cell(row=i, column=j, value=v)
-            if isinstance(v, float):
-                cell.number_format = NUM
+        _write_row(
+            ws,
+            i,
+            [
+                row["token"],
+                names[row["chain"]],
+                row["opening_block"] if not new_tok else f"creado en {new_tok['creation_block']}",
+                float(units(row["opening"], d)),
+                float(units(row["mints"], d)),
+                row["n_mints"],
+                float(units(row["burns"], d)),
+                row["n_burns"],
+                float(units(row["closing"], d)),
+                row["closing_block"],
+                "sí" if new_tok else "no",
+                row["source_used"],
+            ],
+        )
         _link(ws.cell(row=i, column=10), n["cutoff_block_url"], str(row["closing_block"]))
         if new_tok:
             _link(
@@ -508,8 +551,8 @@ def write_excel(pkg: dict, chains: dict[str, Chain], path) -> None:
             )
     _widths(ws, [8, 16, 18, 18, 16, 10, 16, 10, 18, 14, 9, 40])
 
-    # Emisiones y quemas
-    ws = wb.create_sheet("Emisiones y quemas")
+
+def _movements_sheet(ws, pkg: dict, chains: dict[str, Chain], names: dict[str, str]) -> None:
     _header(
         ws,
         1,
@@ -575,8 +618,8 @@ def write_excel(pkg: dict, chains: dict[str, Chain], path) -> None:
     _widths(ws, [20, 14, 7, 8, 18, 16, 30, 11, 30, 44, 30, 40, 50])
     ws.freeze_panes = "A2"
 
-    # Conciliación
-    ws = wb.create_sheet("Conciliación")
+
+def _reconciliation_sheet(ws, pkg: dict, names: dict[str, str]) -> None:
     _header(
         ws,
         1,
@@ -596,22 +639,24 @@ def write_excel(pkg: dict, chains: dict[str, Chain], path) -> None:
         ],
     )
     for i, row in enumerate(pkg["by_network"], 2):
-        vals = [
-            row["token"],
-            names[row["chain"]],
-            row["opening"],
-            row["mints"],
-            row["burns"],
-            row["expected"],
-            row["closing"],
-            row["difference"],
-            "conciliado" if row["passed"] else "NO concilia",
-            row["source_used"],
-            ", ".join(row["other_sources_complete"]),
-            ", ".join(row["sources_incomplete"]),
-        ]
-        for j, v in enumerate(vals, 1):
-            ws.cell(row=i, column=j, value=v)
+        _write_row(
+            ws,
+            i,
+            [
+                row["token"],
+                names[row["chain"]],
+                row["opening"],
+                row["mints"],
+                row["burns"],
+                row["expected"],
+                row["closing"],
+                row["difference"],
+                "conciliado" if row["passed"] else "NO concilia",
+                row["source_used"],
+                ", ".join(row["other_sources_complete"]),
+                ", ".join(row["sources_incomplete"]),
+            ],
+        )
     r = len(pkg["by_network"]) + 3
     ws.cell(
         row=r,
@@ -624,15 +669,11 @@ def write_excel(pkg: dict, chains: dict[str, Chain], path) -> None:
     )
     _widths(ws, [8, 14, 32, 30, 30, 32, 32, 11, 13, 40, 30, 30])
 
-    # Metodología
-    ws = wb.create_sheet("Metodología")
+
+def _methodology_sheet(ws, pkg: dict) -> None:
     _header(ws, 1, ["Decisión", "Etiqueta", "Fuente o evidencia"])
     for i, m in enumerate(pkg["methodology"], 2):
         ws.cell(row=i, column=1, value=m["decision"]).alignment = Alignment(wrap_text=True)
         ws.cell(row=i, column=2, value=LABEL_ES[m["label"]])
         ws.cell(row=i, column=3, value=m["source"]).alignment = Alignment(wrap_text=True)
     _widths(ws, [70, 14, 70])
-
-    for sheet in wb.worksheets:
-        sheet.sheet_properties.tabColor = PURPLE
-    wb.save(path)
