@@ -190,6 +190,11 @@ def _memo_counts(memo: dict) -> dict:
     }
 
 
+def resolve_cutoff(cutoff: str) -> str:
+    """A cutoff date as given, or the last quarter end for "latest"."""
+    return last_quarter_end(date.today()) if cutoff == "latest" else cutoff
+
+
 def run(cutoff: str, site_url: str | None, push: bool, deploy_timeout: int) -> int:
     """The whole close for `cutoff` (a date, or "latest" for the last quarter end). Returns
     the exit code.
@@ -197,8 +202,7 @@ def run(cutoff: str, site_url: str | None, push: bool, deploy_timeout: int) -> i
     With `push` the publish step commits the package, waits until the site serves that same
     Excel byte for byte, and only then the tasks are opened and Slack gets the link. If any
     step fails, Slack gets an alert with no link and only the run log is pushed."""
-    if cutoff == "latest":
-        cutoff = last_quarter_end(date.today())
+    cutoff = resolve_cutoff(cutoff)
     out_dir = close_dir(cutoff)
     excel_name = f"paquete_cierre_{cutoff}.xlsx"
     site_url = (site_url or os.environ.get("SITE_URL") or "").rstrip("/")
