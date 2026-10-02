@@ -148,3 +148,22 @@ def test_slack_puts_what_needs_review_before_what_is_in_order():
         ensure_ascii=False,
     )
     assert "conciliado y verificado" not in msg
+
+
+def test_slack_send_keeps_a_record_of_what_was_sent(tmp_path, monkeypatch):
+    import httpx
+
+    import cierre.slack as slack
+
+    posted = []
+
+    def fake_post(url, json, timeout):
+        posted.append(json)
+        return httpx.Response(200, request=httpx.Request("POST", url))
+
+    monkeypatch.setenv("SLACK_WEBHOOK_URL", "https://hooks.example/x")
+    monkeypatch.setattr(slack.httpx, "post", fake_post)
+    record = tmp_path / "slack_payload.json"
+    assert slack.send({"text": "hola"}, record) == "sent"
+    assert posted == [{"text": "hola"}]
+    assert json.loads(record.read_text(encoding="utf-8")) == {"text": "hola"}
