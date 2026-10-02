@@ -344,6 +344,7 @@ def cmd_slack(args: argparse.Namespace) -> int:
         json.loads((DATA_DIR / "golden" / "verification.json").read_text(encoding="utf-8")),
         args.excel_url,
         {k: c.name for k, c in load_chains().items()},
+        read("tasks.json"),  # the issues opened by the close, so each task links its issue
     )
     print(send(payload, out_dir / "slack_payload.json"))
     return 0

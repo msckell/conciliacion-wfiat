@@ -149,14 +149,15 @@ def monitor_message(changes: list[str], problems: list[str], networks: int) -> d
     return {"text": title, "blocks": blocks}
 
 
-def send(payload: dict, dry_run_path: Path) -> str:
-    """Post to the webhook, or write the payload to a file when there is none."""
+def send(payload: dict, record_path: Path) -> str:
+    """Write the payload to a file, then post it when there is a webhook. The file is the
+    record of what Finance received, so the page shows the message that was really sent."""
+    record_path.write_text(
+        json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+    )
     url = os.environ.get("SLACK_WEBHOOK_URL")
     if not url:
-        dry_run_path.write_text(
-            json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
-        )
-        return f"dry run: {dry_run_path}"
+        return f"dry run: {record_path}"
     resp = httpx.post(url, json=payload, timeout=30)
     resp.raise_for_status()
     return "sent"
