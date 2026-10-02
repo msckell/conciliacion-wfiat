@@ -7,6 +7,7 @@ import pytest
 from cierre.abi import BridgeIn
 from cierre.agent.exceptions import investigate, verify
 from cierre.agent.llm import Reply
+from cierre.rpc import RpcError
 
 TOKEN = "0x0dc4f92879b7670e5f4e4e6e3c801d229129d90d"
 SAFE = "0x" + "2b" * 20
@@ -164,3 +165,48 @@ def test_needs_person_becomes_a_task():
 
     res = investigate(MINT, "sin clasificar", FakeTools(), ask, lambda e: None)
     assert res["outcome"] == "task"
+
+
+def _scripted(replies):
+    def ask(system, prompt, schema):
+        return Reply(replies.pop(0), "fake", 0.0)
+
+    return ask
+
+
+def test_a_proposal_the_chain_cannot_confirm_becomes_a_task():
+    class Unreadable(FakeTools):
+        def receipt(self, chain, tx_hash):
+            raise RpcError(chain, "eth_getTransactionReceipt", ["not found"])
+
+    proposal = {
+        "kind": "bridge_late_fulfillment",
+        "dest_chain": "ethereum",
+        "dest_tx": "0xinvented",
+        "summary": "Se completó del otro lado.",
+    }
+    ask = _scripted([{"thought": "ya está", "action": "propose", "args": proposal}])
+    res = investigate(BURN, "puente sin par", Unreadable(), ask, lambda e: None)
+    assert res["outcome"] == "task"
+    assert res["checks"] == ["no se pudo comprobar la propuesta (RpcError)"]
+
+
+def test_the_agent_can_only_call_the_listed_tools():
+    calls = []
+
+    class Spy(FakeTools):
+        def close(self):
+            calls.append("close")
+
+    replies = [
+        {"thought": "cierro", "action": "close", "args": {}},
+        {
+            "thought": "no sé",
+            "action": "propose",
+            "args": {"kind": "needs_person", "summary": "Mirá el contrato."},
+        },
+    ]
+    logged = []
+    res = investigate(MINT, "sin clasificar", Spy(), _scripted(replies), logged.append)
+    assert calls == [] and res["outcome"] == "task"
+    assert logged[0]["result_preview"] == "error: unknown tool 'close'"
