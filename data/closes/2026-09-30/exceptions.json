@@ -1,6 +1,6 @@
 {
   "cutoff": "2026-09-30",
-  "generated_at": "2026-10-02T01:34:56+00:00",
+  "generated_at": "2026-10-02T02:09:22+00:00",
   "investigated": 9,
   "resolved": 4,
   "tasks": 5,
@@ -12,44 +12,58 @@
       "log_index": 486,
       "kind": "needs_person",
       "amount": "985000000000000000000",
-      "reason": "Salió por el puente el 29/07/2026 hacia Celo y no encontramos la emisión del otro lado (buscada hasta el bloque 79003857 de Celo).",
+      "reason": "Salió por el puente el 29/07/2026 hacia Celo y no encontramos la emisión del otro lado (buscada hasta el bloque 79005809 de Celo).",
       "explorer_url": "https://basescan.org/tx/0x973ffae966a4117988101c26b8bbdde3256619169a1988796b8eb713a8cf0dcc",
       "outcome": "task",
       "proposal": {
         "kind": "needs_person",
-        "summary": "La quema salió por depositForBridge en el contrato BridgeDeposit de Base y el destino era Celo con el mismo destinatario 0x6c3acdc8c93d13087e3348732a1894e5f3c164b3. No encontré la emisión del puente en Celo ni emisiones de wARS hacia esa cuenta, ni en el trimestre ni después del corte, y tampoco veo una devolución en Base con mis herramientas. Debería mirar una persona si el operador tiene el depósito pendiente de cumplir o si el emisor devolvió los tokens por otra vía."
+        "summary": "La quema en Base salió por depositForBridge del contrato BridgeDeposit hacia Celo, con destinatario la misma cuenta 0x6c3acdc8c93d13087e3348732a1894e5f3c164b3, y no encontré la emisión en Celo ni por el puente ni como emisión directa a esa dirección. Tampoco vi en Base una emisión de devolución a esa cuenta después de la quema. Una persona debería revisar con el operador del puente si el depósito quedó pendiente o si se devolvió por otra vía que estas herramientas no cubren, por ejemplo una transferencia común."
       },
       "checks": [
         "el agente pidió una persona"
       ],
-      "summary": "La quema salió por depositForBridge en el contrato BridgeDeposit de Base y el destino era Celo con el mismo destinatario 0x6c3acdc8c93d13087e3348732a1894e5f3c164b3. No encontré la emisión del puente en Celo ni emisiones de wARS hacia esa cuenta, ni en el trimestre ni después del corte, y tampoco veo una devolución en Base con mis herramientas. Debería mirar una persona si el operador tiene el depósito pendiente de cumplir o si el emisor devolvió los tokens por otra vía.",
-      "steps": 6
+      "summary": "La quema en Base salió por depositForBridge del contrato BridgeDeposit hacia Celo, con destinatario la misma cuenta 0x6c3acdc8c93d13087e3348732a1894e5f3c164b3, y no encontré la emisión en Celo ni por el puente ni como emisión directa a esa dirección. Tampoco vi en Base una emisión de devolución a esa cuenta después de la quema. Una persona debería revisar con el operador del puente si el depósito quedó pendiente o si se devolvió por otra vía que estas herramientas no cubren, por ejemplo una transferencia común.",
+      "steps": 7
     },
     {
       "chain": "worldchain",
       "token": "wARS",
       "tx_hash": "0xbfcca975bfc33291227162dc80cf5fec141c209604f5dcf205efca99708569eb",
       "log_index": 15,
-      "kind": "burn",
+      "kind": "needs_person",
       "amount": "37112040867826365798",
       "reason": "Sin clasificar: no tiene evento del puente y quien quema no tiene permiso de emisión.",
       "explorer_url": "https://worldscan.org/tx/0xbfcca975bfc33291227162dc80cf5fec141c209604f5dcf205efca99708569eb",
       "outcome": "task",
-      "summary": "El modelo no respondió a esta consulta, así que el agente no pudo analizar el movimiento. Revisalo a mano con el link de la transacción.",
-      "steps": 2
+      "proposal": {
+        "kind": "needs_person",
+        "summary": "En la transacción 0xbfcca975bfc33291227162dc80cf5fec141c209604f5dcf205efca99708569eb la Safe 0x34b92f4813f80f2fe8bc739eabb7263e4f6cc9cc mandó los wARS al contrato proxy 0x62af8720d73bdf6801c16826b568ccc9f1d2d835 y ese contrato los quemó, todo dentro de una operación de cuenta abstracta. Ni la Safe ni el proxy tenían MINTER_ROLE en el token y no hay evento del puente. Una persona debería revisar qué implementación tiene ese proxy, quién es su dueño y si esa quema responde a algún acuerdo de rescate o a una devolución fuera de los flujos conocidos."
+      },
+      "checks": [
+        "el agente pidió una persona"
+      ],
+      "summary": "En la transacción 0xbfcca975bfc33291227162dc80cf5fec141c209604f5dcf205efca99708569eb la Safe 0x34b92f4813f80f2fe8bc739eabb7263e4f6cc9cc mandó los wARS al contrato proxy 0x62af8720d73bdf6801c16826b568ccc9f1d2d835 y ese contrato los quemó, todo dentro de una operación de cuenta abstracta. Ni la Safe ni el proxy tenían MINTER_ROLE en el token y no hay evento del puente. Una persona debería revisar qué implementación tiene ese proxy, quién es su dueño y si esa quema responde a algún acuerdo de rescate o a una devolución fuera de los flujos conocidos.",
+      "steps": 7
     },
     {
       "chain": "worldchain",
       "token": "wARS",
       "tx_hash": "0xad0126a996caf877ab6265d9494c12c22824e59463f68bfc6a1e9078d2579249",
       "log_index": 32,
-      "kind": "burn",
+      "kind": "needs_person",
       "amount": "1000000000000000000",
       "reason": "Sin clasificar: no tiene evento del puente y quien quema no tiene permiso de emisión.",
       "explorer_url": "https://worldscan.org/tx/0xad0126a996caf877ab6265d9494c12c22824e59463f68bfc6a1e9078d2579249",
       "outcome": "task",
-      "summary": "El modelo no respondió a esta consulta, así que el agente no pudo analizar el movimiento. Revisalo a mano con el link de la transacción.",
-      "steps": 2
+      "proposal": {
+        "kind": "needs_person",
+        "summary": "En la transacción 0xad0126a996caf877ab6265d9494c12c22824e59463f68bfc6a1e9078d2579249 la cuenta 0x0d7416332f6aed4bf04e8fafe63cd81de5db402b mandó wARS al contrato 0x62af8720d73bdf6801c16826b568ccc9f1d2d835 a través de handleOps y ese contrato los quemó. Ese contrato es un proxy ERC1967 que no figura entre los conocidos, no tiene MINTER_ROLE en el token y la transacción no tiene eventos del puente. Una persona debería revisar la implementación del proxy para ver qué función quema y quién la controla, y definir si es un rescate de un usuario o un puente que no emite el evento."
+      },
+      "checks": [
+        "el agente pidió una persona"
+      ],
+      "summary": "En la transacción 0xad0126a996caf877ab6265d9494c12c22824e59463f68bfc6a1e9078d2579249 la cuenta 0x0d7416332f6aed4bf04e8fafe63cd81de5db402b mandó wARS al contrato 0x62af8720d73bdf6801c16826b568ccc9f1d2d835 a través de handleOps y ese contrato los quemó. Ese contrato es un proxy ERC1967 que no figura entre los conocidos, no tiene MINTER_ROLE en el token y la transacción no tiene eventos del puente. Una persona debería revisar la implementación del proxy para ver qué función quema y quién la controla, y definir si es un rescate de un usuario o un puente que no emite el evento.",
+      "steps": 5
     },
     {
       "chain": "polygon",
@@ -58,18 +72,18 @@
       "log_index": 675,
       "kind": "needs_person",
       "amount": "485000000000000000000",
-      "reason": "Salió por el puente el 02/09/2026 hacia Gnosis y no encontramos la emisión del otro lado (buscada hasta el bloque 48542427 de Gnosis).",
+      "reason": "Salió por el puente el 02/09/2026 hacia Gnosis y no encontramos la emisión del otro lado (buscada hasta el bloque 48542814 de Gnosis).",
       "explorer_url": "https://polygonscan.com/tx/0x854723b7fd5543cab04edbdf903dd4dd271567da6477449741d50c2070789615",
       "outcome": "task",
       "proposal": {
         "kind": "needs_person",
-        "summary": "La transacción 0x854723b7fd5543cab04edbdf903dd4dd271567da6477449741d50c2070789615 llamó a depositForBridge en el contrato BridgeDeposit 0x465e642387d3d73a57cdc1368ffa53a800ba5d47 y quemó el monto desde la cuenta 0xea44c33cef2f663beabb59110990cb58b6b8447e con destino Gnosis. No encontré ninguna emisión del puente en Gnosis ni emisiones hacia esa cuenta en ninguna de las redes, tanto en el trimestre como después del corte, y tampoco un reembolso en Polygon. Una persona debería revisar si el operador todavía tiene pendiente el fulfillBridgeMint o si se devolvió con otro mecanismo, por ejemplo una transferencia común, que mis herramientas no buscan."
+        "summary": "La cuenta 0xea44c33cef2f663beabb59110990cb58b6b8447e quemó el monto en Polygon con depositForBridge en la transacción 0x854723b7fd5543cab04edbdf903dd4dd271567da6477449741d50c2070789615 hacia Gnosis. No encontré la emisión del puente en Gnosis ni en el trimestre ni después del corte, y tampoco hay emisiones hacia esa cuenta en Polygon. Una persona debería revisar si el operador todavía tiene pendiente el fulfillBridgeMint de este depósito o si el emisor hizo un reembolso por otra vía que estas herramientas no ven."
       },
       "checks": [
         "el agente pidió una persona"
       ],
-      "summary": "La transacción 0x854723b7fd5543cab04edbdf903dd4dd271567da6477449741d50c2070789615 llamó a depositForBridge en el contrato BridgeDeposit 0x465e642387d3d73a57cdc1368ffa53a800ba5d47 y quemó el monto desde la cuenta 0xea44c33cef2f663beabb59110990cb58b6b8447e con destino Gnosis. No encontré ninguna emisión del puente en Gnosis ni emisiones hacia esa cuenta en ninguna de las redes, tanto en el trimestre como después del corte, y tampoco un reembolso en Polygon. Una persona debería revisar si el operador todavía tiene pendiente el fulfillBridgeMint o si se devolvió con otro mecanismo, por ejemplo una transferencia común, que mis herramientas no buscan.",
-      "steps": 8
+      "summary": "La cuenta 0xea44c33cef2f663beabb59110990cb58b6b8447e quemó el monto en Polygon con depositForBridge en la transacción 0x854723b7fd5543cab04edbdf903dd4dd271567da6477449741d50c2070789615 hacia Gnosis. No encontré la emisión del puente en Gnosis ni en el trimestre ni después del corte, y tampoco hay emisiones hacia esa cuenta en Polygon. Una persona debería revisar si el operador todavía tiene pendiente el fulfillBridgeMint de este depósito o si el emisor hizo un reembolso por otra vía que estas herramientas no ven.",
+      "steps": 5
     },
     {
       "chain": "arc",
@@ -85,13 +99,13 @@
         "kind": "primary_by_minter",
         "account": "0x2b839174fe62466067c22e2a4c8054071f9d8d68",
         "contract": "0x0dc4f92879b7670e5f4e4e6e3c801d229129d90d",
-        "summary": "La cuenta 0x2b839174fe62466067c22e2a4c8054071f9d8d68 ejecutó un execTransaction y el token wARS emitió el monto a esa misma cuenta. Las herramientas muestran que esa cuenta tenía MINTER_ROLE en el contrato 0x0dc4f92879b7670e5f4e4e6e3c801d229129d90d en ese bloque, así que se trata de una emisión primaria hecha por un minter."
+        "summary": "La cuenta 0x2b839174fe62466067c22e2a4c8054071f9d8d68 ejecutó la transacción con execTransaction y recibió la emisión de wARS directo desde el token. Esa cuenta tenía MINTER_ROLE en el token 0x0dc4f92879b7670e5f4e4e6e3c801d229129d90d en ese bloque, así que se trata de una emisión primaria hecha por una cuenta con ese rol."
       },
       "checks": [
         "MINTER_ROLE de 0x2b839174fe62466067c22e2a4c8054071f9d8d68 en 0x0dc4f92879b7670e5f4e4e6e3c801d229129d90d al bloque 20356249: sí"
       ],
-      "summary": "La cuenta 0x2b839174fe62466067c22e2a4c8054071f9d8d68 ejecutó un execTransaction y el token wARS emitió el monto a esa misma cuenta. Las herramientas muestran que esa cuenta tenía MINTER_ROLE en el contrato 0x0dc4f92879b7670e5f4e4e6e3c801d229129d90d en ese bloque, así que se trata de una emisión primaria hecha por un minter.",
-      "steps": 3
+      "summary": "La cuenta 0x2b839174fe62466067c22e2a4c8054071f9d8d68 ejecutó la transacción con execTransaction y recibió la emisión de wARS directo desde el token. Esa cuenta tenía MINTER_ROLE en el token 0x0dc4f92879b7670e5f4e4e6e3c801d229129d90d en ese bloque, así que se trata de una emisión primaria hecha por una cuenta con ese rol.",
+      "steps": 4
     },
     {
       "chain": "arc",
@@ -107,12 +121,12 @@
         "kind": "primary_by_minter",
         "account": "0x2b839174fe62466067c22e2a4c8054071f9d8d68",
         "contract": "0xd76f5faf6888e24d9f04bf92a0c8b921fe4390e0",
-        "summary": "La emisión salió de una execTransaction ejecutada por la cuenta 0x2b839174fe62466067c22e2a4c8054071f9d8d68, que es quien recibe los tokens. Esa cuenta tenía MINTER_ROLE en el token wBRL 0xd76f5faf6888e24d9f04bf92a0c8b921fe4390e0 en ese bloque. Por eso la tratamos como emisión primaria hecha por un minter."
+        "summary": "La cuenta 0x2b839174fe62466067c22e2a4c8054071f9d8d68 ejecutó una transacción propia con execTransaction y se emitió wBRL a sí misma desde el contrato 0xd76f5faf6888e24d9f04bf92a0c8b921fe4390e0. Esa cuenta tenía MINTER_ROLE en ese contrato en ese bloque, por eso es una emisión primaria hecha por un minter."
       },
       "checks": [
         "MINTER_ROLE de 0x2b839174fe62466067c22e2a4c8054071f9d8d68 en 0xd76f5faf6888e24d9f04bf92a0c8b921fe4390e0 al bloque 20356249: sí"
       ],
-      "summary": "La emisión salió de una execTransaction ejecutada por la cuenta 0x2b839174fe62466067c22e2a4c8054071f9d8d68, que es quien recibe los tokens. Esa cuenta tenía MINTER_ROLE en el token wBRL 0xd76f5faf6888e24d9f04bf92a0c8b921fe4390e0 en ese bloque. Por eso la tratamos como emisión primaria hecha por un minter.",
+      "summary": "La cuenta 0x2b839174fe62466067c22e2a4c8054071f9d8d68 ejecutó una transacción propia con execTransaction y se emitió wBRL a sí misma desde el contrato 0xd76f5faf6888e24d9f04bf92a0c8b921fe4390e0. Esa cuenta tenía MINTER_ROLE en ese contrato en ese bloque, por eso es una emisión primaria hecha por un minter.",
       "steps": 3
     },
     {
@@ -129,13 +143,13 @@
         "kind": "primary_by_minter",
         "account": "0x2b839174fe62466067c22e2a4c8054071f9d8d68",
         "contract": "0xd76f5faf6888e24d9f04bf92a0c8b921fe4390e0",
-        "summary": "La emisión la ejecutó la Safe 0x2b839174fe62466067c22e2a4c8054071f9d8d68 mediante execTransaction, y esa cuenta tenía MINTER_ROLE en el token wBRL en ese bloque. El token emitió directo a la cuenta 0xe7e486057c2d962d1e5b46f292daf4d2fa2313c4, por eso no hay evento del puente ni de LimitedMinter."
+        "summary": "La emisión salió de un execTransaction de la cuenta 0x2b839174fe62466067c22e2a4c8054071f9d8d68, que tenía MINTER_ROLE en el token wBRL en ese bloque. El Transfer desde la dirección nula hacia 0xe7e486057c2d962d1e5b46f292daf4d2fa2313c4 lo emitió el contrato del token 0xd76f5faf6888e24d9f04bf92a0c8b921fe4390e0. En la misma transacción también se emitió wARS hacia esa cuenta, pero eso es otro movimiento."
       },
       "checks": [
         "MINTER_ROLE de 0x2b839174fe62466067c22e2a4c8054071f9d8d68 en 0xd76f5faf6888e24d9f04bf92a0c8b921fe4390e0 al bloque 20828490: sí"
       ],
-      "summary": "La emisión la ejecutó la Safe 0x2b839174fe62466067c22e2a4c8054071f9d8d68 mediante execTransaction, y esa cuenta tenía MINTER_ROLE en el token wBRL en ese bloque. El token emitió directo a la cuenta 0xe7e486057c2d962d1e5b46f292daf4d2fa2313c4, por eso no hay evento del puente ni de LimitedMinter.",
-      "steps": 3
+      "summary": "La emisión salió de un execTransaction de la cuenta 0x2b839174fe62466067c22e2a4c8054071f9d8d68, que tenía MINTER_ROLE en el token wBRL en ese bloque. El Transfer desde la dirección nula hacia 0xe7e486057c2d962d1e5b46f292daf4d2fa2313c4 lo emitió el contrato del token 0xd76f5faf6888e24d9f04bf92a0c8b921fe4390e0. En la misma transacción también se emitió wARS hacia esa cuenta, pero eso es otro movimiento.",
+      "steps": 4
     },
     {
       "chain": "arc",
@@ -151,12 +165,12 @@
         "kind": "primary_by_minter",
         "account": "0x2b839174fe62466067c22e2a4c8054071f9d8d68",
         "contract": "0x0dc4f92879b7670e5f4e4e6e3c801d229129d90d",
-        "summary": "La emisión se hizo desde una execTransaction de la cuenta 0x2b839174fe62466067c22e2a4c8054071f9d8d68, que tenía MINTER_ROLE en el token wARS en ese bloque. En la misma transacción también se emitió wBRL a la misma cuenta receptora, así que parece una emisión primaria conjunta."
+        "summary": "La emisión salió de un execTransaction de la cuenta 0x2b839174fe62466067c22e2a4c8054071f9d8d68, que tenía MINTER_ROLE en el token wARS en ese bloque. Los tokens se emitieron hacia 0xe7e486057c2d962d1e5b46f292daf4d2fa2313c4 en la misma transacción donde también se emitió wBRL."
       },
       "checks": [
         "MINTER_ROLE de 0x2b839174fe62466067c22e2a4c8054071f9d8d68 en 0x0dc4f92879b7670e5f4e4e6e3c801d229129d90d al bloque 20828490: sí"
       ],
-      "summary": "La emisión se hizo desde una execTransaction de la cuenta 0x2b839174fe62466067c22e2a4c8054071f9d8d68, que tenía MINTER_ROLE en el token wARS en ese bloque. En la misma transacción también se emitió wBRL a la misma cuenta receptora, así que parece una emisión primaria conjunta.",
+      "summary": "La emisión salió de un execTransaction de la cuenta 0x2b839174fe62466067c22e2a4c8054071f9d8d68, que tenía MINTER_ROLE en el token wARS en ese bloque. Los tokens se emitieron hacia 0xe7e486057c2d962d1e5b46f292daf4d2fa2313c4 en la misma transacción donde también se emitió wBRL.",
       "steps": 3
     },
     {
@@ -164,13 +178,20 @@
       "token": "wBRL",
       "tx_hash": "0x3ff080dac8b08f89c84dbb2c4e076b2bfc69b66c2df2a7493788675023f526c6",
       "log_index": 10,
-      "kind": "burn",
+      "kind": "needs_person",
       "amount": "19965120000000000000000",
-      "reason": "Salió por el puente el 14/09/2026 hacia Ethereum y no encontramos la emisión del otro lado (buscada hasta el bloque 26101361 de Ethereum).",
+      "reason": "Salió por el puente el 14/09/2026 hacia Ethereum y no encontramos la emisión del otro lado (buscada hasta el bloque 26101524 de Ethereum).",
       "explorer_url": "https://hyperevmscan.io/tx/0x3ff080dac8b08f89c84dbb2c4e076b2bfc69b66c2df2a7493788675023f526c6",
       "outcome": "task",
-      "summary": "El modelo no respondió a esta consulta, así que el agente no pudo analizar el movimiento. Revisalo a mano con el link de la transacción.",
-      "steps": 1
+      "proposal": {
+        "kind": "needs_person",
+        "summary": "La transacción 0x3ff080dac8b08f89c84dbb2c4e076b2bfc69b66c2df2a7493788675023f526c6 llamó a depositForBridge en hyperevm, quemó el monto y cobró una comisión aparte, con destino Ethereum y la misma dirección 0xd7700c8fbb6df79ce08d6d1d138547d097a8eb67 como destinatario. No encontré la emisión del puente en Ethereum ni dentro del trimestre ni después del corte, y tampoco hay emisiones de wBRL hacia esa cuenta en hyperevm que sugieran una devolución. Una persona debería revisar si el operador todavía tiene pendiente el fulfillBridgeMint o si hubo una devolución por transferencia en hyperevm, que con estas herramientas no puedo buscar."
+      },
+      "checks": [
+        "el agente pidió una persona"
+      ],
+      "summary": "La transacción 0x3ff080dac8b08f89c84dbb2c4e076b2bfc69b66c2df2a7493788675023f526c6 llamó a depositForBridge en hyperevm, quemó el monto y cobró una comisión aparte, con destino Ethereum y la misma dirección 0xd7700c8fbb6df79ce08d6d1d138547d097a8eb67 como destinatario. No encontré la emisión del puente en Ethereum ni dentro del trimestre ni después del corte, y tampoco hay emisiones de wBRL hacia esa cuenta en hyperevm que sugieran una devolución. Una persona debería revisar si el operador todavía tiene pendiente el fulfillBridgeMint o si hubo una devolución por transferencia en hyperevm, que con estas herramientas no puedo buscar.",
+      "steps": 4
     }
   ]
 }

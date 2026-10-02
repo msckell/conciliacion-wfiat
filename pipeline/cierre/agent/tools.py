@@ -1,11 +1,16 @@
 """Read only tools for the exception agent. Each returns plain JSON, small enough to put
-back in the prompt. None of them writes anything or changes any state."""
+back in the prompt. None of them writes anything or changes any state.
+
+Results carry decoded fields only (names, addresses, amounts, blocks, hashes), never raw
+calldata, topics or data blobs. The agent does not need them, and on 2026-10-01 the long
+hex of an ERC-4337 handleOps receipt made the model's safeguards refuse the prompt.
+"""
 
 from __future__ import annotations
 
 import httpx
 
-from cierre.abi import keccak256, selector, topic
+from cierre.abi import BridgeIn, BridgeOut, PrimaryMint, decode, keccak256, selector, topic, words
 from cierre.blocks import get_block
 from cierre.bridge import find_fulfillment_after
 from cierre.cache import DiskCache
@@ -15,7 +20,7 @@ from cierre.ledger import TRANSFER_TOPIC, ZERO_TOPIC, RpcLogFetcher
 from cierre.rpc import USER_AGENT, RpcClient
 
 FUNCTIONS = {
-    selector(s): s
+    selector(s): s.split("(")[0]
     for s in (
         "mint(address,uint256)",
         "burn(uint256)",
@@ -50,8 +55,83 @@ BLOCKSCOUT_V2 = {
 }
 
 
+ROLES = {
+    "0x" + keccak256(b"MINTER_ROLE").hex(): "MINTER_ROLE",
+    "0x" + "0" * 64: "DEFAULT_ADMIN_ROLE",
+}
+
+
 def _addr(t: str) -> str:
     return "0x" + t[-40:].lower()
+
+
+def brief_log(lg: dict, tokens: dict[str, str]) -> dict:
+    """One receipt log as the agent sees it: emitter, event name and decoded fields."""
+    t = [x.lower() for x in lg["topics"]]
+    emitter = lg["address"].lower()
+    name = EVENTS.get(t[0], "desconocido") if t else "desconocido"
+    out = {"emitter": emitter, "event": name}
+    w = words(lg["data"])
+    if name in ("Transfer", "Approval") and len(t) == 3 and len(w) == 1:
+        a, b = ("from", "to") if name == "Transfer" else ("owner", "spender")
+        return out | {
+            "token": tokens.get(emitter, "otro"),
+            a: _addr(t[1]),
+            b: _addr(t[2]),
+            "amount_base_units": str(w[0]),
+        }
+    if name == "UserOperationEvent" and len(t) == 4 and len(w) == 4:
+        return out | {"sender": _addr(t[2]), "paymaster": _addr(t[3]), "success": w[1] == 1}
+    if name == "RoleGranted" and len(t) == 4:
+        return out | {
+            "role": ROLES.get(t[1], "otro rol"),
+            "account": _addr(t[2]),
+            "sender": _addr(t[3]),
+        }
+    ev = decode(lg)
+    if isinstance(ev, BridgeOut):
+        return out | {
+            "deposit_id": ev.deposit_id,
+            "token": tokens.get(ev.token, ev.token),
+            "sender": ev.sender,
+            "amount_base_units": str(ev.amount),
+            "fee_base_units": str(ev.fee),
+            "dest_chain_id": ev.dest_chain_id,
+            "dest_recipient": ev.dest_recipient,
+        }
+    if isinstance(ev, BridgeIn):
+        return out | {
+            "token": tokens.get(ev.token, ev.token),
+            "to": ev.to,
+            "amount_base_units": str(ev.amount),
+            "source_chain_id": ev.source_chain_id,
+            "source_tx_hash": ev.source_tx_hash,
+            "source_deposit_id": ev.source_deposit_id,
+        }
+    if isinstance(ev, PrimaryMint):
+        return out | {
+            "token": tokens.get(ev.token, ev.token),
+            "minter": ev.minter,
+            "destination": ev.destination,
+            "amount_base_units": str(ev.amount),
+        }
+    return out
+
+
+def brief_transaction(chain: str, tx: dict, receipt: dict, timestamp: int, tokens: dict) -> dict:
+    """A transaction as the agent sees it, from the raw RPC answers. Offline and pure."""
+    sel = (tx.get("input") or "0x")[:10]
+    return {
+        "chain": chain,
+        "tx_hash": tx["hash"].lower(),
+        "status": "ok" if int(receipt["status"], 16) == 1 else "reverted",
+        "block": int(receipt["blockNumber"], 16),
+        "timestamp": timestamp,
+        "from": tx["from"].lower(),
+        "to": (tx.get("to") or "").lower(),
+        "function": FUNCTIONS.get(sel, "desconocida"),
+        "logs": [brief_log(lg, tokens) for lg in receipt["logs"][:25]],
+    }
 
 
 class Tools:
@@ -91,37 +171,10 @@ class Tools:
         try:
             tx = rpc.call("eth_getTransactionByHash", [tx_hash], cache=True, require_result=True)
             r = rpc.call("eth_getTransactionReceipt", [tx_hash], cache=True, require_result=True)
-            block = int(r["blockNumber"], 16)
-            ts = get_block(rpc, block).timestamp
+            ts = get_block(rpc, int(r["blockNumber"], 16)).timestamp
         finally:
             rpc.close()
-        sel = (tx.get("input") or "0x")[:10]
-        logs = []
-        for lg in r["logs"]:
-            t = [x.lower() for x in lg["topics"]]
-            name = EVENTS.get(t[0], "unknown") if t else "anonymous"
-            entry = {"emitter": lg["address"].lower(), "event": name}
-            if name == "Transfer" and len(t) == 3:
-                entry |= {
-                    "token": self.tokens.get(lg["address"].lower(), "otro"),
-                    "from": _addr(t[1]),
-                    "to": _addr(t[2]),
-                    "amount_base_units": str(int(lg["data"], 16)),
-                }
-            else:
-                entry |= {"topics": t[:4], "data_prefix": lg["data"][:130]}
-            logs.append(entry)
-        return {
-            "chain": chain,
-            "tx_hash": tx_hash.lower(),
-            "status": "ok" if int(r["status"], 16) == 1 else "reverted",
-            "block": block,
-            "timestamp": ts,
-            "from": tx["from"].lower(),
-            "to": (tx.get("to") or "").lower(),
-            "function": FUNCTIONS.get(sel, f"desconocida ({sel})"),
-            "logs": logs[:25],
-        }
+        return brief_transaction(chain, tx, r, ts, self.tokens)
 
     def contract_info(self, chain: str, address: str) -> dict:
         address = address.lower()
@@ -132,7 +185,6 @@ class Tools:
             rpc.close()
         out: dict = {"chain": chain, "address": address, "is_contract": len(code or "") > 2}
         if out["is_contract"]:
-            out["code_hash"] = "0x" + keccak256(bytes.fromhex(code[2:])).hex()
             out["known_as"] = [
                 {"role": k.role, "evidence": k.evidence}
                 for k in self.known

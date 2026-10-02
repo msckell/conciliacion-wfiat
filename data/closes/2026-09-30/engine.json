@@ -6705,7 +6705,7 @@
       "https://gnosis-rpc.publicnode.com": "serves historical state",
       "https://rpc.gnosischain.com": "serves historical state",
       "https://gnosis.drpc.org": "no archive state: https://gnosis.drpc.org: 27 Unknown state. First available state is 1",
-      "https://1rpc.io/gnosis": "unreachable: https://1rpc.io/gnosis: ReadTimeout"
+      "https://1rpc.io/gnosis": "serves historical state"
     },
     "cutoff_blocks": [
       {
@@ -6760,7 +6760,8 @@
             "closing": "9360155000000000000000000",
             "closing_reads": {
               "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 48526543 (0x80c19a5b5ccd26ce56b5e70d10e80987def585",
-              "https://rpc.gnosischain.com": "9360155000000000000000000"
+              "https://rpc.gnosischain.com": "9360155000000000000000000",
+              "https://1rpc.io/gnosis": "error: RpcError: gnosis eth_call: all endpoints failed: https://1rpc.io/gnosis: HTTP 403 non JSON body"
             },
             "by_source": {
               "rpc:rpc.gnosischain.com": {
@@ -6784,7 +6785,8 @@
             "closing": "9360155000000000000000000",
             "closing_reads": {
               "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 48524423 (0x188a0aec82344fb9f8cb8a35f6ff8e65657a0f",
-              "https://rpc.gnosischain.com": "9360155000000000000000000"
+              "https://rpc.gnosischain.com": "9360155000000000000000000",
+              "https://1rpc.io/gnosis": "9360155000000000000000000"
             },
             "by_source": {
               "rpc:rpc.gnosischain.com": {
@@ -6824,7 +6826,8 @@
             "closing": "32999840000000000000000",
             "closing_reads": {
               "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 48526543 (0x80c19a5b5ccd26ce56b5e70d10e80987def585",
-              "https://rpc.gnosischain.com": "32999840000000000000000"
+              "https://rpc.gnosischain.com": "32999840000000000000000",
+              "https://1rpc.io/gnosis": "32999840000000000000000"
             },
             "by_source": {
               "rpc:rpc.gnosischain.com": {
@@ -6848,7 +6851,8 @@
             "closing": "32999840000000000000000",
             "closing_reads": {
               "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 48524423 (0x188a0aec82344fb9f8cb8a35f6ff8e65657a0f",
-              "https://rpc.gnosischain.com": "32999840000000000000000"
+              "https://rpc.gnosischain.com": "32999840000000000000000",
+              "https://1rpc.io/gnosis": "32999840000000000000000"
             },
             "by_source": {
               "rpc:rpc.gnosischain.com": {
@@ -6888,7 +6892,8 @@
             "closing": "68001270000000000000000",
             "closing_reads": {
               "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 48526543 (0x80c19a5b5ccd26ce56b5e70d10e80987def585",
-              "https://rpc.gnosischain.com": "68001270000000000000000"
+              "https://rpc.gnosischain.com": "68001270000000000000000",
+              "https://1rpc.io/gnosis": "68001270000000000000000"
             },
             "by_source": {
               "rpc:rpc.gnosischain.com": {
@@ -6912,7 +6917,8 @@
             "closing": "68001270000000000000000",
             "closing_reads": {
               "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 48524423 (0x188a0aec82344fb9f8cb8a35f6ff8e65657a0f",
-              "https://rpc.gnosischain.com": "68001270000000000000000"
+              "https://rpc.gnosischain.com": "68001270000000000000000",
+              "https://1rpc.io/gnosis": "68001270000000000000000"
             },
             "by_source": {
               "rpc:rpc.gnosischain.com": {
@@ -6983,7 +6989,8 @@
             "closing": "19320986000000000000000000",
             "closing_reads": {
               "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 48526543 (0x80c19a5b5ccd26ce56b5e70d10e80987def585",
-              "https://rpc.gnosischain.com": "19320986000000000000000000"
+              "https://rpc.gnosischain.com": "19320986000000000000000000",
+              "https://1rpc.io/gnosis": "19320986000000000000000000"
             },
             "by_source": {
               "rpc:rpc.gnosischain.com": {
@@ -7007,7 +7014,8 @@
             "closing": "19320986000000000000000000",
             "closing_reads": {
               "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 48524423 (0x188a0aec82344fb9f8cb8a35f6ff8e65657a0f",
-              "https://rpc.gnosischain.com": "19320986000000000000000000"
+              "https://rpc.gnosischain.com": "19320986000000000000000000",
+              "https://1rpc.io/gnosis": "19320986000000000000000000"
             },
             "by_source": {
               "rpc:rpc.gnosischain.com": {
@@ -7047,7 +7055,8 @@
             "closing": "4646014000000000000000000",
             "closing_reads": {
               "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 48526543 (0x80c19a5b5ccd26ce56b5e70d10e80987def585",
-              "https://rpc.gnosischain.com": "4646014000000000000000000"
+              "https://rpc.gnosischain.com": "4646014000000000000000000",
+              "https://1rpc.io/gnosis": "4646014000000000000000000"
             },
             "by_source": {
               "rpc:rpc.gnosischain.com": {
@@ -7071,7 +7080,8 @@
             "closing": "4646014000000000000000000",
             "closing_reads": {
               "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 48524423 (0x188a0aec82344fb9f8cb8a35f6ff8e65657a0f",
-              "https://rpc.gnosischain.com": "4646014000000000000000000"
+              "https://rpc.gnosischain.com": "4646014000000000000000000",
+              "https://1rpc.io/gnosis": "4646014000000000000000000"
             },
             "by_source": {
               "rpc:rpc.gnosischain.com": {
@@ -7127,7 +7137,8 @@
             "closing": "4500000000000000000000",
             "closing_reads": {
               "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 48526543 (0x80c19a5b5ccd26ce56b5e70d10e80987def585",
-              "https://rpc.gnosischain.com": "4500000000000000000000"
+              "https://rpc.gnosischain.com": "4500000000000000000000",
+              "https://1rpc.io/gnosis": "error: RpcError: gnosis eth_call: all endpoints failed: https://1rpc.io/gnosis: HTTP 403 non JSON body"
             },
             "by_source": {
               "rpc:rpc.gnosischain.com": {
@@ -7151,7 +7162,8 @@
             "closing": "4500000000000000000000",
             "closing_reads": {
               "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 48524423 (0x188a0aec82344fb9f8cb8a35f6ff8e65657a0f",
-              "https://rpc.gnosischain.com": "4500000000000000000000"
+              "https://rpc.gnosischain.com": "4500000000000000000000",
+              "https://1rpc.io/gnosis": "4500000000000000000000"
             },
             "by_source": {
               "rpc:rpc.gnosischain.com": {
