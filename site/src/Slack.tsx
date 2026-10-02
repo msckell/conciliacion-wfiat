@@ -4,7 +4,13 @@ import { site } from './data'
 // Faithful render of the Block Kit payload the pipeline wrote (slack_payload.json).
 // Only the subset of mrkdwn the payload uses: *bold*, <url|text>, :emoji: and lines.
 
-const EMOJI: Record<string, string> = { ':warning:': '⚠️', ':rotating_light:': '🚨' }
+const EMOJI: Record<string, string> = {
+  ':warning:': '⚠️',
+  ':rotating_light:': '🚨',
+  ':mag:': '🔍',
+  ':white_check_mark:': '✅',
+  ':new:': '🆕',
+}
 
 function inline(text: string): ReactNode[] {
   const out: ReactNode[] = []
@@ -16,7 +22,7 @@ function inline(text: string): ReactNode[] {
     if (m.index > last) out.push(text.slice(last, m.index))
     if (m[1]) {
       out.push(
-        <a key={k++} href={m[1]} target="_blank" rel="noreferrer" className="text-[#1264a3] hover:underline">
+        <a key={k++} href={m[1]} target="_blank" rel="noreferrer" className="text-[#1264a3] underline decoration-[#1264a3]/40 underline-offset-2 hover:decoration-[#1264a3]">
           {m[2]}
         </a>,
       )

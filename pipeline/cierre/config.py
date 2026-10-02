@@ -86,6 +86,7 @@ class Token:
     status: str
     address: str
     deployments: tuple[Deployment, ...]
+    name_es: str | None = None  # display name on the page
 
     def on(self, chain: str) -> Deployment | None:
         return next((d for d in self.deployments if d.chain == chain), None)
@@ -114,5 +115,6 @@ def load_tokens(path: Path | None = None, include_unconfirmed: bool = False) -> 
             status=t["status"],
             address=t["address"],
             deployments=deps,
+            name_es=t.get("name_es"),
         )
     return tokens

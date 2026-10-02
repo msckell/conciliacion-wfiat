@@ -21,7 +21,7 @@ import yaml
 from cierre import DATA_DIR, REPO_ROOT
 from cierre.agent.memo import fmt
 from cierre.agent.verifier_cases import REJECT_CASES
-from cierre.config import load_chains
+from cierre.config import load_chains, load_tokens
 from cierre.package import units
 from cierre.runlog import read_runs
 
@@ -79,7 +79,7 @@ def _duration(seconds: float) -> str:
     return _plural(m, "minuto", "minutos")
 
 
-def _tokens(pkg: dict, names: dict[str, str]) -> list[dict]:
+def _tokens(pkg: dict, names: dict[str, str], labels: dict[str, str]) -> list[dict]:
     out = []
     for sym, t in pkg["tokens"].items():
         closing = Decimal(t["closing"])
@@ -96,7 +96,7 @@ def _tokens(pkg: dict, names: dict[str, str]) -> list[dict]:
         out.append(
             {
                 "symbol": sym,
-                "name": t["name"],
+                "name": labels.get(sym, t["name"]),
                 "closing": fmt(closing),
                 "opening": fmt(t["opening"]),
                 "change": _signed(t["change"]),
@@ -360,6 +360,7 @@ def build_site(cutoff: str) -> dict:
     slack = _read(close_dir / "slack_payload.json")
     chains = load_chains()
     names = {k: c.name for k, c in chains.items()}
+    labels = {s: t.name_es or t.name for s, t in load_tokens(include_unconfirmed=True).items()}
     runs = read_runs()
     close_runs = [r for r in runs if r["kind"] == "close" and r["params"].get("cutoff") == cutoff]
     last_ok = next((r for r in reversed(close_runs) if r["status"] == "ok"), None)
@@ -415,7 +416,7 @@ def build_site(cutoff: str) -> dict:
             "previous_cutoff": _d(pkg["previous_cutoff"]),
             "cutoff_instant": f"{_d(pkg['cutoff'])} 23:59:59, hora de Buenos Aires",
             "generated_at": _local(pkg["generated_at"]),
-            "tokens": _tokens(pkg, names),
+            "tokens": _tokens(pkg, names, labels),
             "networks": [
                 {
                     "name": n["name"],
