@@ -616,7 +616,7 @@ function SectionIndex() {
   // Keep the active chip visible on narrow screens, scrolling only the index.
   useEffect(() => {
     const chip = nav.current?.querySelector<HTMLElement>(`[data-id="${active}"]`)
-    if (nav.current && chip) nav.current.scrollTo({ left: chip.offsetLeft - 16, behavior: 'smooth' })
+    if (nav.current && chip) nav.current.scrollTo({ left: chip.offsetLeft - 16, behavior: prefersReducedMotion() ? 'auto' : 'smooth' })
   }, [active])
 
   const go = (id: string) => {
