@@ -81,7 +81,7 @@ def _two_reads(
                 historical=True,
             )
             reads[url] = str(int(out, 16))
-        except Exception as exc:  # the failure is the read's value, not a zero
+        except Exception as exc:  # a failed read is recorded as an error string, not a zero
             reads[url] = f"error: {type(exc).__name__}: {str(exc)[:160]}"
         if sum(not v.startswith("error") for v in reads.values()) == 2:
             break
@@ -100,11 +100,11 @@ def read_chain(
     """Cutoff blocks (both conventions) and raw totalSupply of every token at each one.
 
     Two archive endpoints are read when available and must agree. A failed or disputed read
-    is recorded as an error, never as a zero. A token whose contract did not exist yet at
+    is recorded as an error, not as a zero. A token whose contract did not exist yet at
     the cutoff block gets status not_created, with its creation block as evidence.
 
     `live` reads totalSupply from the network again instead of the disk cache. Cutoff blocks
-    may still come from the cache: a block number at a past instant never changes."""
+    may still come from the cache: a block number at a past instant does not change."""
     key = chain.key
     rpc = RpcClient(chain, cache)
     history = rpc.qualify_history(tokens[HISTORY_PROBE_SYMBOL].address)
