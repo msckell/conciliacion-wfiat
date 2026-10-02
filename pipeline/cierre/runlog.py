@@ -1,8 +1,7 @@
-"""Run log: every run of the agent appends one line to data/runs.jsonl.
+"""Run log: every run appends one line to data/runs.jsonl with its steps in order.
 
-Each line holds the run kind, its start, duration and result, and the ordered steps with
-their own start, duration, status and counts. The page builds the timeline "Lo que hizo
-el agente" from the last close run, so a step only says what its counts prove.
+Each step records its start, duration, status and counts. The page builds the agent
+timeline from the last close run, so a step only says what its counts prove.
 """
 
 from __future__ import annotations
@@ -18,7 +17,8 @@ from cierre import DATA_DIR
 RUNS_PATH = DATA_DIR / "runs.jsonl"
 
 
-def _now() -> str:
+def now() -> str:
+    """Current UTC time to the second, ISO 8601."""
     return datetime.now(UTC).isoformat(timespec="seconds")
 
 
@@ -30,16 +30,21 @@ class Run:
             "params": params,
             # schedule, workflow_dispatch or push in GitHub Actions, local otherwise
             "trigger": os.environ.get("GITHUB_EVENT_NAME", "local"),
-            "started_at": _now(),
+            "started_at": now(),
             "steps": [],
         }
         self._t0 = time.monotonic()
+
+    @property
+    def last_step(self) -> str:
+        """Key of the step that started last, which is the one that failed when a run stops."""
+        return self.record["steps"][-1]["key"]
 
     @contextmanager
     def step(self, key: str):
         """Times one step. The caller fills `counts` (and `status` for a non failure
         outcome such as a dry run). An exception marks the step failed and propagates."""
-        rec: dict = {"key": key, "started_at": _now(), "status": "ok", "counts": {}}
+        rec: dict = {"key": key, "started_at": now(), "status": "ok", "counts": {}}
         self.record["steps"].append(rec)
         t0 = time.monotonic()
         try:
@@ -53,7 +58,7 @@ class Run:
 
     def finish(self, status: str) -> dict:
         self.record["status"] = status
-        self.record["finished_at"] = _now()
+        self.record["finished_at"] = now()
         self.record["duration_s"] = round(time.monotonic() - self._t0, 1)
         RUNS_PATH.parent.mkdir(parents=True, exist_ok=True)
         with open(RUNS_PATH, "a", encoding="utf-8", newline="\n") as f:

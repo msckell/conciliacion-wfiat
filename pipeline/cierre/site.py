@@ -1,12 +1,9 @@
 """Light JSON for the page (data/site/site.json).
 
-The page only displays what this file holds. Every figure is formatted here from the
-close files with Decimal, and every status and sentence with a number in it is a
-template over those files, so the site never computes or types a figure. The LLM text
-that reaches the page is the memo explanation, already checked by the verifier.
-
-Not exported on purpose: the notes of the extraction eval (only its scores) and the
-quoted text of the certificates.
+The page only displays this file. Every figure is formatted here from the close files with
+Decimal, and every sentence with a number in it is a template over them. The only model
+text on the page is the memo explanation, already checked by the verifier. The quoted text
+of the certificates and the notes of the extraction eval are not exported.
 """
 
 from __future__ import annotations
@@ -14,19 +11,21 @@ from __future__ import annotations
 import json
 from datetime import datetime
 from decimal import ROUND_HALF_UP, Decimal
-from zoneinfo import ZoneInfo
+from pathlib import Path
 
 import yaml
 
 from cierre import DATA_DIR, REPO_ROOT
-from cierre.agent.memo import fmt
+from cierre.agent.memo import fmt, fmt_date
 from cierre.agent.verifier_cases import REJECT_CASES
 from cierre.config import load_chains, load_tokens
-from cierre.package import units
-from cierre.runlog import read_runs
+from cierre.gitops import commit_and_push
+from cierre.jsonio import dump_json, load_json, load_json_if_exists
+from cierre.package import ART, units
+from cierre.runlog import RUNS_PATH, read_runs
 
-ART = ZoneInfo("America/Argentina/Buenos_Aires")
 SLACK_SCREENSHOT = "slack_captura.png"
+RECENT_RUNS = 10  # runs listed on the page
 
 TRIGGERS = {
     "schedule": "programada",
@@ -45,15 +44,6 @@ TOOL_LABELS = {
 }
 
 LABELS = {"documented": "Documentado", "inferred": "Inferido", "hypothesis": "Hipótesis"}
-
-
-def _read(path):
-    return json.loads(path.read_text(encoding="utf-8")) if path.exists() else None
-
-
-def _d(iso: str) -> str:
-    y, m, d = iso[:10].split("-")
-    return f"{d}/{m}/{y}"
 
 
 def _local(iso: str) -> str:
@@ -117,10 +107,10 @@ def _timeline(run: dict | None, names: dict[str, str]) -> dict | None:
         c = s["counts"]
         k = s["key"]
         if k == "detect":
-            title = f"Detectó el cierre del {_d(c['cutoff'])}"
+            title = f"Detectó el cierre del {fmt_date(c['cutoff'])}"
             detail = (
                 f"Corte a las 23:59:59 hora de Buenos Aires. Cierre anterior: "
-                f"{_d(c['previous_cutoff'])}."
+                f"{fmt_date(c['previous_cutoff'])}."
             )
         elif k == "engine":
             title = f"Leyó {c['networks_read']} redes"
@@ -209,22 +199,17 @@ def _timeline(run: dict | None, names: dict[str, str]) -> dict | None:
     }
 
 
-MONTHS = {
-    "1": "enero",
-    "4": "abril",
-    "7": "julio",
-    "10": "octubre",
-}
+MONTHS = {"1": "enero", "4": "abril", "7": "julio", "10": "octubre"}
+ART_UTC_OFFSET_HOURS = -3  # Argentina has no daylight saving time
 
 
 def _cron_text(cron: str) -> str:
-    """The two schedules the workflows use, in Spanish. Argentina has no daylight saving,
-    so Buenos Aires is always UTC minus three."""
+    """The two schedules the workflows use (daily, and quarterly on day 1), in Spanish."""
     minute, hour, dom, month, dow = cron.split()
-    at = f"{(int(hour) - 3) % 24:02d}:{int(minute):02d} de Buenos Aires"
+    at = f"{(int(hour) + ART_UTC_OFFSET_HOURS) % 24:02d}:{int(minute):02d} de Buenos Aires"
     if (dom, month, dow) == ("*", "*", "*"):
         return f"Todos los días a las {at}"
-    if dow == "*" and dom == "1" and month in ("1,4,7,10",):
+    if (dom, month, dow) == ("1", "1,4,7,10", "*"):
         months = [MONTHS[m] for m in month.split(",")]
         listed = ", ".join(months[:-1]) + f" y {months[-1]}"
         return f"El 1 de {listed} a las {at}, el día siguiente a cada fin de trimestre"
@@ -242,9 +227,8 @@ def _schedule(workflow: str) -> str | None:
 
 
 def _production(runs: list[dict]) -> dict:
-    """What the page shows under "En producción". Live golden figures are shown only when
-    every certificate matches (rule 10: nothing that could contradict a certificate)."""
-    mon = _read(DATA_DIR / "monitor" / "latest.json")
+    """What the page shows under "En producción": schedules, CI and the daily monitor."""
+    mon = load_json_if_exists(DATA_DIR / "monitor" / "latest.json")
     monitor_runs = [r for r in runs if r["kind"] == "monitor"]
     last = monitor_runs[-1] if monitor_runs else None
     last_ok = next((r for r in reversed(monitor_runs) if r["status"] == "ok"), None)
@@ -276,11 +260,11 @@ def _production(runs: list[dict]) -> dict:
     }
 
 
-def _verification(names: dict[str, str]) -> dict:
-    ver = _read(DATA_DIR / "golden" / "verification.json")
+def _verification(names: dict[str, str], decimals: dict[str, int]) -> dict:
+    ver = load_json(DATA_DIR / "golden" / "verification.json")
     certs = {
         (c["token"], c["cutoff"]): c
-        for c in _read(DATA_DIR / "golden" / "certifications.json")["certifications"]
+        for c in load_json(DATA_DIR / "golden" / "certifications.json")["certifications"]
     }
     rows = []
     for r in ver["rows"]:
@@ -288,12 +272,12 @@ def _verification(names: dict[str, str]) -> dict:
         rows.append(
             {
                 "token": r["token"],
-                "cutoff": _d(r["cutoff"]),
+                "cutoff": fmt_date(r["cutoff"]),
                 # As printed in the certificate (2 decimals or whole units).
                 "certified": fmt(r["certified"], r["printed_decimals"]),
                 "raw_sum": fmt(r["computed"])
                 if not r["adjustments"]
-                else fmt(units(r["raw_sum_base_units"], 18)),
+                else fmt(units(r["raw_sum_base_units"], decimals[r["token"]])),
                 "adjustments": "Ninguno" if not r["adjustments"] else str(len(r["adjustments"])),
                 "computed": fmt(r["computed_at_printed_precision"], 0),
                 "difference": fmt(
@@ -304,7 +288,7 @@ def _verification(names: dict[str, str]) -> dict:
                 "match": r["match"],
                 "networks": [names[n] for n in r["networks_included"]],
                 "document_url": cert["document_url"],
-                "signed": _d(cert["signed_date"]),
+                "signed": fmt_date(cert["signed_date"]),
             }
         )
     return {
@@ -318,7 +302,9 @@ def _verification(names: dict[str, str]) -> dict:
     }
 
 
-def _exceptions(exc: dict | None, log_path, names: dict[str, str]) -> dict | None:
+def _exceptions(
+    exc: dict | None, log_path: Path, names: dict[str, str], decimals: dict[str, int]
+) -> dict | None:
     if exc is None:
         return None
     tools: dict[tuple, list[str]] = {}
@@ -332,12 +318,13 @@ def _exceptions(exc: dict | None, log_path, names: dict[str, str]) -> dict | Non
     items = []
     for r in exc["results"]:
         kind = "emisión" if r.get("kind") == "mint" or "primary" in r.get("kind", "") else "quema"
+        amount = fmt(units(r["amount"], decimals[r["token"]]))
         items.append(
             {
                 "outcome": r["outcome"],
                 "chain": names[r["chain"]],
                 "token": r["token"],
-                "movement": f"{kind} de {fmt(units(r['amount'], 18))} {r['token']}",
+                "movement": f"{kind} de {amount} {r['token']}",
                 "reason": r["reason"],
                 "summary": r["summary"],
                 "checks": r.get("checks") or [],
@@ -355,13 +342,14 @@ def _exceptions(exc: dict | None, log_path, names: dict[str, str]) -> dict | Non
 
 def build_site(cutoff: str) -> dict:
     close_dir = DATA_DIR / "closes" / cutoff
-    pkg = _read(close_dir / "package.json")
-    memo = _read(close_dir / "memo.json")
-    exc = _read(close_dir / "exceptions.json")
-    slack = _read(close_dir / "slack_payload.json")
+    pkg = load_json(close_dir / "package.json")
+    memo = load_json_if_exists(close_dir / "memo.json")
+    exc = load_json_if_exists(close_dir / "exceptions.json")
+    slack = load_json_if_exists(close_dir / "slack_payload.json")
     chains = load_chains()
     names = {k: c.name for k, c in chains.items()}
     labels = {s: t.name_es or t.name for s, t in load_tokens(include_unconfirmed=True).items()}
+    decimals = {s: t["decimals"] for s, t in pkg["tokens"].items()}
     runs = read_runs()
     close_runs = [r for r in runs if r["kind"] == "close" and r["params"].get("cutoff") == cutoff]
     last_ok = next((r for r in reversed(close_runs) if r["status"] == "ok"), None)
@@ -411,13 +399,13 @@ def build_site(cutoff: str) -> dict:
         (s for s in (last_ok or {}).get("steps", []) if s["key"] == "package"), None
     )
     transactions = len({(m["chain"], m["tx_hash"]) for m in pkg["movements"]})
-    eval_ = _read(DATA_DIR / "golden" / "extraction_eval.json")
+    extraction = load_json_if_exists(DATA_DIR / "golden" / "extraction_eval.json")
 
     return {
         "close": {
-            "cutoff": _d(pkg["cutoff"]),
-            "previous_cutoff": _d(pkg["previous_cutoff"]),
-            "cutoff_instant": f"{_d(pkg['cutoff'])} 23:59:59, hora de Buenos Aires",
+            "cutoff": fmt_date(pkg["cutoff"]),
+            "previous_cutoff": fmt_date(pkg["previous_cutoff"]),
+            "cutoff_instant": f"{fmt_date(pkg['cutoff'])} 23:59:59, hora de Buenos Aires",
             "generated_at": _local(pkg["generated_at"]),
             "tokens": _tokens(pkg, names, labels),
             "networks": [
@@ -462,7 +450,7 @@ def build_site(cutoff: str) -> dict:
             "tokens": len(pkg["tokens"]),
             "duration": _duration(last_ok["duration_s"]),
         },
-        "verification": _verification(names),
+        "verification": _verification(names, decimals),
         "methodology": [
             {
                 "decision": m["decision"],
@@ -472,21 +460,21 @@ def build_site(cutoff: str) -> dict:
             }
             for m in pkg["methodology"]
         ],
-        "exceptions": _exceptions(exc, close_dir / "exceptions_log.jsonl", names),
+        "exceptions": _exceptions(exc, close_dir / "exceptions_log.jsonl", names, decimals),
         "verifier": {
             "model": (memo or {}).get("model"),
             "attempts": attempts,
             "cases": [{"text": t, "code": c, "problem": p} for t, c, p in REJECT_CASES],
         },
         "extraction_eval": None
-        if eval_ is None
+        if extraction is None
         else {
-            "documents": eval_["documents"],
-            "all_fields_ok": eval_["documents_all_fields_ok"],
-            "per_field_ok": eval_["per_field_ok"],
+            "documents": extraction["documents"],
+            "all_fields_ok": extraction["documents_all_fields_ok"],
+            "per_field_ok": extraction["per_field_ok"],
         },
         "slack": {
-            # Sent only when the last close run's notify step really posted it.
+            # A dry run unless the last close run's notify step really posted the message
             "dry_run": not any(
                 st["key"] == "notify" and st["status"] == "ok"
                 for st in (last_ok or {}).get("steps", [])
@@ -503,7 +491,25 @@ def build_site(cutoff: str) -> dict:
                 "duration": _duration(r["duration_s"]),
                 "status": r["status"],
             }
-            for r in reversed(runs[-10:])
+            for r in reversed(runs[-RECENT_RUNS:])
         ],
         "production": _production(runs),
     }
+
+
+def latest_close() -> str:
+    """Cutoff of the newest close that has a package, which is the one the page shows."""
+    return max(p.parent.name for p in (DATA_DIR / "closes").glob("*/package.json"))
+
+
+def write_site(cutoff: str | None = None) -> Path:
+    """Rebuild data/site/site.json for `cutoff` (default: the newest close)."""
+    path = DATA_DIR / "site" / "site.json"
+    dump_json(path, build_site(cutoff or latest_close()))
+    return path
+
+
+def publish_run_log(message: str) -> None:
+    """After a failed run: push only the run log and the page data, so the page shows it."""
+    site_json = write_site()
+    commit_and_push([RUNS_PATH, site_json], message)
