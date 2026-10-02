@@ -1217,6 +1217,13 @@
   },
   "runs": [
     {
+      "kind": "close",
+      "trigger": "manual en GitHub",
+      "started_at": "02/10/2026 16:19",
+      "duration": "6 minutos",
+      "status": "failed"
+    },
+    {
       "kind": "monitor",
       "trigger": "programada",
       "started_at": "02/10/2026 14:44",
