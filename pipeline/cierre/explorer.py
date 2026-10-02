@@ -16,7 +16,7 @@ from cierre.config import Chain, ExplorerApi
 from cierre.rpc import USER_AGENT
 
 PAGE_CAP = 1000
-MAX_RESET_WAIT = 660  # seconds
+MAX_RESET_WAIT = 660  # longest pause, in seconds, while waiting for a rate limit window
 
 
 class ExplorerError(Exception):
@@ -110,7 +110,7 @@ class ExplorerClient:
             hit = self.cache.get(key)
             if hit is not None:
                 return hit
-        logs = self._get(dict(params))
+        logs = self._get(params)
         if len(logs) >= PAGE_CAP:
             if from_block == to_block:
                 raise ExplorerError(f"{self.label}: more than {PAGE_CAP} logs in one block")

@@ -4,8 +4,10 @@
 # The rest are probed for deployments only.
 #
 # rpc_urls are free public endpoints, tried in order. An env var RPC_URL_<KEY> goes first.
+# no_history: endpoints that answer old blocks with today's state, excluded from state reads.
 # explorer_api: free Blockscout or Etherscan style API used as a source for logs.
-# logs_rpc: public endpoints that serve eth_getLogs, and the block grid they accept.
+# logs_rpc: public endpoints that serve eth_getLogs, and the block grid they accept
+#   (all_transfers: ask for every Transfer per cell, workers: parallel requests per endpoint).
 #   Networks without it are too slow to scan on free RPCs (1000 block limits over millions
 #   of blocks), so their logs come from the explorer and are checked against totalSupply.
 
@@ -33,13 +35,13 @@ chains:
       - https://mainnet.base.org
       - https://base.drpc.org
       - https://1rpc.io/base
-      # Archive state, checked against the recorded cutoff reads (2026-10-02). Added because
+      # Archive state, checked against the recorded cutoff reads. Added because
       # mainnet.base.org answers HTTP 429 to GitHub Actions runners.
       - https://base.gateway.tenderly.co
       - https://base-mainnet.public.blastapi.io
     # base.drpc.org allows 10 blocks per eth_getLogs on the free plan, mainnet.base.org
-    # 2000 (2026-10-01). base.blockscout.com allows 10 calls per window and missed mints and
-    # burns in Q3 2026 (caught by the reconciliation), so it is only a second source.
+    # 2000. base.blockscout.com allows 10 calls per window and missed mints and burns in
+    # Q3 2026 (caught by the reconciliation), so it is only a second source.
     logs_rpc: {urls: [https://mainnet.base.org], grid: 2000, all_transfers: true}
     explorer: https://basescan.org
     explorer_api:
@@ -127,13 +129,13 @@ chains:
       - https://hyperliquid.drpc.org
       - https://rpc.hypurrscan.io
       - https://hyperliquid-json-rpc.stakely.io
-    # Seen on 2026-10-01: these answer old blocks with today's state, sometimes or always.
-    # They are never used for historical state, whatever qualify_history() says.
+    # These answer old blocks with today's state, sometimes or always. They are excluded from
+    # historical state reads, whatever qualify_history() says.
     no_history:
       - https://rpc.hyperliquid.xyz/evm
       - https://rpc.hypurrscan.io
       - https://hyperliquid-json-rpc.stakely.io
-    # rpc.hyperliquid.xyz answers "rate limited" to most eth_getLogs calls (2026-10-01).
+    # rpc.hyperliquid.xyz answers "rate limited" to most eth_getLogs calls.
     logs_rpc:
       urls: [https://hyperliquid-json-rpc.stakely.io, https://rpc.hypurrscan.io]
       grid: 1000
@@ -154,7 +156,7 @@ chains:
       - https://rpc.quicknode.mainnet.arc.io
     logs_rpc: {urls: [https://arc.gateway.tenderly.co], grid: 100000}
     explorer: https://explorer.arc.io
-    # explorer.arc.io answers scripts with a bot challenge (seen 2026-10-01), so no API here.
+    # explorer.arc.io answers scripts with a bot challenge, so no API here.
     explorer_api: []
 
   # Probed for deployments only.

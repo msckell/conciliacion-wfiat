@@ -2,7 +2,7 @@
 # Each entry: verified source on an explorer for that network, or the same runtime code
 # hash as a contract verified on another network. The close checks code_hash onchain
 # before using an entry, so an upgrade stops the classification instead of passing.
-# Generated 2026-10-01 from eth_getCode at the latest block.
+# code_hash is keccak256 of eth_getCode at the latest block.
 
 contracts:
   bridge_deposit:

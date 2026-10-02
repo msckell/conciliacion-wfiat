@@ -16,7 +16,9 @@ from cierre.blocks import get_block
 from cierre.config import Chain
 from cierre.rpc import USER_AGENT, MissingState, RpcClient, RpcError
 
+# EIP-1967 storage slot that holds a proxy's implementation address.
 ERC1967_IMPL_SLOT = "0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc"
+COINGECKO_COIN_URL = "https://api.coingecko.com/api/v3/coins/{coin_id}"
 
 
 @dataclass
@@ -142,7 +144,7 @@ def as_dict(p: Probe) -> dict:
 
 
 # CoinGecko platform ids for the candidate networks. A platform not listed here is reported
-# as "not in the candidate list", never dropped.
+# under not_in_candidate_list instead of being dropped.
 COINGECKO_PLATFORMS = {
     "ethereum": "ethereum",
     "base": "base",
@@ -176,7 +178,7 @@ def coingecko_platforms(coingecko_id: str, api_key: str | None = None) -> dict:
     headers = {"User-Agent": USER_AGENT}
     if api_key:
         headers["x-cg-demo-api-key"] = api_key
-    url = f"https://api.coingecko.com/api/v3/coins/{coingecko_id}"
+    url = COINGECKO_COIN_URL.format(coin_id=coingecko_id)
     params = {
         "localization": "false",
         "tickers": "false",
