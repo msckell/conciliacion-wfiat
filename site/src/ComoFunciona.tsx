@@ -1,12 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { production, site } from './data'
+import { prefersReducedMotion } from './reveal'
 import { Card, Check, Ext, Pill, Section, TokenIcon } from './ui'
-
-const LABEL_TONE: Record<string, 'ok' | 'accent' | 'warn'> = {
-  documented: 'ok',
-  inferred: 'accent',
-  hypothesis: 'warn',
-}
 
 type StageKind = 'source' | 'code' | 'ai' | 'output'
 
@@ -25,18 +20,19 @@ function KindChip({ kind }: { kind: StageKind }) {
   return null
 }
 
+const STAGES: { title: string; items: string; kind: StageKind }[] = [
+  { title: 'Fuentes públicas', items: 'Nodos de cada red, exploradores y los certificados publicados', kind: 'source' },
+  { title: 'Motor determinístico', items: 'Bloque del corte, cantidad de tokens, emisiones y quemas, conciliación exacta', kind: 'code' },
+  { title: 'Agentes', items: 'Agente de excepciones y redactor del resumen, con Claude', kind: 'ai' },
+  { title: 'Verificador', items: 'Rechaza cifras escritas por la IA, datos ajenos y afirmaciones prohibidas', kind: 'code' },
+  { title: 'Salidas', items: 'Slack, tareas, esta página y el Excel', kind: 'output' },
+]
+
 function Diagram() {
-  const stages: { title: string; items: string; kind: StageKind }[] = [
-    { title: 'Fuentes públicas', items: 'Nodos de cada red, exploradores y los certificados publicados', kind: 'source' },
-    { title: 'Motor determinístico', items: 'Bloque del corte, cantidad de tokens, emisiones y quemas, conciliación exacta', kind: 'code' },
-    { title: 'Agentes', items: 'Agente de excepciones y redactor del resumen, con Claude', kind: 'ai' },
-    { title: 'Verificador', items: 'Rechaza cifras escritas por la IA, datos ajenos y afirmaciones prohibidas', kind: 'code' },
-    { title: 'Salidas', items: 'Slack, tareas, esta página y el Excel', kind: 'output' },
-  ]
   return (
     <>
       <ol className="flex flex-col gap-2 sm:flex-row sm:items-stretch">
-        {stages.map((s, i) => (
+        {STAGES.map((s, i) => (
           <li key={s.title} className="flex flex-col items-center gap-2 sm:flex-1 sm:flex-row">
             <div className={`w-full flex-1 self-stretch rounded-xl border p-3 ${STAGE_STYLE[s.kind]}`}>
               <div className="flex items-center justify-between gap-2">
@@ -45,7 +41,7 @@ function Diagram() {
               </div>
               <p className="mt-1 text-xs leading-snug text-on-navy">{s.items}</p>
             </div>
-            {i < stages.length - 1 && (
+            {i < STAGES.length - 1 && (
               <span className="text-on-navy" aria-hidden>
                 <span className="sm:hidden">↓</span>
                 <span className="hidden sm:inline">→</span>
@@ -87,14 +83,22 @@ function Table({ head, children }: { head: string[]; children: ReactNode }) {
   )
 }
 
-function Verification() {
-  const v = site.verification
+function TokenCutoff({ token, cutoff }: { token: string; cutoff: string }) {
   return (
-    <Section
-      id="verificacion"
-      title="Verificación contra el contador"
-      lead={`Regla única para todas las filas: ${v.rule} Coincide en ${v.matched} de ${v.total}.`}
-    >
+    <span className="flex items-center gap-2">
+      <TokenIcon symbol={token} size="sm" />
+      <span className="leading-tight">
+        <span className="block font-medium">{token}</span>
+        <span className="num block text-xs text-ink-3">{cutoff}</span>
+      </span>
+    </span>
+  )
+}
+
+// Phones get an expandable row per certificate. Wider screens get every column at once.
+function VerificationList() {
+  return (
+    <>
       <p className="mb-2 flex items-center gap-1.5 text-xs text-ink-3 sm:hidden">
         <span className="flex h-4 w-4 items-center justify-center rounded-full bg-ok-soft text-ok" aria-hidden>
           <Check className="h-3 w-3" />
@@ -102,16 +106,10 @@ function Verification() {
         coincide con la cifra certificada. Tocá una fila para ver el detalle.
       </p>
       <Card flush className="divide-y divide-line sm:hidden">
-        {v.rows.map((r) => (
+        {site.verification.rows.map((r) => (
           <details key={r.token + r.cutoff} className="group px-3 py-2.5">
             <summary className="flex cursor-pointer list-none items-center justify-between gap-2">
-              <span className="flex items-center gap-2">
-                <TokenIcon symbol={r.token} size="sm" />
-                <span className="leading-tight">
-                  <span className="block font-medium">{r.token}</span>
-                  <span className="num block text-xs text-ink-3">{r.cutoff}</span>
-                </span>
-              </span>
+              <TokenCutoff token={r.token} cutoff={r.cutoff} />
               <span className="flex min-w-0 items-center gap-2">
                 <span className="num truncate text-sm">{r.certified}</span>
                 {r.match ? (
@@ -147,42 +145,55 @@ function Verification() {
           </details>
         ))}
       </Card>
-      <Card flush className="hidden sm:block">
-        <div className="px-3 py-2">
-          <Table head={['Moneda y corte', 'Suma de contratos', 'Ajustes', 'Calculado', 'Certificado', 'Diferencia', 'Estado']}>
-            {v.rows.map((r) => (
-              <tr key={r.token + r.cutoff} className="border-b border-line last:border-0">
-                <td className="px-2 py-2">
-                  <span className="flex items-center gap-2">
-                    <TokenIcon symbol={r.token} size="sm" />
-                    <span className="leading-tight">
-                      <span className="block font-medium">{r.token}</span>
-                      <span className="num block text-xs text-ink-3">{r.cutoff}</span>
-                    </span>
-                  </span>
-                </td>
-                <td className="num px-2 py-2 text-right text-ink-2">{r.raw_sum}</td>
-                <td className="px-2 py-2 text-right text-ink-2">{r.adjustments}</td>
-                <td className="num px-2 py-2 text-right">{r.computed}</td>
-                <td className="num px-2 py-2 text-right">
-                  <Ext href={r.document_url}>{r.certified}</Ext>
-                </td>
-                <td className="num px-2 py-2 text-right">{r.difference}</td>
-                <td className="px-2 py-2 text-right">
-                  {r.match ? (
-                    <Pill tone="ok">
-                      <Check className="h-3 w-3" />
-                      Coincide
-                    </Pill>
-                  ) : (
-                    <Pill tone="warn">No coincide</Pill>
-                  )}
-                </td>
-              </tr>
-            ))}
-          </Table>
-        </div>
-      </Card>
+    </>
+  )
+}
+
+function VerificationTable() {
+  return (
+    <Card flush className="hidden sm:block">
+      <div className="px-3 py-2">
+        <Table head={['Moneda y corte', 'Suma de contratos', 'Ajustes', 'Calculado', 'Certificado', 'Diferencia', 'Estado']}>
+          {site.verification.rows.map((r) => (
+            <tr key={r.token + r.cutoff} className="border-b border-line last:border-0">
+              <td className="px-2 py-2">
+                <TokenCutoff token={r.token} cutoff={r.cutoff} />
+              </td>
+              <td className="num px-2 py-2 text-right text-ink-2">{r.raw_sum}</td>
+              <td className="px-2 py-2 text-right text-ink-2">{r.adjustments}</td>
+              <td className="num px-2 py-2 text-right">{r.computed}</td>
+              <td className="num px-2 py-2 text-right">
+                <Ext href={r.document_url}>{r.certified}</Ext>
+              </td>
+              <td className="num px-2 py-2 text-right">{r.difference}</td>
+              <td className="px-2 py-2 text-right">
+                {r.match ? (
+                  <Pill tone="ok">
+                    <Check className="h-3 w-3" />
+                    Coincide
+                  </Pill>
+                ) : (
+                  <Pill tone="warn">No coincide</Pill>
+                )}
+              </td>
+            </tr>
+          ))}
+        </Table>
+      </div>
+    </Card>
+  )
+}
+
+function Verification() {
+  const v = site.verification
+  return (
+    <Section
+      id="verificacion"
+      title="Verificación contra el contador"
+      lead={`Regla única para todas las filas: ${v.rule} Coincide en ${v.matched} de ${v.total}.`}
+    >
+      <VerificationList />
+      <VerificationTable />
       <p className="mt-2 text-xs text-ink-3">
         La cifra certificada lleva al certificado publicado. La suma de contratos se muestra con hasta dos decimales y
         se compara en tokens enteros.
@@ -191,10 +202,10 @@ function Verification() {
   )
 }
 
-const LABEL_GROUPS: { key: string; hint: string }[] = [
-  { key: 'documented', hint: 'Tiene una fuente.' },
-  { key: 'inferred', hint: 'Su única evidencia es que reproduce las cifras certificadas.' },
-  { key: 'hypothesis', hint: 'Falta evidencia.' },
+const LABEL_GROUPS: { key: string; tone: 'ok' | 'accent' | 'warn'; hint: string }[] = [
+  { key: 'documented', tone: 'ok', hint: 'Tiene una fuente.' },
+  { key: 'inferred', tone: 'accent', hint: 'Su única evidencia es que reproduce las cifras certificadas.' },
+  { key: 'hypothesis', tone: 'warn', hint: 'Falta evidencia.' },
 ]
 
 function Methodology() {
@@ -211,7 +222,7 @@ function Methodology() {
           return (
             <Card key={g.key} flush>
               <div className="flex flex-wrap items-center gap-2 border-b border-line px-4 py-3 sm:px-5">
-                <Pill tone={LABEL_TONE[g.key]}>{items[0].label}</Pill>
+                <Pill tone={g.tone}>{items[0].label}</Pill>
                 <span className="text-xs text-ink-3">{g.hint}</span>
               </div>
               <ul className="divide-y divide-line">
@@ -231,14 +242,14 @@ function Methodology() {
 }
 
 // Addresses and hashes read better shortened. The full value stays in the tooltip and in
-// the explorer link of each card.
-const HEX = /(0x[0-9a-fA-F]{40,})/g
+// the explorer link of each card. Splitting on a capture group puts the matches at odd indexes.
+const HEX = /(0x[0-9a-fA-F]{40,})/
 
 function ShortHashes({ text }: { text: string }) {
   return (
     <>
       {text.split(HEX).map((part, i) =>
-        /^0x[0-9a-fA-F]{40,}$/.test(part) ? (
+        i % 2 === 1 ? (
           <code key={i} title={part} className="rounded bg-paper px-1 font-mono text-[0.85em] text-ink-2">
             {part.slice(0, 6)}…{part.slice(-4)}
           </code>
@@ -264,7 +275,6 @@ function collapseSteps(steps: string[]): { text: string; times: number }[] {
 type ExceptionItem = NonNullable<typeof site.exceptions>['items'][number]
 
 function ExceptionCard({ it }: { it: ExceptionItem }) {
-  const symbol = it.movement.match(/\bw[A-Z]{3}\b/)?.[0]
   return (
     <Card>
       <div className="flex flex-wrap items-center gap-2">
@@ -277,7 +287,7 @@ function ExceptionCard({ it }: { it: ExceptionItem }) {
           <Pill tone="warn">Tarea para una persona</Pill>
         )}
         <span className="flex items-center gap-1.5 text-sm font-medium">
-          {symbol && <TokenIcon symbol={symbol} size="sm" />}
+          <TokenIcon symbol={it.token} size="sm" />
           {it.chain}, {it.movement}
         </span>
       </div>
@@ -309,6 +319,18 @@ function ExceptionCard({ it }: { it: ExceptionItem }) {
   )
 }
 
+function ExceptionList({ items, className }: { items: ExceptionItem[]; className: string }) {
+  return (
+    <ul className={className}>
+      {items.map((it, i) => (
+        <li key={i}>
+          <ExceptionCard it={it} />
+        </li>
+      ))}
+    </ul>
+  )
+}
+
 function Exceptions() {
   const e = site.exceptions
   if (!e) return null
@@ -323,13 +345,7 @@ function Exceptions() {
       {tasks.length > 0 && (
         <>
           <h3 className="mb-2 text-sm font-semibold text-ink-2">Tareas para una persona ({e.tasks})</h3>
-          <ul className="space-y-3">
-            {tasks.map((it, i) => (
-              <li key={i}>
-                <ExceptionCard it={it} />
-              </li>
-            ))}
-          </ul>
+          <ExceptionList items={tasks} className="space-y-3" />
         </>
       )}
       {resolved.length > 0 && (
@@ -340,13 +356,7 @@ function Exceptions() {
             </svg>
             Resueltos con evidencia ({e.resolved})
           </summary>
-          <ul className="mt-3 space-y-3">
-            {resolved.map((it, i) => (
-              <li key={i}>
-                <ExceptionCard it={it} />
-              </li>
-            ))}
-          </ul>
+          <ExceptionList items={resolved} className="mt-3 space-y-3" />
         </details>
       )}
     </Section>
@@ -407,133 +417,166 @@ function Verifier() {
 // when the page is read, not on the data.
 function since(iso: string): { text: string; hours: number } {
   const hours = (Date.now() - Date.parse(iso)) / 3_600_000
-  const n = (v: number, one: string, many: string) => `hace ${v} ${v === 1 ? one : many}`
-  if (hours < 1) return { text: n(Math.max(1, Math.round(hours * 60)), 'minuto', 'minutos'), hours }
-  if (hours < 48) return { text: n(Math.round(hours), 'hora', 'horas'), hours }
-  return { text: n(Math.round(hours / 24), 'día', 'días'), hours }
+  const ago = (value: number, one: string, many: string) => `hace ${value} ${value === 1 ? one : many}`
+  if (hours < 1) return { text: ago(Math.max(1, Math.round(hours * 60)), 'minuto', 'minutos'), hours }
+  if (hours < 48) return { text: ago(Math.round(hours), 'hora', 'horas'), hours }
+  return { text: ago(Math.round(hours / 24), 'día', 'días'), hours }
 }
 
 const STALE_HOURS = 36
 
-function Production() {
-  const runs = site.runs
-  const { schedule, ci, monitor, slack_live } = production
-  const last = monitor ? since(monitor.last_run_at_iso) : null
-  const lastOk = monitor?.last_ok_at_iso ? since(monitor.last_ok_at_iso) : null
+function RunPill({ ok }: { ok: boolean }) {
+  return <Pill tone={ok ? 'ok' : 'warn'}>{ok ? 'OK' : 'Falló'}</Pill>
+}
+
+function MonitorStatus({ monitor }: { monitor: NonNullable<typeof production.monitor> }) {
+  const last = since(monitor.last_run_at_iso)
+  const lastOk = monitor.last_ok_at_iso ? since(monitor.last_ok_at_iso) : null
   const stale = !lastOk || lastOk.hours > STALE_HOURS
+  return (
+    <>
+      <div className="mt-3 flex flex-wrap items-center gap-2 text-sm">
+        <span>Última corrida {last.text}</span>
+        <RunPill ok={monitor.last_run_status === 'ok'} />
+        {stale && <Pill tone="warn">Atrasado: sin corrida exitosa en {STALE_HOURS} horas</Pill>}
+      </div>
+      <p className="mt-2 text-sm text-ink-2">
+        Revisa {monitor.networks_checked} redes de la lista por contratos nuevos, lee la cantidad de tokens
+        de cada red y{' '}
+        {monitor.golden_live_all_match
+          ? `recalcula desde la red las ${monitor.golden_live_total} certificaciones publicadas: coinciden todas.`
+          : 'recalcula desde la red las certificaciones publicadas: chequeo en revisión.'}
+      </p>
+      {monitor.problems.length > 0 && (
+        <ul className="mt-2 space-y-1 text-sm text-warn">
+          {monitor.problems.map((p) => (
+            <li key={p}>{p}</li>
+          ))}
+        </ul>
+      )}
+      {monitor.changes.length > 0 && (
+        <ul className="mt-2 space-y-1 text-sm text-ink">
+          {monitor.changes.map((c) => (
+            <li key={c}>{c}</li>
+          ))}
+        </ul>
+      )}
+    </>
+  )
+}
+
+function MonitorCard() {
+  const { schedule, monitor } = production
+  return (
+    <Card>
+      <p className="font-medium">Monitor diario</p>
+      {schedule.monitor && <p className="mt-1 text-sm text-ink-2">{schedule.monitor}.</p>}
+      {monitor ? <MonitorStatus monitor={monitor} /> : <p className="mt-2 text-sm text-ink-3">Todavía no corrió.</p>}
+    </Card>
+  )
+}
+
+function CiCard() {
+  const { ci } = production
+  return (
+    <Card>
+      <p className="font-medium">Integración continua</p>
+      <p className="mt-1 text-sm text-ink-2">
+        En cada cambio de código: lint, tests sin conexión (incluye las certificaciones publicadas) y el build
+        de esta página.
+      </p>
+      <div className="mt-3 flex flex-wrap items-center gap-2 text-sm">
+        {ci ? (
+          <>
+            {ci.conclusion === 'success' ? (
+              <Pill tone="ok">
+                <Check className="h-3 w-3" /> En verde
+              </Pill>
+            ) : (
+              <Pill tone="warn">Falló</Pill>
+            )}
+            <span className="num text-ink-3">
+              {ci.at} · {ci.sha}
+            </span>
+          </>
+        ) : (
+          <span className="text-ink-3">Sin datos todavía: lo lee el monitor diario.</span>
+        )}
+      </div>
+    </Card>
+  )
+}
+
+function CloseCard() {
+  const { schedule, slack_live } = production
+  return (
+    <Card>
+      <p className="font-medium">Cierre y alertas</p>
+      {schedule.close && <p className="mt-1 text-sm text-ink-2">{schedule.close}. También se corre a mano.</p>}
+      <p className="mt-2 text-sm text-ink-2">
+        Avisa por Slack solo con el Excel ya publicado. Si un paso falla, manda una alerta sin link. Cada caso
+        que el agente no puede probar se abre como tarea.
+      </p>
+      <div className="mt-3">
+        {slack_live ? <Pill tone="ok">Slack conectado</Pill> : <Pill tone="neutral">Slack en modo de prueba</Pill>}
+      </div>
+    </Card>
+  )
+}
+
+function RunsCard() {
+  const runs = site.runs
+  return (
+    <Card>
+      <p className="font-medium">Últimas corridas</p>
+      {runs.length === 0 ? (
+        <p className="mt-2 text-sm text-ink-3">Todavía no hay corridas registradas.</p>
+      ) : (
+        <ul className="mt-2 divide-y divide-line text-sm">
+          {runs.map((r, i) => (
+            <li key={i} className="flex items-center justify-between gap-2 py-1.5">
+              <span>
+                {r.kind === 'close' ? 'Cierre' : 'Monitor'} <span className="text-ink-3">{r.trigger}</span>{' '}
+                <span className="num text-ink-3">{r.started_at}</span>
+              </span>
+              <span className="flex items-center gap-2">
+                <span className="text-xs text-ink-3">{r.duration}</span>
+                <RunPill ok={r.status === 'ok'} />
+              </span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </Card>
+  )
+}
+
+function Production() {
   return (
     <Section id="produccion" title="En producción">
       <div className="grid gap-3 sm:grid-cols-2">
-        <Card>
-          <p className="font-medium">Monitor diario</p>
-          {schedule.monitor && <p className="mt-1 text-sm text-ink-2">{schedule.monitor}.</p>}
-          {monitor && last ? (
-            <>
-              <div className="mt-3 flex flex-wrap items-center gap-2 text-sm">
-                <span>Última corrida {last.text}</span>
-                {monitor.last_run_status === 'ok' ? <Pill tone="ok">OK</Pill> : <Pill tone="warn">Falló</Pill>}
-                {stale && <Pill tone="warn">Atrasado: sin corrida exitosa en {STALE_HOURS} horas</Pill>}
-              </div>
-              <p className="mt-2 text-sm text-ink-2">
-                Revisa {monitor.networks_checked} redes de la lista por contratos nuevos, lee la cantidad de tokens
-                de cada red y{' '}
-                {monitor.golden_live_all_match
-                  ? `recalcula desde la red las ${monitor.golden_live_total} certificaciones publicadas: coinciden todas.`
-                  : 'recalcula desde la red las certificaciones publicadas: chequeo en revisión.'}
-              </p>
-              {monitor.problems.length > 0 && (
-                <ul className="mt-2 space-y-1 text-sm text-warn">
-                  {monitor.problems.map((p) => (
-                    <li key={p}>{p}</li>
-                  ))}
-                </ul>
-              )}
-              {monitor.changes.length > 0 && (
-                <ul className="mt-2 space-y-1 text-sm text-ink">
-                  {monitor.changes.map((c) => (
-                    <li key={c}>{c}</li>
-                  ))}
-                </ul>
-              )}
-            </>
-          ) : (
-            <p className="mt-2 text-sm text-ink-3">Todavía no corrió.</p>
-          )}
-        </Card>
-        <Card>
-          <p className="font-medium">Integración continua</p>
-          <p className="mt-1 text-sm text-ink-2">
-            En cada cambio de código: lint, tests sin conexión (incluye las certificaciones publicadas) y el build
-            de esta página.
-          </p>
-          <div className="mt-3 flex flex-wrap items-center gap-2 text-sm">
-            {ci ? (
-              <>
-                {ci.conclusion === 'success' ? (
-                  <Pill tone="ok">
-                    <Check className="h-3 w-3" /> En verde
-                  </Pill>
-                ) : (
-                  <Pill tone="warn">Falló</Pill>
-                )}
-                <span className="num text-ink-3">
-                  {ci.at} · {ci.sha}
-                </span>
-              </>
-            ) : (
-              <span className="text-ink-3">Sin datos todavía: lo lee el monitor diario.</span>
-            )}
-          </div>
-        </Card>
-        <Card>
-          <p className="font-medium">Cierre y alertas</p>
-          {schedule.close && <p className="mt-1 text-sm text-ink-2">{schedule.close}. También se corre a mano.</p>}
-          <p className="mt-2 text-sm text-ink-2">
-            Avisa por Slack solo con el Excel ya publicado. Si un paso falla, manda una alerta sin link. Cada caso
-            que el agente no puede probar se abre como tarea.
-          </p>
-          <div className="mt-3">
-            {slack_live ? <Pill tone="ok">Slack conectado</Pill> : <Pill tone="neutral">Slack en modo de prueba</Pill>}
-          </div>
-        </Card>
-        <Card>
-          <p className="font-medium">Últimas corridas</p>
-          {runs.length === 0 ? (
-            <p className="mt-2 text-sm text-ink-3">Todavía no hay corridas registradas.</p>
-          ) : (
-            <ul className="mt-2 divide-y divide-line text-sm">
-              {runs.map((r, i) => (
-                <li key={i} className="flex items-center justify-between gap-2 py-1.5">
-                  <span>
-                    {r.kind === 'close' ? 'Cierre' : 'Monitor'} <span className="text-ink-3">{r.trigger}</span>{' '}
-                    <span className="num text-ink-3">{r.started_at}</span>
-                  </span>
-                  <span className="flex items-center gap-2">
-                    <span className="text-xs text-ink-3">{r.duration}</span>
-                    {r.status === 'ok' ? <Pill tone="ok">OK</Pill> : <Pill tone="warn">Falló</Pill>}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          )}
-        </Card>
+        <MonitorCard />
+        <CiCard />
+        <CloseCard />
+        <RunsCard />
       </div>
     </Section>
   )
 }
 
+const DECISIONS = [
+  'Las cifras salen solo del motor determinístico, en unidades enteras y sin decimales flotantes. La IA explica, no calcula.',
+  'Cada red se calcula por dos caminos independientes y el cierre se detiene si no coinciden.',
+  'El método se prueba contra las certificaciones publicadas con una sola regla para todas.',
+  'La máquina propone y la persona decide: lo que el agente no puede probar queda como tarea.',
+  'Página estática sin servidor ni base de datos. Los datos los escribe la corrida y quedan versionados.',
+]
+
 function Decisions() {
-  const items = [
-    'Las cifras salen solo del motor determinístico, en unidades enteras y sin decimales flotantes. La IA explica, no calcula.',
-    'Cada red se calcula por dos caminos independientes y el cierre se detiene si no coinciden.',
-    'El método se prueba contra las certificaciones publicadas con una sola regla para todas.',
-    'La máquina propone y la persona decide: lo que el agente no puede probar queda como tarea.',
-    'Página estática sin servidor ni base de datos. Los datos los escribe la corrida y quedan versionados.',
-  ]
   return (
     <Section id="decisiones" title="Decisiones de diseño">
       <ul className="space-y-2">
-        {items.map((t) => (
+        {DECISIONS.map((t) => (
           <li key={t} className="flex gap-2 text-ink">
             <span className="text-accent">•</span>
             {t}
@@ -579,12 +622,15 @@ function SectionIndex() {
   const go = (id: string) => {
     const el = document.getElementById(id)
     if (!el || !nav.current) return
-    const header = window.matchMedia('(min-width: 640px)').matches
+    // The header is only sticky from the sm breakpoint up (see App.tsx).
+    const headerHeight = window.matchMedia('(min-width: 640px)').matches
       ? parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 0
       : 0
-    const offset = header + nav.current.offsetHeight + 16
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - offset, behavior: reduce ? 'auto' : 'smooth' })
+    const offset = headerHeight + nav.current.offsetHeight + 16
+    window.scrollTo({
+      top: el.getBoundingClientRect().top + window.scrollY - offset,
+      behavior: prefersReducedMotion() ? 'auto' : 'smooth',
+    })
   }
 
   return (
