@@ -23,6 +23,11 @@ export function networkColor(chain: string): string {
   return NETWORK_SLOT[chain] ?? 'var(--color-net-other)'
 }
 
+// Networks past the seven slots fold into one gray "Otras redes" group.
+export function isOtherNetwork(chain: string): boolean {
+  return !(chain in NETWORK_SLOT)
+}
+
 export const excelHref = `/data/${site.close.excel_file}`
 
 // Typed by hand: the JSON holds null until the first CI read or monitor run.
