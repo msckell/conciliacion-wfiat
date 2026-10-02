@@ -10,9 +10,9 @@ import time
 
 from cierre import DATA_DIR, supply
 from cierre.cache import DiskCache
-from cierre.config import load_chains, load_tokens
+from cierre.config import in_scope, load_chains, load_tokens
 from cierre.cutoffs import CONVENTIONS
-from cierre.discover import Probe, _cross_check_creation, as_dict, coingecko_platforms, probe
+from cierre.discover import Probe, as_dict, coingecko_platforms, cross_check_creation, probe
 from cierre.golden import OFFICIAL_RULE, PLACES_RULES, PRECISION_RULES, compare, load_confirmed
 from cierre.jsonio import dump_json, load_json
 from cierre.movement_test import collect_sources, compare_sources, reconcile
@@ -57,7 +57,7 @@ def recheck_creation() -> None:
         chain = chains[row["chain"]]
         rpc = clients.setdefault(chain.key, RpcClient(chain, cache))
         p = Probe(**{k: v for k, v in row.items() if k in fields})
-        _cross_check_creation(rpc, chain, p)
+        cross_check_creation(rpc, chain, p)
         row.update(
             {
                 "explorer_creation_block": p.explorer_creation_block,
@@ -112,7 +112,7 @@ def discover(only: list[str] | None) -> None:
 
 def raw_supply(cutoffs: list[str]) -> None:
     """Raw totalSupply per token, network, cutoff and time convention. No comparison here."""
-    chains = {k: c for k, c in load_chains().items() if c.in_scope}
+    chains = in_scope(load_chains())
     tokens = load_tokens()
     cache = DiskCache()
     with cf.ThreadPoolExecutor(max_workers=len(chains)) as ex:
@@ -139,7 +139,7 @@ def _test_quarter(index: dict, symbol: str, chain: str, cutoffs: list[str]) -> t
 
 def movement_test(symbol: str, only: list[str] | None) -> None:
     """Movement history test: opening + mints - burns == closing, per network, exact."""
-    chains = {k: c for k, c in load_chains().items() if c.in_scope}
+    chains = in_scope(load_chains())
     if only:
         chains = {k: chains[k] for k in only}
     token = load_tokens()[symbol]

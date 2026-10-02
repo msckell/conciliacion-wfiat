@@ -98,11 +98,11 @@ def probe(rpc: RpcClient, chain: Chain, address: str, find_creation: bool = True
             p.error = f"creation block unknown, no archive endpoint: {str(exc)[:200]}"
         except RpcError as exc:
             p.error = f"creation block unknown, query failed: {str(exc)[:200]}"
-        _cross_check_creation(rpc, chain, p)
+        cross_check_creation(rpc, chain, p)
     return p
 
 
-def _cross_check_creation(rpc: RpcClient, chain: Chain, p: Probe) -> None:
+def cross_check_creation(rpc: RpcClient, chain: Chain, p: Probe) -> None:
     """Compare the binary search result with the creation tx an explorer reports."""
     blockscout = next((e for e in chain.explorer_api if e.kind == "blockscout"), None)
     if blockscout is None:
