@@ -1,6 +1,11 @@
-"""The page data: timeline sentences come only from each step's counts, and the prose
-follows the house style (no dashes, no semicolons)."""
+"""The page data: timeline sentences come only from each step's counts, and the prose has no
+dashes or semicolons."""
 
+import json
+import shutil
+
+import cierre.site as site
+from cierre import DATA_DIR
 from cierre.site import _duration, _timeline
 
 RUN = {
@@ -116,12 +121,6 @@ def test_duration():
 
 
 def test_site_survives_an_attempt_the_model_never_answered(tmp_path, monkeypatch):
-    import json
-    import shutil
-
-    import cierre.site as site
-    from cierre import DATA_DIR
-
     for part in ("closes/2026-09-30", "golden", "monitor"):
         shutil.copytree(DATA_DIR / part, tmp_path / part)
     attempts = tmp_path / "closes/2026-09-30/attempts.jsonl"
