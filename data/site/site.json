@@ -1221,7 +1221,8 @@
           ]
         }
       ]
-    }
+    },
+    "screenshot": "slack_captura.png"
   },
   "runs": [
     {

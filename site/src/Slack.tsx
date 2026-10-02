@@ -1,4 +1,4 @@
-import { Fragment, type ReactNode } from 'react'
+import { Fragment, useState, type ReactNode } from 'react'
 import { site } from './data'
 
 // Faithful render of the Block Kit payload the pipeline wrote (slack_payload.json).
@@ -114,6 +114,50 @@ export function SlackMessage({ excelHref }: { excelHref: string }) {
           </div>
         </div>
       </div>
+    </div>
+  )
+}
+
+// The message as text (working links) and, after a live send, the screenshot from the channel.
+export function SlackView({ excelHref }: { excelHref: string }) {
+  const shot = site.slack.screenshot ? `/data/${site.slack.screenshot}` : null
+  const [tab, setTab] = useState<'message' | 'screenshot'>('message')
+  if (!shot) return <SlackMessage excelHref={excelHref} />
+  const button = (value: typeof tab, label: string) => (
+    <button
+      type="button"
+      onClick={() => setTab(value)}
+      aria-pressed={tab === value}
+      className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
+        tab === value ? 'bg-card text-ink shadow-card' : 'text-ink-2 hover:text-ink'
+      }`}
+    >
+      {label}
+    </button>
+  )
+  return (
+    <div>
+      <div className="mb-3 inline-flex gap-1 rounded-xl bg-line/60 p-1">
+        {button('message', 'Mensaje')}
+        {button('screenshot', 'Captura en Slack')}
+      </div>
+      {tab === 'message' ? (
+        <SlackMessage excelHref={excelHref} />
+      ) : (
+        <figure>
+          <a href={shot} target="_blank" rel="noreferrer" className="block">
+            <img
+              src={shot}
+              alt="Captura del mensaje del cierre en el canal #finanzas-cierre de Slack"
+              className="w-full rounded-xl border border-line bg-white shadow-sm"
+              loading="lazy"
+            />
+          </a>
+          <figcaption className="mt-2 text-xs text-ink-3">
+            Captura del canal #finanzas-cierre. Tocá la imagen para verla en tamaño completo.
+          </figcaption>
+        </figure>
+      )}
     </div>
   )
 }
