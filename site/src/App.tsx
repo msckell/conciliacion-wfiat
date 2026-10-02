@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { ComoFunciona } from './ComoFunciona'
+import { prefersReducedMotion } from './reveal'
 import { Resumen } from './Resumen'
 
 type View = 'resumen' | 'como-funciona'
@@ -15,12 +16,11 @@ function BackToTop() {
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
-  const reduce = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
   return (
     <button
       type="button"
       aria-label="Volver arriba"
-      onClick={() => window.scrollTo({ top: 0, behavior: reduce() ? 'auto' : 'smooth' })}
+      onClick={() => window.scrollTo({ top: 0, behavior: prefersReducedMotion() ? 'auto' : 'smooth' })}
       className={`fixed bottom-4 right-4 z-20 flex h-11 w-11 items-center justify-center rounded-full bg-navy text-white shadow-lift transition duration-200 hover:bg-navy-2 ${
         show ? 'opacity-100' : 'pointer-events-none translate-y-2 opacity-0'
       }`}

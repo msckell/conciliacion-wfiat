@@ -4,12 +4,21 @@ import { SlackView } from './Slack'
 import { Alert, Card, Check, Dot, Ext, NavyCard, Pill, Section, TokenIcon } from './ui'
 
 const close = site.close
+const verification = site.verification
+const agent = site.agent_vs_manual
 
-function DownloadIcon() {
+function ExcelButton({ noShrink = false }: { noShrink?: boolean }) {
   return (
-    <svg viewBox="0 0 20 20" className="h-4 w-4" fill="none" aria-hidden>
-      <path d="M10 3v10m0 0l-4-4m4 4l4-4M4 16h12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
+    <a
+      href={excelHref}
+      download
+      className={`inline-flex ${noShrink ? 'shrink-0 ' : ''}items-center justify-center gap-2 rounded-xl bg-white px-4 py-2.5 font-semibold text-navy transition hover:bg-white/90`}
+    >
+      <svg viewBox="0 0 20 20" className="h-4 w-4" fill="none" aria-hidden>
+        <path d="M10 3v10m0 0l-4-4m4 4l4-4M4 16h12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+      Descargar el Excel
+    </a>
   )
 }
 
@@ -20,6 +29,53 @@ function HeroStat({ value, label }: { value: string; label: string }) {
       <dd className="num text-xl font-semibold tracking-tight text-white sm:text-2xl">{value}</dd>
       <dd className="mt-0.5 text-xs leading-snug text-on-navy sm:text-[13px]">{label}</dd>
     </div>
+  )
+}
+
+function Hero() {
+  return (
+    <section className="pt-5 sm:pt-10">
+      <div className="fade-up hero-bg overflow-hidden rounded-3xl px-5 pb-5 pt-6 text-white shadow-lift sm:px-10 sm:pb-8 sm:pt-10">
+        <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-on-navy ring-1 ring-white/15">
+          <span className="h-1.5 w-1.5 rounded-full bg-[#6ee7a8]" aria-hidden />
+          Cierre al {close.cutoff}, listo para revisión
+        </span>
+        <p className="mt-4 max-w-2xl text-lg leading-relaxed text-white sm:text-[1.4rem] sm:leading-relaxed">
+          Cada trimestre, un contador certifica que cada wARS, wBRL y demás stablecoins de Ripio están
+          respaldadas. Para eso, alguien de Finanzas junta los datos de todas las redes. Este agente
+          arma esa parte solo, al día siguiente del cierre.
+        </p>
+        <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:gap-3">
+          <ExcelButton />
+          <a
+            href="#cierre"
+            onClick={(e) => {
+              e.preventDefault()
+              document.getElementById('cierre')?.scrollIntoView({ behavior: 'smooth' })
+            }}
+            className="inline-flex items-center justify-center rounded-xl px-4 py-2.5 font-semibold text-white ring-1 ring-white/25 transition hover:bg-white/10"
+          >
+            Ver el cierre
+          </a>
+        </div>
+        <dl className="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-2xl bg-white/10 ring-1 ring-white/10 lg:grid-cols-4">
+          <HeroStat
+            value={`${verification.matched} de ${verification.total}`}
+            label="certificaciones publicadas coinciden con el contador"
+          />
+          <HeroStat
+            value={`${close.reconciled} de ${close.reconciliations}`}
+            label="conciliaciones por moneda y red con diferencia cero"
+          />
+          {agent && (
+            <>
+              <HeroStat value={String(agent.transactions)} label={`transacciones revisadas en ${agent.networks} redes`} />
+              <HeroStat value={agent.duration} label="duró la última corrida del agente" />
+            </>
+          )}
+        </dl>
+      </div>
+    </section>
   )
 }
 
@@ -231,58 +287,105 @@ function TokenCard({ token }: { token: Token }) {
   )
 }
 
+function NewNetworkAlert({ network }: { network: (typeof close.new_networks)[number] }) {
+  return (
+    <div className="mb-4 flex items-start gap-3 rounded-xl border border-warn/25 bg-warn-soft p-4 text-warn">
+      <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-warn text-white">
+        <Alert />
+      </span>
+      <div className="text-ink">
+        <p className="font-medium">Red nueva desde el último cierre: {network.name}</p>
+        <p className="mt-0.5 text-sm text-ink-2">
+          Los contratos se crearon desde el bloque{' '}
+          <Ext href={network.first_creation_block_url}>
+            <span className="num">{network.first_creation_block}</span>
+          </Ext>
+          , después del cierre anterior. Por eso su saldo de apertura es cero.
+        </p>
+      </div>
+    </div>
+  )
+}
+
+function ReconciliationCard() {
+  return (
+    <NavyCard className="mt-4">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <p className="num text-2xl font-semibold tracking-tight text-white">
+            {close.reconciled} de {close.reconciliations}
+          </p>
+          <p className="mt-0.5 font-medium text-white">conciliaciones por moneda y red con diferencia cero</p>
+          <p className="mt-1 text-sm text-on-navy">
+            Saldo de apertura más emisiones menos quemas igual a saldo de cierre, exacto.
+          </p>
+        </div>
+        <ExcelButton noShrink />
+      </div>
+    </NavyCard>
+  )
+}
+
+function TrustBanner() {
+  return (
+    <div className="mt-6 flex items-start gap-3 rounded-xl border border-ok/25 bg-ok-soft p-4 text-ok">
+      <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-ok text-white">
+        <Check />
+      </span>
+      <p className="font-medium leading-snug">
+        Coincide con la cantidad de tokens certificada por el contador en {verification.matched} de las{' '}
+        {verification.total} certificaciones publicadas.
+      </p>
+    </div>
+  )
+}
+
+const HOW_IT_WORKS = [
+  'Cuenta los tokens de cada red a la fecha y hora del corte, con el bloque usado en cada red como prueba.',
+  'Lista cada emisión y cada quema con su comprobante.',
+  'Avisa a Finanzas por Slack qué cambió y qué le toca revisar.',
+]
+
+function HandVsAgent() {
+  return (
+    <div className="grid gap-3 sm:grid-cols-2">
+      <Card>
+        <p className="text-sm font-semibold text-ink-3">Hecho a mano</p>
+        <p className="mt-1">
+          Buscar en cada explorador, una planilla por red y el riesgo de olvidarse una red nueva.
+        </p>
+      </Card>
+      <NavyCard>
+        <p className="text-sm font-semibold text-on-navy">Con el agente</p>
+        <p className="mt-1 text-white">
+          {agent
+            ? `Este cierre revisó ${agent.transactions} transacciones en ${agent.networks} redes para ${agent.tokens} monedas, en ${agent.duration}, con el link de cada transacción.`
+            : 'Todavía no hay una corrida registrada.'}
+        </p>
+        {agent && (
+          <dl className="mt-4 grid grid-cols-3 gap-2 border-t border-white/15 pt-4">
+            {[
+              [String(agent.transactions), 'transacciones'],
+              [String(agent.networks), 'redes'],
+              [agent.duration, 'de corrida'],
+            ].map(([value, label]) => (
+              <div key={label}>
+                <dd className="num text-lg font-semibold tracking-tight text-white sm:text-xl">{value}</dd>
+                <dt className="text-xs text-on-navy">{label}</dt>
+              </div>
+            ))}
+          </dl>
+        )}
+      </NavyCard>
+    </div>
+  )
+}
+
 export function Resumen() {
-  const v = site.verification
-  const vs = site.agent_vs_manual
   const exc = site.exceptions
   return (
     <>
-      <section className="pt-5 sm:pt-10">
-        <div className="fade-up hero-bg overflow-hidden rounded-3xl px-5 pb-5 pt-6 text-white shadow-lift sm:px-10 sm:pb-8 sm:pt-10">
-          <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-on-navy ring-1 ring-white/15">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#6ee7a8]" aria-hidden />
-            Cierre al {close.cutoff}, listo para revisión
-          </span>
-          <p className="mt-4 max-w-2xl text-lg leading-relaxed text-white sm:text-[1.4rem] sm:leading-relaxed">
-            Cada trimestre, un contador certifica que cada wARS, wBRL y demás stablecoins de Ripio están
-            respaldadas. Para eso, alguien de Finanzas junta los datos de todas las redes. Este agente
-            arma esa parte solo, al día siguiente del cierre.
-          </p>
-          <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:gap-3">
-            <a
-              href={excelHref}
-              download
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-white px-4 py-2.5 font-semibold text-navy transition hover:bg-white/90"
-            >
-              <DownloadIcon />
-              Descargar el Excel
-            </a>
-            <a
-              href="#cierre"
-              onClick={(e) => {
-                e.preventDefault()
-                document.getElementById('cierre')?.scrollIntoView({ behavior: 'smooth' })
-              }}
-              className="inline-flex items-center justify-center rounded-xl px-4 py-2.5 font-semibold text-white ring-1 ring-white/25 transition hover:bg-white/10"
-            >
-              Ver el cierre
-            </a>
-          </div>
-          <dl className="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-2xl bg-white/10 ring-1 ring-white/10 lg:grid-cols-4">
-            <HeroStat value={`${v.matched} de ${v.total}`} label="certificaciones publicadas coinciden con el contador" />
-            <HeroStat
-              value={`${close.reconciled} de ${close.reconciliations}`}
-              label="conciliaciones por moneda y red con diferencia cero"
-            />
-            {vs && (
-              <>
-                <HeroStat value={String(vs.transactions)} label={`transacciones revisadas en ${vs.networks} redes`} />
-                <HeroStat value={vs.duration} label="duró la última corrida del agente" />
-              </>
-            )}
-          </dl>
-        </div>
-      </section>
+      <Hero />
 
       <Section
         id="cierre"
@@ -290,21 +393,7 @@ export function Resumen() {
         lead={`Foto fija al ${close.cutoff_instant}. Generado el ${close.generated_at}.`}
       >
         {close.new_networks.map((n) => (
-          <div key={n.name} className="mb-4 flex items-start gap-3 rounded-xl border border-warn/25 bg-warn-soft p-4 text-warn">
-            <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-warn text-white">
-              <Alert />
-            </span>
-            <div className="text-ink">
-              <p className="font-medium">Red nueva desde el último cierre: {n.name}</p>
-              <p className="mt-0.5 text-sm text-ink-2">
-                Los contratos se crearon desde el bloque{' '}
-                <Ext href={n.first_creation_block_url}>
-                  <span className="num">{n.first_creation_block}</span>
-                </Ext>
-                , después del cierre anterior. Por eso su saldo de apertura es cero.
-              </p>
-            </div>
-          </div>
+          <NewNetworkAlert key={n.name} network={n} />
         ))}
 
         <div className="mb-3">
@@ -316,40 +405,11 @@ export function Resumen() {
           ))}
         </div>
 
-        <NavyCard className="mt-4">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <p className="num text-2xl font-semibold tracking-tight text-white">
-                {close.reconciled} de {close.reconciliations}
-              </p>
-              <p className="mt-0.5 font-medium text-white">conciliaciones por moneda y red con diferencia cero</p>
-              <p className="mt-1 text-sm text-on-navy">
-                Saldo de apertura más emisiones menos quemas igual a saldo de cierre, exacto.
-              </p>
-            </div>
-            <a
-              href={excelHref}
-              download
-              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-white px-4 py-2.5 font-semibold text-navy transition hover:bg-white/90"
-            >
-              <DownloadIcon />
-              Descargar el Excel
-            </a>
-          </div>
-        </NavyCard>
-
+        <ReconciliationCard />
         <NetworksChecked />
       </Section>
 
-      <div className="mt-6 flex items-start gap-3 rounded-xl border border-ok/25 bg-ok-soft p-4 text-ok">
-        <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-ok text-white">
-          <Check />
-        </span>
-        <p className="font-medium leading-snug">
-          Coincide con la cantidad de tokens certificada por el contador en {v.matched} de las {v.total}{' '}
-          certificaciones publicadas.
-        </p>
-      </div>
+      <TrustBanner />
 
       <Section title="Lo que hizo el agente" lead="Cada paso de la última corrida del cierre, tal como quedó registrado.">
         <Timeline />
@@ -357,11 +417,7 @@ export function Resumen() {
 
       <Section title="Cómo lo hace">
         <ol className="grid gap-3 sm:grid-cols-3">
-          {[
-            'Cuenta los tokens de cada red a la fecha y hora del corte, con el bloque usado en cada red como prueba.',
-            'Lista cada emisión y cada quema con su comprobante.',
-            'Avisa a Finanzas por Slack qué cambió y qué le toca revisar.',
-          ].map((text, i) => (
+          {HOW_IT_WORKS.map((text, i) => (
             <li key={i}>
               <Card className="h-full">
                 <span className="flex h-7 w-7 items-center justify-center rounded-full bg-accent-soft text-sm font-semibold text-accent">
@@ -382,7 +438,7 @@ export function Resumen() {
             : 'El mensaje que llegó a Slack.'
         }
       >
-        <SlackView excelHref={excelHref} />
+        <SlackView />
         {exc && (
           <p className="mt-2 text-sm text-ink-3">
             Las tareas salen del agente de excepciones: investigó {exc.investigated} movimientos, resolvió{' '}
@@ -392,36 +448,7 @@ export function Resumen() {
       </Section>
 
       <Section title="A mano y con el agente">
-        <div className="grid gap-3 sm:grid-cols-2">
-          <Card>
-            <p className="text-sm font-semibold text-ink-3">Hecho a mano</p>
-            <p className="mt-1">
-              Buscar en cada explorador, una planilla por red y el riesgo de olvidarse una red nueva.
-            </p>
-          </Card>
-          <NavyCard>
-            <p className="text-sm font-semibold text-on-navy">Con el agente</p>
-            <p className="mt-1 text-white">
-              {vs
-                ? `Este cierre revisó ${vs.transactions} transacciones en ${vs.networks} redes para ${vs.tokens} monedas, en ${vs.duration}, con el link de cada transacción.`
-                : 'Todavía no hay una corrida registrada.'}
-            </p>
-            {vs && (
-              <dl className="mt-4 grid grid-cols-3 gap-2 border-t border-white/15 pt-4">
-                {[
-                  [String(vs.transactions), 'transacciones'],
-                  [String(vs.networks), 'redes'],
-                  [vs.duration, 'de corrida'],
-                ].map(([value, label]) => (
-                  <div key={label}>
-                    <dd className="num text-lg font-semibold tracking-tight text-white sm:text-xl">{value}</dd>
-                    <dt className="text-xs text-on-navy">{label}</dt>
-                  </div>
-                ))}
-              </dl>
-            )}
-          </NavyCard>
-        </div>
+        <HandVsAgent />
       </Section>
 
       <Section title="El mismo método sirve en otras áreas">
