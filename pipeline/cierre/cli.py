@@ -55,9 +55,10 @@ def _build_package(cutoff: str) -> int:
 
 def cmd_close(args: argparse.Namespace) -> int:
     """Quarter close: engine (supply, movements, reconciliation), then the package."""
-    if args.refresh or not (close_run.close_dir(args.cutoff) / "engine.json").exists():
-        close_run.refresh_engine(args.cutoff, args.chains)
-    return _build_package(args.cutoff)
+    cutoff = close_run.resolve_cutoff(args.cutoff)
+    if args.refresh or not (close_run.close_dir(cutoff) / "engine.json").exists():
+        close_run.refresh_engine(cutoff, args.chains)
+    return _build_package(cutoff)
 
 
 def cmd_memo(args: argparse.Namespace) -> int:
@@ -153,7 +154,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--cutoff", required=True)
     p.add_argument("--rerender", action="store_true", help="only reformat the figures, no LLM call")
     p = command("close", cmd_close, "quarter close package for a cutoff")
-    p.add_argument("--cutoff", required=True)
+    p.add_argument("--cutoff", required=True, help="YYYY-MM-DD, or latest")
     p.add_argument("--chains", nargs="+", help="rerun the engine only for these")
     p.add_argument("--refresh", action="store_true", help="rerun the engine")
     p = command("run-close", cmd_run_close, "the whole close, logged step by step")

@@ -6,6 +6,7 @@ import re
 import shlex
 import subprocess
 from datetime import date
+from pathlib import Path
 from types import SimpleNamespace
 
 import httpx
@@ -64,6 +65,17 @@ def test_scheduled_close_takes_the_last_quarter_end():
     assert last_quarter_end(date(2026, 10, 1)) == "2026-09-30"
     assert last_quarter_end(date(2027, 1, 1)) == "2026-12-31"
     assert last_quarter_end(date(2026, 9, 30)) == "2026-06-30"
+
+
+def test_close_and_run_close_both_take_latest(monkeypatch):
+    # The engine-check job of close.yml passes "latest" to `cierre close`.
+    built = []
+    monkeypatch.setattr(cli, "_build_package", lambda cutoff: built.append(cutoff) or 0)
+    monkeypatch.setattr(close_run, "close_dir", lambda cutoff: Path("/nonexistent"))
+    monkeypatch.setattr(close_run, "refresh_engine", lambda cutoff, chains: None)
+    assert cli.main(["close", "--cutoff", "latest"]) == 0
+    assert built == [last_quarter_end(date.today())]
+    assert close_run.resolve_cutoff("2026-09-30") == "2026-09-30"
 
 
 def test_schedule_text_in_buenos_aires_time():
