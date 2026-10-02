@@ -705,6 +705,16 @@ def cmd_monitor(args: argparse.Namespace) -> int:
                     + ", ".join(g["mismatch_without_errors"])
                 )
             s["counts"] = {"matched": g["matched"], "total": g["total"]}
+        step = "prefetch"
+        with run.step("prefetch") as s:
+            from datetime import date
+
+            # A warm up for the close. A failure here is recorded, not alerted.
+            current["prefetch"] = monitor.prefetch_logs(in_scope, tokens, cache, date.today())
+            s["counts"] = {
+                "cells": sum(v.get("cells", 0) for v in current["prefetch"].values()),
+                "networks_failed": [k for k, v in current["prefetch"].items() if "error" in v],
+            }
         step = "ci"
         with run.step("ci") as s:
             import httpx
