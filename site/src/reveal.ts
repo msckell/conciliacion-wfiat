@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 
+export const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
 // True once the element has scrolled into view. Drives the entrance motion in index.css,
 // which is off when the reader asks the system for reduced motion.
 export function useReveal<T extends Element>() {
