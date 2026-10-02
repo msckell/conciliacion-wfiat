@@ -55,8 +55,8 @@ def _plain(text: str) -> str:
     return "".join(c for c in norm if not unicodedata.combining(c))
 
 
-def _style_problems(rest: str, digits_detail: str) -> list[Problem]:
-    """Figures, banned claims and style, over text already stripped of fact IDs."""
+def _content_problems(rest: str, digits_detail: str) -> list[Problem]:
+    """Raw figures, banned claims and style, over text already stripped of fact IDs."""
     problems: list[Problem] = []
     if re.search(r"\d", rest):
         problems.append(Problem("raw_figure", digits_detail))
@@ -84,7 +84,7 @@ def check(text: str, token: str, facts: dict[str, str], periods: set[str]) -> li
         elif fid not in facts:
             problems.append(Problem("unknown_fact", f"{{{fid}}} no existe"))
     rest = _plain(FACT_ID.sub(" ", text))
-    problems += _style_problems(rest, "hay números escritos fuera de un ID de dato")
+    problems += _content_problems(rest, "hay números escritos fuera de un ID de dato")
     if "{" in rest or "}" in rest:
         problems.append(Problem("unknown_fact", "hay una llave suelta que no es un ID válido"))
     return problems
@@ -109,6 +109,6 @@ def check_free_text(text: str) -> list[Problem]:
     """For texts without fact IDs, such as the exception agent's summary: no figures and
     no banned claims, but addresses and hashes may be quoted."""
     rest = _plain(IDENTIFIER.sub(" ", text))
-    return _style_problems(
+    return _content_problems(
         rest, "hay números (montos, bloques o ids) fuera de una dirección o hash"
     )
