@@ -118,3 +118,33 @@ def test_slack_task_line_links_the_issue():
     tasks = {"issues": [{"chain": "base", "tx_hash": TASK["tx_hash"], "log_index": 7, "url": "u"}]}
     msg = close_message(pkg, {"tokens": {}}, EXC, {"matched": 9, "total": 9}, "x", NAMES, tasks)
     assert "<u|tarea>" in json.dumps(msg)
+
+
+def test_slack_puts_what_needs_review_before_what_is_in_order():
+    pkg = {
+        "cutoff": "2026-09-30",
+        "networks": [],
+        "all_reconciled": True,
+        "networks_checked": ["base"],
+    }
+    memo = {"tokens": {"wARS": {"headline": "wARS: 1,00 al 30/09/2026", "status": "Conciliado"}}}
+    msg = json.dumps(
+        close_message(pkg, memo, EXC, {"matched": 9, "total": 9}, "x", NAMES), ensure_ascii=False
+    )
+    review = msg.index("Se requiere tu revisión en 1 movimiento*")
+    ok = msg.index("Todo lo demás está conciliado y verificado")
+    assert review < ok < msg.index("wARS: 1,00")
+
+    nothing = {"investigated": 1, "resolved": 1, "results": []}
+    msg = json.dumps(
+        close_message(pkg, memo, nothing, {"matched": 9, "total": 9}, "x", NAMES),
+        ensure_ascii=False,
+    )
+    assert "Se requiere tu revisión" not in msg
+    assert "Todo está conciliado y verificado" in msg
+
+    msg = json.dumps(
+        close_message(pkg, memo, nothing, {"matched": 8, "total": 9}, "x", NAMES),
+        ensure_ascii=False,
+    )
+    assert "conciliado y verificado" not in msg

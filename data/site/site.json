@@ -1188,28 +1188,14 @@
           "type": "section",
           "text": {
             "type": "mrkdwn",
-            "text": "• *wARS: 14.931.194.588,93 al 30/09/2026 (+7.311.198.511,89 vs 30/06/2026)*. Conciliado en 9 redes, diferencia cero.\n• *wBRL: 13.807.477,38 al 30/09/2026 (+11.221.329,88 vs 30/06/2026)*. Conciliado en 9 redes, diferencia cero.\n• *wMXN: 5.638.788,69 al 30/09/2026 (+4.670.000,00 vs 30/06/2026)*. Conciliado en 9 redes, diferencia cero.\n• *wCOP: 911.258.753,80 al 30/09/2026 (+714.860.000,00 vs 30/06/2026)*. Conciliado en 9 redes, diferencia cero.\n• *wCLP: 66.565.100,00 al 30/09/2026 (+2.270.000,00 vs 30/06/2026)*. Conciliado en 9 redes, diferencia cero.\n• *wPEN: 132.950,00 al 30/09/2026 (+10.000,00 vs 30/06/2026)*. Conciliado en 9 redes, diferencia cero."
+            "text": ":mag: *Se requiere tu revisión en 5 movimientos*\nEl agente investigó 9 movimientos, resolvió 4 con evidencia y te deja estos:\n• Base, quema de 985,00 wARS: Salió por el puente el 29/07/2026 hacia Celo y no encontramos la emisión del otro lado (buscada hasta el bloque 79005809 de Celo). <https://basescan.org/tx/0x973ffae966a4117988101c26b8bbdde3256619169a1988796b8eb713a8cf0dcc|ver transacción>\n• World Chain, quema de 37,11 wARS: Sin clasificar: no tiene evento del puente y quien quema no tiene permiso de emisión. <https://worldscan.org/tx/0xbfcca975bfc33291227162dc80cf5fec141c209604f5dcf205efca99708569eb|ver transacción>\n• World Chain, quema de 1,00 wARS: Sin clasificar: no tiene evento del puente y quien quema no tiene permiso de emisión. <https://worldscan.org/tx/0xad0126a996caf877ab6265d9494c12c22824e59463f68bfc6a1e9078d2579249|ver transacción>\n• Polygon, quema de 485,00 wARS: Salió por el puente el 02/09/2026 hacia Gnosis y no encontramos la emisión del otro lado (buscada hasta el bloque 48542814 de Gnosis). <https://polygonscan.com/tx/0x854723b7fd5543cab04edbdf903dd4dd271567da6477449741d50c2070789615|ver transacción>\n• HyperEVM, quema de 19.965,12 wBRL: Salió por el puente el 14/09/2026 hacia Ethereum y no encontramos la emisión del otro lado (buscada hasta el bloque 26101524 de Ethereum). <https://hyperevmscan.io/tx/0x3ff080dac8b08f89c84dbb2c4e076b2bfc69b66c2df2a7493788675023f526c6|ver transacción>"
           }
         },
         {
           "type": "section",
           "text": {
             "type": "mrkdwn",
-            "text": ":warning: Red nueva desde el último cierre: *Arc* (contratos creados desde el bloque 19659303)."
-          }
-        },
-        {
-          "type": "section",
-          "text": {
-            "type": "mrkdwn",
-            "text": "*Qué te toca revisar* (5)\nEl agente investigó 9 movimientos, resolvió 4 con evidencia y te deja estos:\n• Base, quema de 985,00 wARS: Salió por el puente el 29/07/2026 hacia Celo y no encontramos la emisión del otro lado (buscada hasta el bloque 79005809 de Celo). <https://basescan.org/tx/0x973ffae966a4117988101c26b8bbdde3256619169a1988796b8eb713a8cf0dcc|ver transacción>\n• World Chain, quema de 37,11 wARS: Sin clasificar: no tiene evento del puente y quien quema no tiene permiso de emisión. <https://worldscan.org/tx/0xbfcca975bfc33291227162dc80cf5fec141c209604f5dcf205efca99708569eb|ver transacción>\n• World Chain, quema de 1,00 wARS: Sin clasificar: no tiene evento del puente y quien quema no tiene permiso de emisión. <https://worldscan.org/tx/0xad0126a996caf877ab6265d9494c12c22824e59463f68bfc6a1e9078d2579249|ver transacción>\n• Polygon, quema de 485,00 wARS: Salió por el puente el 02/09/2026 hacia Gnosis y no encontramos la emisión del otro lado (buscada hasta el bloque 48542814 de Gnosis). <https://polygonscan.com/tx/0x854723b7fd5543cab04edbdf903dd4dd271567da6477449741d50c2070789615|ver transacción>\n• HyperEVM, quema de 19.965,12 wBRL: Salió por el puente el 14/09/2026 hacia Ethereum y no encontramos la emisión del otro lado (buscada hasta el bloque 26101524 de Ethereum). <https://hyperevmscan.io/tx/0x3ff080dac8b08f89c84dbb2c4e076b2bfc69b66c2df2a7493788675023f526c6|ver transacción>"
-          }
-        },
-        {
-          "type": "section",
-          "text": {
-            "type": "mrkdwn",
-            "text": "*Verificación:* el método coincide con la cantidad certificada por el contador en 9 de las 9 certificaciones publicadas. Redes revisadas: 24."
+            "text": ":white_check_mark: *Todo lo demás está conciliado y verificado*\n• *wARS: 14.931.194.588,93 al 30/09/2026 (+7.311.198.511,89 vs 30/06/2026)*. Conciliado en 9 redes, diferencia cero.\n• *wBRL: 13.807.477,38 al 30/09/2026 (+11.221.329,88 vs 30/06/2026)*. Conciliado en 9 redes, diferencia cero.\n• *wMXN: 5.638.788,69 al 30/09/2026 (+4.670.000,00 vs 30/06/2026)*. Conciliado en 9 redes, diferencia cero.\n• *wCOP: 911.258.753,80 al 30/09/2026 (+714.860.000,00 vs 30/06/2026)*. Conciliado en 9 redes, diferencia cero.\n• *wCLP: 66.565.100,00 al 30/09/2026 (+2.270.000,00 vs 30/06/2026)*. Conciliado en 9 redes, diferencia cero.\n• *wPEN: 132.950,00 al 30/09/2026 (+10.000,00 vs 30/06/2026)*. Conciliado en 9 redes, diferencia cero.\n\n:new: Red nueva desde el último cierre: *Arc* (contratos creados desde el bloque 19659303).\n*Verificación:* el método coincide con la cantidad certificada por el contador en 9 de las 9 certificaciones publicadas. Redes revisadas: 24."
           }
         },
         {

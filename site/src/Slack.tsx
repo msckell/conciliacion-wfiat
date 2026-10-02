@@ -4,7 +4,13 @@ import { site } from './data'
 // Faithful render of the Block Kit payload the pipeline wrote (slack_payload.json).
 // Only the subset of mrkdwn the payload uses: *bold*, <url|text>, :emoji: and lines.
 
-const EMOJI: Record<string, string> = { ':warning:': '⚠️', ':rotating_light:': '🚨' }
+const EMOJI: Record<string, string> = {
+  ':warning:': '⚠️',
+  ':rotating_light:': '🚨',
+  ':mag:': '🔍',
+  ':white_check_mark:': '✅',
+  ':new:': '🆕',
+}
 
 function inline(text: string): ReactNode[] {
   const out: ReactNode[] = []

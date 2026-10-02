@@ -289,6 +289,7 @@ Phase 0 must prove three things: **enough data access, confirmed references and 
    - If the real close has no exceptions, show it working on real cases from past quarters, never invented ones.
    - Everything it does goes to the run log.
 6. The Slack text: title, one line per token, alerts, "Qué te toca revisar" with the open tasks, verification result and a link to the Excel.
+   Order (Maxi's decision, 2026-10-02): first what needs a person (🔍 "Se requiere tu revisión en N movimientos" with the tasks), then ✅ "Todo lo demás está conciliado y verificado" with the token lines, the new network note and the verification line. The ✅ heading only appears when every reconciliation is zero and the method matches every certificate.
 
 **CHECKPOINT 2, stop here.** Maxi reads the memo, the exception agent log and the Slack text, and approves the tone.
 
@@ -296,7 +297,8 @@ Phase 0 must prove three things: **enough data access, confirmed references and 
 
 Two views, designed for mobile first, clean and neutral, light theme, no Ripio branding.
 
-**View "Resumen" (reader 1).** This copy is a draft, and Maxi approves the final wording:
+**View "Resumen" (reader 1).** This copy is a draft, and Maxi approves the final wording.
+Order (Maxi's decision, 2026-10-02, replaces the order below): hero with key figures · "Cierre al ..., listo para revisión" · trust banner · "Lo que hizo el agente" · "Cómo lo hace" · Slack message · by hand vs agent · other areas · disclaimer. The hero's navy style is reused on the Excel card, on "Con el agente" and on the "Cómo funciona" header.
 - Title: "Cierre trimestral wFIAT". Subtitle: "Demo independiente para Ripio, por Máximo Sckell".
 - Hero: "Cada trimestre, un contador certifica que cada wARS, wBRL y demás stablecoins de Ripio están respaldadas. Para eso, alguien de Finanzas junta los datos de todas las redes. Este agente arma esa parte solo, al día siguiente del cierre."
 - **"Lo que hizo el agente"**, right below the hero:

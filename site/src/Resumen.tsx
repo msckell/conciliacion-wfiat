@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { excelHref, isOtherNetwork, networkColor, site, type Token } from './data'
 import { SlackMessage } from './Slack'
-import { Alert, Card, Check, Dot, Ext, Pill, Section, TokenIcon } from './ui'
+import { Alert, Card, Check, Dot, Ext, NavyCard, Pill, Section, TokenIcon } from './ui'
 
 const close = site.close
 
@@ -284,39 +284,6 @@ export function Resumen() {
         </div>
       </section>
 
-      <Section title="Lo que hizo el agente" lead="Cada paso de la última corrida del cierre, tal como quedó registrado.">
-        <Timeline />
-      </Section>
-
-      <div className="mt-8 flex items-start gap-3 rounded-xl border border-ok/25 bg-ok-soft p-4 text-ok">
-        <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-ok text-white">
-          <Check />
-        </span>
-        <p className="font-medium leading-snug">
-          Coincide con la cantidad de tokens certificada por el contador en {v.matched} de las {v.total}{' '}
-          certificaciones publicadas.
-        </p>
-      </div>
-
-      <Section title="Cómo lo hace">
-        <ol className="grid gap-3 sm:grid-cols-3">
-          {[
-            'Cuenta los tokens de cada red a la fecha y hora del corte, con el bloque usado en cada red como prueba.',
-            'Lista cada emisión y cada quema con su comprobante.',
-            'Avisa a Finanzas por Slack qué cambió y qué le toca revisar.',
-          ].map((text, i) => (
-            <li key={i}>
-              <Card className="h-full">
-                <span className="flex h-7 w-7 items-center justify-center rounded-full bg-accent-soft text-sm font-semibold text-accent">
-                  {i + 1}
-                </span>
-                <p className="mt-3 text-ink">{text}</p>
-              </Card>
-            </li>
-          ))}
-        </ol>
-      </Section>
-
       <Section
         id="cierre"
         title={`Cierre al ${close.cutoff}, listo para revisión`}
@@ -349,29 +316,62 @@ export function Resumen() {
           ))}
         </div>
 
-        <Card className="mt-4">
+        <NavyCard className="mt-4">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <p className="font-medium">
-                {close.reconciled} de {close.reconciliations} conciliaciones por moneda y red con diferencia
-                cero
+              <p className="num text-2xl font-semibold tracking-tight text-white">
+                {close.reconciled} de {close.reconciliations}
               </p>
-              <p className="mt-0.5 text-sm text-ink-2">
+              <p className="mt-0.5 font-medium text-white">conciliaciones por moneda y red con diferencia cero</p>
+              <p className="mt-1 text-sm text-on-navy">
                 Saldo de apertura más emisiones menos quemas igual a saldo de cierre, exacto.
               </p>
             </div>
             <a
               href={excelHref}
               download
-              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-accent px-4 py-2.5 font-semibold text-white transition hover:bg-accent/90"
+              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-white px-4 py-2.5 font-semibold text-navy transition hover:bg-white/90"
             >
               <DownloadIcon />
               Descargar el Excel
             </a>
           </div>
-        </Card>
+        </NavyCard>
 
         <NetworksChecked />
+      </Section>
+
+      <div className="mt-6 flex items-start gap-3 rounded-xl border border-ok/25 bg-ok-soft p-4 text-ok">
+        <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-ok text-white">
+          <Check />
+        </span>
+        <p className="font-medium leading-snug">
+          Coincide con la cantidad de tokens certificada por el contador en {v.matched} de las {v.total}{' '}
+          certificaciones publicadas.
+        </p>
+      </div>
+
+      <Section title="Lo que hizo el agente" lead="Cada paso de la última corrida del cierre, tal como quedó registrado.">
+        <Timeline />
+      </Section>
+
+      <Section title="Cómo lo hace">
+        <ol className="grid gap-3 sm:grid-cols-3">
+          {[
+            'Cuenta los tokens de cada red a la fecha y hora del corte, con el bloque usado en cada red como prueba.',
+            'Lista cada emisión y cada quema con su comprobante.',
+            'Avisa a Finanzas por Slack qué cambió y qué le toca revisar.',
+          ].map((text, i) => (
+            <li key={i}>
+              <Card className="h-full">
+                <span className="flex h-7 w-7 items-center justify-center rounded-full bg-accent-soft text-sm font-semibold text-accent">
+                  {i + 1}
+                </span>
+                <p className="mt-3 text-ink">{text}</p>
+              </Card>
+            </li>
+          ))}
+        </ol>
       </Section>
 
       <Section
@@ -399,28 +399,28 @@ export function Resumen() {
               Buscar en cada explorador, una planilla por red y el riesgo de olvidarse una red nueva.
             </p>
           </Card>
-          <Card className="border-accent/30">
-            <p className="text-sm font-semibold text-accent">Con el agente</p>
-            <p className="mt-1">
+          <NavyCard>
+            <p className="text-sm font-semibold text-on-navy">Con el agente</p>
+            <p className="mt-1 text-white">
               {vs
                 ? `Este cierre revisó ${vs.transactions} transacciones en ${vs.networks} redes para ${vs.tokens} monedas, en ${vs.duration}, con el link de cada transacción.`
                 : 'Todavía no hay una corrida registrada.'}
             </p>
             {vs && (
-              <dl className="mt-4 grid grid-cols-3 gap-2 border-t border-line pt-4">
+              <dl className="mt-4 grid grid-cols-3 gap-2 border-t border-white/15 pt-4">
                 {[
                   [String(vs.transactions), 'transacciones'],
                   [String(vs.networks), 'redes'],
                   [vs.duration, 'de corrida'],
                 ].map(([value, label]) => (
                   <div key={label}>
-                    <dd className="num text-lg font-semibold tracking-tight text-ink sm:text-xl">{value}</dd>
-                    <dt className="text-xs text-ink-3">{label}</dt>
+                    <dd className="num text-lg font-semibold tracking-tight text-white sm:text-xl">{value}</dd>
+                    <dt className="text-xs text-on-navy">{label}</dt>
                   </div>
                 ))}
               </dl>
             )}
-          </Card>
+          </NavyCard>
         </div>
       </Section>
 

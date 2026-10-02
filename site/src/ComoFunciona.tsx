@@ -11,17 +11,17 @@ const LABEL_TONE: Record<string, 'ok' | 'accent' | 'warn'> = {
 type StageKind = 'source' | 'code' | 'ai' | 'output'
 
 const STAGE_STYLE: Record<StageKind, string> = {
-  source: 'border-line bg-card',
-  code: 'border-navy/25 bg-card',
-  ai: 'border-accent/35 bg-accent-soft',
-  output: 'border-line bg-card',
+  source: 'border-white/15 bg-white/5',
+  code: 'border-white/30 bg-white/10',
+  ai: 'border-[#9aa3ff]/60 bg-accent/35',
+  output: 'border-white/15 bg-white/5',
 }
 
 function KindChip({ kind }: { kind: StageKind }) {
   if (kind === 'code')
-    return <span className="rounded-md bg-navy px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white">Código</span>
+    return <span className="rounded-md bg-white px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-navy">Código</span>
   if (kind === 'ai')
-    return <span className="rounded-md bg-accent px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white">IA</span>
+    return <span className="rounded-md bg-accent px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white ring-1 ring-white/30">IA</span>
   return null
 }
 
@@ -40,13 +40,13 @@ function Diagram() {
           <li key={s.title} className="flex flex-col items-center gap-2 sm:flex-1 sm:flex-row">
             <div className={`w-full flex-1 self-stretch rounded-xl border p-3 ${STAGE_STYLE[s.kind]}`}>
               <div className="flex items-center justify-between gap-2">
-                <p className="text-sm font-semibold text-ink">{s.title}</p>
+                <p className="text-sm font-semibold text-white">{s.title}</p>
                 <KindChip kind={s.kind} />
               </div>
-              <p className="mt-1 text-xs leading-snug text-ink-2">{s.items}</p>
+              <p className="mt-1 text-xs leading-snug text-on-navy">{s.items}</p>
             </div>
             {i < stages.length - 1 && (
-              <span className="text-ink-3" aria-hidden>
+              <span className="text-on-navy" aria-hidden>
                 <span className="sm:hidden">↓</span>
                 <span className="hidden sm:inline">→</span>
               </span>
@@ -54,7 +54,7 @@ function Diagram() {
           </li>
         ))}
       </ol>
-      <div className="mt-4 grid gap-2 text-sm text-ink-2 sm:grid-cols-2">
+      <div className="mt-5 grid gap-2 border-t border-white/15 pt-4 text-sm text-on-navy sm:grid-cols-2">
         <p className="flex items-start gap-2">
           <KindChip kind="code" />
           <span>Siempre da el mismo resultado. Calcula y escribe cada cifra.</span>
@@ -617,9 +617,15 @@ function SectionIndex() {
 export function ComoFunciona() {
   return (
     <>
-      <Section title="Cómo funciona" lead="De las fuentes públicas a lo que recibe Finanzas.">
-        <Diagram />
-      </Section>
+      <section className="fade-up pt-5 sm:pt-10">
+        <div className="hero-bg overflow-hidden rounded-3xl px-5 pb-6 pt-6 text-white shadow-lift sm:px-8 sm:pb-8 sm:pt-8">
+          <h2 className="text-xl font-semibold tracking-tight sm:text-[1.65rem]">Cómo funciona</h2>
+          <p className="mt-2 max-w-prose text-on-navy">De las fuentes públicas a lo que recibe Finanzas.</p>
+          <div className="mt-5">
+            <Diagram />
+          </div>
+        </div>
+      </section>
       <SectionIndex />
       <Verification />
       <Methodology />

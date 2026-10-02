@@ -38,6 +38,13 @@ export function Card({
   )
 }
 
+// Same deep navy look as the hero, for the few blocks that deserve the eye.
+export function NavyCard({ children, className = '' }: { children: ReactNode; className?: string }) {
+  return (
+    <div className={`hero-bg overflow-hidden rounded-2xl p-4 text-white shadow-lift sm:p-6 ${className}`}>{children}</div>
+  )
+}
+
 export function Ext({ href, children }: { href: string; children: ReactNode }) {
   return (
     <a
