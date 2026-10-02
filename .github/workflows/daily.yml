@@ -1,0 +1,54 @@
+name: Monitor diario
+
+# Every day at 12:00 UTC (09:00 Buenos Aires): supply per network, deployments on the
+# candidate networks, live check against the certified figures and CI status. Commits the
+# data when it changed. Slack only on a change or a failure.
+on:
+  schedule:
+    - cron: "0 12 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: data-writer
+  cancel-in-progress: false
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      PYTHONIOENCODING: utf-8
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --locked
+      - name: Restore the RPC cache (immutable answers only)
+        uses: actions/cache/restore@v4
+        with:
+          path: .cache/responses.sqlite
+          key: rpc-cache-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: rpc-cache-
+      - name: Git identity
+        # The owner's GitHub noreply address: Vercel deploys commits from the repo owner.
+        run: |
+          git config user.name "msckell"
+          git config user.email "239668789+msckell@users.noreply.github.com"
+      - name: Monitor
+        run: uv run cierre monitor --push
+      - name: Save the RPC cache
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: .cache/responses.sqlite
+          key: rpc-cache-${{ github.run_id }}-${{ github.run_attempt }}
+      - name: Alert on failure
+        if: failure()
+        run: >-
+          uv run cierre alert --what "El monitor" --step workflow
+          --message "Falló el workflow ${{ github.workflow }}, corrida ${{ github.run_id }}."

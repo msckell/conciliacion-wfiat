@@ -16,7 +16,9 @@ from datetime import datetime
 from decimal import ROUND_HALF_UP, Decimal
 from zoneinfo import ZoneInfo
 
-from cierre import DATA_DIR
+import yaml
+
+from cierre import DATA_DIR, REPO_ROOT
 from cierre.agent.memo import fmt
 from cierre.agent.verifier_cases import REJECT_CASES
 from cierre.config import load_chains
@@ -24,6 +26,13 @@ from cierre.package import units
 from cierre.runlog import read_runs
 
 ART = ZoneInfo("America/Argentina/Buenos_Aires")
+
+TRIGGERS = {
+    "schedule": "programada",
+    "workflow_dispatch": "manual en GitHub",
+    "push": "por un cambio",
+    "local": "local",
+}
 
 TOOL_LABELS = {
     "get_transaction": "Leyó la transacción y sus eventos",
@@ -155,9 +164,21 @@ def _timeline(run: dict | None, names: dict[str, str]) -> dict | None:
             if s["status"] == "skipped":
                 title = "Publicación del Excel: pendiente"
                 detail = "El chequeo del link publicado se activa cuando el sitio esté en línea."
+            elif c.get("same_file"):
+                title = "Publicó el Excel y comprobó que el link sirve ese mismo archivo"
+                detail = c.get("url", "")
             else:
                 title = "Publicó el Excel y comprobó que el link responde"
                 detail = c.get("url", "")
+        elif k == "tasks":
+            n = c["tasks"]
+            title = f"Abrió {_plural(n, 'tarea', 'tareas')} para revisar"
+            if s["status"] == "dry_run":
+                title += " (modo de prueba)"
+            detail = (
+                "Una por cada movimiento que el agente no pudo probar, con su evidencia y el "
+                "link de la transacción."
+            )
         elif k == "notify":
             title = "Avisó a Finanzas por Slack"
             if s["status"] == "dry_run":
@@ -184,6 +205,73 @@ def _timeline(run: dict | None, names: dict[str, str]) -> dict | None:
         "duration": _duration(run["duration_s"]),
         "status": run["status"],
         "steps": steps,
+    }
+
+
+MONTHS = {
+    "1": "enero",
+    "4": "abril",
+    "7": "julio",
+    "10": "octubre",
+}
+
+
+def _cron_text(cron: str) -> str:
+    """The two schedules the workflows use, in Spanish. Argentina has no daylight saving,
+    so Buenos Aires is always UTC minus three."""
+    minute, hour, dom, month, dow = cron.split()
+    at = f"{(int(hour) - 3) % 24:02d}:{int(minute):02d} de Buenos Aires"
+    if (dom, month, dow) == ("*", "*", "*"):
+        return f"Todos los días a las {at}"
+    if dow == "*" and dom == "1" and month in ("1,4,7,10",):
+        months = [MONTHS[m] for m in month.split(",")]
+        listed = ", ".join(months[:-1]) + f" y {months[-1]}"
+        return f"El 1 de {listed} a las {at}, el día siguiente a cada fin de trimestre"
+    return f"cron {cron} (UTC)"
+
+
+def _schedule(workflow: str) -> str | None:
+    path = REPO_ROOT / ".github" / "workflows" / workflow
+    if not path.exists():
+        return None
+    raw = yaml.safe_load(path.read_text(encoding="utf-8"))
+    on = raw.get("on", raw.get(True)) or {}  # PyYAML reads the key `on` as True
+    crons = [c["cron"] for c in on.get("schedule") or []]
+    return _cron_text(crons[0]) if crons else None
+
+
+def _production(runs: list[dict]) -> dict:
+    """What the page shows under "En producción". Live golden figures are shown only when
+    every certificate matches (rule 10: nothing that could contradict a certificate)."""
+    mon = _read(DATA_DIR / "monitor" / "latest.json")
+    monitor_runs = [r for r in runs if r["kind"] == "monitor"]
+    last = monitor_runs[-1] if monitor_runs else None
+    last_ok = next((r for r in reversed(monitor_runs) if r["status"] == "ok"), None)
+    notify_states = [st["status"] for r in runs for st in r["steps"] if st["key"] == "notify"]
+    ci = (mon or {}).get("ci")
+    g = (mon or {}).get("golden_live")
+    return {
+        "schedule": {"monitor": _schedule("daily.yml"), "close": _schedule("close.yml")},
+        "ci": None
+        if not ci or ci.get("error") or not ci.get("at")
+        else {
+            "conclusion": ci["conclusion"],
+            "at": _local(ci["at"].replace("Z", "+00:00")),
+            "sha": ci["sha"],
+        },
+        "monitor": None
+        if last is None or mon is None
+        else {
+            "last_run_at_iso": last["started_at"],
+            "last_run_status": last["status"],
+            "last_ok_at_iso": last_ok["started_at"] if last_ok else None,
+            "networks_checked": len(mon["networks_checked"]),
+            "golden_live_all_match": bool(g) and g["matched"] == g["total"],
+            "golden_live_total": g["total"] if g else None,
+            "changes": mon.get("changes", []),
+            "problems": mon.get("problems", []),
+        },
+        "slack_live": "ok" in notify_states,
     }
 
 
@@ -404,11 +492,12 @@ def build_site(cutoff: str) -> dict:
         "runs": [
             {
                 "kind": r["kind"],
+                "trigger": TRIGGERS.get(r.get("trigger", "local"), r.get("trigger")),
                 "started_at": _local(r["started_at"]),
                 "duration": _duration(r["duration_s"]),
                 "status": r["status"],
             }
             for r in reversed(runs[-10:])
         ],
-        "monitor": _read(DATA_DIR / "monitor" / "latest.json"),
+        "production": _production(runs),
     }

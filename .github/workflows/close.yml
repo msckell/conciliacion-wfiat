@@ -1,0 +1,83 @@
+name: Cierre trimestral
+
+# The close, in the order of decision 12: compute, verify, commit the package, wait until
+# the site serves that same Excel, open the tasks as issues, then Slack with the link.
+# Scheduled the day after each quarter end at 12:00 UTC (09:00 Buenos Aires), or by hand.
+on:
+  workflow_dispatch:
+    inputs:
+      cutoff:
+        description: "Fecha de corte (YYYY-MM-DD) o latest (el último fin de trimestre)"
+        required: true
+        default: latest
+  schedule:
+    - cron: "0 12 1 1,4,7,10 *"
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: data-writer
+  cancel-in-progress: false
+
+jobs:
+  close:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      PYTHONIOENCODING: utf-8
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+      SITE_URL: https://conciliacion-wfiat.vercel.app
+    steps:
+      - uses: actions/checkout@v5
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --locked
+      - name: Check the Claude token
+        run: |
+          if [ -z "$CLAUDE_CODE_OAUTH_TOKEN" ]; then
+            echo "::error::Falta el secreto CLAUDE_CODE_OAUTH_TOKEN (claude setup-token)"
+            exit 1
+          fi
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - name: Claude Code CLI
+        run: |
+          npm install -g @anthropic-ai/claude-code
+          claude --version
+      - name: Restore the RPC cache (immutable answers only)
+        uses: actions/cache/restore@v4
+        with:
+          path: .cache/responses.sqlite
+          key: rpc-cache-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: rpc-cache-
+      - name: Git identity
+        # The owner's GitHub noreply address: Vercel deploys commits from the repo owner.
+        run: |
+          git config user.name "msckell"
+          git config user.email "239668789+msckell@users.noreply.github.com"
+      - name: Close
+        run: >-
+          uv run cierre run-close --cutoff "${{ inputs.cutoff || 'latest' }}"
+          --site-url "$SITE_URL" --push
+      - name: Save the RPC cache
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: .cache/responses.sqlite
+          key: rpc-cache-${{ github.run_id }}-${{ github.run_attempt }}
+      - name: Keep the output of a failed run
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: failed-close-${{ github.run_id }}
+          path: .cache/failed/
+          if-no-files-found: ignore
+      - name: Alert on failure
+        if: failure()
+        run: >-
+          uv run cierre alert --step workflow
+          --message "Falló el workflow ${{ github.workflow }}, corrida ${{ github.run_id }}."

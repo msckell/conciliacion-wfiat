@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { site } from './data'
+import { production, site } from './data'
 import { Card, Check, Ext, Pill, Section } from './ui'
 
 const LABEL_TONE: Record<string, 'ok' | 'accent' | 'warn'> = {
@@ -260,11 +260,99 @@ function Verifier() {
   )
 }
 
+// Time since an instant in the data. The only thing the page computes: it depends on
+// when the page is read, not on the data.
+function since(iso: string): { text: string; hours: number } {
+  const hours = (Date.now() - Date.parse(iso)) / 3_600_000
+  const n = (v: number, one: string, many: string) => `hace ${v} ${v === 1 ? one : many}`
+  if (hours < 1) return { text: n(Math.max(1, Math.round(hours * 60)), 'minuto', 'minutos'), hours }
+  if (hours < 48) return { text: n(Math.round(hours), 'hora', 'horas'), hours }
+  return { text: n(Math.round(hours / 24), 'día', 'días'), hours }
+}
+
+const STALE_HOURS = 36
+
 function Production() {
   const runs = site.runs
+  const { schedule, ci, monitor, slack_live } = production
+  const last = monitor ? since(monitor.last_run_at_iso) : null
+  const lastOk = monitor?.last_ok_at_iso ? since(monitor.last_ok_at_iso) : null
+  const stale = !lastOk || lastOk.hours > STALE_HOURS
   return (
     <Section title="En producción">
       <div className="grid gap-3 sm:grid-cols-2">
+        <Card>
+          <p className="font-medium">Monitor diario</p>
+          {schedule.monitor && <p className="mt-1 text-sm text-ink-2">{schedule.monitor}.</p>}
+          {monitor && last ? (
+            <>
+              <div className="mt-3 flex flex-wrap items-center gap-2 text-sm">
+                <span>Última corrida {last.text}</span>
+                {monitor.last_run_status === 'ok' ? <Pill tone="ok">OK</Pill> : <Pill tone="warn">Falló</Pill>}
+                {stale && <Pill tone="warn">Atrasado: sin corrida exitosa en {STALE_HOURS} horas</Pill>}
+              </div>
+              <p className="mt-2 text-sm text-ink-2">
+                Revisa {monitor.networks_checked} redes de la lista por contratos nuevos, lee la cantidad de tokens
+                de cada red y{' '}
+                {monitor.golden_live_all_match
+                  ? `recalcula desde la red las ${monitor.golden_live_total} certificaciones publicadas: coinciden todas.`
+                  : 'recalcula desde la red las certificaciones publicadas: chequeo en revisión.'}
+              </p>
+              {monitor.problems.length > 0 && (
+                <ul className="mt-2 space-y-1 text-sm text-warn">
+                  {monitor.problems.map((p) => (
+                    <li key={p}>{p}</li>
+                  ))}
+                </ul>
+              )}
+              {monitor.changes.length > 0 && (
+                <ul className="mt-2 space-y-1 text-sm text-ink">
+                  {monitor.changes.map((c) => (
+                    <li key={c}>{c}</li>
+                  ))}
+                </ul>
+              )}
+            </>
+          ) : (
+            <p className="mt-2 text-sm text-ink-3">Todavía no corrió.</p>
+          )}
+        </Card>
+        <Card>
+          <p className="font-medium">Integración continua</p>
+          <p className="mt-1 text-sm text-ink-2">
+            En cada cambio de código: lint, tests sin conexión (incluye las certificaciones publicadas) y el build
+            de esta página.
+          </p>
+          <div className="mt-3 flex flex-wrap items-center gap-2 text-sm">
+            {ci ? (
+              <>
+                {ci.conclusion === 'success' ? (
+                  <Pill tone="ok">
+                    <Check className="h-3 w-3" /> En verde
+                  </Pill>
+                ) : (
+                  <Pill tone="warn">Falló</Pill>
+                )}
+                <span className="num text-ink-3">
+                  {ci.at} · {ci.sha}
+                </span>
+              </>
+            ) : (
+              <span className="text-ink-3">Sin datos todavía: lo lee el monitor diario.</span>
+            )}
+          </div>
+        </Card>
+        <Card>
+          <p className="font-medium">Cierre y alertas</p>
+          {schedule.close && <p className="mt-1 text-sm text-ink-2">{schedule.close}. También se corre a mano.</p>}
+          <p className="mt-2 text-sm text-ink-2">
+            Avisa por Slack solo con el Excel ya publicado. Si un paso falla, manda una alerta sin link. Cada caso
+            que el agente no puede probar se abre como tarea.
+          </p>
+          <div className="mt-3">
+            {slack_live ? <Pill tone="ok">Slack conectado</Pill> : <Pill tone="neutral">Slack en modo de prueba</Pill>}
+          </div>
+        </Card>
         <Card>
           <p className="font-medium">Últimas corridas</p>
           {runs.length === 0 ? (
@@ -274,7 +362,8 @@ function Production() {
               {runs.map((r, i) => (
                 <li key={i} className="flex items-center justify-between gap-2 py-1.5">
                   <span>
-                    {r.kind === 'close' ? 'Cierre' : 'Monitor'} <span className="num text-ink-3">{r.started_at}</span>
+                    {r.kind === 'close' ? 'Cierre' : 'Monitor'} <span className="text-ink-3">{r.trigger}</span>{' '}
+                    <span className="num text-ink-3">{r.started_at}</span>
                   </span>
                   <span className="flex items-center gap-2">
                     <span className="text-xs text-ink-3">{r.duration}</span>
@@ -284,16 +373,6 @@ function Production() {
               ))}
             </ul>
           )}
-        </Card>
-        <Card>
-          <p className="font-medium">Integración continua y monitor diario</p>
-          <p className="mt-2 text-sm text-ink-2">
-            Pendiente. La próxima etapa suma los tests en cada cambio, el monitor diario de redes nuevas a las
-            09:00 de Buenos Aires y las alertas por Slack cuando una corrida falla.
-          </p>
-          <div className="mt-3">
-            <Pill tone="neutral">Pendiente</Pill>
-          </div>
         </Card>
       </div>
     </Section>

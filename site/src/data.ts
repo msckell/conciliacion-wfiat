@@ -24,3 +24,22 @@ export function networkColor(chain: string): string {
 }
 
 export const excelHref = `/data/${site.close.excel_file}`
+
+// Typed by hand: the JSON holds null until the first CI read or monitor run.
+export type Production = {
+  schedule: { monitor: string | null; close: string | null }
+  ci: { conclusion: string | null; at: string; sha: string } | null
+  monitor: {
+    last_run_at_iso: string
+    last_run_status: string
+    last_ok_at_iso: string | null
+    networks_checked: number
+    golden_live_all_match: boolean
+    golden_live_total: number | null
+    changes: string[]
+    problems: string[]
+  } | null
+  slack_live: boolean
+}
+
+export const production = raw.production as unknown as Production

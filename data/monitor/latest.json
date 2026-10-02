@@ -1,0 +1,343 @@
+{
+  "checked_at": "2026-10-02T02:43:21+00:00",
+  "networks_checked": [
+    "ethereum",
+    "base",
+    "polygon",
+    "gnosis",
+    "bsc",
+    "worldchain",
+    "celo",
+    "hyperevm",
+    "arc",
+    "arbitrum",
+    "optimism",
+    "avalanche",
+    "unichain",
+    "linea",
+    "scroll",
+    "mantle",
+    "sonic",
+    "monad",
+    "plasma",
+    "ink",
+    "lisk",
+    "sei",
+    "katana",
+    "rootstock"
+  ],
+  "supply": {
+    "ethereum": {
+      "block": 26101726,
+      "tokens": {
+        "wARS": "12285069043587961552517100013",
+        "wBRL": "4770577392513443946870893",
+        "wMXN": "2900282571570000000000000",
+        "wCOP": "432491590718836137247866100",
+        "wCLP": "4431817704356965127000000",
+        "wPEN": "6710969222000000000000"
+      }
+    },
+    "base": {
+      "block": 52059827,
+      "tokens": {
+        "wARS": "1638446091742940132955015243",
+        "wBRL": "2480648758403505658617551",
+        "wMXN": "2900560810879279346804000",
+        "wCOP": "463906641290946876925696896",
+        "wCLP": "4393396649040774545378416",
+        "wPEN": "4171170000000000000000"
+      }
+    },
+    "polygon": {
+      "block": 94802574,
+      "tokens": {
+        "wARS": "38523919735333389016100000",
+        "wBRL": "45465547879000000000000",
+        "wMXN": "85628917820822000000000",
+        "wCOP": "22458699001338684164750449",
+        "wCLP": "4039642991691630284462190",
+        "wPEN": "4172496860000000000000"
+      }
+    },
+    "gnosis": {
+      "block": 48543291,
+      "tokens": {
+        "wARS": "9360155000000000000000000",
+        "wBRL": "32999840000000000000000",
+        "wMXN": "68001270000000000000000",
+        "wCOP": "19320986000000000000000000",
+        "wCLP": "4646014000000000000000000",
+        "wPEN": "3900050000000000000000"
+      }
+    },
+    "bsc": {
+      "block": 125214464,
+      "tokens": {
+        "wARS": "85064244090776000000000000",
+        "wBRL": "237107041289472274000000",
+        "wMXN": "87061781397932500000000",
+        "wCOP": "25972395036895177727892094",
+        "wCLP": "4402756839367383007238011",
+        "wPEN": "4171170000000000000000"
+      }
+    },
+    "worldchain": {
+      "block": 35786681,
+      "tokens": {
+        "wARS": "390379882760387597974376622",
+        "wBRL": "481574740439523099909700",
+        "wMXN": "1184153881421966153196000",
+        "wCOP": "193108455748881642463156959",
+        "wCLP": "43651384815543247035921383",
+        "wPEN": "109224193918000000000000"
+      }
+    },
+    "celo": {
+      "block": 79008240,
+      "tokens": {
+        "wARS": "262660671708647000000000000",
+        "wBRL": "3708687895892251128768916",
+        "wMXN": "13099460000000000000000",
+        "wCOP": "33999986000000000000000000",
+        "wCLP": "1000087000000000000000000",
+        "wPEN": "599950000000000000000"
+      }
+    },
+    "hyperevm": {
+      "block": 47430020,
+      "tokens": {
+        "wARS": "409279807617718859506384744",
+        "wBRL": "2499220298586097094440148",
+        "wMXN": "0",
+        "wCOP": "0",
+        "wCLP": "0",
+        "wPEN": "0"
+      }
+    },
+    "arc": {
+      "block": 23810289,
+      "tokens": {
+        "wARS": "112410772682783000000000000",
+        "wBRL": "329380864996706797392792",
+        "wMXN": "0",
+        "wCOP": "0",
+        "wCLP": "0",
+        "wPEN": "0"
+      }
+    }
+  },
+  "totals": {
+    "wARS": "15231194588926547531968976622",
+    "wBRL": "14585662380000000000000000",
+    "wCLP": "66565100000000000000000000",
+    "wCOP": "1191258753796898518529362498",
+    "wMXN": "7238788693090000000000000",
+    "wPEN": "132950000000000000000000"
+  },
+  "deployments": {
+    "ethereum": {
+      "wARS": "deployed",
+      "wBRL": "deployed",
+      "wMXN": "deployed",
+      "wCOP": "deployed",
+      "wCLP": "deployed",
+      "wPEN": "deployed"
+    },
+    "base": {
+      "wARS": "deployed",
+      "wBRL": "deployed",
+      "wMXN": "deployed",
+      "wCOP": "deployed",
+      "wCLP": "deployed",
+      "wPEN": "deployed"
+    },
+    "polygon": {
+      "wARS": "deployed",
+      "wBRL": "deployed",
+      "wMXN": "deployed",
+      "wCOP": "deployed",
+      "wCLP": "deployed",
+      "wPEN": "deployed"
+    },
+    "gnosis": {
+      "wARS": "deployed",
+      "wBRL": "deployed",
+      "wMXN": "deployed",
+      "wCOP": "deployed",
+      "wCLP": "deployed",
+      "wPEN": "deployed"
+    },
+    "bsc": {
+      "wARS": "deployed",
+      "wBRL": "deployed",
+      "wMXN": "deployed",
+      "wCOP": "deployed",
+      "wCLP": "deployed",
+      "wPEN": "deployed"
+    },
+    "worldchain": {
+      "wARS": "deployed",
+      "wBRL": "deployed",
+      "wMXN": "deployed",
+      "wCOP": "deployed",
+      "wCLP": "deployed",
+      "wPEN": "deployed"
+    },
+    "celo": {
+      "wARS": "deployed",
+      "wBRL": "deployed",
+      "wMXN": "deployed",
+      "wCOP": "deployed",
+      "wCLP": "deployed",
+      "wPEN": "deployed"
+    },
+    "hyperevm": {
+      "wARS": "deployed",
+      "wBRL": "deployed",
+      "wMXN": "deployed",
+      "wCOP": "deployed",
+      "wCLP": "deployed",
+      "wPEN": "deployed"
+    },
+    "arc": {
+      "wARS": "deployed",
+      "wBRL": "deployed",
+      "wMXN": "deployed",
+      "wCOP": "deployed",
+      "wCLP": "deployed",
+      "wPEN": "deployed"
+    },
+    "arbitrum": {
+      "wARS": "absent",
+      "wBRL": "absent",
+      "wMXN": "absent",
+      "wCOP": "absent",
+      "wCLP": "absent",
+      "wPEN": "absent"
+    },
+    "optimism": {
+      "wARS": "absent",
+      "wBRL": "absent",
+      "wMXN": "absent",
+      "wCOP": "absent",
+      "wCLP": "absent",
+      "wPEN": "absent"
+    },
+    "avalanche": {
+      "wARS": "absent",
+      "wBRL": "absent",
+      "wMXN": "absent",
+      "wCOP": "absent",
+      "wCLP": "absent",
+      "wPEN": "absent"
+    },
+    "unichain": {
+      "wARS": "absent",
+      "wBRL": "absent",
+      "wMXN": "absent",
+      "wCOP": "absent",
+      "wCLP": "absent",
+      "wPEN": "absent"
+    },
+    "linea": {
+      "wARS": "absent",
+      "wBRL": "absent",
+      "wMXN": "absent",
+      "wCOP": "absent",
+      "wCLP": "absent",
+      "wPEN": "absent"
+    },
+    "scroll": {
+      "wARS": "absent",
+      "wBRL": "absent",
+      "wMXN": "absent",
+      "wCOP": "absent",
+      "wCLP": "absent",
+      "wPEN": "absent"
+    },
+    "mantle": {
+      "wARS": "absent",
+      "wBRL": "absent",
+      "wMXN": "absent",
+      "wCOP": "absent",
+      "wCLP": "absent",
+      "wPEN": "absent"
+    },
+    "sonic": {
+      "wARS": "absent",
+      "wBRL": "absent",
+      "wMXN": "absent",
+      "wCOP": "absent",
+      "wCLP": "absent",
+      "wPEN": "absent"
+    },
+    "monad": {
+      "wARS": "absent",
+      "wBRL": "absent",
+      "wMXN": "absent",
+      "wCOP": "absent",
+      "wCLP": "absent",
+      "wPEN": "absent"
+    },
+    "plasma": {
+      "wARS": "absent",
+      "wBRL": "absent",
+      "wMXN": "absent",
+      "wCOP": "absent",
+      "wCLP": "absent",
+      "wPEN": "absent"
+    },
+    "ink": {
+      "wARS": "absent",
+      "wBRL": "absent",
+      "wMXN": "absent",
+      "wCOP": "absent",
+      "wCLP": "absent",
+      "wPEN": "absent"
+    },
+    "lisk": {
+      "wARS": "absent",
+      "wBRL": "absent",
+      "wMXN": "absent",
+      "wCOP": "absent",
+      "wCLP": "absent",
+      "wPEN": "absent"
+    },
+    "sei": {
+      "wARS": "absent",
+      "wBRL": "absent",
+      "wMXN": "absent",
+      "wCOP": "absent",
+      "wCLP": "absent",
+      "wPEN": "absent"
+    },
+    "katana": {
+      "wARS": "absent",
+      "wBRL": "absent",
+      "wMXN": "absent",
+      "wCOP": "absent",
+      "wCLP": "absent",
+      "wPEN": "absent"
+    },
+    "rootstock": {
+      "wARS": "absent",
+      "wBRL": "absent",
+      "wMXN": "absent",
+      "wCOP": "absent",
+      "wCLP": "absent",
+      "wPEN": "absent"
+    }
+  },
+  "golden_live": {
+    "matched": 9,
+    "total": 9,
+    "read_errors": [],
+    "mismatch_without_errors": []
+  },
+  "ci": null,
+  "problems": [],
+  "changes": [],
+  "status": "ok",
+  "notified": "skipped"
+}

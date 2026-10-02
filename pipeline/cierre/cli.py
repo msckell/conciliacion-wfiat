@@ -425,21 +425,25 @@ def build_package(cutoff: str, out_dir, engine_path, use_overrides: bool = True)
 
 def cmd_run_close(args: argparse.Namespace) -> int:
     """The whole close, in the order of decision 12, with every step in data/runs.jsonl:
-    detect, engine, package, verify, exception agent, memo, publish check, notify."""
-    import os
+    detect, engine, package, verify, exception agent, memo, publish, tasks, notify.
 
-    import httpx
+    With --push the publish step commits the package, waits until the site serves that
+    same Excel byte for byte, and only then the tasks are opened and Slack gets the link.
+    If any step fails, Slack gets an alert with no link and only the run log is pushed."""
+    import os
+    from datetime import date
 
     from cierre.agent.exceptions import run as run_exceptions
     from cierre.agent.llm import ask_claude, model_name
     from cierre.agent.memo import build_memo
     from cierre.agent.tools import Tools
-    from cierre.close import previous_quarter_end, run_close
+    from cierre.close import last_quarter_end, previous_quarter_end, run_close
     from cierre.golden import OFFICIAL_RULE, compare, load_confirmed
     from cierre.runlog import Run
     from cierre.slack import alert_message, close_message, send
+    from cierre.tasks import open_issues
 
-    cutoff = args.cutoff
+    cutoff = last_quarter_end(date.today()) if args.cutoff == "latest" else args.cutoff
     out_dir = DATA_DIR / "closes" / cutoff
     engine_path = out_dir / "engine.json"
     excel_name = f"paquete_cierre_{cutoff}.xlsx"
@@ -448,8 +452,11 @@ def cmd_run_close(args: argparse.Namespace) -> int:
     all_chains = load_chains()
     chains = {k: c for k, c in all_chains.items() if c.in_scope}
     tokens = load_tokens()
+    names = {k: c.name for k, c in all_chains.items()}
     run = Run("close", cutoff=cutoff, model=model_name())
+    out_dir.mkdir(parents=True, exist_ok=True)
     current = "detect"
+    pushed = False
     try:
         with run.step("detect") as s:
             s["counts"] = {
@@ -529,10 +536,36 @@ def cmd_run_close(args: argparse.Namespace) -> int:
                 s["status"] = "skipped"
                 s["counts"] = {"reason": "no SITE_URL yet"}
             else:
-                resp = httpx.head(excel_url, timeout=30, follow_redirects=True)
-                s["counts"] = {"url": excel_url, "http_status": resp.status_code}
-                if resp.status_code != 200:
-                    raise RuntimeError(f"Excel not reachable: HTTP {resp.status_code}")
+                if args.push:
+                    from cierre.gitops import commit_and_push
+
+                    cmd_site(argparse.Namespace(cutoff=cutoff))
+                    commit = commit_and_push(
+                        [f"data/closes/{cutoff}", "data/site/site.json"],
+                        f"close {cutoff}: package",
+                    )
+                    s["counts"]["commit"] = commit[:7] if commit else "unchanged"
+                    pushed = True
+                check = wait_for_file(
+                    excel_url, out_dir / excel_name, args.deploy_timeout if args.push else 0
+                )
+                s["counts"] |= check
+                if check["http_status"] != 200:
+                    raise RuntimeError(f"Excel not reachable: HTTP {check['http_status']}")
+                if args.push and not check["same_file"]:
+                    raise RuntimeError(
+                        f"the site still serves another Excel after {check['waited_s']} s"
+                    )
+        current = "tasks"
+        with run.step("tasks") as s:
+            tasks = open_issues(cutoff, exc, names)
+            _dump(out_dir / "tasks.json", tasks)
+            s["status"] = "dry_run" if tasks["status"] == "dry_run" else "ok"
+            s["counts"] = {
+                "tasks": len(tasks["issues"]),
+                "opened": sum(i["status"] == "opened" for i in tasks["issues"]),
+                "existing": sum(i["status"] == "existing" for i in tasks["issues"]),
+            }
         current = "notify"
         with run.step("notify") as s:
             payload = close_message(
@@ -541,26 +574,232 @@ def cmd_run_close(args: argparse.Namespace) -> int:
                 exc,
                 {"matched": run.record["steps"][3]["counts"]["matched"], "total": len(rows)},
                 excel_url or "https://LINK-AL-EXCEL-SE-COMPLETA-AL-PUBLICAR",
-                {k: c.name for k, c in all_chains.items()},
+                names,
+                tasks,
             )
             result = send(payload, out_dir / "slack_payload.json")
             s["status"] = "dry_run" if result.startswith("dry run") else "ok"
             s["counts"] = {"tasks_listed": exc["tasks"]}
     except Exception as exc_:
-        run.finish("failed")
-        send(alert_message(current, str(exc_)), out_dir / "slack_alert_payload.json")
+        record = run.finish("failed")
+        published = current in ("tasks", "notify")
+        state = "published" if published else "pushed" if pushed else "none"
+        send(
+            alert_message(current, str(exc_), package=state),
+            out_dir / "slack_alert_payload.json",
+        )
+        _mark_alert_sent()
         print(f"close run failed at {current}: {exc_}", flush=True)
+        if args.push:
+            _set_aside_failed(cutoff, record["id"], keep_package=pushed)
+            _push_run_log(f"close {cutoff}: failed run")
+        else:
+            cmd_site(argparse.Namespace(cutoff=None))
         return 1
     record = run.finish("ok")
     print(f"close run ok in {record['duration_s']} s", flush=True)
-    return cmd_site(args)
+    cmd_site(argparse.Namespace(cutoff=cutoff))
+    if args.push:
+        from cierre.gitops import commit_and_push
+
+        commit_and_push(
+            ["data/runs.jsonl", "data/site/site.json", f"data/closes/{cutoff}"],
+            f"close {cutoff}: run log",
+        )
+    return 0
+
+
+def wait_for_file(url: str, local, timeout_s: int, every_s: int = 20) -> dict:
+    """GET the published file until it is byte for byte the local one, or time runs out.
+    With timeout 0 it looks once (local runs that do not push)."""
+    import hashlib
+    import time
+
+    import httpx
+
+    want = hashlib.sha256(local.read_bytes()).hexdigest()
+    t0 = time.monotonic()
+    while True:
+        try:
+            resp = httpx.get(url, timeout=60, follow_redirects=True)
+            status = resp.status_code
+            same = status == 200 and hashlib.sha256(resp.content).hexdigest() == want
+        except httpx.HTTPError:
+            status, same = None, False
+        waited = round(time.monotonic() - t0)
+        if same or waited >= timeout_s:
+            return {"url": url, "http_status": status, "same_file": same, "waited_s": waited}
+        time.sleep(every_s)
+
+
+def _set_aside_failed(cutoff: str, run_id: str, keep_package: bool) -> None:
+    """Keep what a failed run wrote (in .cache/failed, uploaded by the workflow). Unless the
+    package was already published, put the close folder back to its last committed state,
+    so nothing half done gets published."""
+    import shutil
+
+    from cierre import CACHE_DIR, REPO_ROOT
+    from cierre.gitops import is_tracked, restore
+
+    out_dir = DATA_DIR / "closes" / cutoff
+    if not out_dir.exists():
+        return
+    shutil.copytree(out_dir, CACHE_DIR / "failed" / run_id, dirs_exist_ok=True)
+    if keep_package:
+        return
+    for f in out_dir.iterdir():
+        rel = f.relative_to(REPO_ROOT).as_posix()
+        if is_tracked(rel):
+            restore([rel])
+        else:
+            f.unlink()
+    if not any(out_dir.iterdir()):
+        out_dir.rmdir()
+
+
+def cmd_monitor(args: argparse.Namespace) -> int:
+    """Daily monitor: supply now, deployments on every candidate network, live golden check
+    and CI status. Slack only on a change or a failure. With --push, commits the data."""
+    from cierre import monitor
+    from cierre.runlog import Run
+    from cierre.slack import alert_message, monitor_message, send
+
+    all_chains = load_chains()
+    in_scope = {k: c for k, c in all_chains.items() if c.in_scope}
+    names = {k: c.name for k, c in all_chains.items()}
+    tokens = load_tokens()
+    cache = DiskCache()
+    previous = monitor.read_previous()
+    run = Run("monitor")
+    current = {"checked_at": monitor.now(), "networks_checked": list(all_chains)}
+    out_dir = DATA_DIR / "monitor"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    step = "supply"
+    try:
+        with run.step("supply") as s:
+            current["supply"] = monitor.read_supply(in_scope, tokens, cache)
+            current["totals"] = monitor.totals(current["supply"])
+            s["counts"] = {
+                "networks": len(in_scope),
+                "networks_failed": sum("error" in v for v in current["supply"].values()),
+            }
+        step = "deployments"
+        with run.step("deployments") as s:
+            current["deployments"] = monitor.check_deployments(all_chains, tokens, cache)
+            states = [st for t in current["deployments"].values() for st in t.values()]
+            s["counts"] = {
+                "networks_checked": len(all_chains),
+                "deployed": states.count("deployed"),
+                "errors": sum(st.startswith("error") for st in states),
+            }
+        step = "golden_live"
+        with run.step("golden_live") as s:
+            current["golden_live"] = monitor.golden_live(in_scope, tokens, cache)
+            g = current["golden_live"]
+            if g["mismatch_without_errors"]:
+                # Rule 10: a figure that may contradict a published certificate is never
+                # published. Maxi gets a private alert, nothing is committed.
+                s["counts"] = {"result": "held for review"}
+                raise RuntimeError(
+                    "live check differs from a certified figure with every read fine: "
+                    + ", ".join(g["mismatch_without_errors"])
+                )
+            s["counts"] = {"matched": g["matched"], "total": g["total"]}
+        step = "ci"
+        with run.step("ci") as s:
+            import httpx
+
+            try:
+                current["ci"] = monitor.ci_status()
+            except httpx.HTTPError as exc:
+                current["ci"] = {"error": f"{type(exc).__name__}"}
+            s["status"] = "ok" if current["ci"] is not None else "skipped"
+            s["counts"] = {"conclusion": (current["ci"] or {}).get("conclusion")}
+        current["problems"] = monitor.problems_of(current, tokens, names)
+        current["changes"] = monitor.diff(previous, current, names)
+        current["status"] = "failed" if current["problems"] else "ok"
+        step = "notify"
+        with run.step("notify") as s:
+            if current["changes"] or current["problems"]:
+                msg = monitor_message(current["changes"], current["problems"], len(all_chains))
+                result = send(msg, out_dir / "slack_payload.json")
+                s["status"] = "dry_run" if result.startswith("dry run") else "ok"
+                if current["problems"]:
+                    _mark_alert_sent()
+            else:
+                s["status"] = "skipped"
+            s["counts"] = {
+                "changes": len(current["changes"]),
+                "problems": len(current["problems"]),
+            }
+        current["notified"] = run.record["steps"][-1]["status"]
+        monitor.write(current)
+    except Exception as exc:
+        run.finish("failed")
+        send(alert_message(step, str(exc), "El monitor"), out_dir / "slack_alert_payload.json")
+        _mark_alert_sent()
+        print(f"monitor failed at {step}: {exc}", flush=True)
+        if args.push and step != "golden_live":
+            _push_run_log("monitor: failed run")
+        return 1
+    run.finish(current["status"])
+    print(
+        f"monitor {current['status']}: {len(current['changes'])} changes, "
+        f"{len(current['problems'])} problems",
+        flush=True,
+    )
+    if args.push:
+        cmd_site(argparse.Namespace(cutoff=None))
+        from cierre.gitops import commit_and_push
+
+        commit_and_push(
+            ["data/monitor", "data/runs.jsonl", "data/site/site.json"],
+            f"monitor: {current['status']} {current['checked_at'][:10]}",
+        )
+    return 0 if current["status"] == "ok" else 1
+
+
+def _mark_alert_sent() -> None:
+    """The workflow sends its own alert when a step fails, unless the CLI already did."""
+    from cierre import CACHE_DIR
+
+    CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    (CACHE_DIR / "alert_sent").write_text("1", encoding="utf-8")
+
+
+def _push_run_log(message: str) -> None:
+    """After a failed run: publish only the run log, so the page shows the failure."""
+    from cierre.gitops import commit_and_push
+
+    cmd_site(argparse.Namespace(cutoff=None))
+    commit_and_push(["data/runs.jsonl", "data/site/site.json"], message)
+
+
+def cmd_alert(args: argparse.Namespace) -> int:
+    """Alert from the workflow when a step failed outside the CLI (setup, git, deploy)."""
+    from cierre import CACHE_DIR
+    from cierre.slack import alert_message, send
+
+    if (CACHE_DIR / "alert_sent").exists():
+        print("alert already sent by the CLI")
+        return 0
+    out = CACHE_DIR / "workflow_alert_payload.json"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    print(send(alert_message(args.step, args.message, args.what), out))
+    return 0
+
+
+def published_cutoff() -> str:
+    """The newest close with a package, which the page shows."""
+    closes = sorted(p.parent.name for p in (DATA_DIR / "closes").glob("*/package.json"))
+    return closes[-1]
 
 
 def cmd_site(args: argparse.Namespace) -> int:
     """Light JSON for the page, from the close files, the golden checks and the run log."""
     from cierre.site import build_site
 
-    cutoff = getattr(args, "cutoff", None) or "2026-09-30"
+    cutoff = getattr(args, "cutoff", None) or published_cutoff()
     _dump(DATA_DIR / "site" / "site.json", build_site(cutoff))
     print(f"site data: {DATA_DIR / 'site' / 'site.json'}")
     return 0
@@ -592,10 +831,20 @@ def main(argv: list[str] | None = None) -> int:
     p_close.add_argument("--chains", nargs="+", help="rerun the engine only for these")
     p_close.add_argument("--refresh", action="store_true", help="rerun the engine")
     p_run = sub.add_parser("run-close", help="the whole close, logged step by step")
-    p_run.add_argument("--cutoff", required=True)
+    p_run.add_argument("--cutoff", required=True, help="YYYY-MM-DD, or latest")
     p_run.add_argument("--site-url", help="published site, to check the Excel link")
+    p_run.add_argument(
+        "--push", action="store_true", help="commit and push the package, wait for the deploy"
+    )
+    p_run.add_argument("--deploy-timeout", type=int, default=900, help="seconds")
+    p_mon = sub.add_parser("monitor", help="daily monitor (Slack on change or failure)")
+    p_mon.add_argument("--push", action="store_true", help="commit and push the data")
+    p_alert = sub.add_parser("alert", help="Slack alert for a failed workflow step")
+    p_alert.add_argument("--step", required=True)
+    p_alert.add_argument("--message", required=True)
+    p_alert.add_argument("--what", default="El cierre")
     p_site = sub.add_parser("site", help="light JSON for the page")
-    p_site.add_argument("--cutoff", default="2026-09-30")
+    p_site.add_argument("--cutoff", help="default: the newest close with a package")
     p_mov = sub.add_parser("movements", help="phase 0 movement history test")
     p_mov.add_argument("--token", default="wARS")
     p_mov.add_argument("--chains", nargs="+")
@@ -613,6 +862,8 @@ def main(argv: list[str] | None = None) -> int:
         "exceptions": cmd_exceptions,
         "slack": cmd_slack,
         "run-close": cmd_run_close,
+        "monitor": cmd_monitor,
+        "alert": cmd_alert,
         "site": cmd_site,
     }
     return commands[args.command](args)
