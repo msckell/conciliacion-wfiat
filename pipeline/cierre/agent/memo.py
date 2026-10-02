@@ -89,7 +89,7 @@ def token_facts(pkg: dict, sym: str) -> dict[str, dict]:
             "review_items",
         ),
     }
-    # Zero flows are left out, so the text cannot dwell on them. Balances always stay.
+    # Zero flows are left out, so the text cannot dwell on them. Balances stay.
     return {
         fid: {"value": fmt(v, 0 if kind in COUNT_FACTS else 2), "meaning": FACT_MEANING[kind]}
         for fid, (v, kind) in raw.items()

@@ -1,7 +1,7 @@
 """Read only tools for the exception agent. Each returns plain JSON, small enough to put
 back in the prompt. None of them writes anything or changes any state.
 
-Results carry decoded fields only (names, addresses, amounts, blocks, hashes), never raw
+Results carry decoded fields only (names, addresses, amounts, blocks, hashes), not raw
 calldata, topics or data blobs. The agent does not need them, and the long hex of an
 ERC-4337 handleOps receipt made the model's safeguards refuse the prompt.
 """
