@@ -3,12 +3,12 @@
 from __future__ import annotations
 
 import time
-from dataclasses import dataclass
-from datetime import datetime
+from dataclasses import asdict, dataclass
 
-from cierre.rpc import RpcClient
+from cierre.cache import DiskCache
+from cierre.rpc import RpcClient, block_tag
 
-# A block older than this is treated as final and cached forever. Every chain in scope
+# A block older than this is final, so its header is cached forever. Every chain in scope
 # finalizes in well under an hour, so 6 h leaves a wide margin.
 FINALITY_SECONDS = 6 * 3600
 
@@ -21,25 +21,23 @@ class Block:
 
 
 def get_block(rpc: RpcClient, number: int | str) -> Block:
-    tag = hex(number) if isinstance(number, int) else number
-    cacheable = isinstance(number, int)
-    if cacheable and rpc.cache is not None:
-        hit = rpc.cache.get(rpc.cache.key(rpc.chain.chain_id, "block_header", number))
+    """Header of a block, by number or by tag ("latest"). Only numbers are cached."""
+    by_number = isinstance(number, int)
+    key = DiskCache.key(rpc.chain.chain_id, "block_header", number)
+    if by_number and rpc.cache is not None:
+        hit = rpc.cache.get(key)
         if hit is not None:
             return Block(**hit)
-    raw = rpc.call("eth_getBlockByNumber", [tag, False], require_result=cacheable)
+    raw = rpc.call("eth_getBlockByNumber", [block_tag(number), False], require_result=by_number)
     if raw is None:
         raise LookupError(f"{rpc.chain.key}: block {number} not found")
     block = Block(int(raw["number"], 16), int(raw["timestamp"], 16), raw["hash"])
-    if cacheable and rpc.cache is not None and block.timestamp < time.time() - FINALITY_SECONDS:
-        rpc.cache.put(
-            rpc.cache.key(rpc.chain.chain_id, "block_header", number),
-            {"number": block.number, "timestamp": block.timestamp, "hash": block.hash},
-        )
+    if by_number and rpc.cache is not None and block.timestamp < time.time() - FINALITY_SECONDS:
+        rpc.cache.put(key, asdict(block))
     return block
 
 
-def block_at_or_before(rpc: RpcClient, ts: int, lo_hint: int = 1) -> Block:
+def block_at_or_before(rpc: RpcClient, ts: int) -> Block:
     """Last block whose timestamp is <= ts.
 
     Interpolation and bisection alternate, so the search converges in log steps even when
@@ -51,9 +49,10 @@ def block_at_or_before(rpc: RpcClient, ts: int, lo_hint: int = 1) -> Block:
             f"{rpc.chain.key}: latest block {latest.number} is not past {ts}, cutoff not final"
         )
     if ts > time.time() - FINALITY_SECONDS:
-        raise ValueError(f"{rpc.chain.key}: cutoff {ts} is less than 6 h old, not final")
+        hours = FINALITY_SECONDS // 3600
+        raise ValueError(f"{rpc.chain.key}: cutoff {ts} is less than {hours} h old, not final")
 
-    lo = get_block(rpc, max(lo_hint, 1))
+    lo = get_block(rpc, 1)
     if lo.timestamp > ts:
         raise ValueError(f"{rpc.chain.key}: block {lo.number} is already after {ts}")
     hi = get_block(rpc, latest.number)
@@ -73,9 +72,3 @@ def block_at_or_before(rpc: RpcClient, ts: int, lo_hint: int = 1) -> Block:
             hi = mid
         step += 1
     return lo
-
-
-def to_unix(dt: datetime) -> int:
-    if dt.tzinfo is None:
-        raise ValueError("naive datetime: the cutoff time zone must be explicit")
-    return int(dt.timestamp())
