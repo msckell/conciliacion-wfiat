@@ -96,10 +96,19 @@ def golden_live(chains: dict[str, Chain], tokens: dict[str, Token], cache: DiskC
         rows = [r for chain_rows in ex.map(one, chains.values()) for r in chain_rows]
     result = compare(certs, rows, **OFFICIAL_RULE)
     errors = sorted({n for r in result for n in r["networks_with_errors"]})
+    # One failed row per network, with what each endpoint answered, to diagnose.
+    detail = {}
+    for r in rows:
+        if r["status"] == "error" and r["chain"] not in detail:
+            detail[r["chain"]] = {
+                k: (v[:200] if isinstance(v, str) else v)
+                for k, v in (r.get("reads") or {"error": r.get("error")}).items()
+            }
     return {
         "matched": sum(r["match"] for r in result),
         "total": len(result),
         "read_errors": errors,
+        "read_error_detail": detail,
         # A mismatch with every read fine could mean a published figure is wrong: rule 10.
         "mismatch_without_errors": [
             f"{r['token']} {r['cutoff']}"
