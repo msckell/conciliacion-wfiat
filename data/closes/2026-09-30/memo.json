@@ -1,6 +1,6 @@
 {
   "cutoff": "2026-09-30",
-  "generated_at": "2026-10-01T22:05:43+00:00",
+  "generated_at": "2026-10-02T01:37:00+00:00",
   "model": "claude-sonnet-5-5",
   "tokens": {
     "wARS": {
@@ -11,8 +11,8 @@
       "networks_with_balance": 9,
       "explanation": {
         "source": "llm",
-        "text_with_ids": "En el trimestre la circulación de wARS subió {wARS.change.2026Q3}. El grueso vino de la emisión primaria, con {wARS.primary_mints.2026Q3} tokens nuevos, y en menor medida pesaron los rescates, con {wARS.redemptions.2026Q3} tokens quemados. El puente movió tokens entre redes, y Arc, que es una red nueva desde el cierre anterior, terminó el trimestre con saldo de wARS. Además, quedan movimientos para que una persona los revise.",
-        "text": "En el trimestre la circulación de wARS subió 7.311.198.511,89. El grueso vino de la emisión primaria, con 9.769.200.030 tokens nuevos, y en menor medida pesaron los rescates, con 2.458.000.010 tokens quemados. El puente movió tokens entre redes, y Arc, que es una red nueva desde el cierre anterior, terminó el trimestre con saldo de wARS. Además, quedan movimientos para que una persona los revise.",
+        "text_with_ids": "La circulación de wARS creció {wARS.change.2026Q3} en el trimestre. El cambio vino sobre todo de la emisión primaria, con {wARS.primary_mints.2026Q3} tokens nuevos, y en menor medida de los rescates, que quemaron {wARS.redemptions.2026Q3}. Los movimientos del puente entre redes se dieron en ambos sentidos y no explican el cambio, y Arc, la red nueva desde el cierre anterior, ya tiene saldo. Quedan algunos movimientos para que alguien del equipo los revise.",
+        "text": "La circulación de wARS creció 7.311.198.511,89 en el trimestre. El cambio vino sobre todo de la emisión primaria, con 9.769.200.030 tokens nuevos, y en menor medida de los rescates, que quemaron 2.458.000.010. Los movimientos del puente entre redes se dieron en ambos sentidos y no explican el cambio, y Arc, la red nueva desde el cierre anterior, ya tiene saldo. Quedan algunos movimientos para que alguien del equipo los revise.",
         "attempts": 1
       }
     },
@@ -24,8 +24,8 @@
       "networks_with_balance": 9,
       "explanation": {
         "source": "llm",
-        "text_with_ids": "La circulación de wBRL creció {wBRL.change.2026Q3} en el trimestre, y casi todo vino de la emisión primaria de {wBRL.primary_mints.2026Q3}. Los rescates y los movimientos del puente entre redes pesaron poco en comparación. Arc se sumó como red nueva, el contrato de wBRL existe ahí y al cierre tiene saldo. Quedan {wBRL.review_items.2026Q3} movimientos para que los revise una persona.",
-        "text": "La circulación de wBRL creció 11.221.329,88 en el trimestre, y casi todo vino de la emisión primaria de 11.396.295. Los rescates y los movimientos del puente entre redes pesaron poco en comparación. Arc se sumó como red nueva, el contrato de wBRL existe ahí y al cierre tiene saldo. Quedan 1 movimientos para que los revise una persona.",
+        "text_with_ids": "La circulación de wBRL creció {wBRL.change.2026Q3} en el trimestre, y casi todo vino de la emisión primaria de {wBRL.primary_mints.2026Q3}. Hubo algunos rescates, y el puente solo movió tokens de una red a otra. Arc se sumó como red nueva y ya tiene saldo al cierre. Para revisión de una persona quedan pendientes esta cantidad de movimientos: {wBRL.review_items.2026Q3}.",
+        "text": "La circulación de wBRL creció 11.221.329,88 en el trimestre, y casi todo vino de la emisión primaria de 11.396.295. Hubo algunos rescates, y el puente solo movió tokens de una red a otra. Arc se sumó como red nueva y ya tiene saldo al cierre. Para revisión de una persona quedan pendientes esta cantidad de movimientos: 1.",
         "attempts": 1
       }
     },
@@ -37,8 +37,8 @@
       "networks_with_balance": 7,
       "explanation": {
         "source": "llm",
-        "text_with_ids": "La circulación de wMXN creció {wMXN.change.2026Q3} en el trimestre, y todo vino de la emisión primaria de {wMXN.primary_mints.2026Q3}. El puente entre redes movió {wMXN.bridge_out.2026Q3} que salieron de un lado y entraron en otro, así que no sumó ni restó circulación, y lo quemado corresponde solo a esos movimientos, sin rescates. Arc es una red nueva desde el cierre anterior, y el contrato de wMXN ya existe ahí, pero al cierre no tiene saldo.",
-        "text": "La circulación de wMXN creció 4.670.000 en el trimestre, y todo vino de la emisión primaria de 4.670.000. El puente entre redes movió 90.418,98 que salieron de un lado y entraron en otro, así que no sumó ni restó circulación, y lo quemado corresponde solo a esos movimientos, sin rescates. Arc es una red nueva desde el cierre anterior, y el contrato de wMXN ya existe ahí, pero al cierre no tiene saldo.",
+        "text_with_ids": "En el trimestre la circulación de wMXN pasó a {wMXN.outstanding.2026-09-30}, y todo el crecimiento vino de la emisión primaria de {wMXN.primary_mints.2026Q3}. Los rescates no tuvieron peso en la variación, ya que lo quemado fue lo mismo que lo que se movió por el puente entre redes. Arc se sumó como red nueva, con el contrato de wMXN ya creado pero sin saldo al cierre.",
+        "text": "En el trimestre la circulación de wMXN pasó a 5.638.788,69, y todo el crecimiento vino de la emisión primaria de 4.670.000. Los rescates no tuvieron peso en la variación, ya que lo quemado fue lo mismo que lo que se movió por el puente entre redes. Arc se sumó como red nueva, con el contrato de wMXN ya creado pero sin saldo al cierre.",
         "attempts": 1
       }
     },
@@ -50,8 +50,8 @@
       "networks_with_balance": 7,
       "explanation": {
         "source": "llm",
-        "text_with_ids": "La circulación de wCOP creció {wCOP.change.2026Q3} en el trimestre. El cambio vino de la emisión primaria de {wCOP.primary_mints.2026Q3}, menos los rescates de {wCOP.redemptions.2026Q3}. Los movimientos por el puente solo pasaron tokens de una red a otra, y Arc, la red nueva, no tiene saldo al cierre.",
-        "text": "La circulación de wCOP creció 714.860.000 en el trimestre. El cambio vino de la emisión primaria de 774.860.000, menos los rescates de 60.000.000. Los movimientos por el puente solo pasaron tokens de una red a otra, y Arc, la red nueva, no tiene saldo al cierre.",
+        "text_with_ids": "La circulación de wCOP creció {wCOP.change.2026Q3} en el trimestre. Casi todo vino de la emisión primaria de {wCOP.primary_mints.2026Q3}, y los rescates que quemó el emisor fueron {wCOP.redemptions.2026Q3}. El puente movió tokens entre redes, pero lo que entró y lo que salió fue lo mismo, así que no explica el cambio. Arc es una red nueva, y el contrato de wCOP ya existe ahí pero al cierre no tiene saldo.",
+        "text": "La circulación de wCOP creció 714.860.000 en el trimestre. Casi todo vino de la emisión primaria de 774.860.000, y los rescates que quemó el emisor fueron 60.000.000. El puente movió tokens entre redes, pero lo que entró y lo que salió fue lo mismo, así que no explica el cambio. Arc es una red nueva, y el contrato de wCOP ya existe ahí pero al cierre no tiene saldo.",
         "attempts": 1
       }
     },
@@ -63,8 +63,8 @@
       "networks_with_balance": 7,
       "explanation": {
         "source": "llm",
-        "text_with_ids": "Al cierre del trimestre había {wCLP.outstanding.2026-09-30} wCLP en circulación, es decir {wCLP.change.2026Q3} más que al cierre anterior. Todo ese aumento vino de la emisión primaria, de {wCLP.primary_mints.2026Q3} tokens nuevos que emitió el emisor. Los rescates no sumaron nada aparte del puente, que solo movió tokens entre redes sin cambiar el total. Arc se sumó como red nueva, pero al cierre todavía no tiene saldo.",
-        "text": "Al cierre del trimestre había 66.565.100 wCLP en circulación, es decir 2.270.000 más que al cierre anterior. Todo ese aumento vino de la emisión primaria, de 2.270.000 tokens nuevos que emitió el emisor. Los rescates no sumaron nada aparte del puente, que solo movió tokens entre redes sin cambiar el total. Arc se sumó como red nueva, pero al cierre todavía no tiene saldo.",
+        "text_with_ids": "En el trimestre la circulación de wCLP cambió en {wCLP.change.2026Q3}, y todo vino de la emisión primaria de {wCLP.primary_mints.2026Q3}. No se ven rescates aparte de lo que se quemó por el puente entre redes. Ese puente movió {wCLP.bridge_in.2026Q3} hacia las redes, y esos movimientos son traslados entre redes que no crean circulación nueva. Arc se sumó como red nueva y, al cierre, el contrato existe pero todavía no tiene saldo.",
+        "text": "En el trimestre la circulación de wCLP cambió en 2.270.000, y todo vino de la emisión primaria de 2.270.000. No se ven rescates aparte de lo que se quemó por el puente entre redes. Ese puente movió 7.960.305,19 hacia las redes, y esos movimientos son traslados entre redes que no crean circulación nueva. Arc se sumó como red nueva y, al cierre, el contrato existe pero todavía no tiene saldo.",
         "attempts": 1
       }
     },
@@ -76,8 +76,8 @@
       "networks_with_balance": 7,
       "explanation": {
         "source": "llm",
-        "text_with_ids": "La circulación de wPEN en el trimestre subió {wPEN.change.2026Q3} y cerró en {wPEN.outstanding.2026-09-30}. Todo el aumento vino de la emisión primaria, que fue de {wPEN.primary_mints.2026Q3}. Los movimientos del puente entre redes entraron y salieron por el mismo monto, así que no cambiaron la circulación total. Arc se sumó como red nueva, pero al cierre todavía no tiene saldo.",
-        "text": "La circulación de wPEN en el trimestre subió 10.000 y cerró en 132.950. Todo el aumento vino de la emisión primaria, que fue de 10.000. Los movimientos del puente entre redes entraron y salieron por el mismo monto, así que no cambiaron la circulación total. Arc se sumó como red nueva, pero al cierre todavía no tiene saldo.",
+        "text_with_ids": "La circulación de wPEN creció {wPEN.change.2026Q3} en el trimestre, y todo vino de la emisión primaria de {wPEN.primary_mints.2026Q3} tokens nuevos, sin rescates fuera del puente. El puente entre redes movió {wPEN.bridge_in.2026Q3} tokens hacia adentro de unas redes y la misma cantidad hacia afuera de otras, así que no cambió el total. Arc se sumó como red nueva y su contrato de wPEN ya existe, pero al cierre no tiene saldo.",
+        "text": "La circulación de wPEN creció 10.000 en el trimestre, y todo vino de la emisión primaria de 10.000 tokens nuevos, sin rescates fuera del puente. El puente entre redes movió 5.770,89 tokens hacia adentro de unas redes y la misma cantidad hacia afuera de otras, así que no cambió el total. Arc se sumó como red nueva y su contrato de wPEN ya existe, pero al cierre no tiene saldo.",
         "attempts": 1
       }
     }

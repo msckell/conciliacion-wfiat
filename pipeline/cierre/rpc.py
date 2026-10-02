@@ -229,6 +229,8 @@ class RpcClient:
                 return "failed"
             if isinstance(data, dict) and "error" in data and data["error"] is not None:
                 err = data["error"]
+                if not isinstance(err, dict):  # some public nodes send the error as plain text
+                    err = {"message": str(err)}
                 msg = f"{err.get('code')} {err.get('message')} {err.get('data') or ''}".strip()
                 errors.append(f"{ep.url}: {msg[:200]}")
                 if method == "eth_call" and "revert" in msg.lower():

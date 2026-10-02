@@ -70,6 +70,10 @@ class ExplorerClient:
                 err = f"HTTP {resp.status_code} non JSON body: {resp.text[:80]!r}"
                 time.sleep(3 * (attempt + 1))
                 continue
+            if not isinstance(data, dict):
+                err = f"HTTP {resp.status_code} unexpected body: {resp.text[:80]!r}"
+                time.sleep(3 * (attempt + 1))
+                continue
             result = data.get("result")
             if data.get("status") == "1" and isinstance(result, list):
                 return result

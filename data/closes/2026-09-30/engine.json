@@ -8,7 +8,7 @@
     "history_endpoints": {
       "https://ethereum-rpc.publicnode.com": "no archive state: https://ethereum-rpc.publicnode.com: -32602 Archive requests require a personal token. Get one at: https://www.allnodes.",
       "https://eth.drpc.org": "serves historical state",
-      "https://1rpc.io/eth": "unreachable: https://1rpc.io/eth: -32001 You've reached the usage limit for your current plan. To continue with higher limits and uni"
+      "https://1rpc.io/eth": "no archive state: https://1rpc.io/eth: -32000 historical state d67e4d450343046425ae4271474353857ab860dbc0a1dde64b41b5cd3a532bf3 is not ava"
     },
     "cutoff_blocks": [
       {
@@ -2426,7 +2426,7 @@
       "https://base-rpc.publicnode.com": "no archive state: https://base-rpc.publicnode.com: -32602 Archive requests require a personal token. Get one at: https://www.allnodes.com/",
       "https://mainnet.base.org": "serves historical state",
       "https://base.drpc.org": "serves historical state",
-      "https://1rpc.io/base": "unreachable: https://1rpc.io/base: -32001 You've reached the usage limit for your current plan. To continue with higher limits and un"
+      "https://1rpc.io/base": "no archive state: https://1rpc.io/base: -32603 state at block #2 is pruned"
     },
     "cutoff_blocks": [
       {
@@ -5532,7 +5532,7 @@
     "history_endpoints": {
       "https://polygon-bor-rpc.publicnode.com": "no archive state: https://polygon-bor-rpc.publicnode.com: -32000 historical state 654f28d19b44239d1012f27038f1f71b3d4465dc415a382fb2b7009c",
       "https://polygon.drpc.org": "serves historical state",
-      "https://1rpc.io/matic": "unreachable: https://1rpc.io/matic: -32001 You've reached the usage limit for your current plan. To continue with higher limits and u"
+      "https://1rpc.io/matic": "no archive state: https://1rpc.io/matic: -32000 historical state 654f28d19b44239d1012f27038f1f71b3d4465dc415a382fb2b7009cba1527c8 is not a"
     },
     "cutoff_blocks": [
       {
@@ -6705,7 +6705,7 @@
       "https://gnosis-rpc.publicnode.com": "serves historical state",
       "https://rpc.gnosischain.com": "serves historical state",
       "https://gnosis.drpc.org": "no archive state: https://gnosis.drpc.org: 27 Unknown state. First available state is 1",
-      "https://1rpc.io/gnosis": "unreachable: https://1rpc.io/gnosis: -32001 You've reached the usage limit for your current plan. To continue with higher limits and "
+      "https://1rpc.io/gnosis": "unreachable: https://1rpc.io/gnosis: ReadTimeout"
     },
     "cutoff_blocks": [
       {
@@ -10330,7 +10330,7 @@
       "https://forno.celo.org": "serves historical state",
       "https://celo-json-rpc.stakely.io": "unreachable: https://celo-json-rpc.stakely.io: -32603 no state found for block 0x0000000000000000000000000000000000000000000000000000",
       "https://celo.drpc.org": "unreachable: https://celo.drpc.org: -32601 the method eth_getCode does not exist/is not available",
-      "https://1rpc.io/celo": "unreachable: https://1rpc.io/celo: -32001 You've reached the usage limit for your current plan. To continue with higher limits and un"
+      "https://1rpc.io/celo": "unreachable: https://1rpc.io/celo: -32603 no state found for block 0x0000000000000000000000000000000000000000000000000000000000000000"
     },
     "cutoff_blocks": [
       {
