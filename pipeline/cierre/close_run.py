@@ -208,7 +208,7 @@ def run(cutoff: str, site_url: str | None, push: bool, deploy_timeout: int) -> i
     names = {k: c.name for k, c in all_chains.items()}
     run_log = Run("close", cutoff=cutoff, model=model_name())
     out_dir.mkdir(parents=True, exist_ok=True)
-    pushed = False
+    pushed = published = False
     try:
         with run_log.step("detect") as s:
             s["counts"] = {
@@ -266,6 +266,8 @@ def run(cutoff: str, site_url: str | None, push: bool, deploy_timeout: int) -> i
                     raise RuntimeError(
                         f"the site still serves another Excel after {check['waited_s']} s"
                     )
+                # Only a pushed package that the site now serves counts as published.
+                published = push
         with run_log.step("tasks") as s:
             tasks = open_issues(cutoff, exceptions, names)
             dump_json(out_dir / "tasks.json", tasks)
@@ -291,7 +293,6 @@ def run(cutoff: str, site_url: str | None, push: bool, deploy_timeout: int) -> i
     except Exception as error:
         record = run_log.finish("failed")
         failed = run_log.last_step
-        published = failed in ("tasks", "notify")
         state = "published" if published else "pushed" if pushed else "none"
         send_failure(
             alert_message(failed, str(error), package=state),

@@ -351,6 +351,19 @@ def test_close_alerts_without_a_link_when_the_site_does_not_serve_the_excel(monk
     assert (tmp_path / "alert_sent").exists()
 
 
+def test_the_alert_says_published_only_after_a_pushed_package_was_served(monkeypatch, tmp_path):
+    def broken_notice(*args):
+        raise RuntimeError("slack down")
+
+    alert = tmp_path / "data" / "closes" / "2026-09-30" / "slack_alert_payload.json"
+    cases = [("https://site.example", True, "quedó publicado"), (None, False, "No hay paquete")]
+    for site_url, push, expected in cases:
+        _fake_close(monkeypatch, tmp_path)
+        monkeypatch.setattr(close_run, "close_message", broken_notice)
+        assert close_run.run("2026-09-30", site_url, push=push, deploy_timeout=5) == 1
+        assert expected in alert.read_text(encoding="utf-8")
+
+
 def test_close_keeps_the_last_good_engine_output_when_a_network_fails(monkeypatch, tmp_path):
     events = _fake_close(monkeypatch, tmp_path, engine=[{"chain": "base", "error": "boom"}])
     assert close_run.run("2026-09-30", "https://site.example", push=True, deploy_timeout=5) == 1
