@@ -5,9 +5,10 @@ from types import SimpleNamespace
 import pytest
 
 from cierre.abi import BridgeIn
-from cierre.agent.exceptions import investigate, verify
+from cierre.agent.exceptions import investigate, overrides, run, verify
 from cierre.agent.llm import Reply
 from cierre.rpc import RpcError
+from cierre.tasks import describe_movement
 
 TOKEN = "0x0dc4f92879b7670e5f4e4e6e3c801d229129d90d"
 SAFE = "0x" + "2b" * 20
@@ -210,3 +211,43 @@ def test_the_agent_can_only_call_the_listed_tools():
     res = investigate(MINT, "sin clasificar", Spy(), _scripted(replies), logged.append)
     assert calls == [] and res["outcome"] == "task"
     assert logged[0]["result_preview"] == "error: unknown tool 'close'"
+
+
+def test_a_result_keeps_the_movement_kind_apart_from_the_proposal_kind(tmp_path):
+    mint = MINT | {"log_index": 3, "explorer_url": "https://example.org/tx/0xmint"}
+    pkg = {
+        "cutoff": "2026-09-30",
+        "movements": [mint],
+        "review": [mint | {"reason": "sin clasificar"}],
+    }
+    ask = _scripted(
+        [
+            {
+                "thought": "no sé",
+                "action": "propose",
+                "args": {"kind": "needs_person", "summary": "Mirá el contrato."},
+            }
+        ]
+    )
+    [result] = run(pkg, FakeTools(), ask, tmp_path)["results"]
+    assert (result["kind"], result["proposal_kind"]) == ("mint", "needs_person")
+    assert describe_movement(result)[0] == "emisión"
+
+
+def test_overrides_read_the_proposal_kind_in_both_file_formats():
+    current = {
+        "chain": "arc",
+        "tx_hash": "0xmint",
+        "log_index": 3,
+        "kind": "mint",
+        "proposal_kind": "primary_by_minter",
+        "outcome": "resolved",
+        "checks": [],
+        "summary": "",
+        "proposal": {},
+    }
+    before_the_split = current | {"kind": "primary_by_minter"}
+    del before_the_split["proposal_kind"]
+    for r in (current, before_the_split):
+        [override] = overrides({"results": [r]}).values()
+        assert override["resolved_by_agent"]["kind"] == "primary_by_minter"

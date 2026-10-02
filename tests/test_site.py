@@ -6,7 +6,7 @@ import shutil
 
 import cierre.site as site
 from cierre import DATA_DIR
-from cierre.site import _duration, _timeline
+from cierre.site import _duration, _exceptions, _timeline
 
 RUN = {
     "id": "20261001T000000Z-close",
@@ -130,3 +130,23 @@ def test_site_survives_an_attempt_the_model_never_answered(tmp_path, monkeypatch
 
     out = site.build_site("2026-09-30")
     assert out["verifier"]["attempts"][0]["problems"] == ["sin respuesta del modelo"]
+
+
+def test_exception_items_take_the_movement_kind_from_the_package(tmp_path):
+    # Files written before proposal_kind existed have the proposal's kind under "kind".
+    result = {
+        "chain": "arc",
+        "token": "wARS",
+        "tx_hash": "0xmint",
+        "log_index": 3,
+        "kind": "needs_person",
+        "amount": "10000000000000000000",
+        "outcome": "task",
+        "reason": "sin clasificar",
+        "summary": "Mirá el contrato.",
+        "explorer_url": "https://example.org/tx/0xmint",
+    }
+    exc = {"investigated": 1, "resolved": 0, "tasks": 1, "results": [result]}
+    pkg = {"movements": [{k: result[k] for k in ("chain", "tx_hash", "amount")} | {"kind": "mint"}]}
+    out = _exceptions(exc, pkg, tmp_path / "missing.jsonl", {"arc": "Arc"}, {"wARS": 18})
+    assert out["items"][0]["movement"] == "emisión de 10,00 wARS"

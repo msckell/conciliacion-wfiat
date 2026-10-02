@@ -303,10 +303,12 @@ def _verification(names: dict[str, str], decimals: dict[str, int]) -> dict:
 
 
 def _exceptions(
-    exc: dict | None, log_path: Path, names: dict[str, str], decimals: dict[str, int]
+    exc: dict | None, pkg: dict, log_path: Path, names: dict[str, str], decimals: dict[str, int]
 ) -> dict | None:
     if exc is None:
         return None
+    # Keyed without log_index: HyperEVM endpoints do not agree on log numbering.
+    movement_kind = {(m["chain"], m["tx_hash"], m["amount"]): m["kind"] for m in pkg["movements"]}
     tools: dict[tuple, list[str]] = {}
     if log_path.exists():
         for line in log_path.read_text(encoding="utf-8").splitlines():
@@ -317,7 +319,9 @@ def _exceptions(
                 )
     items = []
     for r in exc["results"]:
-        kind = "emisión" if r.get("kind") == "mint" or "primary" in r.get("kind", "") else "quema"
+        key = (r["chain"], r["tx_hash"], r["log_index"])
+        mint = movement_kind[(r["chain"], r["tx_hash"], r["amount"])] == "mint"
+        kind = "emisión" if mint else "quema"
         amount = fmt(units(r["amount"], decimals[r["token"]]))
         items.append(
             {
@@ -329,7 +333,7 @@ def _exceptions(
                 "summary": r["summary"],
                 "checks": r.get("checks") or [],
                 "explorer_url": r["explorer_url"],
-                "steps": tools.get((r["chain"], r["tx_hash"], r["log_index"]), []),
+                "steps": tools.get(key, []),
             }
         )
     return {
@@ -460,7 +464,7 @@ def build_site(cutoff: str) -> dict:
             }
             for m in pkg["methodology"]
         ],
-        "exceptions": _exceptions(exc, close_dir / "exceptions_log.jsonl", names, decimals),
+        "exceptions": _exceptions(exc, pkg, close_dir / "exceptions_log.jsonl", names, decimals),
         "verifier": {
             "model": (memo or {}).get("model"),
             "attempts": attempts,
