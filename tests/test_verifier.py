@@ -3,7 +3,7 @@ the templates did not produce, and accept clean text."""
 
 import pytest
 
-from cierre.agent.verifier import check, render
+from cierre.agent.verifier import check, check_free_text, render
 from cierre.agent.verifier_cases import REJECT_CASES
 
 FACTS = {
@@ -40,8 +40,6 @@ def test_accepts_paraphrase_without_figures():
 
 
 def test_agent_summary_may_quote_hashes_but_not_amounts():
-    from cierre.agent.verifier import check_free_text
-
     ok = "La cuenta 0x6c3acdc8c93d13087e3348732a1894e5f3c164b3 quemó el monto en un ERC1967Proxy."
     assert check_free_text(ok) == []
     bad = "Mandó 37112040867826365798 wARS en el bloque 20356249."
