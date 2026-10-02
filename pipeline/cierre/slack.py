@@ -7,13 +7,13 @@ A message without a reachable Excel link is an alert, not a close notice.
 
 from __future__ import annotations
 
-import json
 import os
 from pathlib import Path
 
 import httpx
 
 from cierre.agent.memo import fmt_date
+from cierre.jsonio import dump_json
 from cierre.tasks import describe_movement
 
 
@@ -147,9 +147,7 @@ def monitor_message(changes: list[str], problems: list[str], networks: int) -> d
 def send(payload: dict, record_path: Path) -> str:
     """Write the payload to a file, then post it when there is a webhook. The file is the
     record of what Finance received, so the page shows the message that was really sent."""
-    record_path.write_text(
-        json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
-    )
+    dump_json(record_path, payload)
     url = os.environ.get("SLACK_WEBHOOK_URL")
     if not url:
         return f"dry run: {record_path}"
