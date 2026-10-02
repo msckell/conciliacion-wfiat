@@ -25,11 +25,11 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     steps:
-      - uses: actions/checkout@v5
-      - uses: astral-sh/setup-uv@v6
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10
       - run: uv sync --locked
       - name: Restore the RPC cache (immutable answers only)
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v6
         with:
           path: .cache/responses.sqlite
           key: rpc-cache-${{ github.run_id }}-${{ github.run_attempt }}
@@ -43,7 +43,7 @@ jobs:
         run: uv run cierre monitor --push
       - name: Save the RPC cache
         if: always()
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v6
         with:
           path: .cache/responses.sqlite
           key: rpc-cache-${{ github.run_id }}-${{ github.run_attempt }}
