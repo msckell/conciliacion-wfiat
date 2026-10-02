@@ -493,9 +493,7 @@ def build_site(cutoff: str) -> dict:
             ),
             "payload": slack,
             # Screenshot of the message in the channel, added by hand after a live send
-            "screenshot": (
-                SLACK_SCREENSHOT if (close_dir / SLACK_SCREENSHOT).exists() else None
-            ),
+            "screenshot": (SLACK_SCREENSHOT if (close_dir / SLACK_SCREENSHOT).exists() else None),
         },
         "runs": [
             {
