@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-10-02T02:43:21+00:00",
+  "checked_at": "2026-10-02T02:49:45+00:00",
   "networks_checked": [
     "ethereum",
     "base",
@@ -28,7 +28,7 @@
   ],
   "supply": {
     "ethereum": {
-      "block": 26101726,
+      "block": 26101757,
       "tokens": {
         "wARS": "12285069043587961552517100013",
         "wBRL": "4770577392513443946870893",
@@ -39,7 +39,7 @@
       }
     },
     "base": {
-      "block": 52059827,
+      "block": 52060019,
       "tokens": {
         "wARS": "1638446091742940132955015243",
         "wBRL": "2480648758403505658617551",
@@ -50,7 +50,7 @@
       }
     },
     "polygon": {
-      "block": 94802574,
+      "block": 94802830,
       "tokens": {
         "wARS": "38523919735333389016100000",
         "wBRL": "45465547879000000000000",
@@ -61,7 +61,7 @@
       }
     },
     "gnosis": {
-      "block": 48543291,
+      "block": 48543367,
       "tokens": {
         "wARS": "9360155000000000000000000",
         "wBRL": "32999840000000000000000",
@@ -72,7 +72,7 @@
       }
     },
     "bsc": {
-      "block": 125214464,
+      "block": 125215317,
       "tokens": {
         "wARS": "85064244090776000000000000",
         "wBRL": "237107041289472274000000",
@@ -83,7 +83,7 @@
       }
     },
     "worldchain": {
-      "block": 35786681,
+      "block": 35786873,
       "tokens": {
         "wARS": "390379882760387597974376622",
         "wBRL": "481574740439523099909700",
@@ -94,7 +94,7 @@
       }
     },
     "celo": {
-      "block": 79008240,
+      "block": 79008616,
       "tokens": {
         "wARS": "262660671708647000000000000",
         "wBRL": "3708687895892251128768916",
@@ -105,7 +105,7 @@
       }
     },
     "hyperevm": {
-      "block": 47430020,
+      "block": 47430410,
       "tokens": {
         "wARS": "409279807617718859506384744",
         "wBRL": "2499220298586097094440148",
@@ -116,7 +116,7 @@
       }
     },
     "arc": {
-      "block": 23810289,
+      "block": 23811044,
       "tokens": {
         "wARS": "112410772682783000000000000",
         "wBRL": "329380864996706797392792",
@@ -330,14 +330,24 @@
     }
   },
   "golden_live": {
-    "matched": 9,
+    "matched": 8,
     "total": 9,
-    "read_errors": [],
+    "read_errors": [
+      "base"
+    ],
     "mismatch_without_errors": []
   },
-  "ci": null,
-  "problems": [],
-  "changes": [],
-  "status": "ok",
-  "notified": "skipped"
+  "ci": {
+    "conclusion": "success",
+    "at": "2026-10-02T02:49:45Z",
+    "sha": "859d704"
+  },
+  "problems": [
+    "El chequeo contra las certificaciones no pudo leer Base."
+  ],
+  "changes": [
+    "Chequeo contra las certificaciones: antes 9 de 9, ahora 8 de 9."
+  ],
+  "status": "failed",
+  "notified": "dry_run"
 }

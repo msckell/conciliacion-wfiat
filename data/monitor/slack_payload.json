@@ -1,0 +1,33 @@
+{
+  "text": "Monitor wFIAT: falló un chequeo",
+  "blocks": [
+    {
+      "type": "header",
+      "text": {
+        "type": "plain_text",
+        "text": "Monitor diario wFIAT"
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": ":rotating_light: *Falló un chequeo*\n• El chequeo contra las certificaciones no pudo leer Base."
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*Qué cambió*\n• Chequeo contra las certificaciones: antes 9 de 9, ahora 8 de 9."
+      }
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "Redes revisadas: 24."
+      }
+    }
+  ]
+}
