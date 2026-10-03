@@ -141,7 +141,12 @@ class ExplorerClient:
             if data.get("status") == "1" and isinstance(result, list):
                 return result
             msg = str(data.get("message", "")) + " " + str(result)[:200]
-            if isinstance(result, list) and "no logs found" in msg.lower():
+            # An empty range: Blockscout says "No logs found", Etherscan "No records found".
+            # Safe to take as empty: a list that misses events does not reconcile, so it can
+            # never confirm a pair.
+            if isinstance(result, list) and (
+                "no logs found" in msg.lower() or "no records found" in msg.lower()
+            ):
                 return []
             if "rate limit" in msg.lower() or "max calls" in msg.lower():
                 err = msg

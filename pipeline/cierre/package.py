@@ -54,9 +54,10 @@ REASON_ES = {
     "created_after_cutoff": "el contrato se creó después del corte",
     "not_deployed": "el contrato no está desplegado en esta red",
 }
+# Second source check, an extra layer on top of the two path reconciliation.
 VERIFICATION_ES = {
-    "verified": "verificado con dos fuentes",
-    "limited": "verificación limitada",
+    "verified": "confirmado por una segunda fuente",
+    "limited": "una sola fuente",
     "discrepancy": "las fuentes no coinciden",
 }
 # Pair statuses that leave the close incomplete.
@@ -198,17 +199,21 @@ def _source_label(name: str) -> str:
 
 
 def _verification(t: dict, c: dict) -> dict:
-    """Whether a reconciled pair was also checked against an independent source.
+    """Whether a reconciled pair was also confirmed by an independent source. This is an
+    extra layer: the pair is already verified against the chain by two paths (totalSupply at
+    the cutoff block equals opening plus mints minus burns, exactly).
 
-    verified: two or more sources answered the whole range and hold the same events.
-    discrepancy: they answered and differ (kept for a person, even if one reconciles).
-    limited: only one source answered. Arithmetic alone cannot see a mint and a burn of the
-    same amount missing together, so a person should review it."""
+    verified: two or more reconciling sources hold the same events.
+    discrepancy: two reconciling sources hold different events. A person must look.
+    limited: only one source reconciles (the others failed, need a key, or returned an
+    incomplete list). The only case it cannot see is a mint and a burn of the same amount
+    missing together."""
     sc = t.get("source_comparison") or {}
     answered = sorted(set(t.get("sources_complete", [])) | set(t.get("sources_incomplete", [])))
     failures = c.get("sources_failed") or {}
     out = {
         "sources": answered,
+        "not_reconciling": t.get("sources_incomplete", []),
         "failed": sorted(n for n, e in failures.items() if not e.startswith(NOT_CONFIGURED)),
         "needs_key": sorted(n for n, e in failures.items() if e.startswith(NOT_CONFIGURED)),
     }
@@ -217,7 +222,6 @@ def _verification(t: dict, c: dict) -> dict:
     if sc.get("compared"):
         return out | {
             "status": "discrepancy",
-            "not_reconciling": t.get("sources_incomplete", []),
             "differences": {
                 name: {side: len(v) for side, v in d.items()}
                 for name, d in (sc.get("diffs") or {}).items()
@@ -231,9 +235,13 @@ def verification_text(v: dict) -> str:
     if v["status"] == "verified":
         return "Coinciden " + " y ".join(_source_label(n) for n in v["sources"]) + "."
     if v["status"] == "discrepancy":
-        bad = ", ".join(_source_label(n) for n in v.get("not_reconciling", []))
-        text = "Las fuentes no tienen los mismos movimientos."
-        return text + (f" {bad} no concilia." if bad else " Las dos concilian.")
+        return "Dos fuentes concilian pero no listan los mismos movimientos."
+    if v.get("not_reconciling"):
+        return (
+            "Una sola fuente: "
+            + ", ".join(_source_label(n) for n in v["not_reconciling"])
+            + " devolvió una lista incompleta."
+        )
     if v["failed"]:
         return (
             "Una sola fuente: no respondió "
@@ -263,8 +271,9 @@ def _status(pairs: list[dict], network_rows: list[dict]) -> dict:
         "all_reconciled": ok,
         "reconciliation_passed": reconciliation_passed,
         "data_complete": data_complete,
-        # A close with limited verification can be shown, marked as such, with a review
-        # recommended (Maxi's decision, 2026-10-03).
+        # Verified means verified against the chain by two paths. The second source is an
+        # extra check: only a real discrepancy between two reconciling sources goes to a
+        # person (Maxi's decision, 2026-10-03, replaces the review of single source pairs).
         "close_ready": ok,
         "source_check": {
             "counts": counts,
@@ -277,7 +286,7 @@ def _status(pairs: list[dict], network_rows: list[dict]) -> dict:
                     "detail": verification_text(r["verification"]),
                 }
                 for r in checked
-                if r["verification"]["status"] != "verified"
+                if r["verification"]["status"] == "discrepancy"
             ],
         },
     }
@@ -698,6 +707,9 @@ def _summary_sheet(ws, pkg: dict, names: dict[str, str]) -> None:
     r += 1
     ws.cell(row=r, column=1, value=pkg["convention_check"]["note"])
     r += 1
+    if pkg["all_reconciled"]:
+        ws.cell(row=r, column=1, value=VERIFIED_LINE)
+        r += 1
     ws.cell(row=r, column=1, value=source_check_line(pkg["source_check"], len(pkg["by_network"])))
     r += 2
     ws.cell(
@@ -711,21 +723,27 @@ def _summary_sheet(ws, pkg: dict, names: dict[str, str]) -> None:
     _widths(ws, [10, 18, 16, 16, 18, 16, 16, 16, 16, 16, 12, 60])
 
 
+VERIFIED_LINE = (
+    "Verificado contra la blockchain: en cada red, la cantidad de tokens al corte coincide "
+    "exacto, al último decimal, con la apertura más las emisiones menos las quemas."
+)
+
+
 def source_check_line(check: dict, reconciled: int) -> str:
-    """One Spanish line: how many reconciled pairs a second source confirmed, and the rest."""
+    """One Spanish line: the extra check, how many reconciled pairs a second source confirmed
+    movement by movement. Only a real discrepancy asks for a person."""
     n_ok = check["counts"].get("verified", 0)
-    line = f"Verificación con una segunda fuente: {n_ok} de {reconciled} pares."
-    limited = check["counts"].get("limited", 0)
+    line = (
+        f"Control extra: una segunda fuente independiente confirmó cada movimiento en {n_ok} "
+        f"de {reconciled} pares."
+    )
+    if n_ok < reconciled:
+        line += " En el resto no hay una segunda fuente gratuita disponible y completa."
     disc = check["counts"].get("discrepancy", 0)
-    parts = []
-    if limited:
-        parts.append(f"{limited} con verificación limitada (una sola fuente)")
     if disc:
-        parts.append(f"{disc} donde las fuentes no coinciden")
-    if parts:
         line += (
-            " " + " y ".join(parts).capitalize() + ". Recomendamos que lo revise una persona "
-            "(detalle en la hoja Conciliación)."
+            f" En {disc} {'par' if disc == 1 else 'pares'} dos fuentes no listan los mismos "
+            "movimientos: revisalo en la hoja Conciliación."
         )
     return line
 
@@ -877,8 +895,8 @@ def _reconciliation_sheet(ws, pkg: dict, names: dict[str, str]) -> None:
             "Fuente que concilia",
             "Otras fuentes completas",
             "Fuentes incompletas",
-            "Verificación",
-            "Detalle de la verificación",
+            "Segunda fuente",
+            "Detalle de la segunda fuente",
         ],
     )
     verif = {

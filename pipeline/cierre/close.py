@@ -193,6 +193,11 @@ def run_chain(
             }
         res["sources_complete"] = sorted(complete)
         res["sources_incomplete"] = sorted(set(mine) - complete)
+        # A source whose list does not reconcile is incomplete, so it cannot confirm or
+        # contradict the others. The comparison that counts is among reconciling sources.
+        # The one over every source stays on record.
+        res["source_comparison_all"] = res["source_comparison"]
+        res["source_comparison"] = compare_sources({n: mine[n] for n in sorted(complete)})
         res["passed"] = bool(complete)
         res["status"] = "reconciled" if complete else "not_reconciled"
         if complete:

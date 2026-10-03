@@ -86,9 +86,10 @@ def close_message(
     if review:
         blocks.append(_section("\n\n".join(review)))
 
+    # Verified against the chain by two paths, and the method matches every certificate.
+    # Only a real discrepancy between two reconciling sources holds the word back.
     all_good = pkg["all_reconciled"] and verification["matched"] == verification["total"]
-    # "verificado" only when a second source confirmed every pair.
-    word = "conciliado y verificado" if check is None or check["complete"] else "conciliado"
+    word = "conciliado y verificado" if check is None or not check["review"] else "conciliado"
     if all_good and review:
         ok_head = f":white_check_mark: *Todo lo demás está {word}*"
     elif all_good:
@@ -127,16 +128,16 @@ def close_message(
 
 
 def _source_review(check: dict, chain_names: dict[str, str]) -> str:
-    """The pairs a second source did not confirm, grouped by network, with a review
-    recommended. Always shown: a limit is never hidden."""
+    """Pairs where two reconciling sources list different movements, grouped by network.
+    Single source pairs are not here: they are verified against the chain by two paths, and
+    the extra check is reported in the Excel and on the page."""
     by_net: dict[tuple[str, str], list[str]] = {}
     for r in check["review"]:
         by_net.setdefault((r["chain"], r["detail"]), []).append(r["token"])
     n = len(check["review"])
     lines = [
-        f":warning: *Recomendamos que una persona revise la verificación de {n} "
-        f"{'par' if n == 1 else 'pares'} de token y red.* Concilian, pero una segunda fuente "
-        "no confirmó cada movimiento:"
+        f":warning: *Revisá {n} {'par' if n == 1 else 'pares'} de token y red.* Concilian, "
+        "pero dos fuentes no listan los mismos movimientos:"
     ]
     for (chain, detail), toks in by_net.items():
         lines.append(f"• {chain_names[chain]} ({', '.join(toks)}): {detail}")

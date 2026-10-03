@@ -176,6 +176,43 @@ def test_slack_puts_what_needs_review_before_what_is_in_order():
     assert "conciliado y verificado" not in msg
 
 
+def test_slack_says_verified_with_single_source_pairs_and_flags_only_real_discrepancies():
+    memo = {"tokens": {"wARS": {"headline": "wARS: 1,00 al 30/09/2026", "status": "Conciliado"}}}
+    nothing = {"investigated": 0, "resolved": 0, "results": []}
+    check = {"counts": {"verified": 1, "limited": 5}, "complete": False, "review": []}
+    pkg = {
+        "cutoff": "2026-09-30",
+        "networks": [],
+        "all_reconciled": True,
+        "networks_checked": ["base"],
+        "source_check": check,
+    }
+    msg = json.dumps(
+        close_message(pkg, memo, nothing, {"matched": 9, "total": 9}, "x", NAMES),
+        ensure_ascii=False,
+    )
+    assert "Todo está conciliado y verificado" in msg
+    assert "Revisá" not in msg and "una sola fuente" not in msg.lower()
+
+    pkg["source_check"] = check | {
+        "counts": {"verified": 1, "limited": 4, "discrepancy": 1},
+        "review": [
+            {
+                "token": "wARS",
+                "chain": "base",
+                "status": "discrepancy",
+                "detail": "Dos fuentes concilian pero no listan los mismos movimientos.",
+            }
+        ],
+    }
+    msg = json.dumps(
+        close_message(pkg, memo, nothing, {"matched": 9, "total": 9}, "x", NAMES),
+        ensure_ascii=False,
+    )
+    assert msg.index("Revisá 1 par de token y red") < msg.index("Todo lo demás está conciliado*")
+    assert "conciliado y verificado" not in msg
+
+
 def test_slack_send_keeps_a_record_of_what_was_sent(tmp_path, monkeypatch):
     posted = []
 
