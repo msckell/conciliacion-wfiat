@@ -1,7 +1,7 @@
 """Classification from receipt events, offline with hand built receipts."""
 
 from cierre.abi import BRIDGE_DEPOSIT_INITIATED, BRIDGE_MINT_FULFILLED, LIMITED_MINTER_MINTED
-from cierre.classify import KnownContract, classify_movements
+from cierre.classify import MINTER_ROLE, KnownContract, classify_movements, mark_direct_mints
 
 TOKEN = "0x0dc4f92879b7670e5f4e4e6e3c801d229129d90d"
 BRIDGE = "0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
@@ -82,3 +82,72 @@ def test_unknown_bridge_emitter_or_other_amount_stays_unclassified():
 def test_one_event_classifies_one_movement_only():
     ms = [_mv("burn", 10, idx=1), _mv("burn", 10, idx=2)]
     assert _run(ms, [_bridge_out(10)]) == ["bridge_out", "unclassified"]
+
+
+# Direct mints (H08): the six February 2026 mints of 1,000 wBRL, wMXN and wCOP on Base and
+# Ethereum were sent straight to the token by 0x5ca3...f20f, which held MINTER_ROLE on the
+# token at each block (read onchain on 2026-10-03).
+
+WCOP = "0x8a1d45e102e886510e891d2ec656a708991e2d76"
+MINTER = "0x5ca3f8eeba12d83408fc097c2dad79212456f20f"
+SAFE = "0x2b839174fe62466067c22e2a4c8054071f9d8d68"
+
+
+class RoleRpc:
+    """hasRole(MINTER_ROLE, account) answers from a fixed set, and records each read."""
+
+    def __init__(self, holders: set[str]) -> None:
+        self.holders = holders
+        self.calls: list[tuple[str, str, str]] = []
+
+    def call(self, method, params, cache=False, historical=False):
+        req, block = params
+        assert method == "eth_call" and historical
+        assert req["data"][10:74] == MINTER_ROLE[2:]
+        account = "0x" + req["data"][-40:]
+        self.calls.append((req["to"], account, block))
+        return "0x" + ("1" if account in self.holders else "0").rjust(64, "0")
+
+
+def _mint(tx_from: str, tx_to: str, kind: str = "mint", category: str = "unclassified") -> dict:
+    return {
+        "kind": kind,
+        "category": category,
+        "block": 24435347,
+        "tx_from": tx_from,
+        "tx_to": tx_to,
+        "amount": "1000000000000000000000",
+    }
+
+
+def test_a_direct_mint_by_a_token_minter_is_primary_with_its_evidence():
+    m = _mint(MINTER, WCOP)
+    rpc = RoleRpc({MINTER})
+    mark_direct_mints([m], rpc, WCOP.upper().replace("0X", "0x"))
+    assert m["category"] == "primary"
+    assert m["evidence"]["minter"] == MINTER and m["evidence"]["block"] == 24435347
+    assert rpc.calls == [(WCOP, MINTER, hex(24435347))]
+
+
+def test_a_direct_mint_without_the_role_stays_unclassified():
+    m = _mint(MINTER, WCOP)
+    mark_direct_mints([m], RoleRpc(set()), WCOP)
+    assert m["category"] == "unclassified" and "evidence" not in m
+
+
+def test_a_mint_through_a_wallet_is_not_proven_even_if_the_wallet_has_the_role():
+    # Arc, 30/09: a Safe with MINTER_ROLE minted through execTransaction. The caller of mint
+    # cannot be proven from the transaction, so the rule leaves it to the exception agent.
+    m = _mint("0x00000000000000000000000000000000000000aa", SAFE)
+    rpc = RoleRpc({SAFE})
+    mark_direct_mints([m], rpc, WCOP)
+    assert m["category"] == "unclassified" and rpc.calls == []
+
+
+def test_burns_and_classified_mints_are_left_alone():
+    burn = _mint(MINTER, WCOP, kind="burn")
+    bridged = _mint(MINTER, WCOP, category="bridge_in")
+    rpc = RoleRpc({MINTER})
+    mark_direct_mints([burn, bridged], rpc, WCOP)
+    assert burn["category"] == "unclassified" and bridged["category"] == "bridge_in"
+    assert rpc.calls == []

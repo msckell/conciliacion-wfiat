@@ -24,6 +24,9 @@ methodology:
   - decision: "Una emisión es primaria si su transacción tiene el evento Minted del contrato LimitedMinter y ningún evento del puente."
     label: documented
     source: "Contrato LimitedMinter verificado (src/LimitedMinter.sol). Direcciones en config/contracts.yaml."
+  - decision: "Una emisión también es primaria si la transacción va directo al contrato del token y quien la envía tiene permiso de emisión (MINTER_ROLE) en el token, leído en el bloque de la emisión. Si pasa por una billetera u otro contrato, no se puede probar quién emitió y queda para el agente de excepciones."
+    label: documented
+    source: "Lectura onchain de hasRole(MINTER_ROLE, cuenta) en el contrato del token (LatamStable)."
   - decision: "Una quema es rescate primario si quien quema sus propios tokens tiene permiso de emisión (MINTER_ROLE) en el LimitedMinter de esa red, leído en el bloque de la quema."
     label: documented
     source: "Lectura onchain de hasRole(MINTER_ROLE, cuenta) en el LimitedMinter verificado."

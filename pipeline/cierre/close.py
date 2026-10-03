@@ -15,7 +15,13 @@ from cierre import supply
 from cierre.abi import keccak256
 from cierre.blocks import get_block
 from cierre.cache import DiskCache
-from cierre.classify import classify_movements, load_contracts, mark_redemptions, receipt_client
+from cierre.classify import (
+    classify_movements,
+    load_contracts,
+    mark_direct_mints,
+    mark_redemptions,
+    receipt_client,
+)
 from cierre.config import Chain, Token, redact
 from cierre.cutoffs import CONVENTIONS, opening_for
 from cierre.ledger import Movement, collect_sources_multi
@@ -330,8 +336,9 @@ def classify_all(
         state = RpcClient(chains[c["chain"]], cache)
         try:
             state.qualify_history(tokens[supply.HISTORY_PROBE_SYMBOL].address)
-            for t in c["tokens"].values():
+            for sym, t in c["tokens"].items():
                 mark_redemptions(t.get("movements", []), state, usable, c["chain"])
+                mark_direct_mints(t.get("movements", []), state, tokens[sym].address)
         finally:
             state.close()
     report["known"] = usable

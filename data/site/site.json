@@ -3,7 +3,7 @@
     "cutoff": "30/09/2026",
     "previous_cutoff": "30/06/2026",
     "cutoff_instant": "30/09/2026 23:59:59, hora de Buenos Aires",
-    "generated_at": "03/10/2026 15:09",
+    "generated_at": "03/10/2026 15:32",
     "tokens": [
       {
         "symbol": "wARS",
@@ -844,6 +844,12 @@
       "label": "Documentado",
       "label_key": "documented",
       "source": "Contrato LimitedMinter verificado (src/LimitedMinter.sol). Direcciones en config/contracts.yaml."
+    },
+    {
+      "decision": "Una emisión también es primaria si la transacción va directo al contrato del token y quien la envía tiene permiso de emisión (MINTER_ROLE) en el token, leído en el bloque de la emisión. Si pasa por una billetera u otro contrato, no se puede probar quién emitió y queda para el agente de excepciones.",
+      "label": "Documentado",
+      "label_key": "documented",
+      "source": "Lectura onchain de hasRole(MINTER_ROLE, cuenta) en el contrato del token (LatamStable)."
     },
     {
       "decision": "Una quema es rescate primario si quien quema sus propios tokens tiene permiso de emisión (MINTER_ROLE) en el LimitedMinter de esa red, leído en el bloque de la quema.",
