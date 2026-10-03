@@ -21,8 +21,8 @@ import cierre.refresh as refresh
 import cierre.runlog as runlog
 import cierre.slack as slack
 from cierre import REPO_ROOT, cli
-from cierre.close import last_quarter_end
 from cierre.config import load_chains, load_tokens
+from cierre.cutoffs import last_quarter_end
 from cierre.monitor import diff, problems_of, totals
 from cierre.site import _cron_text
 from cierre.slack import close_message, task_line
@@ -70,9 +70,9 @@ def test_scheduled_close_takes_the_last_quarter_end():
 def test_close_and_run_close_both_take_latest(monkeypatch):
     # The engine-check job of close.yml passes "latest" to `cierre close`.
     built = []
-    monkeypatch.setattr(cli, "_build_package", lambda cutoff: built.append(cutoff) or 0)
-    monkeypatch.setattr(close_run, "close_dir", lambda cutoff: Path("/nonexistent"))
-    monkeypatch.setattr(close_run, "refresh_engine", lambda cutoff, chains: None)
+    monkeypatch.setattr(cli, "_build_package", lambda cutoff, opening: built.append(cutoff) or 0)
+    monkeypatch.setattr(close_run, "close_dir", lambda cutoff, opening=None: Path("/nonexistent"))
+    monkeypatch.setattr(close_run, "refresh_engine", lambda cutoff, chains, opening: None)
     assert cli.main(["close", "--cutoff", "latest"]) == 0
     assert built == [last_quarter_end(date.today())]
     assert close_run.resolve_cutoff("2026-09-30") == "2026-09-30"

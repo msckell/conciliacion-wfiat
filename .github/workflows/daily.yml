@@ -24,6 +24,7 @@ jobs:
       PYTHONIOENCODING: utf-8
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      NODEREAL_API_KEY: ${{ secrets.NODEREAL_API_KEY }}
     steps:
       - uses: actions/checkout@v7
       - uses: astral-sh/setup-uv@v10.2.0

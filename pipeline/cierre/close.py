@@ -1,5 +1,6 @@
-"""Quarter close engine: supply at both cutoffs, every mint and burn in between, and the
-exact reconciliation per token and network.
+"""Close engine: supply at the opening and closing cutoffs (consecutive quarter ends by
+default, or an explicit interval), every mint and burn in between, and the exact
+reconciliation per token and network.
 
 Two independent paths per token and network: totalSupply() at each cutoff block (archive
 state) and the mint and burn logs in between. Every movement that changes supply goes in,
@@ -9,42 +10,18 @@ bridge movements included. A source counts as complete only if it reconciles exa
 from __future__ import annotations
 
 import concurrent.futures as cf
-from datetime import date
 
 from cierre import supply
 from cierre.abi import keccak256
 from cierre.blocks import get_block
 from cierre.cache import DiskCache
 from cierre.classify import classify_movements, load_contracts, mark_redemptions, receipt_client
-from cierre.config import Chain, Token
-from cierre.cutoffs import CONVENTIONS
+from cierre.config import Chain, Token, redact
+from cierre.cutoffs import CONVENTIONS, opening_for
 from cierre.ledger import Movement, collect_sources_multi
 from cierre.movement_test import compare_sources, reconcile
 from cierre.rpc import RpcClient
 from cierre.scope import APPLICABLE, build_manifest, pair_scope, read_cutoff_blocks
-
-QUARTER_ENDS = ((3, 31), (6, 30), (9, 30), (12, 31))
-
-
-def last_quarter_end(today: date) -> str:
-    """The most recent quarter end strictly before `today` (the scheduled close runs the
-    day after)."""
-    for year in (today.year, today.year - 1):
-        for m, dd in reversed(QUARTER_ENDS):
-            if date(year, m, dd) < today:
-                return date(year, m, dd).isoformat()
-    raise AssertionError("unreachable")
-
-
-def previous_quarter_end(day: str) -> str:
-    d = date.fromisoformat(day)
-    if (d.month, d.day) not in QUARTER_ENDS:
-        raise ValueError(f"{day} is not a quarter end")
-    i = QUARTER_ENDS.index((d.month, d.day))
-    if i == 0:
-        return date(d.year - 1, 12, 31).isoformat()
-    m, dd = QUARTER_ENDS[i - 1]
-    return date(d.year, m, dd).isoformat()
 
 
 def _opening(row: dict, dep_creation: int | None) -> tuple[int, int, str] | str:
@@ -102,7 +79,7 @@ def run_chain(
     `scope` maps each token to its pair in the expected scope (see scope.py). Without it the
     applicability is computed here from the same cutoff blocks. Pairs that are not
     applicable or unknown get no log query and never count as reconciled."""
-    prev = previous_cutoff or previous_quarter_end(cutoff)
+    prev = opening_for(cutoff, previous_cutoff)
     s = supply.read_chain(chain, tokens, [prev, cutoff], cache)
     rows = {(r["token"], r["cutoff"], r["convention"]): r for r in s["rows"]}
     blocks = {(b["cutoff"], b["convention"]): b for b in s["cutoff_blocks"]}
@@ -274,7 +251,7 @@ def expected_scope(
 ) -> dict:
     """The expected scope of the close, from the configuration and the cutoff blocks, before
     any log is read."""
-    prev = previous_cutoff or previous_quarter_end(cutoff)
+    prev = opening_for(cutoff, previous_cutoff)
     blocks = read_cutoff_blocks(chains, [prev, cutoff], cache)
     return build_manifest(chains, tokens, prev, cutoff, convention, blocks, discovery)
 
@@ -300,8 +277,8 @@ def run_close(
             enrich(chain, res, cache)
             return res
         except Exception as exc:  # one network failing must not hide the others
-            print(f"{key:10} ERROR {type(exc).__name__}: {str(exc)[:300]}", flush=True)
-            return {"chain": key, "error": f"{type(exc).__name__}: {exc}"[:1000]}
+            print(f"{key:10} ERROR {type(exc).__name__}: {redact(str(exc))[:300]}", flush=True)
+            return {"chain": key, "error": redact(f"{type(exc).__name__}: {exc}")[:1000]}
 
     with cf.ThreadPoolExecutor(max_workers=len(chains)) as ex:
         return list(ex.map(one, list(chains)))

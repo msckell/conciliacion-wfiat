@@ -20,9 +20,8 @@ import httpx
 from cierre import DATA_DIR
 from cierre.alerts import mark_sent, send_failure
 from cierre.cache import DiskCache
-from cierre.close import last_quarter_end
 from cierre.config import Chain, Token, in_scope, load_chains, load_tokens
-from cierre.cutoffs import cutoff_block
+from cierre.cutoffs import cutoff_block, last_quarter_end
 from cierre.discover import has_code
 from cierre.gitops import commit_and_push
 from cierre.golden import OFFICIAL_RULE, compare, load_confirmed

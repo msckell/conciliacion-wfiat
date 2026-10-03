@@ -10,6 +10,7 @@ from cierre.agent.extract import run_eval
 from cierre.agent.llm import ask_claude
 from cierre.agent.memo import rerender
 from cierre.config import load_chains
+from cierre.cutoffs import opening_for
 from cierre.golden import load_confirmed
 from cierre.jsonio import dump_json, load_json, load_json_if_exists
 from cierre.site import write_site
@@ -46,24 +47,26 @@ def cmd_coingecko(args: argparse.Namespace) -> int:
     return 0
 
 
-def _build_package(cutoff: str) -> int:
-    """Rebuild the package from the engine output. Exit code 1 when a network does not
-    reconcile."""
-    pkg = close_run.build_package(cutoff)
+def _build_package(cutoff: str, opening: str | None) -> int:
+    """Rebuild the package from the engine output. Exit code 1 when a pair does not
+    reconcile or is missing."""
+    pkg = close_run.build_package(cutoff, opening=opening)
     return 0 if pkg["all_reconciled"] else 1
 
 
 def cmd_close(args: argparse.Namespace) -> int:
-    """Quarter close: engine (supply, movements, reconciliation), then the package."""
+    """Close: engine (supply, movements, reconciliation), then the package. The interval is
+    the quarter that ends at the cutoff, or --opening to --cutoff."""
     cutoff = close_run.resolve_cutoff(args.cutoff)
-    if args.refresh or not (close_run.close_dir(cutoff) / "engine.json").exists():
-        close_run.refresh_engine(cutoff, args.chains)
-    return _build_package(cutoff)
+    opening_for(cutoff, args.opening)  # rejects an opening that is not before the cutoff
+    if args.refresh or not (close_run.close_dir(cutoff, args.opening) / "engine.json").exists():
+        close_run.refresh_engine(cutoff, args.chains, args.opening)
+    return _build_package(cutoff, args.opening)
 
 
 def cmd_memo(args: argparse.Namespace) -> int:
     """Closing memo for a close that already has its package."""
-    out_dir = close_run.close_dir(args.cutoff)
+    out_dir = close_run.close_dir(args.cutoff, args.opening)
     pkg = load_json(out_dir / "package.json")
     if args.rerender:
         dump_json(out_dir / "memo.json", rerender(pkg, load_json(out_dir / "memo.json")))
@@ -87,15 +90,15 @@ def cmd_extract_eval(args: argparse.Namespace) -> int:
 def cmd_exceptions(args: argparse.Namespace) -> int:
     """Exception agent over the review items of the engine package, then the package and the
     Excel are rebuilt with the movements it proved."""
-    out_dir = close_run.close_dir(args.cutoff)
+    out_dir = close_run.close_dir(args.cutoff, args.opening)
     result = close_run.investigate(load_json(out_dir / "package.json"), out_dir)
     print(f"resolved {result['resolved']} of {result['investigated']}, tasks {result['tasks']}")
-    return _build_package(args.cutoff)
+    return _build_package(args.cutoff, args.opening)
 
 
 def cmd_slack(args: argparse.Namespace) -> int:
     """Slack message for a close. Dry run (payload to a file) without SLACK_WEBHOOK_URL."""
-    out_dir = close_run.close_dir(args.cutoff)
+    out_dir = close_run.close_dir(args.cutoff, args.opening)
     payload = close_message(
         load_json_if_exists(out_dir / "package.json"),
         load_json_if_exists(out_dir / "memo.json"),
@@ -146,15 +149,19 @@ def build_parser() -> argparse.ArgumentParser:
     command("coingecko", cmd_coingecko, "networks CoinGecko lists for each token")
     p = command("exceptions", cmd_exceptions, "exception agent over the review items")
     p.add_argument("--cutoff", required=True)
+    p.add_argument("--opening", help="YYYY-MM-DD, default: the previous quarter end")
     p = command("slack", cmd_slack, "Slack message for a close (dry run without webhook)")
     p.add_argument("--cutoff", required=True)
     p.add_argument("--excel-url", required=True)
+    p.add_argument("--opening", help="YYYY-MM-DD, default: the previous quarter end")
     command("extract-eval", cmd_extract_eval, "LLM certificate extraction vs confirmed table")
     p = command("memo", cmd_memo, "closing memo (LLM explanations, verified)")
     p.add_argument("--cutoff", required=True)
+    p.add_argument("--opening", help="YYYY-MM-DD, default: the previous quarter end")
     p.add_argument("--rerender", action="store_true", help="only reformat the figures, no LLM call")
-    p = command("close", cmd_close, "quarter close package for a cutoff")
+    p = command("close", cmd_close, "close package for a cutoff (a quarter by default)")
     p.add_argument("--cutoff", required=True, help="YYYY-MM-DD, or latest")
+    p.add_argument("--opening", help="YYYY-MM-DD, default: the previous quarter end")
     p.add_argument("--chains", nargs="+", help="rerun the engine only for these")
     p.add_argument("--refresh", action="store_true", help="rerun the engine")
     p = command("run-close", cmd_run_close, "the whole close, logged step by step")

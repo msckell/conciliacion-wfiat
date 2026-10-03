@@ -16,6 +16,7 @@ from pathlib import Path
 
 from cierre.agent import verifier
 from cierre.agent.llm import Ask, LlmError, model_name
+from cierre.cutoffs import period
 
 MAX_RETRIES = 2
 
@@ -44,9 +45,9 @@ FACT_MEANING = {
 COUNT_FACTS = {"networks_with_balance", "review_items"}
 
 
-def quarter(cutoff: str) -> str:
-    y, m, _ = cutoff.split("-")
-    return f"{y}Q{(int(m) - 1) // 3 + 1}"
+def period_of(pkg: dict) -> dict:
+    """The period of the package: a quarter (id 2026Q3) or an explicit interval."""
+    return pkg.get("period") or period(pkg["previous_cutoff"], pkg["cutoff"])
 
 
 def fmt(value: Decimal | str | int, places: int = 2) -> str:
@@ -68,7 +69,7 @@ def fmt_date(iso: str) -> str:
 def token_facts(pkg: dict, sym: str) -> dict[str, dict]:
     """Every fact of one token: id -> {value (formatted), meaning}."""
     t = pkg["tokens"][sym]
-    cut, prev, q = pkg["cutoff"], pkg["previous_cutoff"], quarter(pkg["cutoff"])
+    cut, prev, q = pkg["cutoff"], pkg["previous_cutoff"], period_of(pkg)["id"]
     cat = t["by_category"]
     raw = {
         f"{sym}.outstanding.{prev}": (t["opening"], "outstanding"),
@@ -91,7 +92,10 @@ def token_facts(pkg: dict, sym: str) -> dict[str, dict]:
     }
     # Zero flows are left out, so the text cannot dwell on them. Balances stay.
     return {
-        fid: {"value": fmt(v, 0 if kind in COUNT_FACTS else 2), "meaning": FACT_MEANING[kind]}
+        fid: {
+            "value": fmt(v, 0 if kind in COUNT_FACTS else 2),
+            "meaning": FACT_MEANING[kind].replace("trimestre", period_of(pkg)["word"]),
+        }
         for fid, (v, kind) in raw.items()
         if kind == "outstanding" or Decimal(str(v)) != 0
     }
@@ -131,7 +135,8 @@ def template(pkg: dict, sym: str) -> dict:
 
 def _prompt(sym: str, facts: dict[str, dict], pkg: dict) -> str:
     lines = [
-        f"Token: {sym}. Trimestre cerrado al {fmt_date(pkg['cutoff'])}.",
+        f"Token: {sym}. {period_of(pkg)['word'].capitalize()} cerrado al "
+        f"{fmt_date(pkg['cutoff'])}.",
         "",
         "Datos disponibles:",
     ]
@@ -155,7 +160,7 @@ def explain_token(pkg: dict, sym: str, ask: Ask, attempts_path: Path | None = No
     failed. A failed call (LlmError) asks again with the prompt of the previous attempt."""
     facts = token_facts(pkg, sym)
     values = {fid: f["value"] for fid, f in facts.items()}
-    periods = {pkg["cutoff"], pkg["previous_cutoff"], quarter(pkg["cutoff"])}
+    periods = {pkg["cutoff"], pkg["previous_cutoff"], period_of(pkg)["id"]}
     base_prompt = prompt = _prompt(sym, facts, pkg)
     attempts = MAX_RETRIES + 1
     for attempt in range(1, attempts + 1):

@@ -80,14 +80,19 @@ def close_message(
                     for r in pending
                 )
             )
+    check = pkg.get("source_check")
+    if check and check["review"]:
+        review.append(_source_review(check, chain_names))
     if review:
         blocks.append(_section("\n\n".join(review)))
 
     all_good = pkg["all_reconciled"] and verification["matched"] == verification["total"]
+    # "verificado" only when a second source confirmed every pair.
+    word = "conciliado y verificado" if check is None or check["complete"] else "conciliado"
     if all_good and review:
-        ok_head = ":white_check_mark: *Todo lo demás está conciliado y verificado*"
+        ok_head = f":white_check_mark: *Todo lo demás está {word}*"
     elif all_good:
-        ok_head = ":white_check_mark: *Todo está conciliado y verificado*"
+        ok_head = f":white_check_mark: *Todo está {word}*"
     else:
         ok_head = "*Resto del cierre*"
     lines = [f"• *{t['headline']}*. {t['status']}" for t in memo["tokens"].values()]
@@ -119,6 +124,23 @@ def close_message(
         }
     )
     return {"text": f"Cierre wFIAT al {cut} listo para revisión", "blocks": blocks}
+
+
+def _source_review(check: dict, chain_names: dict[str, str]) -> str:
+    """The pairs a second source did not confirm, grouped by network, with a review
+    recommended. Always shown: a limit is never hidden."""
+    by_net: dict[tuple[str, str], list[str]] = {}
+    for r in check["review"]:
+        by_net.setdefault((r["chain"], r["detail"]), []).append(r["token"])
+    n = len(check["review"])
+    lines = [
+        f":warning: *Recomendamos que una persona revise la verificación de {n} "
+        f"{'par' if n == 1 else 'pares'} de token y red.* Concilian, pero una segunda fuente "
+        "no confirmó cada movimiento:"
+    ]
+    for (chain, detail), toks in by_net.items():
+        lines.append(f"• {chain_names[chain]} ({', '.join(toks)}): {detail}")
+    return "\n".join(lines)
 
 
 # What an alert says about the package, by how far the close got before it stopped.

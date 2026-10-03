@@ -25,14 +25,9 @@ from cierre.agent.tools import Tools
 from cierre.alerts import send_failure
 from cierre.bridge import match
 from cierre.cache import DiskCache
-from cierre.close import (
-    classify_all,
-    expected_scope,
-    last_quarter_end,
-    previous_quarter_end,
-    run_close,
-)
+from cierre.close import classify_all, expected_scope, run_close
 from cierre.config import in_scope, load_chains, load_tokens
+from cierre.cutoffs import is_quarter, last_quarter_end, opening_for, previous_quarter_end
 from cierre.gitops import commit_and_push, is_tracked, restore
 from cierre.golden import OFFICIAL_RULE, compare, load_confirmed
 from cierre.jsonio import dump_json, load_json
@@ -48,11 +43,15 @@ from cierre.tasks import open_issues
 EXCEL_URL_PLACEHOLDER = "https://LINK-AL-EXCEL-SE-COMPLETA-AL-PUBLICAR"
 
 
-def close_dir(cutoff: str) -> Path:
-    return DATA_DIR / "closes" / cutoff
+def close_dir(cutoff: str, opening: str | None = None) -> Path:
+    """data/closes/<cutoff> for the quarter, data/closes/<opening>_<cutoff> for any other
+    interval, so a monthly close never overwrites the quarterly one of the same day."""
+    if opening is None or is_quarter(opening, cutoff):
+        return DATA_DIR / "closes" / cutoff
+    return DATA_DIR / "closes" / f"{opening}_{cutoff}"
 
 
-def write_scope(cutoff: str, cache: DiskCache) -> dict:
+def write_scope(cutoff: str, cache: DiskCache, opening: str | None = None) -> dict:
     """The expected scope of the close, saved as scope.json before the engine reads logs.
     It covers every network in scope, also when only some are rerun."""
     manifest = expected_scope(
@@ -62,18 +61,21 @@ def write_scope(cutoff: str, cache: DiskCache) -> dict:
         OFFICIAL_RULE["convention"],
         cache,
         load_json(DISCOVERY),
+        previous_cutoff=opening_for(cutoff, opening),
     )
-    dump_json(close_dir(cutoff) / "scope.json", manifest)
+    out_dir = close_dir(cutoff, opening)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    dump_json(out_dir / "scope.json", manifest)
     return manifest
 
 
-def refresh_engine(cutoff: str, only: list[str] | None = None) -> None:
+def refresh_engine(cutoff: str, only: list[str] | None = None, opening: str | None = None) -> None:
     """Run the engine and save engine.json. With `only`, just those networks are rerun and
     merged into the existing file. The networks left out stay in the scope, so a close
     without them is incomplete."""
-    engine_path = close_dir(cutoff) / "engine.json"
+    engine_path = close_dir(cutoff, opening) / "engine.json"
     cache = DiskCache()
-    manifest = write_scope(cutoff, cache)
+    manifest = write_scope(cutoff, cache, opening)
     chains = in_scope(load_chains())
     if only:
         chains = {k: chains[k] for k in only}
@@ -83,10 +85,10 @@ def refresh_engine(cutoff: str, only: list[str] | None = None) -> None:
     dump_json(engine_path, results)
 
 
-def build_package(cutoff: str, use_overrides: bool = True) -> dict:
+def build_package(cutoff: str, use_overrides: bool = True, opening: str | None = None) -> dict:
     """Classification, bridge pairing and the package, from the engine output. Without
     overrides, the movements the exception agent proved go back to review."""
-    out_dir = close_dir(cutoff)
+    out_dir = close_dir(cutoff, opening)
     exceptions_path = out_dir / "exceptions.json"
     scope_path = out_dir / "scope.json"
     engine = load_json(out_dir / "engine.json")
@@ -119,7 +121,7 @@ def build_package(cutoff: str, use_overrides: bool = True) -> dict:
         manifest=load_json(scope_path) if scope_path.exists() else None,
     )
     dump_json(out_dir / "package.json", pkg)
-    write_excel(pkg, chains, out_dir / f"paquete_cierre_{cutoff}.xlsx")
+    write_excel(pkg, chains, out_dir / f"paquete_cierre_{out_dir.name}.xlsx")
     print(
         f"package: all_reconciled={pkg['all_reconciled']} "
         f"data_complete={pkg['data_complete']} scope={pkg['scope']['counts']} "

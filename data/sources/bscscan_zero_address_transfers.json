@@ -3,6 +3,9 @@
   "retrieved_at": "2026-10-01T19:05:00Z",
   "retrieved_how": "read from the rendered page in a browser; BscScan has no free API for BNB Smart Chain",
   "note": "This list only says which transactions to look at. Amounts and directions are read from the transaction receipts on a public RPC, and completeness is checked by reconciling against totalSupply.",
+  "covers_from_block": 0,
+  "covers_to_block": 125153367,
+  "coverage_evidence": "The page listed the whole history of each token (total_shown is the total the page said it had, and every row was copied). covers_to_block is the last BNB block at or before retrieved_at, found by binary search on block timestamps (block 125153367, timestamp 1790881500).",
   "tokens": {
     "wARS": {
       "total_shown": 12,
