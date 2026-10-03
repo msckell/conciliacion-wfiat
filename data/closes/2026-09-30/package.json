@@ -8,7 +8,7 @@
   },
   "convention": "ART",
   "cutoff_instant": "2026-09-30 23:59:59 America/Argentina/Buenos_Aires",
-  "generated_at": "2026-10-03T18:09:23+00:00",
+  "generated_at": "2026-10-03T18:32:34+00:00",
   "all_reconciled": true,
   "reconciliation_passed": true,
   "data_complete": true,
@@ -9024,7 +9024,7 @@
         "dest_chain": "celo",
         "after": {
           "status": "not_found",
-          "searched_to": 79150197
+          "searched_to": 79151590
         }
       }
     },
@@ -13455,7 +13455,7 @@
         "dest_chain": "gnosis",
         "after": {
           "status": "not_found",
-          "searched_to": 48571094
+          "searched_to": 48571369
         }
       }
     },
@@ -19237,7 +19237,7 @@
         "dest_chain": "ethereum",
         "after": {
           "status": "not_found",
-          "searched_to": 26113511
+          "searched_to": 26113625
         }
       }
     },
@@ -24984,7 +24984,7 @@
       "amount": "985000000000000000000",
       "tx_hash": "0x973ffae966a4117988101c26b8bbdde3256619169a1988796b8eb713a8cf0dcc",
       "explorer_url": "https://basescan.org/tx/0x973ffae966a4117988101c26b8bbdde3256619169a1988796b8eb713a8cf0dcc",
-      "reason": "Salió por el puente el 29/07/2026 hacia Celo y no encontramos la emisión del otro lado (buscada hasta el bloque 79150197 de Celo)."
+      "reason": "Salió por el puente el 29/07/2026 hacia Celo y no encontramos la emisión del otro lado (buscada hasta el bloque 79151590 de Celo)."
     },
     {
       "chain": "worldchain",
@@ -25011,7 +25011,7 @@
       "amount": "485000000000000000000",
       "tx_hash": "0x854723b7fd5543cab04edbdf903dd4dd271567da6477449741d50c2070789615",
       "explorer_url": "https://polygonscan.com/tx/0x854723b7fd5543cab04edbdf903dd4dd271567da6477449741d50c2070789615",
-      "reason": "Salió por el puente el 02/09/2026 hacia Gnosis y no encontramos la emisión del otro lado (buscada hasta el bloque 48571094 de Gnosis)."
+      "reason": "Salió por el puente el 02/09/2026 hacia Gnosis y no encontramos la emisión del otro lado (buscada hasta el bloque 48571369 de Gnosis)."
     },
     {
       "chain": "hyperevm",
@@ -25020,7 +25020,7 @@
       "amount": "19965120000000000000000",
       "tx_hash": "0x3ff080dac8b08f89c84dbb2c4e076b2bfc69b66c2df2a7493788675023f526c6",
       "explorer_url": "https://hyperevmscan.io/tx/0x3ff080dac8b08f89c84dbb2c4e076b2bfc69b66c2df2a7493788675023f526c6",
-      "reason": "Salió por el puente el 14/09/2026 hacia Ethereum y no encontramos la emisión del otro lado (buscada hasta el bloque 26113511 de Ethereum)."
+      "reason": "Salió por el puente el 14/09/2026 hacia Ethereum y no encontramos la emisión del otro lado (buscada hasta el bloque 26113625 de Ethereum)."
     }
   ],
   "bridge": {
@@ -25288,6 +25288,11 @@
       "decision": "Una emisión es primaria si su transacción tiene el evento Minted del contrato LimitedMinter y ningún evento del puente.",
       "label": "documented",
       "source": "Contrato LimitedMinter verificado (src/LimitedMinter.sol). Direcciones en config/contracts.yaml."
+    },
+    {
+      "decision": "Una emisión también es primaria si la transacción va directo al contrato del token y quien la envía tiene permiso de emisión (MINTER_ROLE) en el token, leído en el bloque de la emisión. Si pasa por una billetera u otro contrato, no se puede probar quién emitió y queda para el agente de excepciones.",
+      "label": "documented",
+      "source": "Lectura onchain de hasRole(MINTER_ROLE, cuenta) en el contrato del token (LatamStable)."
     },
     {
       "decision": "Una quema es rescate primario si quien quema sus propios tokens tiene permiso de emisión (MINTER_ROLE) en el LimitedMinter de esa red, leído en el bloque de la quema.",

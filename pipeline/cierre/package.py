@@ -506,7 +506,8 @@ def _review_items(movements: list[dict], chains: dict[str, Chain]) -> list[dict]
             continue
         if m.get("category") == "unclassified":
             reason = (
-                "Sin clasificar: no tiene evento del puente ni de LimitedMinter."
+                "Sin clasificar: no tiene evento del puente ni de LimitedMinter, y no es una "
+                "llamada directa al token de una cuenta con permiso de emisión."
                 if m["kind"] == "mint"
                 else "Sin clasificar: no tiene evento del puente y quien quema no tiene "
                 "permiso de emisión."

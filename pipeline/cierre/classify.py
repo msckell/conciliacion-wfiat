@@ -9,6 +9,11 @@
 - redemption: a burn of the sender's own tokens (no bridge event) where the sender holds
   MINTER_ROLE on a listed LimitedMinter of that network at that block. Checked onchain by
   mark_redemptions(), after classify_movements().
+- primary (direct): a mint with no bridge or LimitedMinter event, in a transaction sent
+  straight to the token contract, whose sender holds MINTER_ROLE on the token at that block.
+  The token is the transaction target, so the sender is the caller of mint. Checked onchain
+  by mark_direct_mints(). A mint through a wallet or another contract stays unclassified:
+  the caller cannot be proven from the transaction alone.
 - unclassified: anything else. Nothing is guessed.
 
 Each event is used for one movement only, so a transaction with several movements cannot
@@ -148,3 +153,28 @@ def mark_redemptions(
                     "block": m["block"],
                 }
                 break
+
+
+def mark_direct_mints(movements: list[dict], rpc: RpcClient, token_address: str) -> None:
+    """Unclassified mints sent straight to the token by an account holding MINTER_ROLE on the
+    token, read at the mint's block, become primary. `rpc` must have passed qualify_history()."""
+    token = token_address.lower()
+    for m in movements:
+        if m.get("category") != "unclassified" or m["kind"] != "mint":
+            continue
+        sender = m.get("tx_from", "").lower()
+        if m.get("tx_to", "").lower() != token or not sender:
+            continue
+        data = SEL_HAS_ROLE + MINTER_ROLE[2:] + "0" * 24 + sender[2:]
+        out = rpc.call(
+            "eth_call", [{"to": token, "data": data}, hex(m["block"])], cache=True, historical=True
+        )
+        if int(out, 16) == 1:
+            m["category"] = "primary"
+            m["evidence"] = {
+                "check": "direct call to the token, sender holds MINTER_ROLE on the token "
+                "at the mint block",
+                "token": token,
+                "minter": sender,
+                "block": m["block"],
+            }
