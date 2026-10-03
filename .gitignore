@@ -28,3 +28,6 @@ Thumbs.db
 # Outputs of failed runs (kept in .cache/failed and uploaded by the workflow instead)
 data/closes/*/engine_failed.json
 data/**/slack_alert_payload.json
+
+# Internal working notes (not published)
+NOTAS_INTERNAS.md
