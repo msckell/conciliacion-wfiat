@@ -105,6 +105,8 @@ def test_issue_text():
     issue = issue_for("2026-09-30", TASK, NAMES)
     assert issue["title"] == "Revisar quema de 985,00 wARS en Base (cierre 30/09/2026)"
     assert issue["body"].splitlines()[0] == marker("2026-09-30", TASK)
+    assert issue["body"].splitlines()[1].startswith("> **Demo independiente.**")
+    assert "no afirma ningún error de Ripio" in issue["body"]
     assert issue["labels"] == ["cierre-2026-09-30", "revisar"]
     assert ";" not in issue["body"] and " - " not in issue["body"]
 

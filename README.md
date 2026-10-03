@@ -116,7 +116,7 @@ Without `SLACK_WEBHOOK_URL` the Slack message is written to `data/closes/<cutoff
 * EVM networks from a written candidate list only. The page says "redes revisadas", never "all networks".
 * Free public sources only. Some nodes rate limit CI runners, so the engine retries across several endpoints and caches immutable responses.
 * BNB Smart Chain: public endpoints refuse log queries over 25 to 50 blocks. The engine reads logs from NodeReal MegaNode when a free key is set (NODEREAL_API_KEY), and checks them against a transaction list exported from BscScan. The list counts only for the block range it states it covers.
-* Every reconciled pair says whether a second source confirmed each movement. When only one source answered, the package marks it as limited verification and recommends a review by a person.
+* Every pair is verified by two independent paths (`totalSupply()` at the cutoff and opening + mints − burns). A second data source is an extra check: the package states for each pair whether one confirmed the movements, and a pair checked by one source only stays verified. Only two sources that both reconcile and list different movements go to a person.
 * Gnosis and Arc reconcile over RPC with no free second source: the Gnosis Blockscout API now redirects to gnosisscan.io, the free Etherscan plan does not cover Gnosis, and the Arc explorer blocks scripts.
 * Bridge transfers in flight at the cutoff are listed for review using a window based on observed bridge delays. That is a preventive review, not proof that every pending transfer was found.
 * No bank collateral and no coverage ratios for cutoffs without a published certificate.

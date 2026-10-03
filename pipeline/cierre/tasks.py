@@ -18,6 +18,13 @@ from cierre.package import units
 API = "https://api.github.com"
 CLOSE_LABEL_COLOR = "5319e7"
 REVIEW_LABEL = ("revisar", "d93f0b", "Un movimiento que el agente no pudo probar")
+DEMO_NOTE = (
+    "> **Demo independiente.** Este issue lo abrió de forma automática el agente de una demo "
+    "independiente de Máximo Sckell, hecha solo con datos públicos (las blockchains y las "
+    "certificaciones que publica Ripio). No es una herramienta oficial de Ripio y no afirma "
+    "ningún error de Ripio. Marca un movimiento que el agente no pudo clasificar con "
+    "información pública y que en un cierre real revisaría una persona de Finanzas."
+)
 
 
 def describe_movement(r: dict) -> tuple[str, str]:
@@ -37,6 +44,8 @@ def issue_for(cutoff: str, r: dict, chain_names: dict[str, str]) -> dict:
     body = "\n".join(
         [
             marker(cutoff, r),
+            DEMO_NOTE,
+            "",
             f"**Por qué quedó para revisar:** {r['reason']}",
             "",
             f"**Lo que encontró el agente:** {r['summary']}",
