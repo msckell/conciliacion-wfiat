@@ -21,6 +21,7 @@ from cierre.cutoffs import CONVENTIONS
 from cierre.ledger import Movement, collect_sources_multi
 from cierre.movement_test import compare_sources, reconcile
 from cierre.rpc import RpcClient
+from cierre.scope import APPLICABLE, build_manifest, pair_scope, read_cutoff_blocks
 
 QUARTER_ENDS = ((3, 31), (6, 30), (9, 30), (12, 31))
 
@@ -74,6 +75,18 @@ def _movement_row(m: Movement, symbol: str) -> dict:
     }
 
 
+def _skipped(pair: dict) -> dict:
+    """Token result for a pair the scope says the close cannot reconcile: not applicable
+    (with its evidence) or unknown. Neither counts as reconciled."""
+    status = pair["applicability"]
+    res = {"passed": False, "status": status, "reason": pair.get("reason")}
+    if status == "unknown":
+        res["error"] = f"scope unknown: {pair.get('reason')}"
+    if pair.get("evidence"):
+        res["evidence"] = pair["evidence"]
+    return res
+
+
 def run_chain(
     chain: Chain,
     tokens: dict[str, Token],
@@ -81,11 +94,23 @@ def run_chain(
     convention: str,
     cache: DiskCache,
     log=lambda s: print(s, flush=True),
+    scope: dict[str, dict] | None = None,
+    previous_cutoff: str | None = None,
 ) -> dict:
-    prev = previous_quarter_end(cutoff)
+    """Supplies, movements and reconciliation for every token on one network.
+
+    `scope` maps each token to its pair in the expected scope (see scope.py). Without it the
+    applicability is computed here from the same cutoff blocks. Pairs that are not
+    applicable or unknown get no log query and never count as reconciled."""
+    prev = previous_cutoff or previous_quarter_end(cutoff)
     s = supply.read_chain(chain, tokens, [prev, cutoff], cache)
     rows = {(r["token"], r["cutoff"], r["convention"]): r for r in s["rows"]}
     blocks = {(b["cutoff"], b["convention"]): b for b in s["cutoff_blocks"]}
+    if scope is None:
+        scope = {
+            sym: pair_scope(sym, tok, chain.key, s["cutoff_blocks"], prev, cutoff, convention)
+            for sym, tok in tokens.items()
+        }
     out: dict = {
         "chain": chain.key,
         "name": chain.name,
@@ -96,34 +121,58 @@ def run_chain(
         "cutoff_blocks": s["cutoff_blocks"],
         "tokens": {},
     }
+    applicable = [sym for sym in tokens if scope[sym]["applicability"] in APPLICABLE]
+    for sym in tokens:
+        if sym not in applicable:
+            out["tokens"][sym] = _skipped(scope[sym])
+    if not applicable:
+        if all(scope[sym]["applicability"] == "not_applicable" for sym in tokens):
+            out["status"] = "not_applicable"
+        else:
+            out["error"] = "no token on this network has a known scope"
+        return out
     if blocks[(cutoff, convention)]["block"] is None:
-        out["error"] = "network not live at the cutoff"
+        out["error"] = "network not live at the cutoff, but the scope says applicable"
         return out
 
-    # Window over both conventions, so the close can say whether the convention matters.
+    # Window over both conventions, so the close can say whether the convention matters. A
+    # convention whose closing block is before the creation block is left out of the
+    # comparison: its window would run backwards.
     windows: dict[str, dict[str, tuple]] = {}
+    skipped_conventions: dict[str, dict[str, str]] = {}
     errors: dict[str, str] = {}
-    for sym, tok in tokens.items():
-        dep = tok.on(chain.key)
+    for sym in applicable:
+        dep = tokens[sym].on(chain.key)
         creation = dep.creation_block if dep else None
         windows[sym] = {}
         for conv in CONVENTIONS:
-            o = _opening(rows[(sym, prev, conv)], creation)
             c = rows[(sym, cutoff, conv)]
+            if c["status"] in ("not_created", "network_not_live"):
+                if conv == convention:
+                    errors[sym] = f"closing supply {c['status']}, but the scope says applicable"
+                    break
+                skipped_conventions.setdefault(sym, {})[conv] = (
+                    "contract created after this convention's closing block"
+                )
+                continue
+            if c["status"] != "ok":
+                errors[sym] = f"closing supply {c['status']}: {c.get('error', '')}"
+                break
+            o = _opening(rows[(sym, prev, conv)], creation)
             if isinstance(o, str):
                 errors[sym] = o
                 break
-            if c["status"] == "not_created":
-                windows[sym][conv] = (*o, c["block"], 0, c.get("reads", {}))
-            elif c["status"] != "ok":
-                errors[sym] = f"closing supply {c['status']}: {c.get('error', '')}"
+            if o[0] >= c["block"]:
+                errors[sym] = f"window runs backwards: opening block {o[0]}, closing {c['block']}"
                 break
-            else:
-                windows[sym][conv] = (*o, c["block"], int(c["raw"]), c.get("reads", {}))
+            windows[sym][conv] = (*o, c["block"], int(c["raw"]), c.get("reads", {}))
     live = {sym: w for sym, w in windows.items() if sym not in errors}
+    for sym, err in errors.items():
+        out["tokens"][sym] = {"passed": False, "status": "error", "error": err}
     if not live:
         out["error"] = "no token has both supplies"
         out["token_errors"] = errors
+        out["tokens"] = {sym: out["tokens"][sym] for sym in tokens}
         return out
     lo = min(w[0] for ws in live.values() for w in ws.values()) + 1
     hi = max(w[3] for ws in live.values() for w in ws.values())
@@ -144,13 +193,14 @@ def run_chain(
         "sources_failed": failed,
     }
 
-    for sym, tok in tokens.items():
-        if sym in errors:
-            out["tokens"][sym] = {"passed": False, "error": errors[sym]}
-            continue
+    art_block, utc_block = blocks[(cutoff, "ART")]["block"], blocks[(cutoff, "UTC")]["block"]
+    for sym in live:
+        tok = tokens[sym]
         addr = tok.address.lower()
         mine = {n: [m for m in ms if m.token_address == addr] for n, ms in sources.items()}
         res: dict = {"conventions": {}, "source_comparison": compare_sources(mine)}
+        if sym in skipped_conventions:
+            res["conventions_skipped"] = skipped_conventions[sym]
         complete = set(mine)
         for conv, (ob, opening, basis, cb, closing, reads) in live[sym].items():
             per_source = {n: reconcile(opening, closing, ms, ob + 1, cb) for n, ms in mine.items()}
@@ -167,6 +217,7 @@ def run_chain(
         res["sources_complete"] = sorted(complete)
         res["sources_incomplete"] = sorted(set(mine) - complete)
         res["passed"] = bool(complete)
+        res["status"] = "reconciled" if complete else "not_reconciled"
         if complete:
             chosen = sorted(complete)[0]
             ob, _, _, cb, _, _ = live[sym][convention]
@@ -175,11 +226,10 @@ def run_chain(
                 _movement_row(m, sym) for m in mine[chosen] if ob + 1 <= m.block <= cb
             ]
             # Movements that fall between the two conventions' cutoff blocks of this close.
-            art, utc = live[sym]["ART"][3], live[sym]["UTC"][3]
             res["movements_between_conventions"] = [
                 _movement_row(m, sym)
                 for m in mine[chosen]
-                if min(art, utc) < m.block <= max(art, utc)
+                if min(art_block, utc_block) < m.block <= max(art_block, utc_block)
             ]
         out["tokens"][sym] = res
         first = res["conventions"][convention]["by_source"]
@@ -188,6 +238,7 @@ def run_chain(
             f"complete={res['sources_complete']} "
             + " ".join(f"{n.split(':')[0]}:diff={r['difference']}" for n, r in first.items())
         )
+    out["tokens"] = {sym: out["tokens"][sym] for sym in tokens}
     for name, err in failed.items():
         log(f"{chain.key:10} source failed {name}: {err}")
     return out
@@ -212,17 +263,40 @@ def enrich(chain: Chain, chain_result: dict, cache: DiskCache) -> None:
         rpc.close()
 
 
+def expected_scope(
+    chains: dict[str, Chain],
+    tokens: dict[str, Token],
+    cutoff: str,
+    convention: str,
+    cache: DiskCache,
+    discovery: dict | None = None,
+    previous_cutoff: str | None = None,
+) -> dict:
+    """The expected scope of the close, from the configuration and the cutoff blocks, before
+    any log is read."""
+    prev = previous_cutoff or previous_quarter_end(cutoff)
+    blocks = read_cutoff_blocks(chains, [prev, cutoff], cache)
+    return build_manifest(chains, tokens, prev, cutoff, convention, blocks, discovery)
+
+
 def run_close(
     chains: dict[str, Chain],
     tokens: dict[str, Token],
     cutoff: str,
     convention: str,
     cache: DiskCache,
+    manifest: dict | None = None,
 ) -> list[dict]:
     def one(key: str) -> dict:
         chain = chains[key]
+        scope = prev = None
+        if manifest is not None:
+            scope = {p["token"]: p for p in manifest["pairs"] if p["chain"] == key}
+            prev = manifest["previous_cutoff"]
         try:
-            res = run_chain(chain, tokens, cutoff, convention, cache)
+            res = run_chain(
+                chain, tokens, cutoff, convention, cache, scope=scope, previous_cutoff=prev
+            )
             enrich(chain, res, cache)
             return res
         except Exception as exc:  # one network failing must not hide the others

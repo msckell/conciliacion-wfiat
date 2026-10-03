@@ -25,7 +25,13 @@ from cierre.agent.tools import Tools
 from cierre.alerts import send_failure
 from cierre.bridge import match
 from cierre.cache import DiskCache
-from cierre.close import classify_all, last_quarter_end, previous_quarter_end, run_close
+from cierre.close import (
+    classify_all,
+    expected_scope,
+    last_quarter_end,
+    previous_quarter_end,
+    run_close,
+)
 from cierre.config import in_scope, load_chains, load_tokens
 from cierre.gitops import commit_and_push, is_tracked, restore
 from cierre.golden import OFFICIAL_RULE, compare, load_confirmed
@@ -46,14 +52,32 @@ def close_dir(cutoff: str) -> Path:
     return DATA_DIR / "closes" / cutoff
 
 
+def write_scope(cutoff: str, cache: DiskCache) -> dict:
+    """The expected scope of the close, saved as scope.json before the engine reads logs.
+    It covers every network in scope, also when only some are rerun."""
+    manifest = expected_scope(
+        in_scope(load_chains()),
+        load_tokens(),
+        cutoff,
+        OFFICIAL_RULE["convention"],
+        cache,
+        load_json(DISCOVERY),
+    )
+    dump_json(close_dir(cutoff) / "scope.json", manifest)
+    return manifest
+
+
 def refresh_engine(cutoff: str, only: list[str] | None = None) -> None:
     """Run the engine and save engine.json. With `only`, just those networks are rerun and
-    merged into the existing file."""
+    merged into the existing file. The networks left out stay in the scope, so a close
+    without them is incomplete."""
     engine_path = close_dir(cutoff) / "engine.json"
+    cache = DiskCache()
+    manifest = write_scope(cutoff, cache)
     chains = in_scope(load_chains())
     if only:
         chains = {k: chains[k] for k in only}
-    results = run_close(chains, load_tokens(), cutoff, OFFICIAL_RULE["convention"], DiskCache())
+    results = run_close(chains, load_tokens(), cutoff, OFFICIAL_RULE["convention"], cache, manifest)
     if only and engine_path.exists():
         results = [r for r in load_json(engine_path) if r["chain"] not in chains] + results
     dump_json(engine_path, results)
@@ -64,6 +88,7 @@ def build_package(cutoff: str, use_overrides: bool = True) -> dict:
     overrides, the movements the exception agent proved go back to review."""
     out_dir = close_dir(cutoff)
     exceptions_path = out_dir / "exceptions.json"
+    scope_path = out_dir / "scope.json"
     engine = load_json(out_dir / "engine.json")
     all_chains = load_chains()
     chains = in_scope(all_chains)
@@ -89,11 +114,16 @@ def build_package(cutoff: str, use_overrides: bool = True) -> dict:
         overrides=exception_agent.overrides(load_json(exceptions_path))
         if use_overrides and exceptions_path.exists()
         else None,
+        # Closes saved before scope.json existed get it from the configuration and the
+        # cutoff blocks in engine.json (scope.manifest_from_engine).
+        manifest=load_json(scope_path) if scope_path.exists() else None,
     )
     dump_json(out_dir / "package.json", pkg)
     write_excel(pkg, chains, out_dir / f"paquete_cierre_{cutoff}.xlsx")
     print(
-        f"package: all_reconciled={pkg['all_reconciled']} movements={len(pkg['movements'])} "
+        f"package: all_reconciled={pkg['all_reconciled']} "
+        f"data_complete={pkg['data_complete']} scope={pkg['scope']['counts']} "
+        f"movements={len(pkg['movements'])} "
         f"review={len(pkg['review'])} new_networks={pkg['new_networks']}",
         flush=True,
     )
@@ -171,6 +201,7 @@ def _package_counts(pkg: dict) -> dict:
         "transactions": len({(m["chain"], m["tx_hash"]) for m in pkg["movements"]}),
         "reconciled": sum(r["passed"] for r in rows),
         "reconciliations": len(rows),
+        "pairs_expected": pkg["scope"]["expected"],
         "bridge_pairs": pkg["bridge"]["pairs_matched"],
         "review": len(pkg["review"]),
         "new_networks": pkg["new_networks"],
@@ -221,11 +252,18 @@ def run(cutoff: str, site_url: str | None, push: bool, deploy_timeout: int) -> i
                 "convention": OFFICIAL_RULE["convention"],
             }
         with run_log.step("engine") as s:
+            cache = DiskCache()
+            manifest = write_scope(cutoff, cache)
             results = run_close(
-                chains, load_tokens(), cutoff, OFFICIAL_RULE["convention"], DiskCache()
+                chains, load_tokens(), cutoff, OFFICIAL_RULE["convention"], cache, manifest
             )
             errors = [r["chain"] for r in results if "error" in r]
-            s["counts"] = {"networks_read": len(results), "networks_failed": len(errors)}
+            s["counts"] = {
+                "networks_read": len(results),
+                "networks_failed": len(errors),
+                "pairs_expected": manifest["expected"],
+                "pairs_unknown": manifest["counts"].get("unknown", 0),
+            }
             if errors:
                 # Kept apart, so a failed run does not replace the last good engine output.
                 dump_json(out_dir / "engine_failed.json", results)
@@ -234,8 +272,10 @@ def run(cutoff: str, site_url: str | None, push: bool, deploy_timeout: int) -> i
         with run_log.step("package") as s:
             pkg = build_package(cutoff, use_overrides=False)
             s["counts"] = _package_counts(pkg)
-            if not pkg["all_reconciled"]:
+            if not pkg["reconciliation_passed"]:
                 raise RuntimeError("a network does not reconcile")
+            if not pkg["data_complete"]:
+                raise RuntimeError(f"the close is incomplete: {pkg['scope']['counts']}")
         with run_log.step("verify") as s:
             verification = verify_certificates()
             s["counts"] = verification

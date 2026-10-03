@@ -1,0 +1,166 @@
+{
+ "ethereum": [
+  {
+   "cutoff": "2026-01-31",
+   "convention": "ART",
+   "unix": 1769914799,
+   "block": 24359188,
+   "block_timestamp": 1769914799,
+   "source": "evidence/diagnostic-replay.json ranges"
+  },
+  {
+   "cutoff": "2026-02-28",
+   "convention": "ART",
+   "unix": 1772333999,
+   "block": 24559762,
+   "block_timestamp": 1772333999,
+   "source": "evidence/diagnostic-replay.json ranges"
+  }
+ ],
+ "base": [
+  {
+   "cutoff": "2026-01-31",
+   "convention": "ART",
+   "unix": 1769914799,
+   "block": 41562726,
+   "block_timestamp": 1769914799,
+   "source": "evidence/diagnostic-replay.json ranges"
+  },
+  {
+   "cutoff": "2026-02-28",
+   "convention": "ART",
+   "unix": 1772333999,
+   "block": 42772326,
+   "block_timestamp": 1772333999,
+   "source": "evidence/diagnostic-replay.json ranges"
+  }
+ ],
+ "polygon": [
+  {
+   "cutoff": "2026-01-31",
+   "convention": "ART",
+   "unix": 1769914799,
+   "block": 82397396,
+   "block_timestamp": 1769914798,
+   "source": "evidence/diagnostic-replay.json ranges"
+  },
+  {
+   "cutoff": "2026-02-28",
+   "convention": "ART",
+   "unix": 1772333999,
+   "block": 83606984,
+   "block_timestamp": 1772333999,
+   "source": "evidence/diagnostic-replay.json ranges"
+  }
+ ],
+ "gnosis": [
+  {
+   "cutoff": "2026-01-31",
+   "convention": "ART",
+   "unix": 1769914799,
+   "block": 44449615,
+   "block_timestamp": 1769914795,
+   "source": "evidence/diagnostic-replay.json ranges"
+  },
+  {
+   "cutoff": "2026-02-28",
+   "convention": "ART",
+   "unix": 1772333999,
+   "block": 44921306,
+   "block_timestamp": 1772333995,
+   "source": "evidence/diagnostic-replay.json ranges"
+  }
+ ],
+ "bsc": [
+  {
+   "cutoff": "2026-01-31",
+   "convention": "ART",
+   "unix": 1769914799,
+   "block": 78598627,
+   "block_timestamp": 1769914799,
+   "source": "evidence/engine-bsc.json"
+  },
+  {
+   "cutoff": "2026-02-28",
+   "convention": "ART",
+   "unix": 1772333999,
+   "block": 83973244,
+   "block_timestamp": 1772333999,
+   "source": "evidence/engine-bsc.json"
+  }
+ ],
+ "worldchain": [
+  {
+   "cutoff": "2026-01-31",
+   "convention": "ART",
+   "unix": 1769914799,
+   "block": 25289580,
+   "block_timestamp": 1769914799,
+   "source": "evidence/diagnostic-replay.json ranges"
+  },
+  {
+   "cutoff": "2026-02-28",
+   "convention": "ART",
+   "unix": 1772333999,
+   "block": 26499180,
+   "block_timestamp": 1772333999,
+   "source": "evidence/diagnostic-replay.json ranges"
+  }
+ ],
+ "celo": [
+  {
+   "cutoff": "2026-01-31",
+   "convention": "ART",
+   "unix": 1769914799,
+   "block": 58014041,
+   "block_timestamp": 1769914799,
+   "source": "evidence/celo.sqlite headers (block and next)"
+  },
+  {
+   "cutoff": "2026-02-28",
+   "convention": "ART",
+   "unix": 1772333999,
+   "block": 60433241,
+   "block_timestamp": 1772333999,
+   "source": "evidence/celo.sqlite headers (block and next)"
+  }
+ ],
+ "hyperevm": [
+  {
+   "cutoff": "2026-01-31",
+   "convention": "ART",
+   "unix": 1769914799,
+   "block": 26088451,
+   "block_timestamp": 1769914799,
+   "source": "evidence/engine-hyperevm.json"
+  },
+  {
+   "cutoff": "2026-02-28",
+   "convention": "ART",
+   "unix": 1772333999,
+   "block": 28547705,
+   "block_timestamp": 1772333999,
+   "source": "evidence/engine-hyperevm.json"
+  }
+ ],
+ "arc": [
+  {
+   "cutoff": "2026-01-31",
+   "convention": "ART",
+   "unix": 1769914799,
+   "block": null,
+   "block_timestamp": null,
+   "source": "evidence/engine-arc.json",
+   "block_1_timestamp": 1778853531
+  },
+  {
+   "cutoff": "2026-02-28",
+   "convention": "ART",
+   "unix": 1772333999,
+   "block": null,
+   "block_timestamp": null,
+   "source": "evidence/engine-arc.json",
+   "block_1_timestamp": 1778853531
+  }
+ ]
+}

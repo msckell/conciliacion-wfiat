@@ -1,0 +1,57 @@
+{
+  "chain": "arc",
+  "name": "Arc",
+  "previous_cutoff": "2026-01-31",
+  "cutoff": "2026-02-28",
+  "convention": "ART",
+  "history_endpoints": {
+    "https://rpc.mainnet.arc.io": "serves historical state",
+    "https://rpc.drpc.mainnet.arc.io": "serves historical state",
+    "https://rpc.blockdaemon.mainnet.arc.io": "no archive state: https://rpc.blockdaemon.mainnet.arc.io: -32603 state at block #2 is pruned",
+    "https://rpc.quicknode.mainnet.arc.io": "serves historical state"
+  },
+  "cutoff_blocks": [
+    {
+      "cutoff": "2026-01-31",
+      "convention": "ART",
+      "instant_utc": "2026-02-01T02:59:59+00:00",
+      "unix": 1769914799,
+      "block": null,
+      "network_not_live": true,
+      "genesis_timestamp": 1778544000,
+      "block_1_timestamp": 1778853531
+    },
+    {
+      "cutoff": "2026-01-31",
+      "convention": "UTC",
+      "instant_utc": "2026-01-31T23:59:59+00:00",
+      "unix": 1769903999,
+      "block": null,
+      "network_not_live": true,
+      "genesis_timestamp": 1778544000,
+      "block_1_timestamp": 1778853531
+    },
+    {
+      "cutoff": "2026-02-28",
+      "convention": "ART",
+      "instant_utc": "2026-03-01T02:59:59+00:00",
+      "unix": 1772333999,
+      "block": null,
+      "network_not_live": true,
+      "genesis_timestamp": 1778544000,
+      "block_1_timestamp": 1778853531
+    },
+    {
+      "cutoff": "2026-02-28",
+      "convention": "UTC",
+      "instant_utc": "2026-02-28T23:59:59+00:00",
+      "unix": 1772323199,
+      "block": null,
+      "network_not_live": true,
+      "genesis_timestamp": 1778544000,
+      "block_1_timestamp": 1778853531
+    }
+  ],
+  "tokens": {},
+  "error": "network not live at the cutoff"
+}
