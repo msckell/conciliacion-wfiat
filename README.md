@@ -60,6 +60,20 @@ Every decision is labeled **documented** (with its source), **inferred** (its on
 
 54 of 54 token and network reconciliations close with zero difference, across 9 networks with contracts out of 24 reviewed. Arc is flagged as a new network with its creation block as evidence. The exception agent investigated 9 movements, proved 4 with evidence and left 5 as tasks. The package is `data/closes/2026-09-30/paquete_cierre_2026-09-30.xlsx` (sheets Resumen, Por red, Emisiones y quemas, Conciliación, Metodología).
 
+## Tested on five different cutoffs
+
+The same method, with no change per period, was run on real data:
+
+| Cutoff | Period | Result |
+|---|---|---|
+| 2026-03-31 | certified quarter | matches the accountant's certified figure for wARS, wBRL, wCOP and wMXN |
+| 2026-06-30 | certified quarter | matches the certified figure for wARS, wBRL, wMXN, wCOP and wCLP (9 of 9 in total) |
+| 2026-09-30 | quarter (Jul to Sep) | 54 of 54 token and network pairs reconcile with zero difference, Arc flagged as new |
+| 2026-02-28 | month (Feb) | 36 of 36 applicable pairs reconcile, all 21 movements classified |
+| 2026-08-31 | month (Aug) | 48 of 48 applicable pairs reconcile, 77 of 79 movements classified, the same 2 World Chain burns left for a person as in the quarter |
+
+Any month or quarter end can be closed with `cierre close --opening YYYY-MM-DD --cutoff YYYY-MM-DD`. Without `--opening` it closes the quarter. When something new shows up (a network, a source that fails, a movement no rule can prove), the close does not report it as fine: it stops or leaves a task for a person.
+
 ## In production
 
 * `ci.yml` on push and PR: ruff, offline pytest (the golden tests included), site lint and build. Commits that only touch `data/` are skipped.
@@ -77,6 +91,7 @@ uv sync
 uv run pytest                     # offline, with recorded fixtures
 uv run cierre golden              # computed vs certified, every rule
 uv run cierre close --cutoff 2026-09-30
+uv run cierre close --opening 2026-07-31 --cutoff 2026-08-31   # any month
 uv run cierre run-close --cutoff 2026-09-30   # the whole close, logged step by step
 uv run cierre monitor
 uv run cierre site                # JSON for the page
