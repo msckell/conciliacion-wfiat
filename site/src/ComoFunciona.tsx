@@ -198,6 +198,9 @@ function Verification() {
         La cifra certificada lleva al certificado publicado. La suma de contratos se muestra con hasta dos decimales y
         se compara en tokens enteros.
       </p>
+      <p className="mt-3 text-sm text-ink-2">
+        En el cierre al {site.close.cutoff}: {site.close.verified_note}
+      </p>
     </Section>
   )
 }

@@ -262,7 +262,23 @@ def test_missing_mint_and_burn_of_the_same_amount_still_reconcile_but_disagree()
     }
     v = _verification(t, {})
     assert v["status"] == "discrepancy"
-    assert verification_text(v).endswith("Las dos concilian.")
+    assert verification_text(v) == "Dos fuentes concilian pero no listan los mismos movimientos."
+
+
+def test_a_second_source_that_does_not_reconcile_is_incomplete_not_a_discrepancy():
+    # Base, 30/09: Blockscout returned no movements, so its list does not reconcile. It
+    # cannot confirm or contradict the RPC logs, which reconcile by two paths.
+    t = {
+        "source_comparison": compare_sources({"rpc:a": [_m("0x1", "mint", 7)]}),
+        "source_comparison_all": {"compared": True, "agree": False, "diffs": {"x": {}}},
+        "sources_complete": ["rpc:a"],
+        "sources_incomplete": ["blockscout:https://base.blockscout.com/api"],
+    }
+    v = _verification(t, {})
+    assert v["status"] == "limited"
+    assert verification_text(v) == (
+        "Una sola fuente: base.blockscout.com devolvió una lista incompleta."
+    )
 
 
 def test_log_index_does_not_count_as_a_difference_but_the_amount_does():
@@ -350,3 +366,21 @@ def test_a_second_source_without_its_free_key_says_so(monkeypatch):
         "Una sola fuente: la segunda (bsc-mainnet.nodereal.io) necesita una key gratuita "
         "que no está cargada."
     )
+
+
+def test_an_empty_range_is_empty_in_both_explorer_dialects_but_other_errors_fail():
+    # Etherscan answers a range with no events as status 0, "No records found", [].
+    for message in ("No records found", "No logs found"):
+        client, _ = _client(
+            lambda req, m=message: httpx.Response(
+                200, json={"status": "0", "message": m, "result": []}
+            )
+        )
+        assert client.get_logs("0xa", TOPICS, 1, 100) == []
+    client, _ = _client(
+        lambda req: httpx.Response(
+            200, json={"status": "0", "message": "NOTOK", "result": "Invalid API Key"}
+        )
+    )
+    with pytest.raises(ExplorerError):
+        client.get_logs("0xa", TOPICS, 1, 100)

@@ -21,7 +21,7 @@ from cierre.agent.verifier_cases import REJECT_CASES
 from cierre.config import load_chains, load_tokens
 from cierre.gitops import commit_and_push
 from cierre.jsonio import dump_json, load_json, load_json_if_exists
-from cierre.package import ART, units
+from cierre.package import ART, VERIFIED_LINE, source_check_line, units
 from cierre.runlog import RUNS_PATH, read_runs
 
 SLACK_SCREENSHOT = "slack_captura.png"
@@ -426,6 +426,15 @@ def build_site(cutoff: str) -> dict:
             "reconciled": sum(r["passed"] for r in rows),
             "reconciliations": len(rows),
             "all_reconciled": pkg["all_reconciled"],
+            # Text from the package, so the page, the Excel and Slack say the same thing.
+            "verified_note": " ".join(
+                ([VERIFIED_LINE] if pkg["all_reconciled"] else [])
+                + (
+                    [source_check_line(pkg["source_check"], len(rows))]
+                    if pkg.get("source_check")
+                    else []
+                )
+            ),
             "movements": len(pkg["movements"]),
             "transactions": transactions,
             "bridge_pairs": pkg["bridge"]["pairs_matched"],

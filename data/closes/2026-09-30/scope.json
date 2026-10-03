@@ -1,0 +1,578 @@
+{
+  "previous_cutoff": "2026-06-30",
+  "cutoff": "2026-09-30",
+  "convention": "ART",
+  "blocks_source": "rpc",
+  "chains": [
+    "ethereum",
+    "base",
+    "polygon",
+    "gnosis",
+    "bsc",
+    "worldchain",
+    "celo",
+    "hyperevm",
+    "arc"
+  ],
+  "tokens": [
+    "wARS",
+    "wBRL",
+    "wMXN",
+    "wCOP",
+    "wCLP",
+    "wPEN"
+  ],
+  "pairs": [
+    {
+      "token": "wARS",
+      "chain": "ethereum",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 23175121,
+        "opening_block": 25434835,
+        "closing_block": 26094636
+      }
+    },
+    {
+      "token": "wBRL",
+      "chain": "ethereum",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 23175225,
+        "opening_block": 25434835,
+        "closing_block": 26094636
+      }
+    },
+    {
+      "token": "wMXN",
+      "chain": "ethereum",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 23175193,
+        "opening_block": 25434835,
+        "closing_block": 26094636
+      }
+    },
+    {
+      "token": "wCOP",
+      "chain": "ethereum",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 23418962,
+        "opening_block": 25434835,
+        "closing_block": 26094636
+      }
+    },
+    {
+      "token": "wCLP",
+      "chain": "ethereum",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 23891029,
+        "opening_block": 25434835,
+        "closing_block": 26094636
+      }
+    },
+    {
+      "token": "wPEN",
+      "chain": "ethereum",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 23891123,
+        "opening_block": 25434835,
+        "closing_block": 26094636
+      }
+    },
+    {
+      "token": "wARS",
+      "chain": "base",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 32347496,
+        "opening_block": 48042726,
+        "closing_block": 52017126
+      }
+    },
+    {
+      "token": "wBRL",
+      "chain": "base",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 32735038,
+        "opening_block": 48042726,
+        "closing_block": 52017126
+      }
+    },
+    {
+      "token": "wMXN",
+      "chain": "base",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 32734948,
+        "opening_block": 48042726,
+        "closing_block": 52017126
+      }
+    },
+    {
+      "token": "wCOP",
+      "chain": "base",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 35880054,
+        "opening_block": 48042726,
+        "closing_block": 52017126
+      }
+    },
+    {
+      "token": "wCLP",
+      "chain": "base",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 38734816,
+        "opening_block": 48042726,
+        "closing_block": 52017126
+      }
+    },
+    {
+      "token": "wPEN",
+      "chain": "base",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 38735180,
+        "opening_block": 48042726,
+        "closing_block": 52017126
+      }
+    },
+    {
+      "token": "wARS",
+      "chain": "polygon",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 83198922,
+        "opening_block": 89446536,
+        "closing_block": 94745639
+      }
+    },
+    {
+      "token": "wBRL",
+      "chain": "polygon",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 83199479,
+        "opening_block": 89446536,
+        "closing_block": 94745639
+      }
+    },
+    {
+      "token": "wMXN",
+      "chain": "polygon",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 83199311,
+        "opening_block": 89446536,
+        "closing_block": 94745639
+      }
+    },
+    {
+      "token": "wCOP",
+      "chain": "polygon",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 83200069,
+        "opening_block": 89446536,
+        "closing_block": 94745639
+      }
+    },
+    {
+      "token": "wCLP",
+      "chain": "polygon",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 83200504,
+        "opening_block": 89446536,
+        "closing_block": 94745639
+      }
+    },
+    {
+      "token": "wPEN",
+      "chain": "polygon",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 83200582,
+        "opening_block": 89446536,
+        "closing_block": 94745639
+      }
+    },
+    {
+      "token": "wARS",
+      "chain": "gnosis",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 44763972,
+        "opening_block": 46972230,
+        "closing_block": 48526543
+      }
+    },
+    {
+      "token": "wBRL",
+      "chain": "gnosis",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 44764114,
+        "opening_block": 46972230,
+        "closing_block": 48526543
+      }
+    },
+    {
+      "token": "wMXN",
+      "chain": "gnosis",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 44764067,
+        "opening_block": 46972230,
+        "closing_block": 48526543
+      }
+    },
+    {
+      "token": "wCOP",
+      "chain": "gnosis",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 44764271,
+        "opening_block": 46972230,
+        "closing_block": 48526543
+      }
+    },
+    {
+      "token": "wCLP",
+      "chain": "gnosis",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 44764384,
+        "opening_block": 46972230,
+        "closing_block": 48526543
+      }
+    },
+    {
+      "token": "wPEN",
+      "chain": "gnosis",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 44764415,
+        "opening_block": 46972230,
+        "closing_block": 48526543
+      }
+    },
+    {
+      "token": "wARS",
+      "chain": "bsc",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 82186272,
+        "opening_block": 107369127,
+        "closing_block": 125024742
+      }
+    },
+    {
+      "token": "wBRL",
+      "chain": "bsc",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 82187187,
+        "opening_block": 107369127,
+        "closing_block": 125024742
+      }
+    },
+    {
+      "token": "wMXN",
+      "chain": "bsc",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 82186861,
+        "opening_block": 107369127,
+        "closing_block": 125024742
+      }
+    },
+    {
+      "token": "wCOP",
+      "chain": "bsc",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 82188231,
+        "opening_block": 107369127,
+        "closing_block": 125024742
+      }
+    },
+    {
+      "token": "wCLP",
+      "chain": "bsc",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 82189276,
+        "opening_block": 107369127,
+        "closing_block": 125024742
+      }
+    },
+    {
+      "token": "wPEN",
+      "chain": "bsc",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 82189565,
+        "opening_block": 107369127,
+        "closing_block": 125024742
+      }
+    },
+    {
+      "token": "wARS",
+      "chain": "worldchain",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 14210391,
+        "opening_block": 31769580,
+        "closing_block": 35743980
+      }
+    },
+    {
+      "token": "wBRL",
+      "chain": "worldchain",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 14210767,
+        "opening_block": 31769580,
+        "closing_block": 35743980
+      }
+    },
+    {
+      "token": "wMXN",
+      "chain": "worldchain",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 14210697,
+        "opening_block": 31769580,
+        "closing_block": 35743980
+      }
+    },
+    {
+      "token": "wCOP",
+      "chain": "worldchain",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 19606475,
+        "opening_block": 31769580,
+        "closing_block": 35743980
+      }
+    },
+    {
+      "token": "wCLP",
+      "chain": "worldchain",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 22461211,
+        "opening_block": 31769580,
+        "closing_block": 35743980
+      }
+    },
+    {
+      "token": "wPEN",
+      "chain": "worldchain",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 22461805,
+        "opening_block": 31769580,
+        "closing_block": 35743980
+      }
+    },
+    {
+      "token": "wARS",
+      "chain": "celo",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 68435445,
+        "opening_block": 70974041,
+        "closing_block": 78922841
+      }
+    },
+    {
+      "token": "wBRL",
+      "chain": "celo",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 68435974,
+        "opening_block": 70974041,
+        "closing_block": 78922841
+      }
+    },
+    {
+      "token": "wMXN",
+      "chain": "celo",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 68435758,
+        "opening_block": 70974041,
+        "closing_block": 78922841
+      }
+    },
+    {
+      "token": "wCOP",
+      "chain": "celo",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 68436556,
+        "opening_block": 70974041,
+        "closing_block": 78922841
+      }
+    },
+    {
+      "token": "wCLP",
+      "chain": "celo",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 68436918,
+        "opening_block": 70974041,
+        "closing_block": 78922841
+      }
+    },
+    {
+      "token": "wPEN",
+      "chain": "celo",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 68437044,
+        "opening_block": 70974041,
+        "closing_block": 78922841
+      }
+    },
+    {
+      "token": "wARS",
+      "chain": "hyperevm",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 35699695,
+        "opening_block": 39262879,
+        "closing_block": 47343194
+      }
+    },
+    {
+      "token": "wBRL",
+      "chain": "hyperevm",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 35701321,
+        "opening_block": 39262879,
+        "closing_block": 47343194
+      }
+    },
+    {
+      "token": "wMXN",
+      "chain": "hyperevm",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 35701061,
+        "opening_block": 39262879,
+        "closing_block": 47343194
+      }
+    },
+    {
+      "token": "wCOP",
+      "chain": "hyperevm",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 35703976,
+        "opening_block": 39262879,
+        "closing_block": 47343194
+      }
+    },
+    {
+      "token": "wCLP",
+      "chain": "hyperevm",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 35704902,
+        "opening_block": 39262879,
+        "closing_block": 47343194
+      }
+    },
+    {
+      "token": "wPEN",
+      "chain": "hyperevm",
+      "applicability": "existing",
+      "evidence": {
+        "creation_block": 35705024,
+        "opening_block": 39262879,
+        "closing_block": 47343194
+      }
+    },
+    {
+      "token": "wARS",
+      "chain": "arc",
+      "applicability": "created_in_period",
+      "reason": "created_after_opening",
+      "evidence": {
+        "creation_block": 19659303,
+        "opening_block": 7965224,
+        "closing_block": 23641972
+      }
+    },
+    {
+      "token": "wBRL",
+      "chain": "arc",
+      "applicability": "created_in_period",
+      "reason": "created_after_opening",
+      "evidence": {
+        "creation_block": 19663774,
+        "opening_block": 7965224,
+        "closing_block": 23641972
+      }
+    },
+    {
+      "token": "wMXN",
+      "chain": "arc",
+      "applicability": "created_in_period",
+      "reason": "created_after_opening",
+      "evidence": {
+        "creation_block": 19662934,
+        "opening_block": 7965224,
+        "closing_block": 23641972
+      }
+    },
+    {
+      "token": "wCOP",
+      "chain": "arc",
+      "applicability": "created_in_period",
+      "reason": "created_after_opening",
+      "evidence": {
+        "creation_block": 19665237,
+        "opening_block": 7965224,
+        "closing_block": 23641972
+      }
+    },
+    {
+      "token": "wCLP",
+      "chain": "arc",
+      "applicability": "created_in_period",
+      "reason": "created_after_opening",
+      "evidence": {
+        "creation_block": 19665736,
+        "opening_block": 7965224,
+        "closing_block": 23641972
+      }
+    },
+    {
+      "token": "wPEN",
+      "chain": "arc",
+      "applicability": "created_in_period",
+      "reason": "created_after_opening",
+      "evidence": {
+        "creation_block": 19665967,
+        "opening_block": 7965224,
+        "closing_block": 23641972
+      }
+    }
+  ],
+  "counts": {
+    "existing": 48,
+    "created_in_period": 6
+  },
+  "expected": 54
+}

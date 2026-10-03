@@ -3,7 +3,7 @@
     "cutoff": "30/09/2026",
     "previous_cutoff": "30/06/2026",
     "cutoff_instant": "30/09/2026 23:59:59, hora de Buenos Aires",
-    "generated_at": "02/10/2026 16:37",
+    "generated_at": "03/10/2026 15:09",
     "tokens": [
       {
         "symbol": "wARS",
@@ -466,6 +466,7 @@
     "reconciled": 54,
     "reconciliations": 54,
     "all_reconciled": true,
+    "verified_note": "Verificado contra la blockchain: en cada red, la cantidad de tokens al corte coincide exacto, al último decimal, con la apertura más las emisiones menos las quemas. Control extra: una segunda fuente independiente confirmó cada movimiento en 40 de 54 pares. En el resto no hay una segunda fuente gratuita disponible y completa.",
     "movements": 628,
     "transactions": 626,
     "bridge_pairs": 255,

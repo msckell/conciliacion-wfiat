@@ -1,11 +1,1319 @@
 {
   "cutoff": "2026-09-30",
   "previous_cutoff": "2026-06-30",
+  "period": {
+    "kind": "quarter",
+    "id": "2026Q3",
+    "word": "trimestre"
+  },
   "convention": "ART",
   "cutoff_instant": "2026-09-30 23:59:59 America/Argentina/Buenos_Aires",
-  "generated_at": "2026-10-02T19:37:33+00:00",
+  "generated_at": "2026-10-03T18:09:23+00:00",
   "all_reconciled": true,
+  "reconciliation_passed": true,
+  "data_complete": true,
+  "close_ready": true,
+  "source_check": {
+    "counts": {
+      "verified": 40,
+      "limited": 14
+    },
+    "complete": false,
+    "review": []
+  },
   "engine_errors": [],
+  "scope": {
+    "blocks_source": "rpc",
+    "expected": 54,
+    "counts": {
+      "reconciled": 54
+    },
+    "excluded_networks": [],
+    "pairs": [
+      {
+        "token": "wARS",
+        "chain": "ethereum",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 23175121,
+          "opening_block": 25434835,
+          "closing_block": 26094636
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "blockscout:https://eth.blockscout.com/api",
+            "rpc:mainnet.gateway.tenderly.co"
+          ],
+          "not_reconciling": [],
+          "failed": [
+            "etherscan:https://api.etherscan.io/v2/api"
+          ],
+          "needs_key": [],
+          "status": "verified"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wBRL",
+        "chain": "ethereum",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 23175225,
+          "opening_block": 25434835,
+          "closing_block": 26094636
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "blockscout:https://eth.blockscout.com/api",
+            "rpc:mainnet.gateway.tenderly.co"
+          ],
+          "not_reconciling": [],
+          "failed": [
+            "etherscan:https://api.etherscan.io/v2/api"
+          ],
+          "needs_key": [],
+          "status": "verified"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wMXN",
+        "chain": "ethereum",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 23175193,
+          "opening_block": 25434835,
+          "closing_block": 26094636
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "blockscout:https://eth.blockscout.com/api",
+            "rpc:mainnet.gateway.tenderly.co"
+          ],
+          "not_reconciling": [],
+          "failed": [
+            "etherscan:https://api.etherscan.io/v2/api"
+          ],
+          "needs_key": [],
+          "status": "verified"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wCOP",
+        "chain": "ethereum",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 23418962,
+          "opening_block": 25434835,
+          "closing_block": 26094636
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "blockscout:https://eth.blockscout.com/api",
+            "rpc:mainnet.gateway.tenderly.co"
+          ],
+          "not_reconciling": [],
+          "failed": [
+            "etherscan:https://api.etherscan.io/v2/api"
+          ],
+          "needs_key": [],
+          "status": "verified"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wCLP",
+        "chain": "ethereum",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 23891029,
+          "opening_block": 25434835,
+          "closing_block": 26094636
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "blockscout:https://eth.blockscout.com/api",
+            "rpc:mainnet.gateway.tenderly.co"
+          ],
+          "not_reconciling": [],
+          "failed": [
+            "etherscan:https://api.etherscan.io/v2/api"
+          ],
+          "needs_key": [],
+          "status": "verified"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wPEN",
+        "chain": "ethereum",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 23891123,
+          "opening_block": 25434835,
+          "closing_block": 26094636
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "blockscout:https://eth.blockscout.com/api",
+            "rpc:mainnet.gateway.tenderly.co"
+          ],
+          "not_reconciling": [],
+          "failed": [
+            "etherscan:https://api.etherscan.io/v2/api"
+          ],
+          "needs_key": [],
+          "status": "verified"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wARS",
+        "chain": "base",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 32347496,
+          "opening_block": 48042726,
+          "closing_block": 52017126
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "blockscout:https://base.blockscout.com/api",
+            "rpc:mainnet.base.org"
+          ],
+          "not_reconciling": [
+            "blockscout:https://base.blockscout.com/api"
+          ],
+          "failed": [],
+          "needs_key": [],
+          "status": "limited"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wBRL",
+        "chain": "base",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 32735038,
+          "opening_block": 48042726,
+          "closing_block": 52017126
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "blockscout:https://base.blockscout.com/api",
+            "rpc:mainnet.base.org"
+          ],
+          "not_reconciling": [],
+          "failed": [],
+          "needs_key": [],
+          "status": "verified"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wMXN",
+        "chain": "base",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 32734948,
+          "opening_block": 48042726,
+          "closing_block": 52017126
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "blockscout:https://base.blockscout.com/api",
+            "rpc:mainnet.base.org"
+          ],
+          "not_reconciling": [],
+          "failed": [],
+          "needs_key": [],
+          "status": "verified"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wCOP",
+        "chain": "base",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 35880054,
+          "opening_block": 48042726,
+          "closing_block": 52017126
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "blockscout:https://base.blockscout.com/api",
+            "rpc:mainnet.base.org"
+          ],
+          "not_reconciling": [],
+          "failed": [],
+          "needs_key": [],
+          "status": "verified"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wCLP",
+        "chain": "base",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 38734816,
+          "opening_block": 48042726,
+          "closing_block": 52017126
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "blockscout:https://base.blockscout.com/api",
+            "rpc:mainnet.base.org"
+          ],
+          "not_reconciling": [
+            "blockscout:https://base.blockscout.com/api"
+          ],
+          "failed": [],
+          "needs_key": [],
+          "status": "limited"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wPEN",
+        "chain": "base",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 38735180,
+          "opening_block": 48042726,
+          "closing_block": 52017126
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "blockscout:https://base.blockscout.com/api",
+            "rpc:mainnet.base.org"
+          ],
+          "not_reconciling": [],
+          "failed": [],
+          "needs_key": [],
+          "status": "verified"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wARS",
+        "chain": "polygon",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 83198922,
+          "opening_block": 89446536,
+          "closing_block": 94745639
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "blockscout:https://polygon.blockscout.com/api",
+            "rpc:polygon.gateway.tenderly.co"
+          ],
+          "not_reconciling": [],
+          "failed": [
+            "etherscan:https://api.etherscan.io/v2/api"
+          ],
+          "needs_key": [],
+          "status": "verified"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wBRL",
+        "chain": "polygon",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 83199479,
+          "opening_block": 89446536,
+          "closing_block": 94745639
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "blockscout:https://polygon.blockscout.com/api",
+            "rpc:polygon.gateway.tenderly.co"
+          ],
+          "not_reconciling": [],
+          "failed": [
+            "etherscan:https://api.etherscan.io/v2/api"
+          ],
+          "needs_key": [],
+          "status": "verified"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wMXN",
+        "chain": "polygon",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 83199311,
+          "opening_block": 89446536,
+          "closing_block": 94745639
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "blockscout:https://polygon.blockscout.com/api",
+            "rpc:polygon.gateway.tenderly.co"
+          ],
+          "not_reconciling": [],
+          "failed": [
+            "etherscan:https://api.etherscan.io/v2/api"
+          ],
+          "needs_key": [],
+          "status": "verified"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wCOP",
+        "chain": "polygon",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 83200069,
+          "opening_block": 89446536,
+          "closing_block": 94745639
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "blockscout:https://polygon.blockscout.com/api",
+            "rpc:polygon.gateway.tenderly.co"
+          ],
+          "not_reconciling": [],
+          "failed": [
+            "etherscan:https://api.etherscan.io/v2/api"
+          ],
+          "needs_key": [],
+          "status": "verified"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wCLP",
+        "chain": "polygon",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 83200504,
+          "opening_block": 89446536,
+          "closing_block": 94745639
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "blockscout:https://polygon.blockscout.com/api",
+            "rpc:polygon.gateway.tenderly.co"
+          ],
+          "not_reconciling": [],
+          "failed": [
+            "etherscan:https://api.etherscan.io/v2/api"
+          ],
+          "needs_key": [],
+          "status": "verified"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wPEN",
+        "chain": "polygon",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 83200582,
+          "opening_block": 89446536,
+          "closing_block": 94745639
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "blockscout:https://polygon.blockscout.com/api",
+            "rpc:polygon.gateway.tenderly.co"
+          ],
+          "not_reconciling": [],
+          "failed": [
+            "etherscan:https://api.etherscan.io/v2/api"
+          ],
+          "needs_key": [],
+          "status": "verified"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wARS",
+        "chain": "gnosis",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 44763972,
+          "opening_block": 46972230,
+          "closing_block": 48526543
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "rpc:rpc.gnosischain.com"
+          ],
+          "not_reconciling": [],
+          "failed": [],
+          "needs_key": [],
+          "status": "limited"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wBRL",
+        "chain": "gnosis",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 44764114,
+          "opening_block": 46972230,
+          "closing_block": 48526543
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "rpc:rpc.gnosischain.com"
+          ],
+          "not_reconciling": [],
+          "failed": [],
+          "needs_key": [],
+          "status": "limited"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wMXN",
+        "chain": "gnosis",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 44764067,
+          "opening_block": 46972230,
+          "closing_block": 48526543
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "rpc:rpc.gnosischain.com"
+          ],
+          "not_reconciling": [],
+          "failed": [],
+          "needs_key": [],
+          "status": "limited"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wCOP",
+        "chain": "gnosis",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 44764271,
+          "opening_block": 46972230,
+          "closing_block": 48526543
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "rpc:rpc.gnosischain.com"
+          ],
+          "not_reconciling": [],
+          "failed": [],
+          "needs_key": [],
+          "status": "limited"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wCLP",
+        "chain": "gnosis",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 44764384,
+          "opening_block": 46972230,
+          "closing_block": 48526543
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "rpc:rpc.gnosischain.com"
+          ],
+          "not_reconciling": [],
+          "failed": [],
+          "needs_key": [],
+          "status": "limited"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wPEN",
+        "chain": "gnosis",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 44764415,
+          "opening_block": 46972230,
+          "closing_block": 48526543
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "rpc:rpc.gnosischain.com"
+          ],
+          "not_reconciling": [],
+          "failed": [],
+          "needs_key": [],
+          "status": "limited"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wARS",
+        "chain": "bsc",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 82186272,
+          "opening_block": 107369127,
+          "closing_block": 125024742
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "bscscan list + RPC receipts",
+            "rpc:bsc-mainnet.nodereal.io/v1/***"
+          ],
+          "not_reconciling": [],
+          "failed": [],
+          "needs_key": [],
+          "status": "verified"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wBRL",
+        "chain": "bsc",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 82187187,
+          "opening_block": 107369127,
+          "closing_block": 125024742
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "bscscan list + RPC receipts",
+            "rpc:bsc-mainnet.nodereal.io/v1/***"
+          ],
+          "not_reconciling": [],
+          "failed": [],
+          "needs_key": [],
+          "status": "verified"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wMXN",
+        "chain": "bsc",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 82186861,
+          "opening_block": 107369127,
+          "closing_block": 125024742
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "bscscan list + RPC receipts",
+            "rpc:bsc-mainnet.nodereal.io/v1/***"
+          ],
+          "not_reconciling": [],
+          "failed": [],
+          "needs_key": [],
+          "status": "verified"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wCOP",
+        "chain": "bsc",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 82188231,
+          "opening_block": 107369127,
+          "closing_block": 125024742
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "bscscan list + RPC receipts",
+            "rpc:bsc-mainnet.nodereal.io/v1/***"
+          ],
+          "not_reconciling": [],
+          "failed": [],
+          "needs_key": [],
+          "status": "verified"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wCLP",
+        "chain": "bsc",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 82189276,
+          "opening_block": 107369127,
+          "closing_block": 125024742
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "bscscan list + RPC receipts",
+            "rpc:bsc-mainnet.nodereal.io/v1/***"
+          ],
+          "not_reconciling": [],
+          "failed": [],
+          "needs_key": [],
+          "status": "verified"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wPEN",
+        "chain": "bsc",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 82189565,
+          "opening_block": 107369127,
+          "closing_block": 125024742
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "bscscan list + RPC receipts",
+            "rpc:bsc-mainnet.nodereal.io/v1/***"
+          ],
+          "not_reconciling": [],
+          "failed": [],
+          "needs_key": [],
+          "status": "verified"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wARS",
+        "chain": "worldchain",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 14210391,
+          "opening_block": 31769580,
+          "closing_block": 35743980
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "blockscout:https://worldchain-mainnet.explorer.alchemy.com/api",
+            "rpc:worldchain-mainnet.gateway.tenderly.co"
+          ],
+          "not_reconciling": [],
+          "failed": [
+            "etherscan:https://api.etherscan.io/v2/api"
+          ],
+          "needs_key": [],
+          "status": "verified"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wBRL",
+        "chain": "worldchain",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 14210767,
+          "opening_block": 31769580,
+          "closing_block": 35743980
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "blockscout:https://worldchain-mainnet.explorer.alchemy.com/api",
+            "rpc:worldchain-mainnet.gateway.tenderly.co"
+          ],
+          "not_reconciling": [],
+          "failed": [
+            "etherscan:https://api.etherscan.io/v2/api"
+          ],
+          "needs_key": [],
+          "status": "verified"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wMXN",
+        "chain": "worldchain",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 14210697,
+          "opening_block": 31769580,
+          "closing_block": 35743980
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "blockscout:https://worldchain-mainnet.explorer.alchemy.com/api",
+            "rpc:worldchain-mainnet.gateway.tenderly.co"
+          ],
+          "not_reconciling": [],
+          "failed": [
+            "etherscan:https://api.etherscan.io/v2/api"
+          ],
+          "needs_key": [],
+          "status": "verified"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wCOP",
+        "chain": "worldchain",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 19606475,
+          "opening_block": 31769580,
+          "closing_block": 35743980
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "blockscout:https://worldchain-mainnet.explorer.alchemy.com/api",
+            "rpc:worldchain-mainnet.gateway.tenderly.co"
+          ],
+          "not_reconciling": [],
+          "failed": [
+            "etherscan:https://api.etherscan.io/v2/api"
+          ],
+          "needs_key": [],
+          "status": "verified"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wCLP",
+        "chain": "worldchain",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 22461211,
+          "opening_block": 31769580,
+          "closing_block": 35743980
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "blockscout:https://worldchain-mainnet.explorer.alchemy.com/api",
+            "rpc:worldchain-mainnet.gateway.tenderly.co"
+          ],
+          "not_reconciling": [],
+          "failed": [
+            "etherscan:https://api.etherscan.io/v2/api"
+          ],
+          "needs_key": [],
+          "status": "verified"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wPEN",
+        "chain": "worldchain",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 22461805,
+          "opening_block": 31769580,
+          "closing_block": 35743980
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "blockscout:https://worldchain-mainnet.explorer.alchemy.com/api",
+            "rpc:worldchain-mainnet.gateway.tenderly.co"
+          ],
+          "not_reconciling": [],
+          "failed": [
+            "etherscan:https://api.etherscan.io/v2/api"
+          ],
+          "needs_key": [],
+          "status": "verified"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wARS",
+        "chain": "celo",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 68435445,
+          "opening_block": 70974041,
+          "closing_block": 78922841
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "blockscout:https://celo.blockscout.com/api",
+            "rpc:celo.gateway.tenderly.co"
+          ],
+          "not_reconciling": [],
+          "failed": [
+            "etherscan:https://api.etherscan.io/v2/api"
+          ],
+          "needs_key": [],
+          "status": "verified"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wBRL",
+        "chain": "celo",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 68435974,
+          "opening_block": 70974041,
+          "closing_block": 78922841
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "blockscout:https://celo.blockscout.com/api",
+            "rpc:celo.gateway.tenderly.co"
+          ],
+          "not_reconciling": [],
+          "failed": [
+            "etherscan:https://api.etherscan.io/v2/api"
+          ],
+          "needs_key": [],
+          "status": "verified"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wMXN",
+        "chain": "celo",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 68435758,
+          "opening_block": 70974041,
+          "closing_block": 78922841
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "blockscout:https://celo.blockscout.com/api",
+            "rpc:celo.gateway.tenderly.co"
+          ],
+          "not_reconciling": [],
+          "failed": [
+            "etherscan:https://api.etherscan.io/v2/api"
+          ],
+          "needs_key": [],
+          "status": "verified"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wCOP",
+        "chain": "celo",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 68436556,
+          "opening_block": 70974041,
+          "closing_block": 78922841
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "blockscout:https://celo.blockscout.com/api",
+            "rpc:celo.gateway.tenderly.co"
+          ],
+          "not_reconciling": [],
+          "failed": [
+            "etherscan:https://api.etherscan.io/v2/api"
+          ],
+          "needs_key": [],
+          "status": "verified"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wCLP",
+        "chain": "celo",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 68436918,
+          "opening_block": 70974041,
+          "closing_block": 78922841
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "blockscout:https://celo.blockscout.com/api",
+            "rpc:celo.gateway.tenderly.co"
+          ],
+          "not_reconciling": [],
+          "failed": [
+            "etherscan:https://api.etherscan.io/v2/api"
+          ],
+          "needs_key": [],
+          "status": "verified"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wPEN",
+        "chain": "celo",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 68437044,
+          "opening_block": 70974041,
+          "closing_block": 78922841
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "blockscout:https://celo.blockscout.com/api",
+            "rpc:celo.gateway.tenderly.co"
+          ],
+          "not_reconciling": [],
+          "failed": [
+            "etherscan:https://api.etherscan.io/v2/api"
+          ],
+          "needs_key": [],
+          "status": "verified"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wARS",
+        "chain": "hyperevm",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 35699695,
+          "opening_block": 39262879,
+          "closing_block": 47343194
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "etherscan:https://api.etherscan.io/v2/api",
+            "rpc:hyperliquid-json-rpc.stakely.io,rpc.hypurrscan.io"
+          ],
+          "not_reconciling": [],
+          "failed": [],
+          "needs_key": [],
+          "status": "verified"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wBRL",
+        "chain": "hyperevm",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 35701321,
+          "opening_block": 39262879,
+          "closing_block": 47343194
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "etherscan:https://api.etherscan.io/v2/api",
+            "rpc:hyperliquid-json-rpc.stakely.io,rpc.hypurrscan.io"
+          ],
+          "not_reconciling": [],
+          "failed": [],
+          "needs_key": [],
+          "status": "verified"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wMXN",
+        "chain": "hyperevm",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 35701061,
+          "opening_block": 39262879,
+          "closing_block": 47343194
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "etherscan:https://api.etherscan.io/v2/api",
+            "rpc:hyperliquid-json-rpc.stakely.io,rpc.hypurrscan.io"
+          ],
+          "not_reconciling": [],
+          "failed": [],
+          "needs_key": [],
+          "status": "verified"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wCOP",
+        "chain": "hyperevm",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 35703976,
+          "opening_block": 39262879,
+          "closing_block": 47343194
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "etherscan:https://api.etherscan.io/v2/api",
+            "rpc:hyperliquid-json-rpc.stakely.io,rpc.hypurrscan.io"
+          ],
+          "not_reconciling": [],
+          "failed": [],
+          "needs_key": [],
+          "status": "verified"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wCLP",
+        "chain": "hyperevm",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 35704902,
+          "opening_block": 39262879,
+          "closing_block": 47343194
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "etherscan:https://api.etherscan.io/v2/api",
+            "rpc:hyperliquid-json-rpc.stakely.io,rpc.hypurrscan.io"
+          ],
+          "not_reconciling": [],
+          "failed": [],
+          "needs_key": [],
+          "status": "verified"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wPEN",
+        "chain": "hyperevm",
+        "applicability": "existing",
+        "reason": null,
+        "evidence": {
+          "creation_block": 35705024,
+          "opening_block": 39262879,
+          "closing_block": 47343194
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "etherscan:https://api.etherscan.io/v2/api",
+            "rpc:hyperliquid-json-rpc.stakely.io,rpc.hypurrscan.io"
+          ],
+          "not_reconciling": [],
+          "failed": [],
+          "needs_key": [],
+          "status": "verified"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wARS",
+        "chain": "arc",
+        "applicability": "created_in_period",
+        "reason": "created_after_opening",
+        "evidence": {
+          "creation_block": 19659303,
+          "opening_block": 7965224,
+          "closing_block": 23641972
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "rpc:arc.gateway.tenderly.co"
+          ],
+          "not_reconciling": [],
+          "failed": [],
+          "needs_key": [],
+          "status": "limited"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wBRL",
+        "chain": "arc",
+        "applicability": "created_in_period",
+        "reason": "created_after_opening",
+        "evidence": {
+          "creation_block": 19663774,
+          "opening_block": 7965224,
+          "closing_block": 23641972
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "rpc:arc.gateway.tenderly.co"
+          ],
+          "not_reconciling": [],
+          "failed": [],
+          "needs_key": [],
+          "status": "limited"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wMXN",
+        "chain": "arc",
+        "applicability": "created_in_period",
+        "reason": "created_after_opening",
+        "evidence": {
+          "creation_block": 19662934,
+          "opening_block": 7965224,
+          "closing_block": 23641972
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "rpc:arc.gateway.tenderly.co"
+          ],
+          "not_reconciling": [],
+          "failed": [],
+          "needs_key": [],
+          "status": "limited"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wCOP",
+        "chain": "arc",
+        "applicability": "created_in_period",
+        "reason": "created_after_opening",
+        "evidence": {
+          "creation_block": 19665237,
+          "opening_block": 7965224,
+          "closing_block": 23641972
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "rpc:arc.gateway.tenderly.co"
+          ],
+          "not_reconciling": [],
+          "failed": [],
+          "needs_key": [],
+          "status": "limited"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wCLP",
+        "chain": "arc",
+        "applicability": "created_in_period",
+        "reason": "created_after_opening",
+        "evidence": {
+          "creation_block": 19665736,
+          "opening_block": 7965224,
+          "closing_block": 23641972
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "rpc:arc.gateway.tenderly.co"
+          ],
+          "not_reconciling": [],
+          "failed": [],
+          "needs_key": [],
+          "status": "limited"
+        },
+        "status": "reconciled"
+      },
+      {
+        "token": "wPEN",
+        "chain": "arc",
+        "applicability": "created_in_period",
+        "reason": "created_after_opening",
+        "evidence": {
+          "creation_block": 19665967,
+          "opening_block": 7965224,
+          "closing_block": 23641972
+        },
+        "detail": null,
+        "verification": {
+          "sources": [
+            "rpc:arc.gateway.tenderly.co"
+          ],
+          "not_reconciling": [],
+          "failed": [],
+          "needs_key": [],
+          "status": "limited"
+        },
+        "status": "reconciled"
+      }
+    ]
+  },
   "networks": [
     {
       "chain": "ethereum",
@@ -203,6 +1511,9 @@
     "wARS": {
       "name": "Argentine Peso",
       "decimals": 18,
+      "partial": false,
+      "pairs_expected": 9,
+      "pairs_reconciled": 9,
       "opening": "7619996077.03858839979534242",
       "closing": "14931194588.92654753196897662",
       "change": "7311198511.887959132173634202",
@@ -260,6 +1571,9 @@
     "wBRL": {
       "name": "Brazilian Real",
       "decimals": 18,
+      "partial": false,
+      "pairs_expected": 9,
+      "pairs_reconciled": 9,
       "opening": "2586147.5",
       "closing": "13807477.38",
       "change": "11221329.88",
@@ -317,6 +1631,9 @@
     "wMXN": {
       "name": "Mexican Peso",
       "decimals": 18,
+      "partial": false,
+      "pairs_expected": 9,
+      "pairs_reconciled": 9,
       "opening": "968788.69309",
       "closing": "5638788.69309",
       "change": "4670000",
@@ -372,6 +1689,9 @@
     "wCOP": {
       "name": "Colombian Peso",
       "decimals": 18,
+      "partial": false,
+      "pairs_expected": 9,
+      "pairs_reconciled": 9,
       "opening": "196398753.796898518529362498",
       "closing": "911258753.796898518529362498",
       "change": "714860000",
@@ -427,6 +1747,9 @@
     "wCLP": {
       "name": "Chilean Peso",
       "decimals": 18,
+      "partial": false,
+      "pairs_expected": 9,
+      "pairs_reconciled": 9,
       "opening": "64295100",
       "closing": "66565100",
       "change": "2270000",
@@ -482,6 +1805,9 @@
     "wPEN": {
       "name": "Peruvian Sol",
       "decimals": 18,
+      "partial": false,
+      "pairs_expected": 9,
+      "pairs_reconciled": 9,
       "opening": "122950",
       "closing": "132950",
       "change": "10000",
@@ -648,7 +1974,9 @@
       "difference": "0",
       "passed": true,
       "source_used": "bscscan list + RPC receipts",
-      "other_sources_complete": [],
+      "other_sources_complete": [
+        "rpc:bsc-mainnet.nodereal.io/v1/***"
+      ],
       "sources_incomplete": [],
       "closing_reads": {
         "https://bsc-mainnet.public.blastapi.io": "85064244090776000000000000"
@@ -700,7 +2028,8 @@
       ],
       "sources_incomplete": [],
       "closing_reads": {
-        "https://forno.celo.org": "262674529314460000000000000"
+        "https://forno.celo.org": "262674529314460000000000000",
+        "https://celo.drpc.org": "262674529314460000000000000"
       }
     },
     {
@@ -718,8 +2047,10 @@
       "closing": "409279807617718859506384744",
       "difference": "0",
       "passed": true,
-      "source_used": "rpc:hyperliquid-json-rpc.stakely.io,rpc.hypurrscan.io",
-      "other_sources_complete": [],
+      "source_used": "etherscan:https://api.etherscan.io/v2/api",
+      "other_sources_complete": [
+        "rpc:hyperliquid-json-rpc.stakely.io,rpc.hypurrscan.io"
+      ],
       "sources_incomplete": [],
       "closing_reads": {
         "https://hyperliquid.drpc.org": "409279807617718859506384744"
@@ -860,7 +2191,9 @@
       "difference": "0",
       "passed": true,
       "source_used": "bscscan list + RPC receipts",
-      "other_sources_complete": [],
+      "other_sources_complete": [
+        "rpc:bsc-mainnet.nodereal.io/v1/***"
+      ],
       "sources_incomplete": [],
       "closing_reads": {
         "https://bsc-mainnet.public.blastapi.io": "237107041289472274000000"
@@ -912,7 +2245,8 @@
       ],
       "sources_incomplete": [],
       "closing_reads": {
-        "https://forno.celo.org": "3708687895892251128768916"
+        "https://forno.celo.org": "3708687895892251128768916",
+        "https://celo.drpc.org": "3708687895892251128768916"
       }
     },
     {
@@ -930,8 +2264,10 @@
       "closing": "2499220298586097094440148",
       "difference": "0",
       "passed": true,
-      "source_used": "rpc:hyperliquid-json-rpc.stakely.io,rpc.hypurrscan.io",
-      "other_sources_complete": [],
+      "source_used": "etherscan:https://api.etherscan.io/v2/api",
+      "other_sources_complete": [
+        "rpc:hyperliquid-json-rpc.stakely.io,rpc.hypurrscan.io"
+      ],
       "sources_incomplete": [],
       "closing_reads": {
         "https://hyperliquid.drpc.org": "2499220298586097094440148"
@@ -1072,7 +2408,9 @@
       "difference": "0",
       "passed": true,
       "source_used": "bscscan list + RPC receipts",
-      "other_sources_complete": [],
+      "other_sources_complete": [
+        "rpc:bsc-mainnet.nodereal.io/v1/***"
+      ],
       "sources_incomplete": [],
       "closing_reads": {
         "https://bsc-mainnet.public.blastapi.io": "87061781397932500000000"
@@ -1124,7 +2462,8 @@
       ],
       "sources_incomplete": [],
       "closing_reads": {
-        "https://forno.celo.org": "13099460000000000000000"
+        "https://forno.celo.org": "13099460000000000000000",
+        "https://celo.drpc.org": "13099460000000000000000"
       }
     },
     {
@@ -1142,8 +2481,10 @@
       "closing": "0",
       "difference": "0",
       "passed": true,
-      "source_used": "rpc:hyperliquid-json-rpc.stakely.io,rpc.hypurrscan.io",
-      "other_sources_complete": [],
+      "source_used": "etherscan:https://api.etherscan.io/v2/api",
+      "other_sources_complete": [
+        "rpc:hyperliquid-json-rpc.stakely.io,rpc.hypurrscan.io"
+      ],
       "sources_incomplete": [],
       "closing_reads": {
         "https://hyperliquid.drpc.org": "0"
@@ -1284,7 +2625,9 @@
       "difference": "0",
       "passed": true,
       "source_used": "bscscan list + RPC receipts",
-      "other_sources_complete": [],
+      "other_sources_complete": [
+        "rpc:bsc-mainnet.nodereal.io/v1/***"
+      ],
       "sources_incomplete": [],
       "closing_reads": {
         "https://bsc-mainnet.public.blastapi.io": "25972395036895177727892094"
@@ -1336,7 +2679,8 @@
       ],
       "sources_incomplete": [],
       "closing_reads": {
-        "https://forno.celo.org": "33999986000000000000000000"
+        "https://forno.celo.org": "33999986000000000000000000",
+        "https://celo.drpc.org": "33999986000000000000000000"
       }
     },
     {
@@ -1354,8 +2698,10 @@
       "closing": "0",
       "difference": "0",
       "passed": true,
-      "source_used": "rpc:hyperliquid-json-rpc.stakely.io,rpc.hypurrscan.io",
-      "other_sources_complete": [],
+      "source_used": "etherscan:https://api.etherscan.io/v2/api",
+      "other_sources_complete": [
+        "rpc:hyperliquid-json-rpc.stakely.io,rpc.hypurrscan.io"
+      ],
       "sources_incomplete": [],
       "closing_reads": {
         "https://hyperliquid.drpc.org": "0"
@@ -1496,7 +2842,9 @@
       "difference": "0",
       "passed": true,
       "source_used": "bscscan list + RPC receipts",
-      "other_sources_complete": [],
+      "other_sources_complete": [
+        "rpc:bsc-mainnet.nodereal.io/v1/***"
+      ],
       "sources_incomplete": [],
       "closing_reads": {
         "https://bsc-mainnet.public.blastapi.io": "4402756839367383007238011"
@@ -1548,7 +2896,8 @@
       ],
       "sources_incomplete": [],
       "closing_reads": {
-        "https://forno.celo.org": "1000087000000000000000000"
+        "https://forno.celo.org": "1000087000000000000000000",
+        "https://celo.drpc.org": "1000087000000000000000000"
       }
     },
     {
@@ -1566,8 +2915,10 @@
       "closing": "0",
       "difference": "0",
       "passed": true,
-      "source_used": "rpc:hyperliquid-json-rpc.stakely.io,rpc.hypurrscan.io",
-      "other_sources_complete": [],
+      "source_used": "etherscan:https://api.etherscan.io/v2/api",
+      "other_sources_complete": [
+        "rpc:hyperliquid-json-rpc.stakely.io,rpc.hypurrscan.io"
+      ],
       "sources_incomplete": [],
       "closing_reads": {
         "https://hyperliquid.drpc.org": "0"
@@ -1708,7 +3059,9 @@
       "difference": "0",
       "passed": true,
       "source_used": "bscscan list + RPC receipts",
-      "other_sources_complete": [],
+      "other_sources_complete": [
+        "rpc:bsc-mainnet.nodereal.io/v1/***"
+      ],
       "sources_incomplete": [],
       "closing_reads": {
         "https://bsc-mainnet.public.blastapi.io": "4171170000000000000000"
@@ -1760,7 +3113,8 @@
       ],
       "sources_incomplete": [],
       "closing_reads": {
-        "https://forno.celo.org": "599950000000000000000"
+        "https://forno.celo.org": "599950000000000000000",
+        "https://celo.drpc.org": "599950000000000000000"
       }
     },
     {
@@ -1778,8 +3132,10 @@
       "closing": "0",
       "difference": "0",
       "passed": true,
-      "source_used": "rpc:hyperliquid-json-rpc.stakely.io,rpc.hypurrscan.io",
-      "other_sources_complete": [],
+      "source_used": "etherscan:https://api.etherscan.io/v2/api",
+      "other_sources_complete": [
+        "rpc:hyperliquid-json-rpc.stakely.io,rpc.hypurrscan.io"
+      ],
       "sources_incomplete": [],
       "closing_reads": {
         "https://hyperliquid.drpc.org": "0"
@@ -7668,7 +9024,7 @@
         "dest_chain": "celo",
         "after": {
           "status": "not_found",
-          "searched_to": 79069091
+          "searched_to": 79150197
         }
       }
     },
@@ -10789,7 +12145,7 @@
       "kind": "mint",
       "block": 44704840,
       "tx_hash": "0xbedf2a622b2f6c7508b5fd51ee56bffc944f7d9ae4ff85bac8cc7bd240695890",
-      "log_index": 1,
+      "log_index": 9,
       "amount": "4985000000000000000000",
       "counterparty": "0x56bd948782f516592c5fabc212e968eba7d2e466",
       "tx_from": "0xbc924f707ca021f9b220088afe56c85b9cb43085",
@@ -10937,7 +12293,7 @@
       "kind": "mint",
       "block": 44724661,
       "tx_hash": "0xca2c596d5e691a3bedecc5cf214128b43fb0a8eba538ded36f9d4f421c995ae4",
-      "log_index": 13,
+      "log_index": 14,
       "amount": "1560672282600213302500",
       "counterparty": "0x56bd948782f516592c5fabc212e968eba7d2e466",
       "tx_from": "0xbc924f707ca021f9b220088afe56c85b9cb43085",
@@ -11184,7 +12540,7 @@
       "kind": "mint",
       "block": 44750493,
       "tx_hash": "0x39c65966d621af5d260a7ef6285d576fcaaaeafb3193f4702d1eb1d19d820a91",
-      "log_index": 0,
+      "log_index": 8,
       "amount": "299984990000010000000000",
       "counterparty": "0x56bd948782f516592c5fabc212e968eba7d2e466",
       "tx_from": "0xbc924f707ca021f9b220088afe56c85b9cb43085",
@@ -11258,7 +12614,7 @@
       "kind": "mint",
       "block": 44758737,
       "tx_hash": "0xea65438b176d6b5e6f45c7ba9fa9829dcfa6805f6f3c668757f0c4651973a18e",
-      "log_index": 20,
+      "log_index": 29,
       "amount": "1099098220000000000000000",
       "counterparty": "0x56bd948782f516592c5fabc212e968eba7d2e466",
       "tx_from": "0xbc924f707ca021f9b220088afe56c85b9cb43085",
@@ -11480,7 +12836,7 @@
       "kind": "mint",
       "block": 44764711,
       "tx_hash": "0x38161efcde9d3f90704bff21c519d17cb539696d690bb8e30a73d49c35835038",
-      "log_index": 16,
+      "log_index": 17,
       "amount": "1546869930387253132000",
       "counterparty": "0x56bd948782f516592c5fabc212e968eba7d2e466",
       "tx_from": "0xbc924f707ca021f9b220088afe56c85b9cb43085",
@@ -11554,7 +12910,7 @@
       "kind": "mint",
       "block": 44770729,
       "tx_hash": "0x4e2faea46addec6b845a75bb9ba4517ffc3c1bc55cb660844124b40491669772",
-      "log_index": 6,
+      "log_index": 7,
       "amount": "741247970000000000000000",
       "counterparty": "0x56bd948782f516592c5fabc212e968eba7d2e466",
       "tx_from": "0xbc924f707ca021f9b220088afe56c85b9cb43085",
@@ -12099,7 +13455,7 @@
         "dest_chain": "gnosis",
         "after": {
           "status": "not_found",
-          "searched_to": 48555205
+          "searched_to": 48571094
         }
       }
     },
@@ -13231,7 +14587,7 @@
       "kind": "mint",
       "block": 44970340,
       "tx_hash": "0x18400f445dea4ee8d168cb05574ebd39c70c5a20822e13708c6c747b14ea5f3b",
-      "log_index": 16,
+      "log_index": 17,
       "amount": "899985000000000000000000",
       "counterparty": "0x56bd948782f516592c5fabc212e968eba7d2e466",
       "tx_from": "0xbc924f707ca021f9b220088afe56c85b9cb43085",
@@ -13379,7 +14735,7 @@
       "kind": "mint",
       "block": 44971829,
       "tx_hash": "0x6a879a62bc3d7a226265de231929d645c0ea5926d4577c84f70d8c49c1a63b28",
-      "log_index": 12,
+      "log_index": 13,
       "amount": "837415680000000000000000",
       "counterparty": "0x56bd948782f516592c5fabc212e968eba7d2e466",
       "tx_from": "0xbc924f707ca021f9b220088afe56c85b9cb43085",
@@ -13453,7 +14809,7 @@
       "kind": "mint",
       "block": 44972547,
       "tx_hash": "0xa20f8e6ae6c0b0734629e01c5fc4d4284287a8f06e21522f07407059863bdd86",
-      "log_index": 7,
+      "log_index": 11,
       "amount": "2492300000000000000000",
       "counterparty": "0x56bd948782f516592c5fabc212e968eba7d2e466",
       "tx_from": "0xbc924f707ca021f9b220088afe56c85b9cb43085",
@@ -14698,7 +16054,7 @@
       "kind": "mint",
       "block": 45054498,
       "tx_hash": "0xb6477cca676f73341d0577fa5411afe49ffc9152c7e19d19fce513df4727c06b",
-      "log_index": 0,
+      "log_index": 1,
       "amount": "897270279999999999999999",
       "counterparty": "0x56bd948782f516592c5fabc212e968eba7d2e466",
       "tx_from": "0xbc924f707ca021f9b220088afe56c85b9cb43085",
@@ -15214,7 +16570,7 @@
       "kind": "burn",
       "block": 45262928,
       "tx_hash": "0xfbe520ec2a69290a7c019632cb7c668f89de66cde46ce53455e045de58354657",
-      "log_index": 11,
+      "log_index": 15,
       "amount": "9217971304337355974445",
       "counterparty": "0xd7700c8fbb6df79ce08d6d1d138547d097a8eb67",
       "tx_from": "0xd7700c8fbb6df79ce08d6d1d138547d097a8eb67",
@@ -15362,7 +16718,7 @@
       "kind": "burn",
       "block": 45270988,
       "tx_hash": "0x6e8eaf2f36c10b9ba822ef4636c439153c3c71dac9b4ba7aef7644d8225959e6",
-      "log_index": 7,
+      "log_index": 8,
       "amount": "528404880031152484626",
       "counterparty": "0x56bd948782f516592c5fabc212e968eba7d2e466",
       "tx_from": "0x56bd948782f516592c5fabc212e968eba7d2e466",
@@ -16026,7 +17382,7 @@
       "kind": "burn",
       "block": 45294905,
       "tx_hash": "0xf7b28176d92c10939026b851046eebfd0929a870d900c8e5b0fb044bdb58f701",
-      "log_index": 3,
+      "log_index": 4,
       "amount": "526822999363520995855",
       "counterparty": "0x56bd948782f516592c5fabc212e968eba7d2e466",
       "tx_from": "0x56bd948782f516592c5fabc212e968eba7d2e466",
@@ -16100,7 +17456,7 @@
       "kind": "burn",
       "block": 45298158,
       "tx_hash": "0xbdfd58d28ed2d885721ed8efc6a4c1ada060be2672b09ff0314d83e713fe2bcf",
-      "log_index": 6,
+      "log_index": 7,
       "amount": "527496891937532915170",
       "counterparty": "0x56bd948782f516592c5fabc212e968eba7d2e466",
       "tx_from": "0x56bd948782f516592c5fabc212e968eba7d2e466",
@@ -16248,7 +17604,7 @@
       "kind": "burn",
       "block": 45364668,
       "tx_hash": "0xfa35ffcabe9c79e3cb14087f1b3503597ea409510d3465b0d92c34fbdc65d99b",
-      "log_index": 6,
+      "log_index": 7,
       "amount": "527051181830834451438",
       "counterparty": "0x56bd948782f516592c5fabc212e968eba7d2e466",
       "tx_from": "0x56bd948782f516592c5fabc212e968eba7d2e466",
@@ -17881,7 +19237,7 @@
         "dest_chain": "ethereum",
         "after": {
           "status": "not_found",
-          "searched_to": 26106772
+          "searched_to": 26113511
         }
       }
     },
@@ -20142,7 +21498,7 @@
       "kind": "burn",
       "block": 46774788,
       "tx_hash": "0x027921d702800c081978359b6682da493aa43bc8a0c4aa3ed5dc005de029e5b0",
-      "log_index": 1,
+      "log_index": 2,
       "amount": "28980432000000000000000",
       "counterparty": "0xd7700c8fbb6df79ce08d6d1d138547d097a8eb67",
       "tx_from": "0xd7700c8fbb6df79ce08d6d1d138547d097a8eb67",
@@ -22179,7 +23535,7 @@
       "kind": "mint",
       "block": 47124130,
       "tx_hash": "0xf2b6a859865a61d779b2bb49be6dbc154e1b196c8c5a997f121e5e0ff81edd60",
-      "log_index": 4,
+      "log_index": 5,
       "amount": "999920000000000000000",
       "counterparty": "0x49f4527e1443c86eabf22ead1e4bba36eea9ebf2",
       "tx_from": "0xbc924f707ca021f9b220088afe56c85b9cb43085",
@@ -22289,7 +23645,7 @@
       "kind": "burn",
       "block": 47129003,
       "tx_hash": "0x00a60ec85e6153376e50889d987d5ee106ef0fe86700da30b5905641781147e1",
-      "log_index": 5,
+      "log_index": 6,
       "amount": "14422325499000000000000000",
       "counterparty": "0xd7700c8fbb6df79ce08d6d1d138547d097a8eb67",
       "tx_from": "0xd7700c8fbb6df79ce08d6d1d138547d097a8eb67",
@@ -22585,7 +23941,7 @@
       "kind": "burn",
       "block": 47130982,
       "tx_hash": "0x21f2ade4bf3b6e140cd73ab7ec18e69388cca447590a907f58ccb6b70ceb6f59",
-      "log_index": 1,
+      "log_index": 2,
       "amount": "8531213116500000000000",
       "counterparty": "0xd7700c8fbb6df79ce08d6d1d138547d097a8eb67",
       "tx_from": "0xd7700c8fbb6df79ce08d6d1d138547d097a8eb67",
@@ -22807,7 +24163,7 @@
       "kind": "burn",
       "block": 47178179,
       "tx_hash": "0x69adb0868fabc82b13417785d1644bac840c4a4b2601f01cdc55468c10e422b8",
-      "log_index": 6,
+      "log_index": 7,
       "amount": "28999920000000000000000",
       "counterparty": "0xd7700c8fbb6df79ce08d6d1d138547d097a8eb67",
       "tx_from": "0xd7700c8fbb6df79ce08d6d1d138547d097a8eb67",
@@ -22881,7 +24237,7 @@
       "kind": "burn",
       "block": 47178323,
       "tx_hash": "0x0061d44813c17a1016f51be1d68f8c86670dcb3cf0c668560abe353d7fd66364",
-      "log_index": 5,
+      "log_index": 6,
       "amount": "10973030000000000000000",
       "counterparty": "0xd7700c8fbb6df79ce08d6d1d138547d097a8eb67",
       "tx_from": "0xd7700c8fbb6df79ce08d6d1d138547d097a8eb67",
@@ -23589,7 +24945,7 @@
       "kind": "mint",
       "block": 47313300,
       "tx_hash": "0x192ba9e49533a88985760e49f5e46fb0671f35753f6230720619ef28edd28cbe",
-      "log_index": 7,
+      "log_index": 8,
       "amount": "28997640880000000000000",
       "counterparty": "0xd7700c8fbb6df79ce08d6d1d138547d097a8eb67",
       "tx_from": "0xbc924f707ca021f9b220088afe56c85b9cb43085",
@@ -23628,7 +24984,7 @@
       "amount": "985000000000000000000",
       "tx_hash": "0x973ffae966a4117988101c26b8bbdde3256619169a1988796b8eb713a8cf0dcc",
       "explorer_url": "https://basescan.org/tx/0x973ffae966a4117988101c26b8bbdde3256619169a1988796b8eb713a8cf0dcc",
-      "reason": "Salió por el puente el 29/07/2026 hacia Celo y no encontramos la emisión del otro lado (buscada hasta el bloque 79069091 de Celo)."
+      "reason": "Salió por el puente el 29/07/2026 hacia Celo y no encontramos la emisión del otro lado (buscada hasta el bloque 79150197 de Celo)."
     },
     {
       "chain": "worldchain",
@@ -23655,7 +25011,7 @@
       "amount": "485000000000000000000",
       "tx_hash": "0x854723b7fd5543cab04edbdf903dd4dd271567da6477449741d50c2070789615",
       "explorer_url": "https://polygonscan.com/tx/0x854723b7fd5543cab04edbdf903dd4dd271567da6477449741d50c2070789615",
-      "reason": "Salió por el puente el 02/09/2026 hacia Gnosis y no encontramos la emisión del otro lado (buscada hasta el bloque 48555205 de Gnosis)."
+      "reason": "Salió por el puente el 02/09/2026 hacia Gnosis y no encontramos la emisión del otro lado (buscada hasta el bloque 48571094 de Gnosis)."
     },
     {
       "chain": "hyperevm",
@@ -23664,7 +25020,7 @@
       "amount": "19965120000000000000000",
       "tx_hash": "0x3ff080dac8b08f89c84dbb2c4e076b2bfc69b66c2df2a7493788675023f526c6",
       "explorer_url": "https://hyperevmscan.io/tx/0x3ff080dac8b08f89c84dbb2c4e076b2bfc69b66c2df2a7493788675023f526c6",
-      "reason": "Salió por el puente el 14/09/2026 hacia Ethereum y no encontramos la emisión del otro lado (buscada hasta el bloque 26106772 de Ethereum)."
+      "reason": "Salió por el puente el 14/09/2026 hacia Ethereum y no encontramos la emisión del otro lado (buscada hasta el bloque 26113511 de Ethereum)."
     }
   ],
   "bridge": {
@@ -23674,81 +25030,6 @@
     "contracts": {
       "contracts_checked": [
         {
-          "chain": "polygon",
-          "role": "bridge_deposit",
-          "address": "0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
-        },
-        {
-          "chain": "polygon",
-          "role": "limited_minter_bridge",
-          "address": "0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
-        },
-        {
-          "chain": "polygon",
-          "role": "limited_minter",
-          "address": "0xd168cfbbe260d48cd119497a9a2ee8482080c5e7"
-        },
-        {
-          "chain": "bsc",
-          "role": "bridge_deposit",
-          "address": "0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
-        },
-        {
-          "chain": "bsc",
-          "role": "limited_minter_bridge",
-          "address": "0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
-        },
-        {
-          "chain": "bsc",
-          "role": "limited_minter",
-          "address": "0xd168cfbbe260d48cd119497a9a2ee8482080c5e7"
-        },
-        {
-          "chain": "gnosis",
-          "role": "bridge_deposit",
-          "address": "0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
-        },
-        {
-          "chain": "gnosis",
-          "role": "limited_minter_bridge",
-          "address": "0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
-        },
-        {
-          "chain": "gnosis",
-          "role": "limited_minter",
-          "address": "0xd168cfbbe260d48cd119497a9a2ee8482080c5e7"
-        },
-        {
-          "chain": "worldchain",
-          "role": "bridge_deposit",
-          "address": "0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
-        },
-        {
-          "chain": "worldchain",
-          "role": "limited_minter_bridge",
-          "address": "0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
-        },
-        {
-          "chain": "worldchain",
-          "role": "limited_minter",
-          "address": "0xde7ec97cfdee9f20f9d256f4a0a0d694479fa2e0"
-        },
-        {
-          "chain": "arc",
-          "role": "bridge_deposit",
-          "address": "0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
-        },
-        {
-          "chain": "arc",
-          "role": "limited_minter_bridge",
-          "address": "0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
-        },
-        {
-          "chain": "arc",
-          "role": "limited_minter",
-          "address": "0xd168cfbbe260d48cd119497a9a2ee8482080c5e7"
-        },
-        {
           "chain": "ethereum",
           "role": "bridge_deposit",
           "address": "0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
@@ -23760,21 +25041,6 @@
         },
         {
           "chain": "ethereum",
-          "role": "limited_minter",
-          "address": "0xd168cfbbe260d48cd119497a9a2ee8482080c5e7"
-        },
-        {
-          "chain": "hyperevm",
-          "role": "bridge_deposit",
-          "address": "0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
-        },
-        {
-          "chain": "hyperevm",
-          "role": "limited_minter_bridge",
-          "address": "0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
-        },
-        {
-          "chain": "hyperevm",
           "role": "limited_minter",
           "address": "0xd168cfbbe260d48cd119497a9a2ee8482080c5e7"
         },
@@ -23794,6 +25060,66 @@
           "address": "0xf469ec9debf7f0adeba4d1db2ff5c70707beeb30"
         },
         {
+          "chain": "polygon",
+          "role": "bridge_deposit",
+          "address": "0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
+        },
+        {
+          "chain": "polygon",
+          "role": "limited_minter_bridge",
+          "address": "0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
+        },
+        {
+          "chain": "polygon",
+          "role": "limited_minter",
+          "address": "0xd168cfbbe260d48cd119497a9a2ee8482080c5e7"
+        },
+        {
+          "chain": "gnosis",
+          "role": "bridge_deposit",
+          "address": "0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
+        },
+        {
+          "chain": "gnosis",
+          "role": "limited_minter_bridge",
+          "address": "0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
+        },
+        {
+          "chain": "gnosis",
+          "role": "limited_minter",
+          "address": "0xd168cfbbe260d48cd119497a9a2ee8482080c5e7"
+        },
+        {
+          "chain": "bsc",
+          "role": "bridge_deposit",
+          "address": "0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
+        },
+        {
+          "chain": "bsc",
+          "role": "limited_minter_bridge",
+          "address": "0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
+        },
+        {
+          "chain": "bsc",
+          "role": "limited_minter",
+          "address": "0xd168cfbbe260d48cd119497a9a2ee8482080c5e7"
+        },
+        {
+          "chain": "worldchain",
+          "role": "bridge_deposit",
+          "address": "0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
+        },
+        {
+          "chain": "worldchain",
+          "role": "limited_minter_bridge",
+          "address": "0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
+        },
+        {
+          "chain": "worldchain",
+          "role": "limited_minter",
+          "address": "0xde7ec97cfdee9f20f9d256f4a0a0d694479fa2e0"
+        },
+        {
           "chain": "celo",
           "role": "bridge_deposit",
           "address": "0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
@@ -23805,6 +25131,36 @@
         },
         {
           "chain": "celo",
+          "role": "limited_minter",
+          "address": "0xd168cfbbe260d48cd119497a9a2ee8482080c5e7"
+        },
+        {
+          "chain": "hyperevm",
+          "role": "bridge_deposit",
+          "address": "0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
+        },
+        {
+          "chain": "hyperevm",
+          "role": "limited_minter_bridge",
+          "address": "0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
+        },
+        {
+          "chain": "hyperevm",
+          "role": "limited_minter",
+          "address": "0xd168cfbbe260d48cd119497a9a2ee8482080c5e7"
+        },
+        {
+          "chain": "arc",
+          "role": "bridge_deposit",
+          "address": "0x465e642387d3d73a57cdc1368ffa53a800ba5d47"
+        },
+        {
+          "chain": "arc",
+          "role": "limited_minter_bridge",
+          "address": "0x46167cb034fec6cec46caed4f61281f5aa0eb0e6"
+        },
+        {
+          "chain": "arc",
           "role": "limited_minter",
           "address": "0xd168cfbbe260d48cd119497a9a2ee8482080c5e7"
         }
