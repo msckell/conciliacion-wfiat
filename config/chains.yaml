@@ -74,8 +74,10 @@ chains:
       - https://1rpc.io/gnosis
     logs_rpc: {urls: [https://rpc.gnosischain.com], grid: 100000}
     explorer: https://gnosisscan.io
-    explorer_api:
-      - {kind: blockscout, url: https://gnosis.blockscout.com/api}
+    # No free second source: gnosis.blockscout.com/api redirects to gnosisscan.io (checked
+    # 2026-10-03), and the free Etherscan V2 plan does not cover Gnosis. The close shows
+    # Gnosis with limited verification.
+    explorer_api: []
 
   bsc:
     name: BNB Smart Chain
@@ -86,7 +88,12 @@ chains:
       - https://bsc-dataseed1.defibit.io
       - https://bsc-rpc.publicnode.com
       - https://bsc-mainnet.public.blastapi.io
-    # No free logs API on BNB: the tx list comes from BscScan (data/sources), amounts from receipts.
+    # Public BNB endpoints refuse eth_getLogs over more than 25 to 50 blocks, or need a key.
+    # NodeReal MegaNode has a free plan with archive data (key in NODEREAL_API_KEY). Without
+    # the key this source is absent and the BscScan list below is the only one.
+    logs_rpc: {urls: ["https://bsc-mainnet.nodereal.io/v1/${NODEREAL_API_KEY}"], grid: 50000}
+    # Manual export of the BscScan pages, with the block range it covers (second source).
+    # Amounts come from the receipts.
     logs_bscscan_list: data/sources/bscscan_zero_address_transfers.json
     explorer: https://bscscan.com
     explorer_api: []

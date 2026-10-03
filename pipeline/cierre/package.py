@@ -17,8 +17,8 @@ from openpyxl.utils import get_column_letter
 from cierre import REPO_ROOT
 from cierre.agent.memo import fmt_date
 from cierre.config import Chain, Token
-from cierre.cutoffs import CONVENTIONS
-from cierre.ledger import override_for
+from cierre.cutoffs import CONVENTIONS, period
+from cierre.ledger import NOT_CONFIGURED, override_for
 from cierre.scope import APPLICABLE, manifest_from_engine
 
 ART = CONVENTIONS["ART"]
@@ -53,6 +53,11 @@ REASON_ES = {
     "network_not_live": "la red no tenía bloques al corte",
     "created_after_cutoff": "el contrato se creó después del corte",
     "not_deployed": "el contrato no está desplegado en esta red",
+}
+VERIFICATION_ES = {
+    "verified": "verificado con dos fuentes",
+    "limited": "verificación limitada",
+    "discrepancy": "las fuentes no coinciden",
 }
 # Pair statuses that leave the close incomplete.
 INCOMPLETE = ("not_reconciled", "error", "missing", "unknown")
@@ -120,6 +125,7 @@ def build(
     return {
         "cutoff": cutoff,
         "previous_cutoff": prev,
+        "period": period(prev, cutoff),
         "convention": convention,
         "cutoff_instant": f"{cutoff} 23:59:59 {ART.key}",
         "generated_at": datetime.now(UTC).isoformat(timespec="seconds"),
@@ -171,6 +177,7 @@ def _scope_rows(manifest: dict, by_chain: dict[str, dict]) -> list[dict]:
             row["detail"] = (c or {}).get("error") or "the engine returned nothing for it"
         elif t.get("passed"):
             status = "reconciled"
+            row["verification"] = _verification(t, c)
         elif t.get("status") in ("not_applicable", "unknown"):
             status = "error"
             row["detail"] = f"the engine says {t['status']}, the scope says applicable"
@@ -184,6 +191,63 @@ def _scope_rows(manifest: dict, by_chain: dict[str, dict]) -> list[dict]:
     return rows
 
 
+def _source_label(name: str) -> str:
+    """'blockscout:https://base.blockscout.com/api' -> 'base.blockscout.com'."""
+    rest = name.split(":", 1)[-1]
+    return rest.split("//", 1)[-1].split("/", 1)[0]
+
+
+def _verification(t: dict, c: dict) -> dict:
+    """Whether a reconciled pair was also checked against an independent source.
+
+    verified: two or more sources answered the whole range and hold the same events.
+    discrepancy: they answered and differ (kept for a person, even if one reconciles).
+    limited: only one source answered. Arithmetic alone cannot see a mint and a burn of the
+    same amount missing together, so a person should review it."""
+    sc = t.get("source_comparison") or {}
+    answered = sorted(set(t.get("sources_complete", [])) | set(t.get("sources_incomplete", [])))
+    failures = c.get("sources_failed") or {}
+    out = {
+        "sources": answered,
+        "failed": sorted(n for n, e in failures.items() if not e.startswith(NOT_CONFIGURED)),
+        "needs_key": sorted(n for n, e in failures.items() if e.startswith(NOT_CONFIGURED)),
+    }
+    if sc.get("compared") and sc.get("agree"):
+        return out | {"status": "verified"}
+    if sc.get("compared"):
+        return out | {
+            "status": "discrepancy",
+            "not_reconciling": t.get("sources_incomplete", []),
+            "differences": {
+                name: {side: len(v) for side, v in d.items()}
+                for name, d in (sc.get("diffs") or {}).items()
+            },
+        }
+    return out | {"status": "limited"}
+
+
+def verification_text(v: dict) -> str:
+    """Spanish detail of a verification status, for the Excel and Slack."""
+    if v["status"] == "verified":
+        return "Coinciden " + " y ".join(_source_label(n) for n in v["sources"]) + "."
+    if v["status"] == "discrepancy":
+        bad = ", ".join(_source_label(n) for n in v.get("not_reconciling", []))
+        text = "Las fuentes no tienen los mismos movimientos."
+        return text + (f" {bad} no concilia." if bad else " Las dos concilian.")
+    if v["failed"]:
+        return (
+            "Una sola fuente: no respondió "
+            + ", ".join(_source_label(n) for n in v["failed"])
+            + "."
+        )
+    if v.get("needs_key"):
+        hosts = ", ".join(_source_label(n) for n in v["needs_key"])
+        return (
+            f"Una sola fuente: la segunda ({hosts}) necesita una key gratuita que no está cargada."
+        )
+    return "Una sola fuente: no hay una segunda fuente gratuita para esta red."
+
+
 def _status(pairs: list[dict], network_rows: list[dict]) -> dict:
     """Arithmetic and completeness kept apart. all_reconciled needs both."""
     reconciliation_passed = not any(r["status"] == "not_reconciled" for r in pairs) and all(
@@ -191,11 +255,31 @@ def _status(pairs: list[dict], network_rows: list[dict]) -> dict:
     )
     data_complete = not any(r["status"] in INCOMPLETE for r in pairs)
     ok = reconciliation_passed and data_complete
+    checked = [r for r in pairs if r["status"] == "reconciled"]
+    counts: dict[str, int] = {}
+    for r in checked:
+        counts[r["verification"]["status"]] = counts.get(r["verification"]["status"], 0) + 1
     return {
         "all_reconciled": ok,
         "reconciliation_passed": reconciliation_passed,
         "data_complete": data_complete,
+        # A close with limited verification can be shown, marked as such, with a review
+        # recommended (Maxi's decision, 2026-10-03).
         "close_ready": ok,
+        "source_check": {
+            "counts": counts,
+            "complete": ok and counts.get("verified", 0) == len(checked),
+            "review": [
+                {
+                    "token": r["token"],
+                    "chain": r["chain"],
+                    "status": r["verification"]["status"],
+                    "detail": verification_text(r["verification"]),
+                }
+                for r in checked
+                if r["verification"]["status"] != "verified"
+            ],
+        },
     }
 
 
@@ -527,7 +611,11 @@ def write_excel(pkg: dict, chains: dict[str, Chain], path) -> None:
 def _summary_sheet(ws, pkg: dict, names: dict[str, str]) -> None:
     cut, prev = fmt_date(pkg["cutoff"]), fmt_date(pkg["previous_cutoff"])
     _logo(ws)
-    ws["A2"] = f"Cierre trimestral wFIAT al {cut}"
+    ws["A2"] = (
+        f"Cierre trimestral wFIAT al {cut}"
+        if pkg["period"]["kind"] == "quarter"
+        else f"Cierre wFIAT del {prev} al {cut}"
+    )
     ws["A2"].font = TITLE
     ws["A3"] = "Demo independiente para Ripio, por Máximo Sckell. No es una herramienta oficial."
     ws["A4"] = (
@@ -609,6 +697,8 @@ def _summary_sheet(ws, pkg: dict, names: dict[str, str]) -> None:
     )
     r += 1
     ws.cell(row=r, column=1, value=pkg["convention_check"]["note"])
+    r += 1
+    ws.cell(row=r, column=1, value=source_check_line(pkg["source_check"], len(pkg["by_network"])))
     r += 2
     ws.cell(
         row=r,
@@ -619,6 +709,25 @@ def _summary_sheet(ws, pkg: dict, names: dict[str, str]) -> None:
         ),
     )
     _widths(ws, [10, 18, 16, 16, 18, 16, 16, 16, 16, 16, 12, 60])
+
+
+def source_check_line(check: dict, reconciled: int) -> str:
+    """One Spanish line: how many reconciled pairs a second source confirmed, and the rest."""
+    n_ok = check["counts"].get("verified", 0)
+    line = f"Verificación con una segunda fuente: {n_ok} de {reconciled} pares."
+    limited = check["counts"].get("limited", 0)
+    disc = check["counts"].get("discrepancy", 0)
+    parts = []
+    if limited:
+        parts.append(f"{limited} con verificación limitada (una sola fuente)")
+    if disc:
+        parts.append(f"{disc} donde las fuentes no coinciden")
+    if parts:
+        line += (
+            " " + " y ".join(parts).capitalize() + ". Recomendamos que lo revise una persona "
+            "(detalle en la hoja Conciliación)."
+        )
+    return line
 
 
 def _scope_line(scope: dict) -> str:
@@ -720,7 +829,8 @@ def _movements_sheet(ws, pkg: dict, chains: dict[str, Chain], names: dict[str, s
         ws.cell(row=i, column=8, value=m["block"])
         _link(ws.cell(row=i, column=9), m.get("explorer_url"), m["tx_hash"])
         ws.cell(row=i, column=10, value=m["counterparty"])
-        ws.cell(row=i, column=11, value=BRIDGE_ES.get(b.get("status"), "") if b else "")
+        status = BRIDGE_ES.get(b.get("status"), "") if b else ""
+        ws.cell(row=i, column=11, value=status.replace("trimestre", pkg["period"]["word"]))
         if other:
             _link(
                 ws.cell(row=i, column=12),
@@ -767,8 +877,15 @@ def _reconciliation_sheet(ws, pkg: dict, names: dict[str, str]) -> None:
             "Fuente que concilia",
             "Otras fuentes completas",
             "Fuentes incompletas",
+            "Verificación",
+            "Detalle de la verificación",
         ],
     )
+    verif = {
+        (x["token"], x["chain"]): x["verification"]
+        for x in pkg["scope"]["pairs"]
+        if x.get("verification")
+    }
     for i, row in enumerate(pkg["by_network"], 2):
         _write_row(
             ws,
@@ -786,6 +903,8 @@ def _reconciliation_sheet(ws, pkg: dict, names: dict[str, str]) -> None:
                 row["source_used"],
                 ", ".join(row["other_sources_complete"]),
                 ", ".join(row["sources_incomplete"]),
+                VERIFICATION_ES[verif[(row["token"], row["chain"])]["status"]],
+                verification_text(verif[(row["token"], row["chain"])]),
             ],
         )
     r = len(pkg["by_network"]) + 3
@@ -818,7 +937,7 @@ def _reconciliation_sheet(ws, pkg: dict, names: dict[str, str]) -> None:
                     ", ".join(f"{k} {v}" for k, v in ev.items()),
                 ],
             )
-    _widths(ws, [8, 14, 32, 30, 30, 32, 32, 11, 13, 40, 30, 30])
+    _widths(ws, [8, 14, 32, 30, 30, 32, 32, 11, 13, 40, 30, 30, 24, 60])
 
 
 def _methodology_sheet(ws, pkg: dict) -> None:

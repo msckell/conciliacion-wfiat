@@ -7,6 +7,8 @@ with each other, event by event.
 
 from __future__ import annotations
 
+from collections import Counter
+
 from cierre.cache import DiskCache
 from cierre.config import Chain, Token
 from cierre.ledger import Movement, collect_sources_multi
@@ -25,8 +27,13 @@ def collect_sources(
 
 
 def compare_sources(sources: dict[str, list[Movement]]) -> dict:
-    """Do all log sources hold the same movements? Differences are listed against the first."""
-    keys = {name: {(m.key, m.kind, m.amount) for m in ms} for name, ms in sources.items()}
+    """Do all log sources hold the same movements? Events are compared by transaction, kind,
+    amount and account, not by log index: HyperEVM nodes number logs differently. Every
+    difference against the first source is kept, so both sets stay on record."""
+    keys = {
+        name: Counter((m.tx_hash.lower(), m.kind, m.amount, m.counterparty.lower()) for m in ms)
+        for name, ms in sources.items()
+    }
     names = list(keys)
     if len(names) < 2:
         return {"compared": False, "agree": None}
@@ -35,8 +42,8 @@ def compare_sources(sources: dict[str, list[Movement]]) -> dict:
     for n in names[1:]:
         if keys[n] != base:
             diffs[n] = {
-                f"only_in_{names[0]}": sorted(str(x) for x in base - keys[n])[:20],
-                f"only_in_{n}": sorted(str(x) for x in keys[n] - base)[:20],
+                f"only_in_{names[0]}": sorted(str(x) for x in (base - keys[n]).elements()),
+                f"only_in_{n}": sorted(str(x) for x in (keys[n] - base).elements()),
             }
     return {"compared": True, "agree": not diffs, "diffs": diffs}
 

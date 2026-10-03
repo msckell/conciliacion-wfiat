@@ -17,22 +17,75 @@ from cierre.rpc import USER_AGENT
 
 PAGE_CAP = 1000
 MAX_RESET_WAIT = 660  # longest pause, in seconds, while waiting for a rate limit window
+# Total time one explorer source may take on one network in one run, waits included. It is
+# a second source: when it runs out, the close keeps the first one and says the check was
+# limited. Override with EXPLORER_BUDGET_S.
+DEFAULT_BUDGET_S = 300
 
 
 class ExplorerError(Exception):
     pass
 
 
+class BudgetExhausted(ExplorerError):
+    """The source used up its time budget. What it answered before stays in the cache."""
+
+
+class Budget:
+    """A deadline for one source. `clock` and `sleep` are injectable so tests do not wait."""
+
+    def __init__(self, seconds: float, clock=time.monotonic, sleep=time.sleep) -> None:
+        self.seconds = seconds
+        self.clock = clock
+        self._sleep = sleep
+        self.deadline = clock() + seconds
+        self.requests = 0
+        self.waited = 0.0
+
+    def remaining(self) -> float:
+        return self.deadline - self.clock()
+
+    def check(self) -> None:
+        if self.remaining() <= 0:
+            raise BudgetExhausted(self.summary("time budget exhausted"))
+
+    def sleep(self, seconds: float) -> None:
+        """Wait, unless the wait would end past the deadline."""
+        if seconds >= self.remaining():
+            raise BudgetExhausted(self.summary(f"next wait of {seconds:.0f} s exceeds the budget"))
+        self._sleep(seconds)
+        self.waited += seconds
+
+    def summary(self, what: str) -> str:
+        return (
+            f"{what}: budget {self.seconds:.0f} s, {self.requests} requests, "
+            f"{self.waited:.0f} s waiting"
+        )
+
+
+def budget_seconds() -> float:
+    return float(os.environ.get("EXPLORER_BUDGET_S") or DEFAULT_BUDGET_S)
+
+
 class ExplorerClient:
     def __init__(
-        self, chain: Chain, api: ExplorerApi, cache: DiskCache | None, min_interval: float = 1.0
+        self,
+        chain: Chain,
+        api: ExplorerApi,
+        cache: DiskCache | None,
+        min_interval: float = 1.0,
+        budget: Budget | None = None,
+        transport: httpx.BaseTransport | None = None,
     ) -> None:
         self.chain = chain
         self.api = api
         self.cache = cache
         self.min_interval = min_interval
+        self.budget = budget or Budget(budget_seconds())
         self._last = 0.0
-        self.http = httpx.Client(timeout=60, headers={"User-Agent": USER_AGENT})
+        self.http = httpx.Client(
+            timeout=60, headers={"User-Agent": USER_AGENT}, transport=transport
+        )
         self.key = os.environ.get("ETHERSCAN_API_KEY") if api.kind == "etherscan" else None
         if api.kind == "etherscan" and not self.key:
             raise ExplorerError("ETHERSCAN_API_KEY is not set")
@@ -44,35 +97,45 @@ class ExplorerClient:
     def _get(self, params: dict) -> list[dict]:
         if self.api.kind == "etherscan":
             params = {"chainid": self.chain.chain_id, **params, "apikey": self.key}
+        budget = self.budget
         for attempt in range(7):
-            wait = self._last + self.min_interval - time.monotonic()
+            budget.check()
+            wait = self._last + self.min_interval - budget.clock()
             if wait > 0:
-                time.sleep(wait)
-            self._last = time.monotonic()
+                budget.sleep(wait)
+            self._last = budget.clock()
+            budget.requests += 1
             try:
-                resp = self.http.get(self.api.url, params=params)
+                resp = self.http.get(
+                    self.api.url, params=params, timeout=max(1.0, min(60.0, budget.remaining()))
+                )
             except httpx.HTTPError as exc:
                 err = f"{type(exc).__name__}"
-                time.sleep(2 * (attempt + 1))
+                budget.sleep(2 * (attempt + 1))
                 continue
+            if 300 <= resp.status_code < 400:
+                # Not followed: a redirect can lead to another service, or carry a key.
+                target = resp.headers.get("location", "").split("//")[-1].split("/")[0]
+                raise ExplorerError(f"{self.label}: HTTP {resp.status_code} redirect to {target}")
             if resp.status_code == 429 or resp.status_code >= 500:
                 err = f"HTTP {resp.status_code}"
-                # Blockscout says when the next rate limit window opens, in milliseconds.
+                # Blockscout says when the next rate limit window opens, in milliseconds. A
+                # missing or malformed header falls back to a growing pause.
                 reset_ms = resp.headers.get("x-ratelimit-reset", "")
                 if resp.status_code == 429 and reset_ms.isdigit():
-                    time.sleep(min(int(reset_ms) / 1000 + 2, MAX_RESET_WAIT))
+                    budget.sleep(min(int(reset_ms) / 1000 + 2, MAX_RESET_WAIT))
                 else:
-                    time.sleep(5 * (attempt + 1))
+                    budget.sleep(5 * (attempt + 1))
                 continue
             try:
                 data = resp.json()
             except ValueError:
                 err = f"HTTP {resp.status_code} non JSON body: {resp.text[:80]!r}"
-                time.sleep(3 * (attempt + 1))
+                budget.sleep(3 * (attempt + 1))
                 continue
             if not isinstance(data, dict):
                 err = f"HTTP {resp.status_code} unexpected body: {resp.text[:80]!r}"
-                time.sleep(3 * (attempt + 1))
+                budget.sleep(3 * (attempt + 1))
                 continue
             result = data.get("result")
             if data.get("status") == "1" and isinstance(result, list):
@@ -82,7 +145,7 @@ class ExplorerClient:
                 return []
             if "rate limit" in msg.lower() or "max calls" in msg.lower():
                 err = msg
-                time.sleep(3 * (attempt + 1))
+                budget.sleep(3 * (attempt + 1))
                 continue
             raise ExplorerError(f"{self.label}: {msg}")
         raise ExplorerError(f"{self.label}: gave up after retries: {err}")

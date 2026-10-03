@@ -14,7 +14,7 @@ from typing import Any
 import httpx
 
 from cierre.cache import DiskCache
-from cierre.config import Chain
+from cierre.config import Chain, redact
 
 USER_AGENT = "cierre-wfiat-demo/0.1 (+https://github.com/msckell)"
 
@@ -161,7 +161,7 @@ class RpcClient:
                 continue
             result = outcome[1]
             if result is None and require_result:
-                errors.append(f"{ep.url}: null result")
+                errors.append(f"{redact(ep.url)}: null result")
                 continue
             # "0x" can mean "no contract" or a lagging node, so it is not cached.
             if cache and self.cache is not None and result not in (None, "0x"):
@@ -220,17 +220,17 @@ class RpcClient:
             try:
                 resp = self.http.post(ep.url, json=body)
             except httpx.HTTPError as exc:
-                errors.append(f"{ep.url}: {type(exc).__name__}")
+                errors.append(f"{redact(ep.url)}: {type(exc).__name__}")
                 time.sleep(1.5 * (attempt + 1))
                 continue
             if resp.status_code == 429 or resp.status_code >= 500:
-                errors.append(f"{ep.url}: HTTP {resp.status_code}")
+                errors.append(f"{redact(ep.url)}: HTTP {resp.status_code}")
                 time.sleep(2.0 * (attempt + 1))
                 continue
             try:
                 data = resp.json()
             except ValueError:
-                errors.append(f"{ep.url}: HTTP {resp.status_code} non JSON body")
+                errors.append(f"{redact(ep.url)}: HTTP {resp.status_code} non JSON body")
                 text = resp.text[:300]
                 if _RANGE_PATTERNS.search(text):
                     return "range"
@@ -240,7 +240,7 @@ class RpcClient:
                 if not isinstance(err, dict):  # some public nodes send the error as plain text
                     err = {"message": str(err)}
                 msg = f"{err.get('code')} {err.get('message')} {err.get('data') or ''}".strip()
-                errors.append(f"{ep.url}: {msg[:200]}")
+                errors.append(f"{redact(ep.url)}: {msg[:200]}")
                 if method == "eth_call" and "revert" in msg.lower():
                     raise CallReverted(msg)
                 if _RATE_PATTERNS.search(msg) or err.get("code") == 429:
@@ -254,7 +254,7 @@ class RpcClient:
                     return "state"
                 return "failed"
             if resp.status_code != 200 or not isinstance(data, dict) or "result" not in data:
-                errors.append(f"{ep.url}: HTTP {resp.status_code} unexpected body")
+                errors.append(f"{redact(ep.url)}: HTTP {resp.status_code} unexpected body")
                 return "failed"
             return ("ok", data["result"])
         return "failed"

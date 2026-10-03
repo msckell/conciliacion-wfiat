@@ -13,10 +13,12 @@ from dataclasses import dataclass, replace
 
 from cierre import REPO_ROOT
 from cierre.cache import DiskCache
-from cierre.config import Chain, Token
+from cierre.config import Chain, Token, redact
 from cierre.explorer import ExplorerClient, ExplorerError
 from cierre.rpc import INVALID_RANGE_PATTERNS, RangeTooLarge, RpcClient, RpcError
 
+# Prefix of a source failure that only means a free key is not loaded.
+NOT_CONFIGURED = "not configured: "
 TRANSFER_TOPIC = "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
 ZERO_TOPIC = "0x" + "0" * 64
 
@@ -191,12 +193,44 @@ def _dedupe(movements: list[Movement]) -> list[Movement]:
     return sorted(seen.values(), key=lambda m: (m.block, m.log_index))
 
 
+class CoverageError(ValueError):
+    """A transaction list that does not prove it covers the range asked for."""
+
+
+def check_listing(listing: dict, tokens: list[Token], lo: int, hi: int) -> list[dict]:
+    """The transactions of a manual export, only if the export proves it covers [lo, hi]
+    for every token: a block range that holds it, and as many rows as the page said it had.
+    An empty list without that proof is not "no movements"."""
+    start, end = listing.get("covers_from_block"), listing.get("covers_to_block")
+    if start is None or end is None:
+        raise CoverageError("the list does not say which blocks it covers")
+    if start > lo or end < hi:
+        raise CoverageError(f"the list covers {start}..{end}, the range is {lo}..{hi}")
+    txs: dict[str, dict] = {}
+    for t in tokens:
+        entry = (listing.get("tokens") or {}).get(t.symbol)
+        if entry is None:
+            raise CoverageError(f"{t.symbol} is not in the list")
+        rows = entry.get("transactions") or []
+        if entry.get("total_shown") != len(rows):
+            raise CoverageError(
+                f"{t.symbol}: the page showed {entry.get('total_shown')} transactions, "
+                f"the list has {len(rows)}"
+            )
+        for tx in rows:
+            h = tx["tx_hash"].lower()
+            if h in txs and txs[h]["block"] != tx["block"]:
+                raise CoverageError(f"{h} appears with two different blocks")
+            txs[h] = tx
+    return list(txs.values())
+
+
 def _bscscan_movements(
     rpc: RpcClient, chain: Chain, tokens: list[Token], lo: int, hi: int
 ) -> list[Movement]:
     listing = json.loads((REPO_ROOT / chain.logs_bscscan_list).read_text(encoding="utf-8"))
     addrs = {t.address.lower() for t in tokens}
-    txs = [tx for t in tokens for tx in listing["tokens"][t.symbol]["transactions"]]
+    txs = check_listing(listing, tokens, lo, hi)
     out: list[Movement] = []
     for tx in txs:
         if not lo <= tx["block"] <= hi:
@@ -229,8 +263,10 @@ def collect_sources_multi(
     out: a failure is not "no movements". An explorer source counts only if it answered for
     every token."""
     sources: dict[str, list[Movement]] = {}
+    for label, var in chain.logs_missing_keys:
+        failed[label] = f"{NOT_CONFIGURED}{var} is not set"
     if chain.logs_rpc_urls:
-        name = "rpc:" + ",".join(u.split("//")[1] for u in chain.logs_rpc_urls)
+        name = "rpc:" + ",".join(redact(u.split("//")[1]) for u in chain.logs_rpc_urls)
         rpc = RpcClient(replace(chain, rpc_urls=chain.logs_rpc_urls), cache)
         try:
             sources[name] = mints_and_burns_rpc(
@@ -244,11 +280,12 @@ def collect_sources_multi(
                 workers_per_endpoint=chain.logs_workers_per_endpoint,
             )
         except RpcError as exc:
-            failed[name] = str(exc)[:300]
+            failed[name] = redact(str(exc))[:300]
         finally:
             rpc.close()
     for api in chain.explorer_api:
         if api.kind == "etherscan" and not os.environ.get("ETHERSCAN_API_KEY"):
+            failed[f"{api.kind}:{api.url}"] = f"{NOT_CONFIGURED}ETHERSCAN_API_KEY is not set"
             continue
         ex = ExplorerClient(chain, api, cache)
         try:
@@ -258,9 +295,12 @@ def collect_sources_multi(
         except ExplorerError as exc:
             failed[ex.label] = str(exc)[:300]
     if chain.logs_bscscan_list:
+        name = "bscscan list + RPC receipts"
         rpc = RpcClient(chain, cache)
         try:
-            sources["bscscan list + RPC receipts"] = _bscscan_movements(rpc, chain, tokens, lo, hi)
+            sources[name] = _bscscan_movements(rpc, chain, tokens, lo, hi)
+        except (CoverageError, RpcError) as exc:
+            failed[name] = redact(str(exc))[:300]
         finally:
             rpc.close()
     return sources
