@@ -252,6 +252,9 @@ def test_default_cutoffs_are_the_certified_ones_and_the_closes():
 # A package with only what the run log counts and the notification read.
 PKG = {
     "all_reconciled": True,
+    "reconciliation_passed": True,
+    "data_complete": True,
+    "scope": {"expected": 1, "counts": {"reconciled": 1}},
     "by_network": [{"passed": True}],
     "networks_checked": ["base"],
     "networks": ["base"],
@@ -287,6 +290,9 @@ def _fake_close(monkeypatch, tmp_path, served=SERVED, engine=None):
     monkeypatch.setattr(runlog, "RUNS_PATH", data / "runs.jsonl")
     monkeypatch.setattr(alerts, "ALERT_SENT", tmp_path / "alert_sent")
     monkeypatch.setattr(close_run, "DiskCache", lambda: None)
+    monkeypatch.setattr(
+        close_run, "write_scope", lambda cutoff, cache: {"expected": 1, "counts": {"existing": 1}}
+    )
     monkeypatch.setattr(close_run, "run_close", lambda *args: engine or [{"chain": "base"}])
     monkeypatch.setattr(close_run, "build_package", lambda cutoff, use_overrides=True: PKG)
     monkeypatch.setattr(close_run, "verify_certificates", lambda: {"matched": 9, "total": 9})

@@ -1,0 +1,413 @@
+{
+  "chain": "hyperevm",
+  "name": "HyperEVM",
+  "previous_cutoff": "2026-01-31",
+  "cutoff": "2026-02-28",
+  "convention": "ART",
+  "history_endpoints": {
+    "https://rpc.hyperliquid.xyz/evm": "excluded in config (no_history)",
+    "https://hyperliquid.drpc.org": "serves historical state",
+    "https://rpc.hypurrscan.io": "excluded in config (no_history)",
+    "https://hyperliquid-json-rpc.stakely.io": "excluded in config (no_history)"
+  },
+  "cutoff_blocks": [
+    {
+      "cutoff": "2026-01-31",
+      "convention": "ART",
+      "instant_utc": "2026-02-01T02:59:59+00:00",
+      "unix": 1769914799,
+      "block": 26088451,
+      "block_timestamp": 1769914799,
+      "block_hash": "0x0b62f81d9f215f6c2bee41ad2c7cdc821240bb99378d9163d8d6ed29b70fb247",
+      "next_block_timestamp": 1769914800
+    },
+    {
+      "cutoff": "2026-01-31",
+      "convention": "UTC",
+      "instant_utc": "2026-01-31T23:59:59+00:00",
+      "unix": 1769903999,
+      "block": 26077471,
+      "block_timestamp": 1769903999,
+      "block_hash": "0x067771f0c5a81e3fe2711da37387765f39905bc10070a9c8090d6f4ec6031576",
+      "next_block_timestamp": 1769904000
+    },
+    {
+      "cutoff": "2026-02-28",
+      "convention": "ART",
+      "instant_utc": "2026-03-01T02:59:59+00:00",
+      "unix": 1772333999,
+      "block": 28547705,
+      "block_timestamp": 1772333999,
+      "block_hash": "0xdf133423a00591796580c871dfb141317ab4239906ece7b23f81c527de89a40c",
+      "next_block_timestamp": 1772334000
+    },
+    {
+      "cutoff": "2026-02-28",
+      "convention": "UTC",
+      "instant_utc": "2026-02-28T23:59:59+00:00",
+      "unix": 1772323199,
+      "block": 28536725,
+      "block_timestamp": 1772323199,
+      "block_hash": "0xbbfee4c838e8c7864a40ffb8d106a6c6b523ef961ba9e4533cf0c6aaf64ca46f",
+      "next_block_timestamp": 1772323200
+    }
+  ],
+  "tokens": {
+    "wARS": {
+      "conventions": {
+        "ART": {
+          "opening_block": 35699694,
+          "opening": "0",
+          "opening_basis": "contract created at block 35699695, after the previous cutoff",
+          "closing_block": 28547705,
+          "closing": "0",
+          "closing_reads": {},
+          "by_source": {
+            "rpc:hyperliquid-json-rpc.stakely.io,rpc.hypurrscan.io": {
+              "opening": "0",
+              "mints": "0",
+              "burns": "0",
+              "n_mints": 0,
+              "n_burns": 0,
+              "opening_plus_mints_minus_burns": "0",
+              "closing": "0",
+              "difference": "0",
+              "passed": true
+            }
+          }
+        },
+        "UTC": {
+          "opening_block": 35699694,
+          "opening": "0",
+          "opening_basis": "contract created at block 35699695, after the previous cutoff",
+          "closing_block": 28536725,
+          "closing": "0",
+          "closing_reads": {},
+          "by_source": {
+            "rpc:hyperliquid-json-rpc.stakely.io,rpc.hypurrscan.io": {
+              "opening": "0",
+              "mints": "0",
+              "burns": "0",
+              "n_mints": 0,
+              "n_burns": 0,
+              "opening_plus_mints_minus_burns": "0",
+              "closing": "0",
+              "difference": "0",
+              "passed": true
+            }
+          }
+        }
+      },
+      "source_comparison": {
+        "compared": false,
+        "agree": null
+      },
+      "sources_complete": [
+        "rpc:hyperliquid-json-rpc.stakely.io,rpc.hypurrscan.io"
+      ],
+      "sources_incomplete": [],
+      "passed": true,
+      "source_used": "rpc:hyperliquid-json-rpc.stakely.io,rpc.hypurrscan.io",
+      "movements": [],
+      "movements_between_conventions": []
+    },
+    "wBRL": {
+      "conventions": {
+        "ART": {
+          "opening_block": 35701320,
+          "opening": "0",
+          "opening_basis": "contract created at block 35701321, after the previous cutoff",
+          "closing_block": 28547705,
+          "closing": "0",
+          "closing_reads": {},
+          "by_source": {
+            "rpc:hyperliquid-json-rpc.stakely.io,rpc.hypurrscan.io": {
+              "opening": "0",
+              "mints": "0",
+              "burns": "0",
+              "n_mints": 0,
+              "n_burns": 0,
+              "opening_plus_mints_minus_burns": "0",
+              "closing": "0",
+              "difference": "0",
+              "passed": true
+            }
+          }
+        },
+        "UTC": {
+          "opening_block": 35701320,
+          "opening": "0",
+          "opening_basis": "contract created at block 35701321, after the previous cutoff",
+          "closing_block": 28536725,
+          "closing": "0",
+          "closing_reads": {},
+          "by_source": {
+            "rpc:hyperliquid-json-rpc.stakely.io,rpc.hypurrscan.io": {
+              "opening": "0",
+              "mints": "0",
+              "burns": "0",
+              "n_mints": 0,
+              "n_burns": 0,
+              "opening_plus_mints_minus_burns": "0",
+              "closing": "0",
+              "difference": "0",
+              "passed": true
+            }
+          }
+        }
+      },
+      "source_comparison": {
+        "compared": false,
+        "agree": null
+      },
+      "sources_complete": [
+        "rpc:hyperliquid-json-rpc.stakely.io,rpc.hypurrscan.io"
+      ],
+      "sources_incomplete": [],
+      "passed": true,
+      "source_used": "rpc:hyperliquid-json-rpc.stakely.io,rpc.hypurrscan.io",
+      "movements": [],
+      "movements_between_conventions": []
+    },
+    "wMXN": {
+      "conventions": {
+        "ART": {
+          "opening_block": 35701060,
+          "opening": "0",
+          "opening_basis": "contract created at block 35701061, after the previous cutoff",
+          "closing_block": 28547705,
+          "closing": "0",
+          "closing_reads": {},
+          "by_source": {
+            "rpc:hyperliquid-json-rpc.stakely.io,rpc.hypurrscan.io": {
+              "opening": "0",
+              "mints": "0",
+              "burns": "0",
+              "n_mints": 0,
+              "n_burns": 0,
+              "opening_plus_mints_minus_burns": "0",
+              "closing": "0",
+              "difference": "0",
+              "passed": true
+            }
+          }
+        },
+        "UTC": {
+          "opening_block": 35701060,
+          "opening": "0",
+          "opening_basis": "contract created at block 35701061, after the previous cutoff",
+          "closing_block": 28536725,
+          "closing": "0",
+          "closing_reads": {},
+          "by_source": {
+            "rpc:hyperliquid-json-rpc.stakely.io,rpc.hypurrscan.io": {
+              "opening": "0",
+              "mints": "0",
+              "burns": "0",
+              "n_mints": 0,
+              "n_burns": 0,
+              "opening_plus_mints_minus_burns": "0",
+              "closing": "0",
+              "difference": "0",
+              "passed": true
+            }
+          }
+        }
+      },
+      "source_comparison": {
+        "compared": false,
+        "agree": null
+      },
+      "sources_complete": [
+        "rpc:hyperliquid-json-rpc.stakely.io,rpc.hypurrscan.io"
+      ],
+      "sources_incomplete": [],
+      "passed": true,
+      "source_used": "rpc:hyperliquid-json-rpc.stakely.io,rpc.hypurrscan.io",
+      "movements": [],
+      "movements_between_conventions": []
+    },
+    "wCOP": {
+      "conventions": {
+        "ART": {
+          "opening_block": 35703975,
+          "opening": "0",
+          "opening_basis": "contract created at block 35703976, after the previous cutoff",
+          "closing_block": 28547705,
+          "closing": "0",
+          "closing_reads": {},
+          "by_source": {
+            "rpc:hyperliquid-json-rpc.stakely.io,rpc.hypurrscan.io": {
+              "opening": "0",
+              "mints": "0",
+              "burns": "0",
+              "n_mints": 0,
+              "n_burns": 0,
+              "opening_plus_mints_minus_burns": "0",
+              "closing": "0",
+              "difference": "0",
+              "passed": true
+            }
+          }
+        },
+        "UTC": {
+          "opening_block": 35703975,
+          "opening": "0",
+          "opening_basis": "contract created at block 35703976, after the previous cutoff",
+          "closing_block": 28536725,
+          "closing": "0",
+          "closing_reads": {},
+          "by_source": {
+            "rpc:hyperliquid-json-rpc.stakely.io,rpc.hypurrscan.io": {
+              "opening": "0",
+              "mints": "0",
+              "burns": "0",
+              "n_mints": 0,
+              "n_burns": 0,
+              "opening_plus_mints_minus_burns": "0",
+              "closing": "0",
+              "difference": "0",
+              "passed": true
+            }
+          }
+        }
+      },
+      "source_comparison": {
+        "compared": false,
+        "agree": null
+      },
+      "sources_complete": [
+        "rpc:hyperliquid-json-rpc.stakely.io,rpc.hypurrscan.io"
+      ],
+      "sources_incomplete": [],
+      "passed": true,
+      "source_used": "rpc:hyperliquid-json-rpc.stakely.io,rpc.hypurrscan.io",
+      "movements": [],
+      "movements_between_conventions": []
+    },
+    "wCLP": {
+      "conventions": {
+        "ART": {
+          "opening_block": 35704901,
+          "opening": "0",
+          "opening_basis": "contract created at block 35704902, after the previous cutoff",
+          "closing_block": 28547705,
+          "closing": "0",
+          "closing_reads": {},
+          "by_source": {
+            "rpc:hyperliquid-json-rpc.stakely.io,rpc.hypurrscan.io": {
+              "opening": "0",
+              "mints": "0",
+              "burns": "0",
+              "n_mints": 0,
+              "n_burns": 0,
+              "opening_plus_mints_minus_burns": "0",
+              "closing": "0",
+              "difference": "0",
+              "passed": true
+            }
+          }
+        },
+        "UTC": {
+          "opening_block": 35704901,
+          "opening": "0",
+          "opening_basis": "contract created at block 35704902, after the previous cutoff",
+          "closing_block": 28536725,
+          "closing": "0",
+          "closing_reads": {},
+          "by_source": {
+            "rpc:hyperliquid-json-rpc.stakely.io,rpc.hypurrscan.io": {
+              "opening": "0",
+              "mints": "0",
+              "burns": "0",
+              "n_mints": 0,
+              "n_burns": 0,
+              "opening_plus_mints_minus_burns": "0",
+              "closing": "0",
+              "difference": "0",
+              "passed": true
+            }
+          }
+        }
+      },
+      "source_comparison": {
+        "compared": false,
+        "agree": null
+      },
+      "sources_complete": [
+        "rpc:hyperliquid-json-rpc.stakely.io,rpc.hypurrscan.io"
+      ],
+      "sources_incomplete": [],
+      "passed": true,
+      "source_used": "rpc:hyperliquid-json-rpc.stakely.io,rpc.hypurrscan.io",
+      "movements": [],
+      "movements_between_conventions": []
+    },
+    "wPEN": {
+      "conventions": {
+        "ART": {
+          "opening_block": 35705023,
+          "opening": "0",
+          "opening_basis": "contract created at block 35705024, after the previous cutoff",
+          "closing_block": 28547705,
+          "closing": "0",
+          "closing_reads": {},
+          "by_source": {
+            "rpc:hyperliquid-json-rpc.stakely.io,rpc.hypurrscan.io": {
+              "opening": "0",
+              "mints": "0",
+              "burns": "0",
+              "n_mints": 0,
+              "n_burns": 0,
+              "opening_plus_mints_minus_burns": "0",
+              "closing": "0",
+              "difference": "0",
+              "passed": true
+            }
+          }
+        },
+        "UTC": {
+          "opening_block": 35705023,
+          "opening": "0",
+          "opening_basis": "contract created at block 35705024, after the previous cutoff",
+          "closing_block": 28536725,
+          "closing": "0",
+          "closing_reads": {},
+          "by_source": {
+            "rpc:hyperliquid-json-rpc.stakely.io,rpc.hypurrscan.io": {
+              "opening": "0",
+              "mints": "0",
+              "burns": "0",
+              "n_mints": 0,
+              "n_burns": 0,
+              "opening_plus_mints_minus_burns": "0",
+              "closing": "0",
+              "difference": "0",
+              "passed": true
+            }
+          }
+        }
+      },
+      "source_comparison": {
+        "compared": false,
+        "agree": null
+      },
+      "sources_complete": [
+        "rpc:hyperliquid-json-rpc.stakely.io,rpc.hypurrscan.io"
+      ],
+      "sources_incomplete": [],
+      "passed": true,
+      "source_used": "rpc:hyperliquid-json-rpc.stakely.io,rpc.hypurrscan.io",
+      "movements": [],
+      "movements_between_conventions": []
+    }
+  },
+  "range": [
+    35699695,
+    28547705
+  ],
+  "sources": {
+    "rpc:hyperliquid-json-rpc.stakely.io,rpc.hypurrscan.io": 0
+  },
+  "sources_failed": {}
+}

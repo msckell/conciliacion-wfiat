@@ -52,8 +52,19 @@ def close_message(
 
     # Items that need a person go first.
     review = []
-    if not pkg["all_reconciled"]:
+    if not pkg.get("reconciliation_passed", pkg["all_reconciled"]):
         review.append(":rotating_light: Hay redes que no concilian. Revisá la hoja Conciliación.")
+    elif not pkg["all_reconciled"]:
+        missing = sum(
+            n
+            for k, n in pkg["scope"]["counts"].items()
+            if k not in ("reconciled", "not_applicable")
+        )
+        review.append(
+            f":rotating_light: El cierre está incompleto: {missing} "
+            f"{'par' if missing == 1 else 'pares'} de token y red sin resultado. "
+            "Revisá la hoja Conciliación."
+        )
     if exceptions:
         pending = [r for r in exceptions["results"] if r["outcome"] == "task"]
         if pending:

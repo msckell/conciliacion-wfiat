@@ -264,3 +264,23 @@ def collect_sources_multi(
         finally:
             rpc.close()
     return sources
+
+
+def stable_key(row: dict) -> tuple[str, str, str, str]:
+    """Identity of a movement row that does not depend on the log index. HyperEVM nodes
+    number the logs of the same transaction differently (12 on one, 13 on another)."""
+    return (row["chain"], row["tx_hash"].lower(), row["token"], str(row["amount"]))
+
+
+def override_for(row: dict, overrides: list[dict], siblings: list[dict]) -> dict | None:
+    """The fix an override holds for a movement row, matched by stable_key. When two
+    movements in `siblings` share that key, only an exact log index match counts."""
+    key = stable_key(row)
+    found = [o for o in overrides if stable_key(o) == key]
+    if not found:
+        return None
+    twins = [s for s in siblings if stable_key(s) == key]
+    if len(found) == 1 and len(twins) == 1:
+        return found[0]["fix"]
+    exact = [o for o in found if o["log_index"] == row["log_index"]]
+    return exact[0]["fix"] if len(exact) == 1 else None

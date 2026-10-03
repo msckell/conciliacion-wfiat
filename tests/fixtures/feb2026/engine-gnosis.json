@@ -1,0 +1,451 @@
+{
+  "chain": "gnosis",
+  "name": "Gnosis",
+  "previous_cutoff": "2026-01-31",
+  "cutoff": "2026-02-28",
+  "convention": "ART",
+  "history_endpoints": {
+    "https://gnosis-rpc.publicnode.com": "serves historical state",
+    "https://rpc.gnosischain.com": "serves historical state",
+    "https://gnosis.drpc.org": "no archive state: https://gnosis.drpc.org: 27 Unknown state. First available state is 1",
+    "https://1rpc.io/gnosis": "unreachable: https://1rpc.io/gnosis: HTTP 403 non JSON body"
+  },
+  "cutoff_blocks": [
+    {
+      "cutoff": "2026-01-31",
+      "convention": "ART",
+      "instant_utc": "2026-02-01T02:59:59+00:00",
+      "unix": 1769914799,
+      "block": 44449615,
+      "block_timestamp": 1769914795,
+      "block_hash": "0xae0fd80485f80e97adbf9e73d88aaacf571ccd5bae477eedc3e7fee2312c136e",
+      "next_block_timestamp": 1769914800
+    },
+    {
+      "cutoff": "2026-01-31",
+      "convention": "UTC",
+      "instant_utc": "2026-01-31T23:59:59+00:00",
+      "unix": 1769903999,
+      "block": 44447512,
+      "block_timestamp": 1769903995,
+      "block_hash": "0x502ea92e7b2828c37d9e8398c9d17d7bf932e18746847fd3a958ad9dffab7e87",
+      "next_block_timestamp": 1769904000
+    },
+    {
+      "cutoff": "2026-02-28",
+      "convention": "ART",
+      "instant_utc": "2026-03-01T02:59:59+00:00",
+      "unix": 1772333999,
+      "block": 44921306,
+      "block_timestamp": 1772333995,
+      "block_hash": "0x02cf2adaedeac04ed3445ed063aeed7bddb3e08b7dbb451d9b5ea58a7a70001f",
+      "next_block_timestamp": 1772334000
+    },
+    {
+      "cutoff": "2026-02-28",
+      "convention": "UTC",
+      "instant_utc": "2026-02-28T23:59:59+00:00",
+      "unix": 1772323199,
+      "block": 44919201,
+      "block_timestamp": 1772323195,
+      "block_hash": "0x180f8b504d6547f280dd8ee53599ad633fe6d74e8a352a75db41f46122c6131c",
+      "next_block_timestamp": 1772323200
+    }
+  ],
+  "tokens": {
+    "wARS": {
+      "conventions": {
+        "ART": {
+          "opening_block": 44763971,
+          "opening": "0",
+          "opening_basis": "contract created at block 44763972, after the previous cutoff",
+          "closing_block": 44921306,
+          "closing": "0",
+          "closing_reads": {
+            "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 44921306 (0x02cf2adaedeac04ed3445ed063aeed7bddb3e0",
+            "https://rpc.gnosischain.com": "0"
+          },
+          "by_source": {
+            "rpc:rpc.gnosischain.com": {
+              "opening": "0",
+              "mints": "0",
+              "burns": "0",
+              "n_mints": 0,
+              "n_burns": 0,
+              "opening_plus_mints_minus_burns": "0",
+              "closing": "0",
+              "difference": "0",
+              "passed": true
+            }
+          }
+        },
+        "UTC": {
+          "opening_block": 44763971,
+          "opening": "0",
+          "opening_basis": "contract created at block 44763972, after the previous cutoff",
+          "closing_block": 44919201,
+          "closing": "0",
+          "closing_reads": {
+            "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 44919201 (0x180f8b504d6547f280dd8ee53599ad633fe6d7",
+            "https://rpc.gnosischain.com": "0"
+          },
+          "by_source": {
+            "rpc:rpc.gnosischain.com": {
+              "opening": "0",
+              "mints": "0",
+              "burns": "0",
+              "n_mints": 0,
+              "n_burns": 0,
+              "opening_plus_mints_minus_burns": "0",
+              "closing": "0",
+              "difference": "0",
+              "passed": true
+            }
+          }
+        }
+      },
+      "source_comparison": {
+        "compared": false,
+        "agree": null
+      },
+      "sources_complete": [
+        "rpc:rpc.gnosischain.com"
+      ],
+      "sources_incomplete": [],
+      "passed": true,
+      "source_used": "rpc:rpc.gnosischain.com",
+      "movements": [],
+      "movements_between_conventions": []
+    },
+    "wBRL": {
+      "conventions": {
+        "ART": {
+          "opening_block": 44764113,
+          "opening": "0",
+          "opening_basis": "contract created at block 44764114, after the previous cutoff",
+          "closing_block": 44921306,
+          "closing": "0",
+          "closing_reads": {
+            "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 44921306 (0x02cf2adaedeac04ed3445ed063aeed7bddb3e0",
+            "https://rpc.gnosischain.com": "0"
+          },
+          "by_source": {
+            "rpc:rpc.gnosischain.com": {
+              "opening": "0",
+              "mints": "0",
+              "burns": "0",
+              "n_mints": 0,
+              "n_burns": 0,
+              "opening_plus_mints_minus_burns": "0",
+              "closing": "0",
+              "difference": "0",
+              "passed": true
+            }
+          }
+        },
+        "UTC": {
+          "opening_block": 44764113,
+          "opening": "0",
+          "opening_basis": "contract created at block 44764114, after the previous cutoff",
+          "closing_block": 44919201,
+          "closing": "0",
+          "closing_reads": {
+            "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 44919201 (0x180f8b504d6547f280dd8ee53599ad633fe6d7",
+            "https://rpc.gnosischain.com": "0"
+          },
+          "by_source": {
+            "rpc:rpc.gnosischain.com": {
+              "opening": "0",
+              "mints": "0",
+              "burns": "0",
+              "n_mints": 0,
+              "n_burns": 0,
+              "opening_plus_mints_minus_burns": "0",
+              "closing": "0",
+              "difference": "0",
+              "passed": true
+            }
+          }
+        }
+      },
+      "source_comparison": {
+        "compared": false,
+        "agree": null
+      },
+      "sources_complete": [
+        "rpc:rpc.gnosischain.com"
+      ],
+      "sources_incomplete": [],
+      "passed": true,
+      "source_used": "rpc:rpc.gnosischain.com",
+      "movements": [],
+      "movements_between_conventions": []
+    },
+    "wMXN": {
+      "conventions": {
+        "ART": {
+          "opening_block": 44764066,
+          "opening": "0",
+          "opening_basis": "contract created at block 44764067, after the previous cutoff",
+          "closing_block": 44921306,
+          "closing": "0",
+          "closing_reads": {
+            "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 44921306 (0x02cf2adaedeac04ed3445ed063aeed7bddb3e0",
+            "https://rpc.gnosischain.com": "0"
+          },
+          "by_source": {
+            "rpc:rpc.gnosischain.com": {
+              "opening": "0",
+              "mints": "0",
+              "burns": "0",
+              "n_mints": 0,
+              "n_burns": 0,
+              "opening_plus_mints_minus_burns": "0",
+              "closing": "0",
+              "difference": "0",
+              "passed": true
+            }
+          }
+        },
+        "UTC": {
+          "opening_block": 44764066,
+          "opening": "0",
+          "opening_basis": "contract created at block 44764067, after the previous cutoff",
+          "closing_block": 44919201,
+          "closing": "0",
+          "closing_reads": {
+            "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 44919201 (0x180f8b504d6547f280dd8ee53599ad633fe6d7",
+            "https://rpc.gnosischain.com": "0"
+          },
+          "by_source": {
+            "rpc:rpc.gnosischain.com": {
+              "opening": "0",
+              "mints": "0",
+              "burns": "0",
+              "n_mints": 0,
+              "n_burns": 0,
+              "opening_plus_mints_minus_burns": "0",
+              "closing": "0",
+              "difference": "0",
+              "passed": true
+            }
+          }
+        }
+      },
+      "source_comparison": {
+        "compared": false,
+        "agree": null
+      },
+      "sources_complete": [
+        "rpc:rpc.gnosischain.com"
+      ],
+      "sources_incomplete": [],
+      "passed": true,
+      "source_used": "rpc:rpc.gnosischain.com",
+      "movements": [],
+      "movements_between_conventions": []
+    },
+    "wCOP": {
+      "conventions": {
+        "ART": {
+          "opening_block": 44764270,
+          "opening": "0",
+          "opening_basis": "contract created at block 44764271, after the previous cutoff",
+          "closing_block": 44921306,
+          "closing": "0",
+          "closing_reads": {
+            "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 44921306 (0x02cf2adaedeac04ed3445ed063aeed7bddb3e0",
+            "https://rpc.gnosischain.com": "0"
+          },
+          "by_source": {
+            "rpc:rpc.gnosischain.com": {
+              "opening": "0",
+              "mints": "0",
+              "burns": "0",
+              "n_mints": 0,
+              "n_burns": 0,
+              "opening_plus_mints_minus_burns": "0",
+              "closing": "0",
+              "difference": "0",
+              "passed": true
+            }
+          }
+        },
+        "UTC": {
+          "opening_block": 44764270,
+          "opening": "0",
+          "opening_basis": "contract created at block 44764271, after the previous cutoff",
+          "closing_block": 44919201,
+          "closing": "0",
+          "closing_reads": {
+            "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 44919201 (0x180f8b504d6547f280dd8ee53599ad633fe6d7",
+            "https://rpc.gnosischain.com": "0"
+          },
+          "by_source": {
+            "rpc:rpc.gnosischain.com": {
+              "opening": "0",
+              "mints": "0",
+              "burns": "0",
+              "n_mints": 0,
+              "n_burns": 0,
+              "opening_plus_mints_minus_burns": "0",
+              "closing": "0",
+              "difference": "0",
+              "passed": true
+            }
+          }
+        }
+      },
+      "source_comparison": {
+        "compared": false,
+        "agree": null
+      },
+      "sources_complete": [
+        "rpc:rpc.gnosischain.com"
+      ],
+      "sources_incomplete": [],
+      "passed": true,
+      "source_used": "rpc:rpc.gnosischain.com",
+      "movements": [],
+      "movements_between_conventions": []
+    },
+    "wCLP": {
+      "conventions": {
+        "ART": {
+          "opening_block": 44764383,
+          "opening": "0",
+          "opening_basis": "contract created at block 44764384, after the previous cutoff",
+          "closing_block": 44921306,
+          "closing": "0",
+          "closing_reads": {
+            "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 44921306 (0x02cf2adaedeac04ed3445ed063aeed7bddb3e0",
+            "https://rpc.gnosischain.com": "0"
+          },
+          "by_source": {
+            "rpc:rpc.gnosischain.com": {
+              "opening": "0",
+              "mints": "0",
+              "burns": "0",
+              "n_mints": 0,
+              "n_burns": 0,
+              "opening_plus_mints_minus_burns": "0",
+              "closing": "0",
+              "difference": "0",
+              "passed": true
+            }
+          }
+        },
+        "UTC": {
+          "opening_block": 44764383,
+          "opening": "0",
+          "opening_basis": "contract created at block 44764384, after the previous cutoff",
+          "closing_block": 44919201,
+          "closing": "0",
+          "closing_reads": {
+            "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 44919201 (0x180f8b504d6547f280dd8ee53599ad633fe6d7",
+            "https://rpc.gnosischain.com": "0"
+          },
+          "by_source": {
+            "rpc:rpc.gnosischain.com": {
+              "opening": "0",
+              "mints": "0",
+              "burns": "0",
+              "n_mints": 0,
+              "n_burns": 0,
+              "opening_plus_mints_minus_burns": "0",
+              "closing": "0",
+              "difference": "0",
+              "passed": true
+            }
+          }
+        }
+      },
+      "source_comparison": {
+        "compared": false,
+        "agree": null
+      },
+      "sources_complete": [
+        "rpc:rpc.gnosischain.com"
+      ],
+      "sources_incomplete": [],
+      "passed": true,
+      "source_used": "rpc:rpc.gnosischain.com",
+      "movements": [],
+      "movements_between_conventions": []
+    },
+    "wPEN": {
+      "conventions": {
+        "ART": {
+          "opening_block": 44764414,
+          "opening": "0",
+          "opening_basis": "contract created at block 44764415, after the previous cutoff",
+          "closing_block": 44921306,
+          "closing": "0",
+          "closing_reads": {
+            "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 44921306 (0x02cf2adaedeac04ed3445ed063aeed7bddb3e0",
+            "https://rpc.gnosischain.com": "0"
+          },
+          "by_source": {
+            "rpc:rpc.gnosischain.com": {
+              "opening": "0",
+              "mints": "0",
+              "burns": "0",
+              "n_mints": 0,
+              "n_burns": 0,
+              "opening_plus_mints_minus_burns": "0",
+              "closing": "0",
+              "difference": "0",
+              "passed": true
+            }
+          }
+        },
+        "UTC": {
+          "opening_block": 44764414,
+          "opening": "0",
+          "opening_basis": "contract created at block 44764415, after the previous cutoff",
+          "closing_block": 44919201,
+          "closing": "0",
+          "closing_reads": {
+            "https://gnosis-rpc.publicnode.com": "error: MissingState: gnosis eth_call: all endpoints failed: https://gnosis-rpc.publicnode.com: -32002 No state available for block 44919201 (0x180f8b504d6547f280dd8ee53599ad633fe6d7",
+            "https://rpc.gnosischain.com": "0"
+          },
+          "by_source": {
+            "rpc:rpc.gnosischain.com": {
+              "opening": "0",
+              "mints": "0",
+              "burns": "0",
+              "n_mints": 0,
+              "n_burns": 0,
+              "opening_plus_mints_minus_burns": "0",
+              "closing": "0",
+              "difference": "0",
+              "passed": true
+            }
+          }
+        }
+      },
+      "source_comparison": {
+        "compared": false,
+        "agree": null
+      },
+      "sources_complete": [
+        "rpc:rpc.gnosischain.com"
+      ],
+      "sources_incomplete": [],
+      "passed": true,
+      "source_used": "rpc:rpc.gnosischain.com",
+      "movements": [],
+      "movements_between_conventions": []
+    }
+  },
+  "range": [
+    44763972,
+    44921306
+  ],
+  "sources": {
+    "rpc:rpc.gnosischain.com": 0
+  },
+  "sources_failed": {
+    "blockscout:https://gnosis.blockscout.com/api": "blockscout:https://gnosis.blockscout.com/api: gave up after retries: HTTP 301 non JSON body: '<html>\\r\\n<head><title>301 Moved Permanently</title></head>\\r\\n<body>\\r\\n<center><h1>3'"
+  }
+}

@@ -99,7 +99,7 @@ def open_issues(
         existing = {m: i for i in resp.json() if (m := _marker_of(i.get("body") or "")) is not None}
         out = []
         for r, issue in wanted:
-            found = existing.get(marker(cutoff, r))
+            found = _existing_issue(cutoff, r, existing, tasks)
             if found:
                 out.append(_entry(r, issue, found, "existing"))
                 continue
@@ -107,6 +107,21 @@ def open_issues(
             resp.raise_for_status()
             out.append(_entry(r, issue, resp.json(), "opened"))
     return {"status": "ok", "issues": out}
+
+
+def _existing_issue(
+    cutoff: str, r: dict, existing: dict[str, dict], tasks: list[dict]
+) -> dict | None:
+    """The issue a previous run opened for this task. The marker holds the log index, which
+    HyperEVM nodes do not agree on, so a marker for the same transaction also counts when
+    only one task and one issue share that transaction."""
+    exact = existing.get(marker(cutoff, r))
+    if exact:
+        return exact
+    prefix = f"<!-- cierre-task {cutoff} {r['chain']} {r['tx_hash']} "
+    same_tx = [i for m, i in existing.items() if m.startswith(prefix)]
+    siblings = [t for t in tasks if (t["chain"], t["tx_hash"]) == (r["chain"], r["tx_hash"])]
+    return same_tx[0] if len(same_tx) == 1 and len(siblings) == 1 else None
 
 
 def _marker_of(body: str) -> str | None:

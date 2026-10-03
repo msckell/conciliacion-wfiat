@@ -238,6 +238,8 @@ def test_overrides_read_the_proposal_kind_in_both_file_formats():
     current = {
         "chain": "arc",
         "tx_hash": "0xmint",
+        "token": "wARS",
+        "amount": "5",
         "log_index": 3,
         "kind": "mint",
         "proposal_kind": "primary_by_minter",
@@ -249,5 +251,5 @@ def test_overrides_read_the_proposal_kind_in_both_file_formats():
     before_the_split = current | {"kind": "primary_by_minter"}
     del before_the_split["proposal_kind"]
     for r in (current, before_the_split):
-        [override] = overrides({"results": [r]}).values()
-        assert override["resolved_by_agent"]["kind"] == "primary_by_minter"
+        [override] = overrides({"results": [r]})
+        assert override["fix"]["resolved_by_agent"]["kind"] == "primary_by_minter"

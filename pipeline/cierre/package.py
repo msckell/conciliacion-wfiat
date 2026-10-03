@@ -18,6 +18,8 @@ from cierre import REPO_ROOT
 from cierre.agent.memo import fmt_date
 from cierre.config import Chain, Token
 from cierre.cutoffs import CONVENTIONS
+from cierre.ledger import override_for
+from cierre.scope import APPLICABLE, manifest_from_engine
 
 ART = CONVENTIONS["ART"]
 
@@ -39,6 +41,21 @@ BRIDGE_ES = {
     "dest_bridge_unknown": "Contrato puente de destino sin identificar",
 }
 LABEL_ES = {"documented": "documentada", "inferred": "inferida", "hypothesis": "hipótesis"}
+PAIR_ES = {
+    "reconciled": "conciliado",
+    "not_reconciled": "NO concilia",
+    "error": "sin resultado, error",
+    "missing": "sin resultado",
+    "unknown": "alcance desconocido",
+    "not_applicable": "no aplica",
+}
+REASON_ES = {
+    "network_not_live": "la red no tenía bloques al corte",
+    "created_after_cutoff": "el contrato se creó después del corte",
+    "not_deployed": "el contrato no está desplegado en esta red",
+}
+# Pair statuses that leave the close incomplete.
+INCOMPLETE = ("not_reconciled", "error", "missing", "unknown")
 
 
 def units(raw: int | str, decimals: int) -> Decimal:
@@ -63,25 +80,35 @@ def build(
     methodology: list[dict],
     convention: str,
     all_chains: dict[str, Chain] | None = None,
-    overrides: dict[tuple[str, str, int], dict] | None = None,
+    overrides: list[dict] | None = None,
+    manifest: dict | None = None,
 ) -> dict:
-    """The package from the engine output. `overrides` holds the movements the exception
-    agent proved, keyed by (chain, tx hash, log index)."""
+    """The package from the engine output.
+
+    `manifest` is the expected scope (scope.py). Every applicable pair in it needs a
+    reconciled result, or the close is incomplete. Without it, the scope is rebuilt from the
+    configuration and the cutoff blocks in the engine output. `overrides` holds the
+    movements the exception agent proved (see agent.exceptions.overrides)."""
+    if manifest is None:
+        manifest = manifest_from_engine(engine, chains, tokens, convention, discovery)
     by_chain = {c["chain"]: c for c in engine}
-    first = next(c for c in engine if "previous_cutoff" in c)
-    cutoff, prev = first["cutoff"], first["previous_cutoff"]
+    cutoff, prev = manifest["cutoff"], manifest["previous_cutoff"]
+    pairs = _scope_rows(manifest, by_chain)
+    reconciled = {(r["token"], r["chain"]) for r in pairs if r["status"] == "reconciled"}
+    applicable_chains = {r["chain"] for r in pairs if r["applicability"] in APPLICABLE}
     engine_errors = [
-        {"chain": c["chain"], "error": c["error"]} for c in engine if c.get("error")
-    ] + [
-        {"chain": c["chain"], "token": sym, "error": t.get("error", "no source reconciles")}
+        {"chain": c["chain"], "error": c["error"]}
         for c in engine
-        for sym, t in c.get("tokens", {}).items()
-        if not t.get("passed")
+        if c.get("error") and c["chain"] in applicable_chains
+    ] + [
+        {"chain": r["chain"], "token": r["token"], "error": f"{r['status']}: {r['detail']}"}
+        for r in pairs
+        if r["status"] in INCOMPLETE
     ]
 
-    networks = _networks(by_chain, chains, tokens, cutoff, prev, convention)
+    networks = _networks(by_chain, chains, tokens, cutoff, prev, convention, pairs)
     token_rows, network_rows, movements = _token_rows(
-        by_chain, chains, tokens, convention, overrides
+        by_chain, chains, tokens, convention, overrides, reconciled, pairs
     )
     movements.sort(key=lambda m: (m["timestamp"], m["chain"], m["log_index"]))
     between = [
@@ -96,9 +123,9 @@ def build(
         "convention": convention,
         "cutoff_instant": f"{cutoff} 23:59:59 {ART.key}",
         "generated_at": datetime.now(UTC).isoformat(timespec="seconds"),
-        "all_reconciled": not engine_errors
-        and all(r["passed"] and r["difference"] == "0" for r in network_rows),
+        **_status(pairs, network_rows),
         "engine_errors": engine_errors,
+        "scope": _scope_summary(manifest, pairs, all_chains or chains),
         "networks": networks,
         "networks_checked": discovery["networks_checked"],
         "networks_checked_names": [
@@ -121,6 +148,81 @@ def build(
     }
 
 
+def _scope_rows(manifest: dict, by_chain: dict[str, dict]) -> list[dict]:
+    """One row per pair of the expected scope, with what the engine returned for it."""
+    rows = []
+    for p in manifest["pairs"]:
+        c = by_chain.get(p["chain"])
+        t = ((c or {}).get("tokens") or {}).get(p["token"])
+        row = {
+            "token": p["token"],
+            "chain": p["chain"],
+            "applicability": p["applicability"],
+            "reason": p.get("reason"),
+            "evidence": p.get("evidence"),
+            "detail": None,
+        }
+        if p["applicability"] not in APPLICABLE:
+            status = p["applicability"]
+            if t and t.get("passed"):
+                row["detail"] = "the engine returned a result, ignored: the pair is out of scope"
+        elif t is None:
+            status = "error" if c and c.get("error") else "missing"
+            row["detail"] = (c or {}).get("error") or "the engine returned nothing for it"
+        elif t.get("passed"):
+            status = "reconciled"
+        elif t.get("status") in ("not_applicable", "unknown"):
+            status = "error"
+            row["detail"] = f"the engine says {t['status']}, the scope says applicable"
+        elif "conventions" in t:
+            status = "not_reconciled"
+            row["detail"] = "no source reconciles"
+        else:
+            status = "error"
+            row["detail"] = t.get("error") or "no result"
+        rows.append(row | {"status": status})
+    return rows
+
+
+def _status(pairs: list[dict], network_rows: list[dict]) -> dict:
+    """Arithmetic and completeness kept apart. all_reconciled needs both."""
+    reconciliation_passed = not any(r["status"] == "not_reconciled" for r in pairs) and all(
+        r["passed"] and r["difference"] == "0" for r in network_rows
+    )
+    data_complete = not any(r["status"] in INCOMPLETE for r in pairs)
+    ok = reconciliation_passed and data_complete
+    return {
+        "all_reconciled": ok,
+        "reconciliation_passed": reconciliation_passed,
+        "data_complete": data_complete,
+        "close_ready": ok,
+    }
+
+
+def _scope_summary(manifest: dict, pairs: list[dict], chains: dict[str, Chain]) -> dict:
+    counts: dict[str, int] = {}
+    for r in pairs:
+        counts[r["status"]] = counts.get(r["status"], 0) + 1
+    excluded = []
+    for key in manifest["chains"]:
+        mine = [r for r in pairs if r["chain"] == key]
+        if mine and all(r["applicability"] == "not_applicable" for r in mine):
+            excluded.append(
+                {
+                    "chain": key,
+                    "name": chains[key].name if key in chains else key,
+                    "reasons": sorted({r["reason"] for r in mine}),
+                }
+            )
+    return {
+        "blocks_source": manifest.get("blocks_source"),
+        "expected": sum(r["applicability"] in APPLICABLE for r in pairs),
+        "counts": counts,
+        "excluded_networks": excluded,
+        "pairs": pairs,
+    }
+
+
 def _networks(
     by_chain: dict[str, dict],
     chains: dict[str, Chain],
@@ -128,18 +230,25 @@ def _networks(
     cutoff: str,
     prev: str,
     convention: str,
+    pairs: list[dict],
 ) -> list[dict]:
     """Cutoff blocks per network, and the tokens whose contract was created after the
-    previous cutoff (their opening supply is zero, with the creation block as evidence)."""
+    previous cutoff (their opening supply is zero, with the creation block as evidence).
+    Networks with no applicable pair are left out: the scope lists them as excluded."""
     networks = []
     for key in chains:
         c = by_chain.get(key)
-        if c is None:
+        applicable = {
+            r["token"] for r in pairs if r["chain"] == key and r["applicability"] in APPLICABLE
+        }
+        if c is None or not applicable:
             continue
         blk = {(b["cutoff"], b["convention"]): b for b in c.get("cutoff_blocks", [])}
         close_b, open_b = blk.get((cutoff, convention)), blk.get((prev, convention))
         new_tokens = {}
         for sym, t in c.get("tokens", {}).items():
+            if sym not in applicable:
+                continue
             conv = (t.get("conventions") or {}).get(convention) or {}
             if conv.get("opening_basis", "").startswith("contract created"):
                 dep = tokens[sym].on(key)
@@ -161,7 +270,7 @@ def _networks(
                 and close_b["block"]
                 and chains[key].block_url(close_b["block"]),
                 "previous_cutoff_block": open_b and open_b["block"],
-                "is_new": bool(new_tokens) and len(new_tokens) == len(c.get("tokens", {})),
+                "is_new": bool(new_tokens) and len(new_tokens) == len(applicable),
                 "new_tokens": new_tokens,
                 "previous_cutoff_block_note": None
                 if open_b and open_b["block"]
@@ -176,9 +285,13 @@ def _token_rows(
     chains: dict[str, Chain],
     tokens: dict[str, Token],
     convention: str,
-    overrides: dict[tuple[str, str, int], dict] | None,
+    overrides: list[dict] | None,
+    reconciled: set[tuple[str, str]],
+    pairs: list[dict],
 ) -> tuple[dict, list[dict], list[dict]]:
-    """Per token totals, per token and network reconciliation rows, and every movement."""
+    """Per token totals, per token and network reconciliation rows, and every movement.
+    Only reconciled pairs of the scope count. A token with any applicable pair left out is
+    marked partial: its totals are a subtotal, not the token's total."""
     token_rows, network_rows, movements = {}, [], []
     for sym, tok in tokens.items():
         d = tok.decimals
@@ -195,7 +308,7 @@ def _token_rows(
         for key in chains:
             c = by_chain.get(key) or {}
             t = (c.get("tokens") or {}).get(sym)
-            if not t or not t.get("passed"):
+            if (sym, key) not in reconciled or not t:
                 continue
             conv = t["conventions"][convention]
             rec = conv["by_source"][t["source_used"]]
@@ -231,16 +344,22 @@ def _token_rows(
                 }
             )
             for m in t.get("movements", []):
-                fix = (overrides or {}).get((m["chain"], m["tx_hash"], m["log_index"]))
+                fix = override_for(m, overrides or [], t["movements"])
                 if fix:
                     m = m | fix
                 cat = m.get("category", "unclassified")
                 agg["by_category"][cat]["amount"] += int(m["amount"])
                 agg["by_category"][cat]["count"] += 1
                 movements.append(m)
+        mine = [r for r in pairs if r["token"] == sym]
+        expected = [r for r in mine if r["applicability"] in APPLICABLE]
+        n_ok = sum(r["status"] == "reconciled" for r in expected)
         token_rows[sym] = {
             "name": tok.name,
             "decimals": d,
+            "partial": any(r["status"] in INCOMPLETE for r in mine),
+            "pairs_expected": len(expected),
+            "pairs_reconciled": n_ok,
             "opening": str(units(agg["opening"], d)),
             "closing": str(units(agg["closing"], d)),
             "change": str(units(agg["closing"] - agg["opening"], d)),
@@ -418,9 +537,12 @@ def _summary_sheet(ws, pkg: dict, names: dict[str, str]) -> None:
     ws["A5"] = (
         "Conciliación por red: todas las diferencias son cero."
         if pkg["all_reconciled"]
+        else "Atención: el cierre está incompleto. Revisá la hoja Conciliación."
+        if pkg["reconciliation_passed"]
         else "Atención: hay redes o tokens que no concilian. Revisá la hoja Conciliación."
     )
     ws["A5"].font = Font(bold=True)
+    ws["A6"] = _scope_line(pkg["scope"])
     _header(
         ws,
         7,
@@ -446,7 +568,7 @@ def _summary_sheet(ws, pkg: dict, names: dict[str, str]) -> None:
             ws,
             r,
             [
-                sym,
+                f"{sym} (parcial)" if t["partial"] else sym,
                 _num(t["opening"]),
                 _num(t["mints"]),
                 _num(t["burns"]),
@@ -497,6 +619,15 @@ def _summary_sheet(ws, pkg: dict, names: dict[str, str]) -> None:
         ),
     )
     _widths(ws, [10, 18, 16, 16, 18, 16, 16, 16, 16, 16, 12, 60])
+
+
+def _scope_line(scope: dict) -> str:
+    n_ok = scope["counts"].get("reconciled", 0)
+    line = f"Alcance: {n_ok} de {scope['expected']} pares token y red conciliados."
+    n_na = scope["counts"].get("not_applicable", 0)
+    if n_na:
+        line += f" {n_na} pares no aplican a este período (ver hoja Conciliación)."
+    return line
 
 
 def _networks_sheet(ws, pkg: dict, names: dict[str, str]) -> None:
@@ -667,6 +798,26 @@ def _reconciliation_sheet(ws, pkg: dict, names: dict[str, str]) -> None:
             "después de ese corte (ver hoja Por red)."
         ),
     )
+    others = [x for x in pkg["scope"]["pairs"] if x["status"] != "reconciled"]
+    if others:
+        r += 2
+        ws.cell(row=r, column=1, value="Pares sin conciliar o fuera del período").font = Font(
+            bold=True
+        )
+        _header(ws, r + 1, ["Token", "Red", "Estado", "Motivo", "Evidencia"])
+        for i, x in enumerate(others, r + 2):
+            ev = x.get("evidence") or {}
+            _write_row(
+                ws,
+                i,
+                [
+                    x["token"],
+                    names.get(x["chain"], x["chain"]),
+                    PAIR_ES[x["status"]],
+                    REASON_ES.get(x["reason"], x["detail"] or x["reason"] or ""),
+                    ", ".join(f"{k} {v}" for k, v in ev.items()),
+                ],
+            )
     _widths(ws, [8, 14, 32, 30, 30, 32, 32, 11, 13, 40, 30, 30])
 
 

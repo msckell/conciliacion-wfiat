@@ -285,20 +285,30 @@ def run(pkg: dict, tools: Tools, ask: Ask, out_dir: Path) -> dict:
     }
 
 
-def overrides(exceptions: dict) -> dict[tuple[str, str, int], dict]:
-    """Movements the agent proved, keyed by (chain, tx_hash, log_index), for the package."""
-    out = {}
+def overrides(exceptions: dict) -> list[dict]:
+    """Movements the agent proved, for the package. Each one keeps chain, tx hash, token,
+    amount and log index; the package matches them with ledger.override_for."""
+    out = []
     for r in exceptions.get("results", []):
         # Files written before proposal_kind existed kept the proposal's kind under "kind".
         kind = r.get("proposal_kind", r.get("kind"))
         if r["outcome"] == "resolved" and kind in CATEGORY_FOR:
-            out[(r["chain"], r["tx_hash"], r["log_index"])] = {
-                "category": CATEGORY_FOR[kind],
-                "resolved_by_agent": {
-                    "kind": kind,
-                    "checks": r["checks"],
-                    "summary": r["summary"],
-                    "proposal": r["proposal"],
-                },
-            }
+            out.append(
+                {
+                    "chain": r["chain"],
+                    "tx_hash": r["tx_hash"],
+                    "token": r["token"],
+                    "amount": r["amount"],
+                    "log_index": r["log_index"],
+                    "fix": {
+                        "category": CATEGORY_FOR[kind],
+                        "resolved_by_agent": {
+                            "kind": kind,
+                            "checks": r["checks"],
+                            "summary": r["summary"],
+                            "proposal": r["proposal"],
+                        },
+                    },
+                }
+            )
     return out

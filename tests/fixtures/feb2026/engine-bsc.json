@@ -1,0 +1,437 @@
+{
+  "chain": "bsc",
+  "name": "BNB Smart Chain",
+  "previous_cutoff": "2026-01-31",
+  "cutoff": "2026-02-28",
+  "convention": "ART",
+  "history_endpoints": {
+    "https://bsc-dataseed.bnbchain.org": "no archive state: https://bsc-dataseed.bnbchain.org: -32000 missing trie node",
+    "https://bsc-dataseed1.defibit.io": "no archive state: https://bsc-dataseed1.defibit.io: -32000 missing trie node",
+    "https://bsc-rpc.publicnode.com": "no archive state: https://bsc-rpc.publicnode.com: -32602 Archive requests require a personal token. Get one at: https://www.allnodes.com/p",
+    "https://bsc-mainnet.public.blastapi.io": "serves historical state"
+  },
+  "cutoff_blocks": [
+    {
+      "cutoff": "2026-01-31",
+      "convention": "ART",
+      "instant_utc": "2026-02-01T02:59:59+00:00",
+      "unix": 1769914799,
+      "block": 78598627,
+      "block_timestamp": 1769914799,
+      "block_hash": "0x22b4da494a81e5f0130ce4de0d630cceb83469647dab4d14978b0db9e044fee4",
+      "next_block_timestamp": 1769914800
+    },
+    {
+      "cutoff": "2026-01-31",
+      "convention": "UTC",
+      "instant_utc": "2026-01-31T23:59:59+00:00",
+      "unix": 1769903999,
+      "block": 78574633,
+      "block_timestamp": 1769903999,
+      "block_hash": "0x0fef2733c12f2a548aef1e61be9b21f3c941a575058591052884c6166de3e995",
+      "next_block_timestamp": 1769904000
+    },
+    {
+      "cutoff": "2026-02-28",
+      "convention": "ART",
+      "instant_utc": "2026-03-01T02:59:59+00:00",
+      "unix": 1772333999,
+      "block": 83973244,
+      "block_timestamp": 1772333999,
+      "block_hash": "0xe18ca79661311ee3953efb0717b9258ad756d6ddcd18a2c2c1819819dfe63a7d",
+      "next_block_timestamp": 1772334000
+    },
+    {
+      "cutoff": "2026-02-28",
+      "convention": "UTC",
+      "instant_utc": "2026-02-28T23:59:59+00:00",
+      "unix": 1772323199,
+      "block": 83949246,
+      "block_timestamp": 1772323199,
+      "block_hash": "0xf1eb4c7f9d046cceef29db5c295a1098e7646f7294587858c707b8eb6bd5ac7f",
+      "next_block_timestamp": 1772323200
+    }
+  ],
+  "tokens": {
+    "wARS": {
+      "conventions": {
+        "ART": {
+          "opening_block": 82186271,
+          "opening": "0",
+          "opening_basis": "contract created at block 82186272, after the previous cutoff",
+          "closing_block": 83973244,
+          "closing": "0",
+          "closing_reads": {
+            "https://bsc-mainnet.public.blastapi.io": "0"
+          },
+          "by_source": {
+            "bscscan list + RPC receipts": {
+              "opening": "0",
+              "mints": "0",
+              "burns": "0",
+              "n_mints": 0,
+              "n_burns": 0,
+              "opening_plus_mints_minus_burns": "0",
+              "closing": "0",
+              "difference": "0",
+              "passed": true
+            }
+          }
+        },
+        "UTC": {
+          "opening_block": 82186271,
+          "opening": "0",
+          "opening_basis": "contract created at block 82186272, after the previous cutoff",
+          "closing_block": 83949246,
+          "closing": "0",
+          "closing_reads": {
+            "https://bsc-mainnet.public.blastapi.io": "0"
+          },
+          "by_source": {
+            "bscscan list + RPC receipts": {
+              "opening": "0",
+              "mints": "0",
+              "burns": "0",
+              "n_mints": 0,
+              "n_burns": 0,
+              "opening_plus_mints_minus_burns": "0",
+              "closing": "0",
+              "difference": "0",
+              "passed": true
+            }
+          }
+        }
+      },
+      "source_comparison": {
+        "compared": false,
+        "agree": null
+      },
+      "sources_complete": [
+        "bscscan list + RPC receipts"
+      ],
+      "sources_incomplete": [],
+      "passed": true,
+      "source_used": "bscscan list + RPC receipts",
+      "movements": [],
+      "movements_between_conventions": []
+    },
+    "wBRL": {
+      "conventions": {
+        "ART": {
+          "opening_block": 82187186,
+          "opening": "0",
+          "opening_basis": "contract created at block 82187187, after the previous cutoff",
+          "closing_block": 83973244,
+          "closing": "0",
+          "closing_reads": {
+            "https://bsc-mainnet.public.blastapi.io": "0"
+          },
+          "by_source": {
+            "bscscan list + RPC receipts": {
+              "opening": "0",
+              "mints": "0",
+              "burns": "0",
+              "n_mints": 0,
+              "n_burns": 0,
+              "opening_plus_mints_minus_burns": "0",
+              "closing": "0",
+              "difference": "0",
+              "passed": true
+            }
+          }
+        },
+        "UTC": {
+          "opening_block": 82187186,
+          "opening": "0",
+          "opening_basis": "contract created at block 82187187, after the previous cutoff",
+          "closing_block": 83949246,
+          "closing": "0",
+          "closing_reads": {
+            "https://bsc-mainnet.public.blastapi.io": "0"
+          },
+          "by_source": {
+            "bscscan list + RPC receipts": {
+              "opening": "0",
+              "mints": "0",
+              "burns": "0",
+              "n_mints": 0,
+              "n_burns": 0,
+              "opening_plus_mints_minus_burns": "0",
+              "closing": "0",
+              "difference": "0",
+              "passed": true
+            }
+          }
+        }
+      },
+      "source_comparison": {
+        "compared": false,
+        "agree": null
+      },
+      "sources_complete": [
+        "bscscan list + RPC receipts"
+      ],
+      "sources_incomplete": [],
+      "passed": true,
+      "source_used": "bscscan list + RPC receipts",
+      "movements": [],
+      "movements_between_conventions": []
+    },
+    "wMXN": {
+      "conventions": {
+        "ART": {
+          "opening_block": 82186860,
+          "opening": "0",
+          "opening_basis": "contract created at block 82186861, after the previous cutoff",
+          "closing_block": 83973244,
+          "closing": "0",
+          "closing_reads": {
+            "https://bsc-mainnet.public.blastapi.io": "0"
+          },
+          "by_source": {
+            "bscscan list + RPC receipts": {
+              "opening": "0",
+              "mints": "0",
+              "burns": "0",
+              "n_mints": 0,
+              "n_burns": 0,
+              "opening_plus_mints_minus_burns": "0",
+              "closing": "0",
+              "difference": "0",
+              "passed": true
+            }
+          }
+        },
+        "UTC": {
+          "opening_block": 82186860,
+          "opening": "0",
+          "opening_basis": "contract created at block 82186861, after the previous cutoff",
+          "closing_block": 83949246,
+          "closing": "0",
+          "closing_reads": {
+            "https://bsc-mainnet.public.blastapi.io": "0"
+          },
+          "by_source": {
+            "bscscan list + RPC receipts": {
+              "opening": "0",
+              "mints": "0",
+              "burns": "0",
+              "n_mints": 0,
+              "n_burns": 0,
+              "opening_plus_mints_minus_burns": "0",
+              "closing": "0",
+              "difference": "0",
+              "passed": true
+            }
+          }
+        }
+      },
+      "source_comparison": {
+        "compared": false,
+        "agree": null
+      },
+      "sources_complete": [
+        "bscscan list + RPC receipts"
+      ],
+      "sources_incomplete": [],
+      "passed": true,
+      "source_used": "bscscan list + RPC receipts",
+      "movements": [],
+      "movements_between_conventions": []
+    },
+    "wCOP": {
+      "conventions": {
+        "ART": {
+          "opening_block": 82188230,
+          "opening": "0",
+          "opening_basis": "contract created at block 82188231, after the previous cutoff",
+          "closing_block": 83973244,
+          "closing": "0",
+          "closing_reads": {
+            "https://bsc-mainnet.public.blastapi.io": "0"
+          },
+          "by_source": {
+            "bscscan list + RPC receipts": {
+              "opening": "0",
+              "mints": "0",
+              "burns": "0",
+              "n_mints": 0,
+              "n_burns": 0,
+              "opening_plus_mints_minus_burns": "0",
+              "closing": "0",
+              "difference": "0",
+              "passed": true
+            }
+          }
+        },
+        "UTC": {
+          "opening_block": 82188230,
+          "opening": "0",
+          "opening_basis": "contract created at block 82188231, after the previous cutoff",
+          "closing_block": 83949246,
+          "closing": "0",
+          "closing_reads": {
+            "https://bsc-mainnet.public.blastapi.io": "0"
+          },
+          "by_source": {
+            "bscscan list + RPC receipts": {
+              "opening": "0",
+              "mints": "0",
+              "burns": "0",
+              "n_mints": 0,
+              "n_burns": 0,
+              "opening_plus_mints_minus_burns": "0",
+              "closing": "0",
+              "difference": "0",
+              "passed": true
+            }
+          }
+        }
+      },
+      "source_comparison": {
+        "compared": false,
+        "agree": null
+      },
+      "sources_complete": [
+        "bscscan list + RPC receipts"
+      ],
+      "sources_incomplete": [],
+      "passed": true,
+      "source_used": "bscscan list + RPC receipts",
+      "movements": [],
+      "movements_between_conventions": []
+    },
+    "wCLP": {
+      "conventions": {
+        "ART": {
+          "opening_block": 82189275,
+          "opening": "0",
+          "opening_basis": "contract created at block 82189276, after the previous cutoff",
+          "closing_block": 83973244,
+          "closing": "0",
+          "closing_reads": {
+            "https://bsc-mainnet.public.blastapi.io": "0"
+          },
+          "by_source": {
+            "bscscan list + RPC receipts": {
+              "opening": "0",
+              "mints": "0",
+              "burns": "0",
+              "n_mints": 0,
+              "n_burns": 0,
+              "opening_plus_mints_minus_burns": "0",
+              "closing": "0",
+              "difference": "0",
+              "passed": true
+            }
+          }
+        },
+        "UTC": {
+          "opening_block": 82189275,
+          "opening": "0",
+          "opening_basis": "contract created at block 82189276, after the previous cutoff",
+          "closing_block": 83949246,
+          "closing": "0",
+          "closing_reads": {
+            "https://bsc-mainnet.public.blastapi.io": "0"
+          },
+          "by_source": {
+            "bscscan list + RPC receipts": {
+              "opening": "0",
+              "mints": "0",
+              "burns": "0",
+              "n_mints": 0,
+              "n_burns": 0,
+              "opening_plus_mints_minus_burns": "0",
+              "closing": "0",
+              "difference": "0",
+              "passed": true
+            }
+          }
+        }
+      },
+      "source_comparison": {
+        "compared": false,
+        "agree": null
+      },
+      "sources_complete": [
+        "bscscan list + RPC receipts"
+      ],
+      "sources_incomplete": [],
+      "passed": true,
+      "source_used": "bscscan list + RPC receipts",
+      "movements": [],
+      "movements_between_conventions": []
+    },
+    "wPEN": {
+      "conventions": {
+        "ART": {
+          "opening_block": 82189564,
+          "opening": "0",
+          "opening_basis": "contract created at block 82189565, after the previous cutoff",
+          "closing_block": 83973244,
+          "closing": "0",
+          "closing_reads": {
+            "https://bsc-mainnet.public.blastapi.io": "0"
+          },
+          "by_source": {
+            "bscscan list + RPC receipts": {
+              "opening": "0",
+              "mints": "0",
+              "burns": "0",
+              "n_mints": 0,
+              "n_burns": 0,
+              "opening_plus_mints_minus_burns": "0",
+              "closing": "0",
+              "difference": "0",
+              "passed": true
+            }
+          }
+        },
+        "UTC": {
+          "opening_block": 82189564,
+          "opening": "0",
+          "opening_basis": "contract created at block 82189565, after the previous cutoff",
+          "closing_block": 83949246,
+          "closing": "0",
+          "closing_reads": {
+            "https://bsc-mainnet.public.blastapi.io": "0"
+          },
+          "by_source": {
+            "bscscan list + RPC receipts": {
+              "opening": "0",
+              "mints": "0",
+              "burns": "0",
+              "n_mints": 0,
+              "n_burns": 0,
+              "opening_plus_mints_minus_burns": "0",
+              "closing": "0",
+              "difference": "0",
+              "passed": true
+            }
+          }
+        }
+      },
+      "source_comparison": {
+        "compared": false,
+        "agree": null
+      },
+      "sources_complete": [
+        "bscscan list + RPC receipts"
+      ],
+      "sources_incomplete": [],
+      "passed": true,
+      "source_used": "bscscan list + RPC receipts",
+      "movements": [],
+      "movements_between_conventions": []
+    }
+  },
+  "range": [
+    82186272,
+    83973244
+  ],
+  "sources": {
+    "bscscan list + RPC receipts": 0
+  },
+  "sources_failed": {}
+}
