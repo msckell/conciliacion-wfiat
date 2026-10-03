@@ -45,6 +45,8 @@ export function NavyCard({ children, className = '' }: { children: ReactNode; cl
   )
 }
 
+export const REPO_URL = 'https://github.com/msckell/conciliacion-wfiat'
+
 export function Ext({ href, children }: { href: string; children: ReactNode }) {
   return (
     <a

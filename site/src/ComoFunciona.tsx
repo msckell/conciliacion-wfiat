@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { production, site } from './data'
 import { prefersReducedMotion } from './reveal'
-import { Card, Check, Ext, Pill, Section, TokenIcon } from './ui'
+import { Card, Check, Ext, Pill, REPO_URL, Section, TokenIcon } from './ui'
 
 type StageKind = 'source' | 'code' | 'ai' | 'output'
 
@@ -586,6 +586,9 @@ function Decisions() {
           </li>
         ))}
       </ul>
+      <p className="mt-4">
+        <Ext href={REPO_URL}>Ver el código</Ext>
+      </p>
     </Section>
   )
 }

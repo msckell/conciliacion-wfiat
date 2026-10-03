@@ -3,6 +3,8 @@
 [![CI](https://github.com/msckell/conciliacion-wfiat/actions/workflows/ci.yml/badge.svg)](https://github.com/msckell/conciliacion-wfiat/actions/workflows/ci.yml)
 [![Monitor diario](https://github.com/msckell/conciliacion-wfiat/actions/workflows/daily.yml/badge.svg)](https://github.com/msckell/conciliacion-wfiat/actions/workflows/daily.yml)
 
+[![Portada de la página: 9 de 9 certificaciones, 54 de 54 conciliaciones, 626 transacciones, 9 minutos](assets/screenshots/portada.png)](https://conciliacion-wfiat.vercel.app)
+
 **Live page: https://conciliacion-wfiat.vercel.app** (Spanish, no login)
 
 Independent demo for Ripio, by Máximo Sckell. **Not an official Ripio tool.** It uses only public data: the blockchains and the certificates Ripio publishes.

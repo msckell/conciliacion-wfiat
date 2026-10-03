@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { ComoFunciona } from './ComoFunciona'
 import { prefersReducedMotion } from './reveal'
 import { Resumen } from './Resumen'
+import { REPO_URL } from './ui'
 
 type View = 'resumen' | 'como-funciona'
 
@@ -112,6 +113,9 @@ export default function App() {
           </a>
           <a className="hover:text-ink" href="https://github.com/msckell" target="_blank" rel="noreferrer">
             github.com/msckell
+          </a>
+          <a className="hover:text-ink" href={REPO_URL} target="_blank" rel="noreferrer">
+            Ver el código
           </a>
         </div>
       </footer>
