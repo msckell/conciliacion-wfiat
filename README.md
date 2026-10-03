@@ -1,8 +1,11 @@
 # Cierre trimestral wFIAT
 
-Independent demo for Ripio, by Máximo Sckell. **Not an official Ripio tool.** It uses only public data: the blockchains and the certificates Ripio publishes.
+[![CI](https://github.com/msckell/conciliacion-wfiat/actions/workflows/ci.yml/badge.svg)](https://github.com/msckell/conciliacion-wfiat/actions/workflows/ci.yml)
+[![Monitor diario](https://github.com/msckell/conciliacion-wfiat/actions/workflows/daily.yml/badge.svg)](https://github.com/msckell/conciliacion-wfiat/actions/workflows/daily.yml)
 
-Live page: https://conciliacion-wfiat.vercel.app (Spanish, no login)
+**Live page: https://conciliacion-wfiat.vercel.app** (Spanish, no login)
+
+Independent demo for Ripio, by Máximo Sckell. **Not an official Ripio tool.** It uses only public data: the blockchains and the certificates Ripio publishes.
 
 ## What and why
 
@@ -121,3 +124,5 @@ Without `SLACK_WEBHOOK_URL` the Slack message is written to `data/closes/<cutoff
 ## License
 
 MIT. See `LICENSE`.
+
+El logo de Ripio y los íconos de wFIAT son marcas de Ripio y no están cubiertos por la licencia MIT.
