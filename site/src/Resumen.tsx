@@ -1,8 +1,7 @@
 import { useState } from 'react'
 import { excelHref, isOtherNetwork, networkColor, site, type Token } from './data'
-import { prefersReducedMotion } from './reveal'
 import { SlackView } from './Slack'
-import { Alert, Card, Check, Dot, Ext, NavyCard, Pill, Section, TokenIcon } from './ui'
+import { Alert, Card, Check, Dot, Ext, NavyCard, Pill, REPO_URL, Section, TokenIcon } from './ui'
 
 const close = site.close
 const verification = site.verification
@@ -23,58 +22,76 @@ function ExcelButton({ noShrink = false }: { noShrink?: boolean }) {
   )
 }
 
-function HeroStat({ value, label }: { value: string; label: string }) {
+function HeroStat({ value, label, warn = false }: { value: string; label: string; warn?: boolean }) {
   return (
-    <div className="bg-navy/55 px-4 py-3.5 sm:px-5 sm:py-4">
+    <div className={`px-4 py-3.5 sm:px-5 sm:py-4 ${warn ? 'bg-[#fbbf24]/15' : 'bg-navy/55'}`}>
       <dt className="sr-only">{label}</dt>
-      <dd className="num text-xl font-semibold tracking-tight text-white sm:text-2xl">{value}</dd>
+      <dd className={`num text-xl font-semibold tracking-tight sm:text-2xl ${warn ? 'text-[#fcd34d]' : 'text-white'}`}>
+        {value}
+      </dd>
       <dd className="mt-0.5 text-xs leading-snug text-on-navy sm:text-[13px]">{label}</dd>
     </div>
   )
 }
 
+function CodeIcon() {
+  return (
+    <svg viewBox="0 0 20 20" className="h-4 w-4" fill="none" aria-hidden>
+      <path d="M7 6l-4 4 4 4M13 6l4 4-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
 function Hero() {
+  const exc = site.exceptions
   return (
     <section className="pt-5 sm:pt-10">
       <div className="fade-up hero-bg overflow-hidden rounded-3xl px-5 pb-5 pt-6 text-white shadow-lift sm:px-10 sm:pb-8 sm:pt-10">
         <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-on-navy ring-1 ring-white/15">
           <span className="h-1.5 w-1.5 rounded-full bg-[#6ee7a8]" aria-hidden />
-          Cierre al {close.cutoff}, listo para revisión
+          Cierre al {close.cutoff}
         </span>
-        <p className="mt-4 max-w-2xl text-lg leading-relaxed text-white sm:text-[1.4rem] sm:leading-relaxed">
-          Cada trimestre, un contador certifica que cada wARS, wBRL y demás stablecoins de Ripio están
-          respaldadas. Para eso, alguien de Finanzas junta los datos de todas las redes. Este agente
-          arma esa parte solo, al día siguiente del cierre.
+        <h2 className="mt-4 max-w-3xl text-3xl font-semibold leading-tight tracking-tight text-white sm:text-5xl sm:leading-[1.1]">
+          El cierre del trimestre, armado solo y listo para revisar.
+        </h2>
+        <p className="mt-4 max-w-2xl text-lg leading-relaxed text-white/90 sm:text-xl">
+          Junta los datos de cada red, los concilia y le entrega a Finanzas un Excel con lo que tiene que revisar.
+        </p>
+        <p className="mt-2 max-w-2xl text-sm text-on-navy">
+          Es la parte onchain que después certifica un contador, para las stablecoins wFIAT de Ripio.
         </p>
         <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:gap-3">
           <ExcelButton />
           <a
-            href="#cierre"
-            onClick={(e) => {
-              e.preventDefault()
-              document.getElementById('cierre')?.scrollIntoView({ behavior: prefersReducedMotion() ? 'auto' : 'smooth' })
-            }}
-            className="inline-flex items-center justify-center rounded-xl px-4 py-2.5 font-semibold text-white ring-1 ring-white/25 transition hover:bg-white/10"
+            href={REPO_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 font-semibold text-white ring-1 ring-white/25 transition hover:bg-white/10"
           >
-            Ver el cierre
+            <CodeIcon />
+            Ver el código
           </a>
         </div>
         <dl className="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-2xl bg-white/10 ring-1 ring-white/10 lg:grid-cols-4">
           <HeroStat
-            value={`${verification.matched} de ${verification.total}`}
-            label="certificaciones publicadas coinciden con el contador"
-          />
-          <HeroStat
-            value={`${close.reconciled} de ${close.reconciliations}`}
-            label="conciliaciones por moneda y red con diferencia cero"
+            value={close.all_reconciled ? 'Todo cierra' : `${close.reconciled} de ${close.reconciliations}`}
+            label={`${close.reconciled} de ${close.reconciliations} saldos por moneda y red, sin diferencia`}
           />
           {agent && (
             <>
-              <HeroStat value={String(agent.transactions)} label={`transacciones revisadas en ${agent.networks} redes`} />
-              <HeroStat value={agent.duration} label="duró la última corrida del agente" />
+              <HeroStat value={`${agent.networks} redes`} label={`y ${agent.tokens} monedas en esta corrida`} />
+              <HeroStat value={agent.duration} label="duró la corrida completa" />
             </>
           )}
+          {exc && <HeroStat value={`${exc.tasks} casos`} label="quedaron para que los revise una persona" warn />}
         </dl>
+        <p className="mt-4 flex items-center gap-2 text-sm text-on-navy">
+          <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#6ee7a8]/20 text-[#6ee7a8]">
+            <Check className="h-3.5 w-3.5" />
+          </span>
+          Método validado: coincide con el contador en {verification.matched} de {verification.total} certificaciones
+          publicadas.
+        </p>
       </div>
     </section>
   )
@@ -88,6 +105,38 @@ function StepDetail({ text }: { text: string }) {
   return <>{text}</>
 }
 
+// Short names for the run steps, for the strip a reader scans at a glance.
+const STEP_SHORT: Record<string, string> = {
+  engine: 'Leyó cada red',
+  package: 'Concilió los saldos',
+  exceptions: 'Investigó los casos raros',
+  publish: 'Publicó el Excel',
+  notify: 'Avisó a Finanzas',
+}
+
+function StepStrip({ steps }: { steps: { key: string; status: string }[] }) {
+  const shown = steps.filter((s) => s.key in STEP_SHORT)
+  return (
+    <ol className="grid grid-cols-1 gap-2 sm:grid-cols-5 sm:gap-0">
+      {shown.map((s, i) => (
+        <li key={s.key} className="relative flex items-center gap-3 sm:flex-col sm:gap-2 sm:text-center">
+          {i < shown.length - 1 && (
+            <span className="absolute left-1/2 top-5 hidden h-px w-full bg-line sm:block" aria-hidden />
+          )}
+          <span
+            className={`relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-semibold ${
+              s.status === 'ok' ? 'bg-ok-soft text-ok' : 'bg-warn-soft text-warn'
+            }`}
+          >
+            {s.status === 'ok' ? <Check className="h-5 w-5" /> : i + 1}
+          </span>
+          <span className="text-sm font-medium leading-snug text-ink sm:px-2">{STEP_SHORT[s.key]}</span>
+        </li>
+      ))}
+    </ol>
+  )
+}
+
 function Timeline() {
   const t = site.timeline
   const [open, setOpen] = useState(false)
@@ -96,7 +145,8 @@ function Timeline() {
   }
   return (
     <Card>
-      <div className="flex flex-wrap items-center justify-between gap-2">
+      <StepStrip steps={t.steps} />
+      <div className="mt-5 flex flex-wrap items-center justify-between gap-2 border-t border-line pt-4">
         <p className="text-sm text-ink-3">
           Corrida del {t.started_at} (hora de Buenos Aires), duró {t.duration}.
         </p>
@@ -104,11 +154,12 @@ function Timeline() {
           type="button"
           onClick={() => setOpen(!open)}
           aria-expanded={open}
-          className="text-sm font-medium text-accent sm:hidden"
+          className="text-sm font-medium text-accent"
         >
-          {open ? 'Ocultar el detalle' : 'Ver el detalle de cada paso'}
+          {open ? 'Ocultar el detalle' : 'Ver cada paso en detalle'}
         </button>
       </div>
+      {open && (
       <ol className="mt-4 space-y-0">
         {t.steps.map((s, i) => {
           const done = s.status === 'ok'
@@ -116,8 +167,7 @@ function Timeline() {
           return (
             <li
               key={s.key}
-              className={`reveal-step relative flex gap-3 last:pb-0 ${open ? 'pb-5' : 'pb-3.5 sm:pb-5'}`}
-              style={{ transitionDelay: `${150 + i * 110}ms` }}
+              className="relative flex gap-3 pb-5 last:pb-0"
             >
               {!last && (
                 <span className="absolute left-[11px] top-7 bottom-0 w-px bg-line" aria-hidden />
@@ -131,7 +181,7 @@ function Timeline() {
               </span>
               <div className="min-w-0">
                 <p className="font-medium leading-snug text-ink">{s.title}</p>
-                <p className={`mt-0.5 break-words text-sm text-ink-2 ${open ? '' : 'hidden sm:block'}`}>
+                <p className="mt-0.5 break-words text-sm text-ink-2">
                   <StepDetail text={s.detail} />
                 </p>
                 <p className="mt-0.5 text-xs text-ink-3">
@@ -142,6 +192,64 @@ function Timeline() {
           )
         })}
       </ol>
+      )}
+    </Card>
+  )
+}
+
+// One case the exception agent resolved, told in four plain steps. The first resolved case
+// in the data, so the card never shows a case that is not in this close.
+function ResolvedCase() {
+  const item = site.exceptions?.items.find((x) => x.outcome === 'resolved')
+  if (!item) return null
+  const primary = item.summary.includes('emisión primaria')
+  const steps = [
+    {
+      title: 'Encontró algo que no reconocía',
+      text: `Una ${item.movement} en ${item.chain} que no pasó por ningún camino conocido.`,
+    },
+    {
+      title: 'Investigó por su cuenta',
+      text: 'Leyó la transacción y consultó en la blockchain quién tenía permiso para emitir.',
+    },
+    {
+      title: 'Propuso una respuesta',
+      text: primary
+        ? 'Es una emisión nueva, hecha por una cuenta autorizada del emisor.'
+        : 'Propuso una clasificación con la evidencia que encontró.',
+    },
+    {
+      title: 'El código la comprobó',
+      text: 'Antes de aceptarla, el sistema confirmó el permiso en ese mismo bloque. Recién ahí la dio por resuelta.',
+    },
+  ]
+  return (
+    <Card>
+      <div className="flex flex-wrap items-center gap-2">
+        <Pill tone="ok">
+          <Check className="h-3.5 w-3.5" />
+          Resuelto por el agente
+        </Pill>
+        <span className="text-sm text-ink-3">
+          {item.token} en {item.chain}
+        </span>
+      </div>
+      <ol className="mt-4 grid gap-4 sm:grid-cols-4">
+        {steps.map((s, i) => (
+          <li key={s.title} className="flex gap-3 sm:flex-col sm:gap-2">
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent-soft text-sm font-semibold text-accent">
+              {i + 1}
+            </span>
+            <div>
+              <p className="font-medium leading-snug text-ink">{s.title}</p>
+              <p className="mt-1 text-sm text-ink-2">{s.text}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+      <p className="mt-4 border-t border-line pt-3 text-sm">
+        <Ext href={item.explorer_url}>Ver la transacción en el explorador</Ext>
+      </p>
     </Card>
   )
 }
@@ -327,20 +435,6 @@ function ReconciliationCard() {
   )
 }
 
-function TrustBanner() {
-  return (
-    <div className="mt-6 flex items-start gap-3 rounded-xl border border-ok/25 bg-ok-soft p-4 text-ok">
-      <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-ok text-white">
-        <Check />
-      </span>
-      <p className="font-medium leading-snug">
-        Coincide con la cantidad de tokens certificada por el contador en {verification.matched} de las{' '}
-        {verification.total} certificaciones publicadas.
-      </p>
-    </div>
-  )
-}
-
 const HOW_IT_WORKS = [
   'Cuenta los tokens de cada red a la fecha y hora del corte, con el bloque usado en cada red como prueba.',
   'Lista cada emisión y cada quema con su comprobante.',
@@ -410,11 +504,18 @@ export function Resumen() {
         <NetworksChecked />
       </Section>
 
-      <TrustBanner />
-
-      <Section title="Lo que hizo el agente" lead="Cada paso de la última corrida del cierre, tal como quedó registrado.">
+      <Section title="Lo que hizo el agente" lead="La última corrida del cierre, tal como quedó registrada.">
         <Timeline />
       </Section>
+
+      {exc && (
+        <Section
+          title="Un caso que resolvió el agente"
+          lead={`El motor dejó ${exc.investigated} movimientos sin clasificar. El agente resolvió ${exc.resolved} con evidencia y dejó ${exc.tasks} para una persona. Este es uno de los resueltos.`}
+        >
+          <ResolvedCase />
+        </Section>
+      )}
 
       <Section title="Cómo lo hace">
         <ol className="grid gap-3 sm:grid-cols-3">
@@ -450,18 +551,6 @@ export function Resumen() {
 
       <Section title="A mano y con el agente">
         <HandVsAgent />
-      </Section>
-
-      <Section title="El mismo método sirve en otras áreas">
-        <ul className="space-y-2 text-ink">
-          <li className="flex gap-2">
-            <span className="text-accent">•</span>En People, para armar el legajo de cada ingreso.
-          </li>
-          <li className="flex gap-2">
-            <span className="text-accent">•</span>En Legales, para seguir las normas nuevas de cada país donde
-            opera Ripio.
-          </li>
-        </ul>
       </Section>
 
       <div className="mt-12 rounded-2xl border border-line bg-card/60 p-4 sm:p-5">
