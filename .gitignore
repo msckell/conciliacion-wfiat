@@ -29,5 +29,7 @@ Thumbs.db
 data/closes/*/engine_failed.json
 data/**/slack_alert_payload.json
 
-# Internal working notes (not published)
+# Internal working notes and personal agent preferences (not published)
 NOTAS_INTERNAS.md
+CLAUDE.local.md
+API KEYS.txt

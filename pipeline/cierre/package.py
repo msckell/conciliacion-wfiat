@@ -273,7 +273,7 @@ def _status(pairs: list[dict], network_rows: list[dict]) -> dict:
         "data_complete": data_complete,
         # Verified means verified against the chain by two paths. The second source is an
         # extra check: only a real discrepancy between two reconciling sources goes to a
-        # person (Maxi's decision, 2026-10-03, replaces the review of single source pairs).
+        # person. A pair checked by one source only stays verified.
         "close_ready": ok,
         "source_check": {
             "counts": counts,
