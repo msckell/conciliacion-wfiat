@@ -1,428 +1,94 @@
-# CLAUDE.md · wFIAT Quarter Close (independent demo)
+# CLAUDE.md · wFIAT Quarter Close
 
-> Startup doc. Any AI session working in this repo reads this FIRST, then `STATUS.md`.
-> Owner: Máximo Sckell (Maxi). Created 2026-10-01. Revised 2026-10-01 after an audit (Phase 0 now proves data access, confirmed references and method).
+Instructions for AI coding agents working in this repo. Read this first, then `STATUS.md` for the current state. `README.md` explains the project for humans.
 
----
+## What this repo is
 
-## 0. How we work
+An agent that prepares the onchain side of the quarterly closing package for Ripio's wFIAT stablecoins (wARS, wBRL, wMXN, wCOP, wCLP, wPEN). For every token and EVM network it computes the supply at the cutoff, lists every mint and burn with its transaction, reconciles opening + mints − burns = closing exactly, and notifies Finance on Slack with a link to the published package.
 
-- Maxi talks to you in **Spanish (rioplatense)**. Answer in Spanish, in plain words, and explain any jargon in one simple sentence.
-- Code, comments, commit messages and README: **English**.
-- Everything a Ripio employee would read (web page, Slack messages, Excel labels, closing memo): **Spanish with voseo** ("revisá", "incluila"). Ripio uses that same register in its own job posts.
-- Prose written in Maxi's name (page, README, Slack, memo) uses **no dashes and no semicolons**. Write "onchain", "end to end".
-- Every phase ends in a **CHECKPOINT** that Maxi verifies on a real output (a table, a file, a page). **Stop at every checkpoint and wait for his OK.**
-- One phase at a time. Commit at the end of each phase.
-- At the end of each phase, rewrite `STATUS.md` instead of appending to it. It says what is done, what is next and what questions are open, and it must fit on one screen.
-- Write that summary as soon as the phase work is done, **before** Maxi confirms the checkpoint (Maxi's rule, 2026-10-01). Keep it short and concise, but spell out the details that matter (decisions taken, sources that failed, traps for the next session). A new session must be able to continue from `CLAUDE.md` + `STATUS.md` alone.
+Independent demo, not an official Ripio tool. Public data only: the blockchains and the certificates Ripio publishes.
 
----
+## Commands
 
-## 1. Context: the problem we solve
-
-This repo is Maxi's independent demo for Ripio's **AI Automation Engineer** role. The person in that role is embedded in a staff area and automates its manual processes with LLM agents and bots. Those tools connect to Slack, internal APIs and third party services, ship with CI/CD and monitoring, and must provably not make mistakes.
-
-Ripio is an Argentine crypto company that sells B2B infrastructure in 7 LATAM markets. It issues local currency stablecoins called **wFIAT**: wARS, wBRL, wMXN, wCOP, wCLP and wPEN. A wUYU is listed on one Ripio page but is unconfirmed. Each token is backed 1:1 by fiat held in bank accounts.
-
-After each quarter end, a public accountant certifies that the tokens outstanding at the cutoff are fully backed. Published so far:
-- cutoff 2026-03-31: wARS, wBRL, wCOP, wMXN (signed 2026-04-22)
-- cutoff 2026-06-30: wARS, wBRL, wMXN, wCOP, wCLP (signed 2026-07-28)
-
-The certificates say that management prepared the information. The accountant then reconciled the token count against the onchain issuance and burn reports, the transaction ID listing of each issuance and burn, and the bank statements.
-
-So every quarter someone in Ripio's Finance team (a staff area) has to prepare three things for each token and each network:
-1. the supply at the cutoff
-2. the list of every issuance (mint) and burn, with its transaction ID
-3. the reconciliation: opening supply + mints − burns = closing supply
-
-This work grows fast:
-- wARS outstanding went from 973,000,960.19 (2026-03-31, 6 networks) to 7,619,996,077 (2026-06-30, 8 networks).
-- Arc mainnet launched on 2026-09-16 with six wFIAT tokens, so the 2026-09-30 close (Q3) is the first one that includes Arc.
-
-Doing this by hand carries four typical risks:
-- missing a new network
-- counting a bridge transfer (burn on one chain, mint on another) as new issuance
-- using the wrong cutoff time
-- float rounding errors
-
-**What this repo builds:**
-- An agent that prepares the onchain side of the quarterly closing package by itself.
-- It proves its method by reproducing the token counts in the published certificates.
-- An exception agent investigates the movements the engine cannot classify. It proves what it can with evidence and turns the rest into tasks for a person.
-- It notifies Finance on Slack, with a link to a deliverable that is already published.
-- A daily monitor watches a written list of networks for new deployments and reports failed runs.
-
----
-
-## 2. Who reads the result and what success looks like
-
-- **Reader 1: non technical, 30 seconds.** Must understand what it is, see that it is about Ripio and see that it works. The first view is in plain Spanish with no jargon.
-- **Reader 2: engineering lead.** Checks the correctness method, CI/CD, monitoring, code quality and security hygiene.
-
-Success means the page opens instantly, with no login and no API key, and shows:
-1. What the agent did by itself in its last run, as a timeline.
-2. "Coincide con la cantidad de tokens certificada por el contador en N de las 9 certificaciones publicadas", with the true N (ideally 9). Any certificate that does not match shows its status and explanation.
-3. The 2026-09-30 close ready to review, with the Excel package to download.
-4. The Slack message Finance would receive, with the tasks it has to review.
-5. A "Cómo funciona" view with the verification table, the methodology, the exception agent log, the AI verifier log, CI status and run history.
-
----
-
-## 3. Decisions (do not re-litigate)
-
-1. **Scope is the onchain side only.** Never compute or display a collateral coverage ratio for a cutoff that has no published certificate. Collateral appears only as stated in published certificates.
-2. **Numbers come only from the deterministic engine, and the LLM never types them.**
-   - Templates render every figure, every status ("conciliado", "red nueva") and every verification conclusion.
-   - The LLM only writes explanations. It works on one token at a time, sees only that token's facts and cites them by fact ID.
-   - A verifier rejects any raw figure, any fact ID outside that token's scope and any banned claim (Phase 2).
-3. **Integer base units (wei) and Decimal.** Never float. Round only when displaying.
-4. **The published certified figures are the golden tests, but matching them is not enough.**
-   - A single rule (cutoff time convention, networks, exclusions) must reproduce all of them. A rule tuned per token is overfitting and is not accepted.
-   - Every methodology decision is labeled **documented** (with its source), **inferred** (its only evidence is that it matches N of 9) or **hypothesis**. Trying both time conventions is fine as an investigation, and the result is reported as inferred.
-   - Exclusions (treasury, bridge escrow) need external evidence. A better match is never enough.
-   - Always keep three layers apart: the raw sum of contract `totalSupply()`, each documented adjustment, and the resulting figure next to the published one.
-5. **The machine proposes, the human decides.**
-   - In Phase 0, before anything is compared against them, the figures are extracted from the PDFs and Maxi confirms them.
-   - Each reference keeps document URL, page, quoted text, concept (for example "tokens outstanding"), cutoff date and printed precision.
-   - Once confirmed, they are frozen in `data/golden/certifications.json`.
-6. **Static site plus JSON data committed by CI.** No backend server, no database and no live LLM on the public page.
-7. **Stack.**
-   - Pipeline: Python 3.12 with uv.
-   - Site: Vite + React + TypeScript + Tailwind.
-   - Hosting and automation: Vercel for the site, GitHub Actions for CI and schedules.
-   - LLM: Claude Code in headless mode (`claude -p`, JSON output), called from Python, so it runs on Maxi's paid Claude subscription instead of API billing (Maxi's decision, 2026-10-01). Model from env `ANTHROPIC_MODEL` (default `claude-sonnet-5-5`). Locally it uses his `claude` login. In GitHub Actions it uses `CLAUDE_CODE_OAUTH_TOKEN`, created with `claude setup-token`. The token is tied to his personal subscription and counts against its usage limits.
-   - Dependencies: keep them minimal (httpx, pyyaml, pypdf, openpyxl, pytest, ruff).
-   - Chain calls: raw JSON-RPC is enough (totalSupply selector `0x18160ddd`, ERC20 Transfer topic). Use web3.py only if it truly saves time.
-8. **Free data access only.** Use public RPCs or free tiers (Etherscan API V2, Alchemy, dRPC, Blockscout). No paid plans. Secrets live only in `.env` (gitignored) and in GitHub Actions secrets. Commit a `.env.example`.
-9. **Not official, not branded.**
-   - Title "Cierre trimestral wFIAT", subtitle "Demo independiente para Ripio, por Máximo Sckell".
-   - A visible disclaimer.
-   - No Ripio logo, colors or fonts on the page or in Slack. Exception (Maxi's decision, 2026-10-01): the Excel package carries light Ripio branding (logo and purple), and keeps the "No es una herramienta oficial" disclaimer.
-   - Exception (Maxi's decision, 2026-10-02): the page shows the wFIAT token icons, as CoinGecko and the explorers do. Still no Ripio logo, no Geist font and no Ripio purple (#7908ff) on the page.
-   - Style (Maxi's decision, 2026-10-02): a fintech look in the same family as Ripio (deep navy, one indigo accent, Inter), so the demo is not out of line with them, without copying their identity.
-   - The domain must not contain "ripio".
-10. **Sensitivity.**
-    - Add a `noindex,nofollow` meta tag and a `robots.txt` that disallows everything.
-    - Do not show personal names from the certificates. Say "contador público".
-    - No "findings" and no accusations.
-    - **If a result suggests an error in a published certificate, publish nothing. Stop and tell Maxi.**
-11. **The repo stays private while building.** It becomes public at the end, after a secret scan, and only if Maxi decides so.
-12. **Publication gate and order.**
-    - 8 of 9 is enough to keep working, not to publish. Every certified figure that does not match needs a status and an explanation before anything is public, and Maxi decides.
-    - Every run follows this order: compute → verify → save the package → confirm the published file is reachable → notify Slack with a link to it. If any step fails, Slack gets an alert with no link.
-
----
-
-## 4. Known facts (checked 2026-10-01, verify again onchain)
-
-**Token contracts**
-- wARS: `0x0DC4F92879B7670e5f4e4e6e3c801D229129D90D` (Base, verified ERC1967Proxy, 18 decimals). Expected at the same address on the other EVM chains: verify.
-- wBRL: `0xD76f5Faf6888e24D9F04Bf92a0c8B921FE4390e0` (Ethereum per the wFIAT whitepaper, also seen on Base and World Chain).
-- For the rest, try these sources:
-  - the CoinGecko API: `/coins/{id}` returns `platforms`, and the wARS id is `argentine-peso`
-  - the explorers
-  - Ripio's public Dune dashboards (`dune.com/ripio_team/wars`, `/wbrl`, `/wcop`, `/wmxn`, `/wpen`)
-  - the bridge front end (bridge.ripio.com)
-- Confirm every address onchain with `name()`, `symbol()` and `decimals()`.
-
-**Networks**
-- The March certificates name Ethereum, World Chain, Base, Polygon, Gnosis and BNB Smart Chain.
-- The June certificates add HyperEVM and Celo.
-- Arc has been on mainnet since 2026-09-16.
-
-**Contract design reference:** `github.com/ripio/latam-stables`.
-- LatamStable: MINTER_ROLE.
-- LimitedMinterBridge: daily mint caps per token.
-- BridgeDeposit: burn and mint. `depositForBridge()` burns on the source chain, then an operator calls `fulfillBridgeMint()` on the destination chain.
-- The deployed versions may differ, so read the verified source on the explorers.
-
-**Certificates (inputs for the golden tests)**
-- Index: https://action.ripio.com/en/wfiat-attestations and https://www.ripio.com/en/cryptos/local-stablecoins
-- 2026-03-31:
-  - https://action.ripio.com/hubfs/2026/wFIAT/ATTESTATION/20260331_wARS_Certification.pdf
-  - https://action.ripio.com/hubfs/2026/wFIAT/ATTESTATION/20260331__wBRL__Token-Certification.pdf
-  - https://action.ripio.com/hubfs/2026/wFIAT/ATTESTATION/20260331__wCOP__Token-Certification.pdf
-  - https://action.ripio.com/hubfs/2026/wFIAT/ATTESTATION/20260331__wMXN__Token-Certification.pdf
-- 2026-06-30 (replace TOKEN with wARS, wBRL, wMXN, wCOP and wCLP):
-  - https://action.ripio.com/hubfs/2026/wFIAT/ATTESTATION/Aug%202026/Token%20TOKEN%2006.30.2026%20Certification%20vf.pdf
-- Figures seen so far. **Confirm them from the PDFs, do not trust them:**
-
-  | Token | Cutoff | Figure |
-  |---|---|---|
-  | wARS | 2026-03-31 | 973,000,960.19 |
-  | wARS | 2026-06-30 | 7,619,996,077 |
-  | wBRL | 2026-03-31 | 719,448 |
-  | wCOP | 2026-03-31 | 104,898,654 |
-  | wMXN | 2026-03-31 | 518,689 |
-
-**Unknowns that Phase 0 must resolve**
-- Cutoff time convention: 23:59:59 America/Argentina/Buenos_Aires or 23:59:59 UTC. Test both and report the result as inferred. If no movement falls between the two times, say that the convention makes no difference for that cutoff.
-- Whether "outstanding" is the sum of `totalSupply()` across networks, or excludes wallets the issuer controls (treasury, bridge escrow). Any exclusion must be the same for every token and backed by external evidence.
-- Precision: compare at the precision printed in the certificate (2 decimals or whole units). Choose rounding or truncation once, for all tokens.
-- Whether the free sources return the **complete** mint and burn history on every network. Old log ranges are the usual weak point of free RPCs, and a readable balance does not prove we can build the package.
-- The contract creation block on each network. An opening balance of zero is valid only when the contract was created after the previous cutoff, and it must never come from a failed query.
-
----
-
-## 5. Architecture
-
-```
-cierre-wfiat-demo/
-├── CLAUDE.md  STATUS.md  README.md  LICENSE (MIT)  .env.example
-├── config/
-│   ├── chains.yaml    name, chain_id, rpc_urls[], explorer tx/block/address URL templates
-│   └── tokens.yaml    symbol, name, decimals, address and creation block per chain, coingecko_id
-├── pipeline/cierre/
-│   ├── rpc.py         JSON-RPC client: several endpoints per chain, retries, rate limit, disk cache
-│   ├── blocks.py      block at timestamp (binary search, cached)
-│   ├── supply.py      totalSupply at block
-│   ├── ledger.py      mints and burns from Transfer logs (from/to zero address), chunked and classified
-│   ├── reconcile.py   per network and total: opening + mints − burns == closing, exact
-│   ├── discover.py    probes the written candidate list, records creation blocks and networks checked
-│   ├── package.py     package.json for the site + Excel for the accountant
-│   ├── golden.py      computed vs certified, three layers, aware of the printed precision
-│   ├── agent/
-│   │   ├── extract.py     certificate PDF → structured figures, scored against the confirmed golden table
-│   │   ├── memo.py        templates for figures and statuses, LLM explanations by fact ID
-│   │   ├── verifier.py    rejects raw figures, out of scope fact IDs and banned claims, retries, fallback
-│   │   └── exceptions.py  investigates unclassified movements with tools, proposes with evidence
-│   ├── tasks.py       GitHub issues for what needs a person
-│   ├── slack.py       Block Kit via Incoming Webhook (dry run writes the payload to a file)
-│   └── cli.py         discover · golden · close --cutoff YYYY-MM-DD · monitor · publish
-├── data/              committed by CI, read by the site
-│   ├── golden/certifications.json
-│   ├── closes/2026-09-30/  package.json · memo.json · attempts.jsonl · paquete_cierre_2026-09-30.xlsx
-│   ├── monitor/latest.json · history.jsonl
-│   └── runs.jsonl
-├── site/              Vite + React + TS + Tailwind, reads static JSON
-├── tests/             pytest, offline, with recorded RPC fixtures
-└── .github/workflows/ ci.yml · daily.yml · close.yml
+```sh
+uv sync
+uv run ruff check . && uv run ruff format --check .
+uv run pytest                                 # offline, recorded fixtures, golden tests included
+uv run cierre golden                          # computed vs certified, every rule
+uv run cierre close --cutoff 2026-09-30       # engine + package for a quarter
+uv run cierre close --opening 2026-07-31 --cutoff 2026-08-31   # any interval
+uv run cierre run-close --cutoff 2026-09-30   # the whole close, logged step by step
+uv run cierre monitor                         # daily monitor
+uv run cierre site                            # JSON for the page
+cd site && npm ci && npm run lint && npm run build
 ```
 
-- Compute supply by two independent paths. One is `totalSupply()` at the cutoff block. The other is the opening supply plus every mint minus every burn. If they disagree, stop and report.
-- Historical blocks never change, so cache their responses on disk forever.
+`uv run cierre --help` lists every subcommand. CI (`.github/workflows/ci.yml`) runs ruff, pytest, and the site lint and build. Run the same before you commit.
 
----
+## Layout
 
-## 6. Phases and checkpoints
+- `config/`: networks (`chains.yaml`), tokens (`tokens.yaml`), certificates, contracts, and the methodology with its labels (`methodology.yaml`).
+- `pipeline/cierre/`: the deterministic engine.
+  - `rpc.py`, `explorer.py`, `cache.py`, `blocks.py`, `cutoffs.py`, `supply.py`: data access.
+  - `scope.py`, `ledger.py`, `classify.py`, `bridge.py`, `close.py`: expected scope, mints and burns, classification, bridge pairing, reconciliation.
+  - `golden.py`, `references.py`, `refresh.py`: comparison against the published certificates.
+  - `package.py`, `slack.py`, `tasks.py`, `site.py`, `monitor.py`, `close_run.py`, `runlog.py`: outputs and orchestration.
+  - `agent/`: the LLM steps (`memo.py`, `exceptions.py`, `extract.py`), the verifier (`verifier.py`), read only tools (`tools.py`) and the single entry point to Claude (`llm.py`). Prompts live in `agent/prompts/`.
+- `data/`: committed outputs read by the site. `data/golden/certifications.json` is the confirmed reference table.
+- `site/`: static Vite + React + TypeScript + Tailwind page. It reads only from `data/`.
+- `tests/`: pytest, offline.
 
-Session plan: the first session (about 3 hours) aims for Phase 0 and, if things flow, Phase 1. Phases 2 to 5 go in the next session. Phase 0 decides how much the project can promise, so do not rush it.
+## Rules that must not be broken
 
-### Phase 0 · Go or no go (target 2 h)
+**Numbers**
+- Every figure, status and verification conclusion comes from the deterministic engine and is rendered by templates. The LLM only writes explanations, one token at a time, citing facts by ID (`{wARS.outstanding.2026-09-30}`). Never let the LLM type a number.
+- Amounts are integer base units and `Decimal`. Never `float`. Round only when displaying.
+- A failed query is never a zero. If a source fails, say so and stop. Never present an estimate as data.
+- Every pair is computed by two independent paths: `totalSupply()` at the cutoff block, and opening + mints − burns. If they disagree, stop and report.
+- An opening balance of zero is valid only when the contract was created after the previous cutoff.
 
-Phase 0 must prove three things: **enough data access, confirmed references and a reproducible method.**
+**Method**
+- One rule must reproduce every published certificate. A rule tuned per token or per period is overfitting and is rejected.
+- Every methodology decision carries a label: documented (with its source), inferred, or hypothesis. Keep them in `config/methodology.yaml`.
+- Exclusions (treasury, bridge escrow) need external evidence. A better match is never enough.
+- Classify a movement only with evidence. If it cannot be proven, it stays unclassified and becomes a task for a person.
+- Keep raw sum, documented adjustments and the resulting figure in separate fields.
 
-**Before writing any code, tell Maxi in 5 lines how you will get the data for each network, for both balances and the full movement history.**
+**Verifier**
+- `agent/verifier.py` rejects any raw figure, any fact ID outside the token and period in scope, and banned claims ("todas las redes", "auditado", "respaldo", "cobertura"). Add a case to `verifier_cases.py` and a test whenever you change what it accepts.
 
-1. Repo skeleton, uv, `.env.example`, config files. `git init` and a first commit.
-2. Find the address of every token on every candidate network. Confirm each one onchain and record its contract creation block.
-3. **References first.**
-   - Download the 9 certificates and extract their figures (pypdf plus regex is enough here).
-   - For each one, record document URL, page, quoted text, concept, cutoff date and printed precision.
-   - Show Maxi the table. Once he confirms it, freeze it in `data/golden/certifications.json`.
-4. A minimal `blocks.py` and `supply.py`. Compute the outstanding supply at each cutoff with both time conventions. Keep the raw `totalSupply()` sum, any documented adjustment and the result in separate columns.
-5. **Movement history test.** This proves the free sources can build the package, and it is also the two path check.
-   - Use wARS on every network where it exists, and add one other token for any network wARS does not cover.
-   - Fetch the complete list of mints and burns between the 2026-03-31 and 2026-06-30 cutoff blocks.
-   - Check that opening + mints − burns == closing, exactly, per network. For networks that did not exist yet at the opening cutoff, start from the creation block.
-   - Arc did not exist in that quarter, so test it from its creation block to the 2026-09-30 cutoff.
-6. Write in `STATUS.md`:
-   - the result table: token · cutoff · certified · raw sum · adjustments · computed · difference · match · networks included
-   - the movement test per network: passed or failed, and which source was used
-   - the methodology list, each item labeled documented, inferred or hypothesis
+**Publishing**
+- Order: compute → verify → save the package → confirm the published file is reachable → notify Slack with the link. If any step fails, Slack gets an alert with no link.
+- Never compute or show a collateral coverage ratio. Collateral appears only as stated in published certificates.
+- No personal names from the certificates ("contador público"). No findings and no accusations.
+- If a result suggests an error in a published certificate, publish nothing and tell the maintainer.
+- The page keeps `noindex,nofollow` and a `robots.txt` that disallows everything. No Ripio logo, Ripio purple or Geist font on the page. The domain must not contain "ripio".
 
-**CHECKPOINT 0, stop here.** Show Maxi the three results.
-- **Go** needs two things: the movement test passes on every network in scope, and at least 8 of the 9 figures match under one single rule.
-- A figure that does not match needs a status and an explanation before anything is published (decision 12).
-- If the go conditions are not met, spend at most 30 more minutes diagnosing (a missing network, excluded wallets, the time convention, decimals, log ranges). Then report the options.
-- Do not continue without his OK.
+**Repo**
+- Never commit secrets. Keys live in `.env` (gitignored) and in GitHub Actions secrets. Update `.env.example` when you add a variable.
+- No destructive git operations (force push, history rewrite) without explicit approval.
+- Respect the rate limits of public RPCs. Historical blocks never change, so their responses are cached on disk for good.
 
-### Phase 1 · The 2026-09-30 close (target 90 min)
+## Conventions
 
-1. `ledger.py`:
-   - Record every mint and burn with chain, block, timestamp, tx hash, amount and explorer link.
-   - Classify each one as primary issuance, bridge or unclassified, using the minter address or the transaction target.
-   - Never guess. If it cannot be determined, mark it unclassified.
-2. `reconcile.py`: opening supply (2026-06-30 cutoff block) + mints − burns == closing supply (2026-09-30 cutoff block). Per network, exact in base units.
-   - **Every movement that changes supply goes in, bridge movements included.**
-   - The classification only adds context, for example net primary issuance.
-3. `discover.py`:
-   - Find the networks where each token is deployed. Check them against a written list of candidate networks, and cross check with CoinGecko `platforms` and the networks named in the certificates.
-   - Flag networks that are new since the previous close (Arc is expected). Their opening balance is zero only if the contract creation block is after the previous cutoff, and the package shows that creation block as evidence.
-   - Record every network checked. The package and the page say "redes revisadas", never "todas las redes".
-4. Bridge transfers in flight at the cutoff (burned on one chain, not yet minted on the other):
-   - Match them through the bridge events if they allow it.
-   - Otherwise, list the mints and burns near the cutoff as "revisar", using a window based on the bridge delays observed in past matched pairs.
-   - In that second case, the package must say this is a preventive review, not proof that every pending transfer was found.
-5. `package.py`:
-   - `package.json` plus an Excel file with the sheets **Resumen · Por red · Emisiones y quemas · Conciliación · Metodología**.
-   - Spanish labels, block numbers, timestamps and explorer links.
-   - The Metodología sheet lists each decision with its label (documented, inferred or hypothesis).
-
-**CHECKPOINT 1, stop here.** Maxi opens the Excel and checks three things:
-- the totals per token
-- that Arc is flagged as new, with its creation block
-- that every reconciliation difference is zero
-
-### Phase 2 · Agents and verifier (target 2 h 30 min)
-
-1. `extract.py`:
-   - The LLM extracts token, cutoff, tokens outstanding, collateral, certification date and networks listed from each PDF, with structured output.
-   - Every extracted number must appear verbatim in the PDF text.
-   - The result is scored against the golden table Maxi confirmed in Phase 0. That makes this step an eval, not the source of truth.
-2. `memo.py`:
-   - Templates render every figure, every status and every verification conclusion.
-   - The LLM writes only the explanations, in Spanish with voseo, one token at a time. It sees only that token's facts and cites them by fact ID, for example `{wARS.outstanding.2026-09-30}`. The code replaces each ID with the formatted figure.
-3. `verifier.py` rejects three kinds of problems:
-   - any figure typed directly in the LLM text
-   - any fact ID that does not exist or belongs to another token or period
-   - any banned claim: "todas las redes", "auditado", "respaldo", "cobertura", or anything that states a conclusion the templates did not produce
-
-   On failure it retries with feedback that names the problem, at most 2 times, then falls back to the template only version. Every attempt goes to `attempts.jsonl`.
-4. `tests/test_verifier.py` covers at least 8 cases:
-   - must fail: a raw figure, a fact ID from another token (the swapped token case), a fact ID from another period, an invented fact ID, "todas las redes verificadas", a coverage claim
-   - must pass: a correct explanation with valid IDs, a paraphrase with no figures
-5. **Exception agent** (`agent/exceptions.py`):
-   - It handles every movement the engine left unclassified and every item marked "revisar".
-   - It investigates with tools. It reads the transaction and its logs, then searches the other networks for the matching burn or mint within the observed bridge delay.
-   - It proposes a classification with evidence (tx hashes on both sides). Code checks that amounts, hashes and timing match before accepting it. Anything it cannot prove goes to a person.
-   - If the real close has no exceptions, show it working on real cases from past quarters, never invented ones.
-   - Everything it does goes to the run log.
-6. The Slack text: title, one line per token, alerts, "Qué te toca revisar" with the open tasks, verification result and a link to the Excel.
-   Order (Maxi's decision, 2026-10-02): first what needs a person (🔍 "Se requiere tu revisión en N movimientos" with the tasks), then ✅ "Todo lo demás está conciliado y verificado" with the token lines, the new network note and the verification line. The ✅ heading only appears when every reconciliation is zero and the method matches every certificate.
-
-**CHECKPOINT 2, stop here.** Maxi reads the memo, the exception agent log and the Slack text, and approves the tone.
-
-### Phase 3 · The page (target 2 h)
-
-Two views, designed for mobile first, clean and neutral, light theme, no Ripio branding.
-
-**View "Resumen" (reader 1).** This copy is a draft, and Maxi approves the final wording.
-Order (Maxi's decision, 2026-10-02, replaces the order below): hero with key figures · "Cierre al ..., listo para revisión" · trust banner · "Lo que hizo el agente" · "Cómo lo hace" · Slack message · by hand vs agent · other areas · disclaimer. The hero's navy style is reused on the Excel card, on "Con el agente" and on the "Cómo funciona" header.
-- Title: "Cierre trimestral wFIAT". Subtitle: "Demo independiente para Ripio, por Máximo Sckell".
-- Hero: "Cada trimestre, un contador certifica que cada wARS, wBRL y demás stablecoins de Ripio están respaldadas. Para eso, alguien de Finanzas junta los datos de todas las redes. Este agente arma esa parte solo, al día siguiente del cierre."
-- **"Lo que hizo el agente"**, right below the hero:
-  - The timeline of the last close run, read from the run log.
-  - Example of the steps it shows: it detected the close, read N networks, found X movements to review, resolved Y with evidence, left Z as tasks and notified Finance.
-  - The reader must see a worker, not a dashboard.
-- Trust banner, computed: "Coincide con la cantidad de tokens certificada por el contador en N de las 9 certificaciones publicadas."
-- Three steps:
-  1. "Cuenta los tokens de cada red a la fecha y hora del corte, con el bloque usado en cada red como prueba."
-  2. "Lista cada emisión y cada quema con su comprobante."
-  3. "Avisa a Finanzas por Slack qué cambió y qué le toca revisar."
-- A section titled "Cierre al 30/09/2026, listo para revisión":
-  - one card per token (outstanding, change vs 30/06, networks)
-  - a bar split by network
-  - an alert card: "Red nueva desde el último cierre: Arc", with its creation block as evidence
-  - the list of networks checked ("redes revisadas")
-  - a download button for the Excel
-- The Slack message: a screenshot of the real one plus a faithful render.
-- Two lines comparing the work by hand with the agent, where every number comes from the data and none is estimated:
-  - "Hecho a mano: buscar en cada explorador, una planilla por red y el riesgo de olvidarse una red nueva."
-  - "Con el agente: este cierre revisó X transacciones en Y redes para Z monedas, en N minutos, con el link de cada transacción."
-- "El mismo método sirve en otras áreas":
-  - "En People, para armar el legajo de cada ingreso."
-  - "En Legales, para seguir las normas nuevas de cada país donde opera Ripio."
-- Disclaimer: "No es una herramienta oficial de Ripio. Usa solo datos públicos: las blockchains y las certificaciones que Ripio publica. No calcula el respaldo bancario de cierres sin certificar."
-- Footer: Máximo Sckell · linkedin.com/in/msckell · github.com/msckell
-
-**View "Cómo funciona" (reader 2):**
-- A simple diagram: sources → deterministic engine → agents → verifier → outputs (Slack, tasks, page, Excel).
-- Verification against the accountant: the 9 rows with raw sum, adjustments, computed figure, certified figure, difference and status.
-- The methodology, with each decision labeled documented, inferred or hypothesis.
-- The exception agent: what it investigated, what it proved with evidence and what it left as a task.
-- The AI verifier: the attempts log for this close and the table of errors it rejects (taken from the tests).
-- In production: CI badge, last runs (date, duration, result), schedule, alerting and networks watched.
-- The design decisions in 5 bullets, and a link to the repo.
-
-**Rules for the page**
+- Code, comments, commit messages and README: English.
+- Everything Finance reads (page, Slack, Excel labels, memo): Spanish with voseo ("revisá", "incluila").
+- That prose uses no dashes and no semicolons. Write "onchain" and "end to end".
+- Wording: "redes revisadas", never "todas las redes". Say what was checked, not more than was proven.
 - Every number on the page is read from `data/`. None is hardcoded.
-- Keep two dates apart:
-  - The close is a fixed snapshot. "Cierre al 30/09/2026, generado el ..." never goes stale.
-  - The daily monitor shows "Última corrida hace X". Only the monitor gets a stale warning, when its last successful run is older than 36 hours.
-- Deploy to Vercel (project name, for example, `cierre-wfiat-demo`).
 
-**CHECKPOINT 3, stop here.** Maxi opens the page on his phone and on desktop.
+## Known pitfalls
 
-### Phase 4 · Production (target 90 min)
+- The code does not load `.env` by itself. Load it with `set -a; . ./.env; set +a`.
+- The daily monitor commits to `main` at 12:00 UTC. Pull before you push.
+- `data/closes/<cutoff>/slack_payload.json` is the record of what was sent. Do not regenerate it.
+- `cierre slack --excel-url` must be the published Excel URL, or the payload changes.
+- Blockscout returns incomplete logs on Base, and the Gnosis Blockscout API redirects to gnosisscan.io. Public BNB endpoints refuse wide log ranges, so BNB uses NodeReal when `NODEREAL_API_KEY` is set. The free Etherscan plan does not cover Base, BNB or Gnosis.
+- HyperEVM returns a different `log_index` for the same log depending on the node.
+- Orchestration tests must stub `close_run.write_scope`.
 
-- `ci.yml`, on push and PR:
-  - ruff
-  - offline pytest, including the golden tests against recorded fixtures
-  - site build
-  - ignore commits that only touch data
-- `daily.yml`, at 12:00 UTC (09:00 Buenos Aires):
-  - Run the monitor: supply per network and new deployments on the networks in the candidate list.
-  - Write the data, append to `runs.jsonl` and commit if anything changed.
-  - Post to Slack only when something changes or a run fails.
-  - Run a live golden check that recomputes the certified cutoffs from the network. A failure triggers a Slack alert.
-- `close.yml`:
-  - Triggered manually with a cutoff input, plus a scheduled run the day after each quarter end.
-  - Order (decision 12): compute → verify → commit the package → wait for the Vercel deploy → check that the Excel URL answers → open the tasks → post to Slack with the link.
-  - If the check fails, post an alert with no link.
-- **Tasks:** every item the exception agent could not prove becomes a GitHub issue, with its evidence links and a label for the close. The Slack message lists them under "Qué te toca revisar".
-- Slack: a real Incoming Webhook in Maxi's own demo workspace (Maxi creates it). Until it exists, use dry run mode.
+## When you finish a task
 
-**CHECKPOINT 4, stop here.** Done means four things:
-- CI is green.
-- One scheduled run has executed.
-- The tasks were opened.
-- The Slack message arrived with a working link.
+Rewrite `STATUS.md` (do not append to it): what is done, what is next, open questions. It must fit on one screen.
 
-### Phase 5 · Polish and QA (target 60 min)
-
-- README in English: what and why, how it works, verification results, methodology labels, how to run, design decisions, limitations.
-- QA with fresh eyes:
-  - trace every number on the page back to `data/`
-  - check every link
-  - confirm the noindex
-  - confirm no wording promises more than Phase 0 proved
-  - run a secret scan over the whole git history
-  - run a quick Lighthouse check on mobile
-
-**FINAL CHECKPOINT.** Maxi approves. Making the repo public is his call.
-
----
-
-## 7. Rules
-
-- Never invent data. If a source fails, say so and stop. Never present an estimate as data.
-- A failed query is never a zero.
-- Never commit secrets.
-- Respect the rate limits of public RPCs.
-- No destructive git operations (force push, history rewrite) without Maxi's explicit OK.
-- If something blocks you for more than 30 minutes, stop and explain what you tried, in Spanish and in plain words.
-
----
-
-## 8. Out of scope
-
-- Bank collateral and coverage ratios.
-- Anything that needs Ripio's internal data.
-- Networks that are not EVM, and networks outside the written candidate list (the page says which networks were checked).
-- Login, database, backend server, live LLM on the page.
-
----
-
-## 9. Environment variables
-
-- Required: `ANTHROPIC_MODEL` · `SLACK_WEBHOOK_URL` · `CLAUDE_CODE_OAUTH_TOKEN` (CI only, from `claude setup-token`)
-- Optional:
-  - `ETHERSCAN_API_KEY` (API V2, free, multichain)
-  - `ALCHEMY_API_KEY` or `DRPC_API_KEY`
-  - `COINGECKO_API_KEY` (free demo key)
-  - `RPC_URL_<CHAIN>` overrides
-- GitHub issues use the Actions `GITHUB_TOKEN` with `issues: write`. No extra key.
-
----
-
-## 10. Manual steps for Maxi (tell him when each one is due)
-
-1. Phase 0:
-   - Confirm the table of certified figures.
-   - Only if the public sources fail on old logs: create a free key (Etherscan or Alchemy).
-2. Phase 4: run `claude setup-token` and save the token as the GitHub secret `CLAUDE_CODE_OAUTH_TOKEN`. Nothing needed in Phase 2: local runs use his `claude` login.
-3. Phase 3: link the repo to Vercel.
-4. Phase 4:
-   - Create a free Slack workspace with a `#finanzas-cierre` channel and an Incoming Webhook.
-   - Add `SLACK_WEBHOOK_URL` to `.env` and to the GitHub secrets.
+`docs/original-spec.md` is the original build specification, kept for reference only. This file and the code take precedence over it.
