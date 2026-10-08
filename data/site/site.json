@@ -1235,6 +1235,13 @@
     {
       "kind": "monitor",
       "trigger": "programada",
+      "started_at": "08/10/2026 15:43",
+      "duration": "2 minutos",
+      "status": "ok"
+    },
+    {
+      "kind": "monitor",
+      "trigger": "programada",
       "started_at": "07/10/2026 15:45",
       "duration": "2 minutos",
       "status": "ok"
@@ -1294,13 +1301,6 @@
       "started_at": "01/10/2026 23:57",
       "duration": "7 minutos",
       "status": "ok"
-    },
-    {
-      "kind": "monitor",
-      "trigger": "manual en GitHub",
-      "started_at": "01/10/2026 23:52",
-      "duration": "3 minutos",
-      "status": "failed"
     }
   ],
   "production": {
@@ -1314,9 +1314,9 @@
       "sha": "5155b8a"
     },
     "monitor": {
-      "last_run_at_iso": "2026-10-07T18:45:16+00:00",
+      "last_run_at_iso": "2026-10-08T18:43:23+00:00",
       "last_run_status": "ok",
-      "last_ok_at_iso": "2026-10-07T18:45:16+00:00",
+      "last_ok_at_iso": "2026-10-08T18:43:23+00:00",
       "networks_checked": 24,
       "golden_live_all_match": true,
       "golden_live_total": 9,
