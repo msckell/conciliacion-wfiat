@@ -1235,6 +1235,13 @@
     {
       "kind": "monitor",
       "trigger": "programada",
+      "started_at": "22/10/2026 13:58",
+      "duration": "2 minutos",
+      "status": "ok"
+    },
+    {
+      "kind": "monitor",
+      "trigger": "programada",
       "started_at": "21/10/2026 13:59",
       "duration": "2 minutos",
       "status": "ok"
@@ -1294,13 +1301,6 @@
       "started_at": "13/10/2026 16:08",
       "duration": "2 minutos",
       "status": "ok"
-    },
-    {
-      "kind": "monitor",
-      "trigger": "programada",
-      "started_at": "12/10/2026 18:09",
-      "duration": "8 minutos",
-      "status": "ok"
     }
   ],
   "production": {
@@ -1314,9 +1314,9 @@
       "sha": "5155b8a"
     },
     "monitor": {
-      "last_run_at_iso": "2026-10-21T16:59:03+00:00",
+      "last_run_at_iso": "2026-10-22T16:58:28+00:00",
       "last_run_status": "ok",
-      "last_ok_at_iso": "2026-10-21T16:59:03+00:00",
+      "last_ok_at_iso": "2026-10-22T16:58:28+00:00",
       "networks_checked": 24,
       "golden_live_all_match": true,
       "golden_live_total": 9,
