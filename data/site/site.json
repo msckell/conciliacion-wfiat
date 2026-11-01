@@ -1235,6 +1235,13 @@
     {
       "kind": "monitor",
       "trigger": "programada",
+      "started_at": "01/11/2026 14:49",
+      "duration": "2 minutos",
+      "status": "ok"
+    },
+    {
+      "kind": "monitor",
+      "trigger": "programada",
       "started_at": "31/10/2026 14:07",
       "duration": "2 minutos",
       "status": "ok"
@@ -1294,13 +1301,6 @@
       "started_at": "23/10/2026 13:51",
       "duration": "1 minuto",
       "status": "ok"
-    },
-    {
-      "kind": "monitor",
-      "trigger": "programada",
-      "started_at": "22/10/2026 13:58",
-      "duration": "2 minutos",
-      "status": "ok"
     }
   ],
   "production": {
@@ -1314,16 +1314,13 @@
       "sha": "5155b8a"
     },
     "monitor": {
-      "last_run_at_iso": "2026-10-31T17:07:07+00:00",
+      "last_run_at_iso": "2026-11-01T17:49:42+00:00",
       "last_run_status": "ok",
-      "last_ok_at_iso": "2026-10-31T17:07:07+00:00",
+      "last_ok_at_iso": "2026-11-01T17:49:42+00:00",
       "networks_checked": 24,
       "golden_live_all_match": true,
       "golden_live_total": 9,
-      "changes": [
-        "Chequeo contra las certificaciones: antes 0 de 9, ahora 9 de 9.",
-        "Los chequeos que fallaban en la corrida anterior volvieron a pasar."
-      ],
+      "changes": [],
       "problems": []
     },
     "slack_live": true
