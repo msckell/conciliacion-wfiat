@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-08T17:49:52+00:00",
+  "checked_at": "2026-11-09T22:10:50+00:00",
   "networks_checked": [
     "ethereum",
     "base",
@@ -28,21 +28,21 @@
   ],
   "supply": {
     "ethereum": {
-      "block": 26371759,
+      "block": 26380238,
       "tokens": {
         "wARS": "12762331380643070056184149248",
         "wBRL": "10755640814255378947998740",
         "wMXN": "5481486841570000000000000",
-        "wCOP": "481616647718836137247866100",
+        "wCOP": "483743921398836137247866100",
         "wCLP": "8853688414356965127000000",
         "wPEN": "4911069222000000000000"
       }
     },
     "base": {
-      "block": 54849083,
+      "block": 55359374,
       "tokens": {
         "wARS": "1684281249336408123905362604",
-        "wBRL": "2398397521801536898435324",
+        "wBRL": "2376190791801536898435324",
         "wMXN": "5482672254166290405401492",
         "wCOP": "980952864336370466213987109",
         "wCLP": "5930224836186249317466801",
@@ -50,7 +50,7 @@
       }
     },
     "polygon": {
-      "block": 96969824,
+      "block": 97037863,
       "tokens": {
         "wARS": "41928778711972468916100000",
         "wBRL": "76055747008400000000000",
@@ -61,7 +61,7 @@
       }
     },
     "gnosis": {
-      "block": 49177045,
+      "block": 49197143,
       "tokens": {
         "wARS": "9360155000000000000000000",
         "wBRL": "26000080000000000000000",
@@ -72,7 +72,7 @@
       }
     },
     "bsc": {
-      "block": 132435452,
+      "block": 132662043,
       "tokens": {
         "wARS": "85029272770776000000000000",
         "wBRL": "271253179839976265843877",
@@ -83,10 +83,10 @@
       }
     },
     "worldchain": {
-      "block": 37412276,
+      "block": 37463305,
       "tokens": {
-        "wARS": "430464615244166416992370444",
-        "wBRL": "703157393864562659811510",
+        "wARS": "430624937674166416992370444",
+        "wBRL": "697593873864562659811510",
         "wMXN": "1120250974571966153196000",
         "wCOP": "198762926128853006018320067",
         "wCLP": "55636323583198647035921383",
@@ -94,18 +94,18 @@
       }
     },
     "celo": {
-      "block": 82259432,
+      "block": 82361490,
       "tokens": {
-        "wARS": "326682876838102344988988148",
-        "wBRL": "3752378120325640091027863",
+        "wARS": "326522554408102344988988148",
+        "wBRL": "3780148370325640091027863",
         "wMXN": "13194476712988941402508",
-        "wCOP": "28030273734605047156546679",
+        "wCOP": "25903000054605047156546679",
         "wCLP": "1005608498812748661835750",
         "wPEN": "603212855871145778310"
       }
     },
     "hyperevm": {
-      "block": 50735073,
+      "block": 50838832,
       "tokens": {
         "wARS": "364367325541826340000000000",
         "wBRL": "2044206095930388201971554",
@@ -116,7 +116,7 @@
       }
     },
     "arc": {
-      "block": 30216293,
+      "block": 30417646,
       "tokens": {
         "wARS": "126748782672376560636521027",
         "wBRL": "414079626974116934911132",
@@ -297,12 +297,12 @@
       "wPEN": "absent"
     },
     "lisk": {
-      "wARS": "absent",
-      "wBRL": "absent",
-      "wMXN": "absent",
-      "wCOP": "absent",
-      "wCLP": "absent",
-      "wPEN": "absent"
+      "wARS": "error: RpcError: lisk eth_getCode: all endpoints failed: no endpoint answered",
+      "wBRL": "error: RpcError: lisk eth_getCode: all endpoints failed: no endpoint answered",
+      "wMXN": "error: RpcError: lisk eth_getCode: all endpoints failed: no endpoint answered",
+      "wCOP": "error: RpcError: lisk eth_getCode: all endpoints failed: no endpoint answered",
+      "wCLP": "error: RpcError: lisk eth_getCode: all endpoints failed: no endpoint answered",
+      "wPEN": "error: RpcError: lisk eth_getCode: all endpoints failed: no endpoint answered"
     },
     "sei": {
       "wARS": "absent",
@@ -345,8 +345,8 @@
     },
     "polygon": {
       "from": 94738439,
-      "to": 96699999,
-      "cells": 20
+      "to": 96799999,
+      "cells": 21
     },
     "gnosis": {
       "from": 48524423,
@@ -366,13 +366,13 @@
     },
     "hyperevm": {
       "from": 47332214,
-      "to": 50732999,
-      "cells": 3401
+      "to": 50835999,
+      "cells": 3504
     },
     "arc": {
       "from": 23620687,
-      "to": 29999999,
-      "cells": 64
+      "to": 30199999,
+      "cells": 66
     }
   },
   "ci": {
@@ -380,8 +380,10 @@
     "at": "2026-10-05T17:53:28Z",
     "sha": "5155b8a"
   },
-  "problems": [],
+  "problems": [
+    "No se pudo revisar wARS, wBRL, wMXN, wCOP, wCLP, wPEN en Lisk."
+  ],
   "changes": [],
-  "status": "ok",
-  "notified": "skipped"
+  "status": "failed",
+  "notified": "ok"
 }

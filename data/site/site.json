@@ -1235,6 +1235,13 @@
     {
       "kind": "monitor",
       "trigger": "programada",
+      "started_at": "09/11/2026 19:10",
+      "duration": "3 minutos",
+      "status": "failed"
+    },
+    {
+      "kind": "monitor",
+      "trigger": "programada",
       "started_at": "08/11/2026 14:49",
       "duration": "2 minutos",
       "status": "ok"
@@ -1294,13 +1301,6 @@
       "started_at": "31/10/2026 14:07",
       "duration": "2 minutos",
       "status": "ok"
-    },
-    {
-      "kind": "monitor",
-      "trigger": "programada",
-      "started_at": "30/10/2026 14:54",
-      "duration": "2 minutos",
-      "status": "failed"
     }
   ],
   "production": {
@@ -1314,14 +1314,16 @@
       "sha": "5155b8a"
     },
     "monitor": {
-      "last_run_at_iso": "2026-11-08T17:49:52+00:00",
-      "last_run_status": "ok",
+      "last_run_at_iso": "2026-11-09T22:10:50+00:00",
+      "last_run_status": "failed",
       "last_ok_at_iso": "2026-11-08T17:49:52+00:00",
       "networks_checked": 24,
       "golden_live_all_match": true,
       "golden_live_total": 9,
       "changes": [],
-      "problems": []
+      "problems": [
+        "No se pudo revisar wARS, wBRL, wMXN, wCOP, wCLP, wPEN en Lisk."
+      ]
     },
     "slack_live": true
   }
