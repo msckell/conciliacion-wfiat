@@ -12,7 +12,7 @@
       "type": "section",
       "text": {
         "type": "mrkdwn",
-        "text": ":rotating_light: *Falló un chequeo*\n• No se pudo revisar wARS, wBRL, wMXN, wCOP, wCLP, wPEN en Lisk."
+        "text": ":rotating_light: *Falló un chequeo*\n• No se pudo revisar wBRL, wMXN, wCOP en Lisk."
       }
     },
     {
