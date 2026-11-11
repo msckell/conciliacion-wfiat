@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-10T19:32:31+00:00",
+  "checked_at": "2026-11-11T19:27:15+00:00",
   "networks_checked": [
     "ethereum",
     "base",
@@ -28,7 +28,7 @@
   ],
   "supply": {
     "ethereum": {
-      "block": 26386625,
+      "block": 26393769,
       "tokens": {
         "wARS": "12745636926873070056184149248",
         "wBRL": "10756132894255378947998740",
@@ -39,18 +39,18 @@
       }
     },
     "base": {
-      "block": 55743881,
+      "block": 56174298,
       "tokens": {
         "wARS": "1670975730626408123905362604",
-        "wBRL": "2405189851801536898435324",
+        "wBRL": "2410904085531187614725329",
         "wMXN": "5482672254166290405401492",
-        "wCOP": "982952807336370466213987109",
+        "wCOP": "986252750336370466213987109",
         "wCLP": "5930224836186249317466801",
         "wPEN": "4171170000000000000000"
       }
     },
     "polygon": {
-      "block": 97089131,
+      "block": 97146520,
       "tokens": {
         "wARS": "41928778711972468916100000",
         "wBRL": "75556357008400000000000",
@@ -61,7 +61,7 @@
       }
     },
     "gnosis": {
-      "block": 49212285,
+      "block": 49229204,
       "tokens": {
         "wARS": "9360155000000000000000000",
         "wBRL": "26000080000000000000000",
@@ -72,7 +72,7 @@
       }
     },
     "bsc": {
-      "block": 132832882,
+      "block": 133024112,
       "tokens": {
         "wARS": "85029272770776000000000000",
         "wBRL": "271253179839976265843877",
@@ -83,21 +83,21 @@
       }
     },
     "worldchain": {
-      "block": 37501756,
+      "block": 37544798,
       "tokens": {
         "wARS": "430624937674166416992370444",
         "wBRL": "701237003864562659811510",
         "wMXN": "1120250974571966153196000",
-        "wCOP": "208140504308853006018320067",
+        "wCOP": "204840561308853006018320067",
         "wCLP": "55636323583198647035921383",
         "wPEN": "120670881062128854221690"
       }
     },
     "celo": {
-      "block": 82438392,
+      "block": 82524475,
       "tokens": {
         "wARS": "356522526888102344988988148",
-        "wBRL": "3776505490325640091027863",
+        "wBRL": "3773720920325640091027863",
         "wMXN": "13194476712988941402508",
         "wCOP": "21525364874605047156546679",
         "wCLP": "1005608498812748661835750",
@@ -105,10 +105,10 @@
       }
     },
     "hyperevm": {
-      "block": 50917015,
+      "block": 51004534,
       "tokens": {
         "wARS": "364367325541826340000000000",
-        "wBRL": "2044206095930388201971554",
+        "wBRL": "2041276432200737485681549",
         "wMXN": "0",
         "wCOP": "0",
         "wCLP": "0",
@@ -116,7 +116,7 @@
       }
     },
     "arc": {
-      "block": 30569361,
+      "block": 30738987,
       "tokens": {
         "wARS": "126748782672376560636521027",
         "wBRL": "414079626974116934911132",
@@ -298,9 +298,9 @@
     },
     "lisk": {
       "wARS": "absent",
-      "wBRL": "error: RpcError: lisk eth_getCode: all endpoints failed: no endpoint answered",
-      "wMXN": "error: RpcError: lisk eth_getCode: all endpoints failed: no endpoint answered",
-      "wCOP": "error: RpcError: lisk eth_getCode: all endpoints failed: no endpoint answered",
+      "wBRL": "absent",
+      "wMXN": "absent",
+      "wCOP": "absent",
       "wCLP": "absent",
       "wPEN": "absent"
     },
@@ -345,8 +345,8 @@
     },
     "polygon": {
       "from": 94738439,
-      "to": 96799999,
-      "cells": 21
+      "to": 96899999,
+      "cells": 22
     },
     "gnosis": {
       "from": 48524423,
@@ -366,13 +366,13 @@
     },
     "hyperevm": {
       "from": 47332214,
-      "to": 50914999,
-      "cells": 3583
+      "to": 51001999,
+      "cells": 3670
     },
     "arc": {
       "from": 23620687,
-      "to": 30299999,
-      "cells": 67
+      "to": 30499999,
+      "cells": 69
     }
   },
   "ci": {
@@ -380,10 +380,10 @@
     "at": "2026-10-05T17:53:28Z",
     "sha": "5155b8a"
   },
-  "problems": [
-    "No se pudo revisar wBRL, wMXN, wCOP en Lisk."
+  "problems": [],
+  "changes": [
+    "Los chequeos que fallaban en la corrida anterior volvieron a pasar."
   ],
-  "changes": [],
-  "status": "failed",
+  "status": "ok",
   "notified": "ok"
 }
