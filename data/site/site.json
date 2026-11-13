@@ -1235,6 +1235,13 @@
     {
       "kind": "monitor",
       "trigger": "programada",
+      "started_at": "13/11/2026 16:27",
+      "duration": "2 minutos",
+      "status": "ok"
+    },
+    {
+      "kind": "monitor",
+      "trigger": "programada",
       "started_at": "12/11/2026 16:45",
       "duration": "3 minutos",
       "status": "failed"
@@ -1294,13 +1301,6 @@
       "started_at": "04/11/2026 16:37",
       "duration": "2 minutos",
       "status": "ok"
-    },
-    {
-      "kind": "monitor",
-      "trigger": "programada",
-      "started_at": "03/11/2026 16:21",
-      "duration": "2 minutos",
-      "status": "ok"
     }
   ],
   "production": {
@@ -1314,16 +1314,16 @@
       "sha": "5155b8a"
     },
     "monitor": {
-      "last_run_at_iso": "2026-11-12T19:45:16+00:00",
-      "last_run_status": "failed",
-      "last_ok_at_iso": "2026-11-11T19:27:15+00:00",
+      "last_run_at_iso": "2026-11-13T19:27:45+00:00",
+      "last_run_status": "ok",
+      "last_ok_at_iso": "2026-11-13T19:27:45+00:00",
       "networks_checked": 24,
       "golden_live_all_match": true,
       "golden_live_total": 9,
-      "changes": [],
-      "problems": [
-        "No se pudo revisar wARS, wBRL, wMXN, wCOP, wCLP, wPEN en Lisk."
-      ]
+      "changes": [
+        "Los chequeos que fallaban en la corrida anterior volvieron a pasar."
+      ],
+      "problems": []
     },
     "slack_live": true
   }
